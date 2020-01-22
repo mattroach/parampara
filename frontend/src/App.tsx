@@ -1,0 +1,196 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+
+import Form from 'react-bootstrap/Form';
+
+//import MaterialIcon from 'material-icons-react';
+
+import ResponseOptions from './components/ResponseOptions';
+import BotMessage from './components/BotMessage';
+import { Message, Response, Option } from './types';
+import Button from 'react-bootstrap/Button';
+
+type AppState = {
+  items: (Message | Response)[];
+  messageDraft: string;
+  responseDraft: string;
+};
+
+class App extends React.Component<{}, AppState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      messageDraft: '',
+      responseDraft: '',
+      items: [
+        {
+          type: 'bot',
+          message: 'Welcome to Parampara!'
+        },
+        {
+          type: 'bot',
+          message: 'Parampara is sort of like text messaging 🤳'
+        },
+        {
+          type: 'bot',
+          message: 'We\'ll send you messages and you can respond using the buttons as they appear 👇'
+        },
+        {
+          type: 'human',
+          options: [{ message: 'Sounds good', navigation: 5 }, { message: 'Like this one?' }]
+        },
+        {
+          type: 'bot',
+          message: 'Exactly like that one.'
+        },
+        {
+          type: 'bot',
+          message: 'Looks like you\'ve got the hang of this already.'
+        }
+      ]
+    };
+  }
+
+  submitNewBotMessage = (event: any) => {
+    event.preventDefault();
+
+    const newMessages = this.state.items.concat([{
+      type: 'bot',
+      message: this.state.messageDraft
+    }]);
+
+    this.setState({ messageDraft: '', items: newMessages });
+
+  }
+
+  handleMessageChange = (e: any) => {
+    this.setState({ messageDraft: e.target.value });
+  };
+
+  submitNewResponse = (event: any) => {
+    event.preventDefault();
+
+    const newMessages = this.state.items.concat([{
+      type: 'human',
+      options: [{ message: this.state.responseDraft }]
+    }]);
+
+    this.setState({ responseDraft: '', items: newMessages });
+  }
+
+  submitMessageEdit = (i: number) => (message: string) => {
+    if (this.state.items[i].type !== 'bot')
+      throw new Error("Trying to update message on non-bot");
+
+    this.setState({
+      items: [
+        ...this.state.items.slice(0, i),
+        { type: 'bot', message },
+        ...this.state.items.slice(i + 1),
+      ]
+    });
+
+  }
+
+  appendResponseOption(i: number): (optionMessage: string) => void {
+
+    return (optionMessage) => {
+      const item = this.state.items[i];
+
+      if (item.type !== 'human')
+        throw new Error("Trying to add a response option to a non-response.");
+
+      const newOptions = [{ message: optionMessage }].concat(item.options);
+
+      this.setState({
+        items: [
+          ...this.state.items.slice(0, i),
+          { type: 'human', options: newOptions },
+          ...this.state.items.slice(i + 1),
+        ]
+      });
+
+    };
+  }
+
+  editOptionNav = (itemIndex: number) => (optionIndex: number) => (newVal: number) => {
+
+    const { items } = this.state;
+    const item = items[itemIndex];
+
+    if (item.type !== 'human')
+      throw new Error("Trying to add a response option to a non-response.");
+
+    const newOptions: Option[] = [
+      ...item.options.slice(0, optionIndex),
+      { navigation: newVal, message: item.options[optionIndex].message },
+      ...item.options.slice(optionIndex + 1),
+    ]
+
+
+    this.setState({
+      items: [
+        ...items.slice(0, itemIndex),
+        { type: 'human', options: newOptions },
+        ...items.slice(itemIndex + 1),
+      ]
+    });
+  }
+
+  handleResponseChange = (e: any) => {
+    this.setState({ responseDraft: e.target.value });
+  };
+
+  showAddResponse() {
+    return this.state.items[this.state.items.length - 1].type !== 'human';
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="Chat-Box">
+          <>
+            {this.state.items.map((item, i) =>
+              <div key={i} className="Row-Item">
+                <span className="Line-Number">{i + 1}</span>
+                {item.type === 'bot'
+                  ? <BotMessage
+                    message={item.message}
+                    submitEdit={this.submitMessageEdit(i)} />
+                  : <ResponseOptions
+                    item={item}
+                    editNav={this.editOptionNav(i)}
+                    appendResponseOption={this.appendResponseOption(i)} />}
+              </div>
+            )}
+          </>
+
+          <div className="Controls">
+            {this.showAddResponse() &&
+              <Form onSubmit={this.submitNewResponse} className="Add-Response New">
+                <Form.Control
+                  className="Chat-Bubble-Input Chat-Bubble-Input-Human"
+                  type="text"
+                  placeholder="Add a response option..."
+                  value={this.state.responseDraft}
+                  onChange={this.handleResponseChange} />
+              </Form>}
+
+            <Form onSubmit={this.submitNewBotMessage}>
+              <Form.Control
+                className="Chat-Bubble-Input"
+                type="text"
+                placeholder="Add a message..."
+                value={this.state.messageDraft}
+                onChange={this.handleMessageChange}
+                autoFocus />
+            </Form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default App;
