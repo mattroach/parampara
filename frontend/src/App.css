@@ -7,6 +7,8 @@
   position: relative;
 }
 
+.Line-Number.Human {display: none}
+
 .Line-Number {
   text-align: center;
   width: 22px;
@@ -100,13 +102,13 @@ textarea.Chat-Bubble-Input {
 .Chat-Bubble-Input {
   background-color: #efefef;
   border: none;
-  width: 225px;
+  width: 210px;
   resize: none;
   transition: width 100ms;
 }
 
 .Chat-Bubble-Input:focus {
-  width: 350px;
+  width: 300px;
 }
 
 .Chat-Bubble-Input:focus {
@@ -119,6 +121,10 @@ textarea.Chat-Bubble-Input {
 }
 
 .Add-Response.Inline .Chat-Bubble-Input  {
+  width: 70px;
+}
+
+.Add-Response.Inline .Chat-Bubble-Input:focus  {
   width: 170px;
 }
 
@@ -148,4 +154,32 @@ textarea.Chat-Bubble-Input {
   display: inline;
   width: 50px;
   margin-left: 8px;
+}
+
+.Input-Action, .Input-Action>button {
+  height: 35px;
+  padding: 0 0;
+  display: inline;
+}
+
+.Input-Action>button::after {
+  display: none;
+}
+
+.Input-Action:hover i {
+  color: #000;
+}
+
+.Input-Action.Macros i {
+  color: #0076ff;
+  opacity: .8;
+}
+
+.Input-Action.Macros:hover i {
+  color: #0076ff;
+  opacity: 1;
+}
+
+.popover-body {
+  box-shadow: 0px 2px 6px #d9d9d9;
 }

@@ -4,12 +4,16 @@ import './App.css';
 
 import Form from 'react-bootstrap/Form';
 
-//import MaterialIcon from 'material-icons-react';
+import MaterialIcon from 'material-icons-react';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import ResponseOptions from './components/ResponseOptions';
 import BotMessage from './components/BotMessage';
 import { Message, Response, Option } from './types';
 import Button from 'react-bootstrap/Button';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 type AppState = {
   items: (Message | Response)[];
@@ -38,7 +42,7 @@ class App extends React.Component<{}, AppState> {
         },
         {
           type: 'human',
-          options: [{ message: 'Sounds good', navigation: 5 }, { message: 'Like this one?' }]
+          options: [{ message: 'That\'s great', navigation: 6 }, { message: 'Like this one?' }]
         },
         {
           type: 'bot',
@@ -153,7 +157,7 @@ class App extends React.Component<{}, AppState> {
           <>
             {this.state.items.map((item, i) =>
               <div key={i} className="Row-Item">
-                <span className="Line-Number">{i + 1}</span>
+                <span className={"Line-Number" + (item.type === 'human' ? ' Human' : '')}>{i + 1}</span>
                 {item.type === 'bot'
                   ? <BotMessage
                     message={item.message}
@@ -169,6 +173,11 @@ class App extends React.Component<{}, AppState> {
           <div className="Controls">
             {this.showAddResponse() &&
               <Form onSubmit={this.submitNewResponse} className="Add-Response New">
+                <DropdownButton id="dropdown-basic-button" variant="link" className="Input-Action Macros" title={<MaterialIcon icon="add_circle" size={35} />}>
+                  <Dropdown.Item href="#">Collect a comment</Dropdown.Item>
+                  <Dropdown.Item href="#">Send a document</Dropdown.Item>
+                  <Dropdown.Item href="#">Ask for a rating</Dropdown.Item>
+                </DropdownButton>
                 <Form.Control
                   className="Chat-Bubble-Input Chat-Bubble-Input-Human"
                   type="text"
@@ -178,6 +187,9 @@ class App extends React.Component<{}, AppState> {
               </Form>}
 
             <Form onSubmit={this.submitNewBotMessage}>
+              <OverlayTrigger overlay={(props: any) => <Tooltip {...props}>Choose a gif</Tooltip>}>
+                <Button variant="link" className="Input-Action"><MaterialIcon icon="gif" size={40} /></Button>
+              </OverlayTrigger>
               <Form.Control
                 className="Chat-Bubble-Input"
                 type="text"

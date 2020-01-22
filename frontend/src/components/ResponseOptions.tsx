@@ -41,7 +41,7 @@ class ResponseOptions extends React.Component<Props, State> {
                     <Form.Control
                         className="Chat-Bubble-Input Chat-Bubble-Input-Human"
                         type="text"
-                        placeholder="Add another option..."
+                        placeholder="Add..."
                         value={this.state.responseDraft}
                         onChange={this.handleResponseChange}
                         autoFocus />
