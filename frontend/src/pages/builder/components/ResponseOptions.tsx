@@ -2,7 +2,7 @@ import React from 'react';
 
 import Form from 'react-bootstrap/Form';
 import ChatContextMenu from './ChatContextMenu';
-import { Response } from '../types';
+import { Response } from '../../../types';
 
 type State = {
     responseDraft: string;

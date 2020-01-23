@@ -2,7 +2,7 @@ import React from 'react';
 
 import MaterialIcon from 'material-icons-react';
 
-import { Macro } from '../types';
+import { Macro } from '../../../types';
 
 type State = {
 };
