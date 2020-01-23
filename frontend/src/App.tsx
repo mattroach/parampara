@@ -10,13 +10,14 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 import ResponseOptions from './components/ResponseOptions';
 import BotMessage from './components/BotMessage';
-import { Message, Response, Option } from './types';
+import { Item, Message, Response, Option } from './types';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import MacroItem from './components/MacroItem';
 
 type AppState = {
-  items: (Message | Response)[];
+  items: Item[];
   messageDraft: string;
   responseDraft: string;
 };
@@ -46,11 +47,11 @@ class App extends React.Component<{}, AppState> {
         },
         {
           type: 'bot',
-          message: 'Exactly like that one.'
+          message: 'Exactly like that one. Looks like you\'ve got the hang of this already.'
         },
         {
           type: 'bot',
-          message: 'Looks like you\'ve got the hang of this already.'
+          message: 'It is pretty great hey!'
         }
       ]
     };
@@ -150,6 +151,37 @@ class App extends React.Component<{}, AppState> {
     return this.state.items[this.state.items.length - 1].type !== 'human';
   }
 
+  getItem(item: Item, index: number) {
+    if (item.type === 'bot')
+      return <BotMessage
+        message={item.message}
+        submitEdit={this.submitMessageEdit(index)} />;
+
+    if (item.type === 'human')
+      return <ResponseOptions
+        item={item}
+        editNav={this.editOptionNav(index)}
+        appendResponseOption={this.appendResponseOption(index)} />;
+
+    if (item.type === 'macro')
+      return <MacroItem
+        item={item} />
+
+    throw new Error('Unknown item type');
+
+  }
+
+  addMacro = (icon: string, title: string) => (event: any) => {
+    event.preventDefault();
+
+    const newItems = this.state.items.concat([{
+      type: 'macro',
+      icon, title
+    }]);
+
+    this.setState({ items: newItems });
+  }
+
   render() {
     return (
       <div className="App">
@@ -157,15 +189,8 @@ class App extends React.Component<{}, AppState> {
           <>
             {this.state.items.map((item, i) =>
               <div key={i} className="Row-Item">
-                <span className={"Line-Number" + (item.type === 'human' ? ' Human' : '')}>{i + 1}</span>
-                {item.type === 'bot'
-                  ? <BotMessage
-                    message={item.message}
-                    submitEdit={this.submitMessageEdit(i)} />
-                  : <ResponseOptions
-                    item={item}
-                    editNav={this.editOptionNav(i)}
-                    appendResponseOption={this.appendResponseOption(i)} />}
+                <span className={"Line-Number" + (item.type === 'bot' ? ' Bot' : '')}>{i + 1}</span>
+                {this.getItem(item, i)}
               </div>
             )}
           </>
@@ -174,9 +199,9 @@ class App extends React.Component<{}, AppState> {
             {this.showAddResponse() &&
               <Form onSubmit={this.submitNewResponse} className="Add-Response New">
                 <DropdownButton id="dropdown-basic-button" variant="link" className="Input-Action Macros" title={<MaterialIcon icon="add_circle" size={35} />}>
-                  <Dropdown.Item href="#">Collect a comment</Dropdown.Item>
-                  <Dropdown.Item href="#">Send a document</Dropdown.Item>
-                  <Dropdown.Item href="#">Ask for a rating</Dropdown.Item>
+                  <Dropdown.Item href="#" onClick={this.addMacro('comment', 'Collect a comment')}>Collect a comment</Dropdown.Item>
+                <Dropdown.Item href="#" onClick={this.addMacro('email', 'Email a document')}>Send a document</Dropdown.Item>
+                <Dropdown.Item href="#" onClick={this.addMacro('star', 'Ask for a rating')}>Ask for a rating</Dropdown.Item>
                 </DropdownButton>
                 <Form.Control
                   className="Chat-Bubble-Input Chat-Bubble-Input-Human"

@@ -7,9 +7,10 @@
   position: relative;
 }
 
-.Line-Number.Human {display: none}
+.Line-Number.Bot {display: inline-block}
 
 .Line-Number {
+  display: none;
   text-align: center;
   width: 22px;
   background: #efefef;
@@ -64,9 +65,25 @@
   line-height: 1.4;
 }
 
-.Chat-Container.Human {
+.Chat-Container.Human, .Chat-Container.Macro {
   text-align: right;
   margin: 20px 0;
+}
+
+.Chat-Container.Macro .Bubble {
+  border-radius: 10px;
+  padding: 7px 13px;
+  display: inline-block;
+  max-width: 400px;
+  line-height: 1.4;
+  background-color: #efefef;
+  border: 2px solid #666;
+}
+
+.Chat-Container.Macro .Bubble i {
+  vertical-align: middle;
+  margin-right: 8px;
+  line-height: 15px;
 }
 
 .Chat-Bubble, .Chat-Bubble-Input {

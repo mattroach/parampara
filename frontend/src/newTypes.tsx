@@ -3,7 +3,7 @@
 
 
 export enum ItemType {
-    Message, ChooseResponse, Email
+    Message, Image, ChooseResponse, Email
 }
 
 export type Item = {
@@ -13,23 +13,23 @@ export type Item = {
 export type MessageItem = {
     type: ItemType.Message;
     message: string;
+    nextId?: number;
 }
 
 export type ChooseResponseItem = {
-    type: ItemType.Message;
-    Responses: ResponseChoice[];
+    type: ItemType.ChooseResponse;
+    responses: ResponseChoice[];
 }
 
 export type ResponseChoice = {
     message: string;
-    nextId: number;
+    nextId?: number;
 }
 
 
 
 
 const exampleScript = {
-    updatedTimestamp: '',
     items: [
         {type: 'MESSAGE', message: 'Hows your day?'},
         {type: 'CHOOSE_RESPONSE', responses: [
@@ -47,7 +47,7 @@ const exampleScript = {
 
 // Used only for re-building the chat UX, not used or reporting algorithms
 const exampleProgress = {
-    createdTimestamp: '',
+    lastItemId: 7,
     items: [
         {type: 'MESSAGE', message: 'Hows your day?'},
         {type: 'CHOOSE_RESPONSE', choice: 0, responses: [
