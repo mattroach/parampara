@@ -6,9 +6,6 @@ import {
   Link
 } from "react-router-dom";
 
-// This must be imported before other components which extend bootstrap styles.
-import 'bootstrap/dist/css/bootstrap.css';
-
 import BuilderPage from "./pages/builder/BuilderPage";
 import ChatSessionPage from "./pages/chat-session/ChatSessionPage";
 
