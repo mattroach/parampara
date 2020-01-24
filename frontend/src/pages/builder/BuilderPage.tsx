@@ -195,23 +195,8 @@ class BuilderPage extends React.Component<{}, State> {
           </>
 
           <div className="Controls">
-            
-              <Form onSubmit={this.submitNewResponse} className="Add-Response New">
-                <DropdownButton id="dropdown-basic-button" variant="link" className="Input-Action Macros" title={<MaterialIcon icon="add_circle" size={35} />}>
-                  <Dropdown.Item href="#" onClick={this.addMacro('comment', 'Collect a comment')}>Collect a comment</Dropdown.Item>
-                <Dropdown.Item href="#" onClick={this.addMacro('email', 'Email a document')}>Send a document</Dropdown.Item>
-                <Dropdown.Item href="#" onClick={this.addMacro('star', 'Ask for a rating')}>Ask for a rating</Dropdown.Item>
-              </DropdownButton>
-              {this.showAddResponse() &&
-                <Form.Control
-                  className="Chat-Bubble-Input Chat-Bubble-Input-Human"
-                  type="text"
-                  placeholder="Add a response option..."
-                  value={this.state.responseDraft}
-                  onChange={this.handleResponseChange} />}
-              </Form>
 
-            <Form onSubmit={this.submitNewBotMessage}>
+            <Form onSubmit={this.submitNewBotMessage} className="Add-Message New">
               <OverlayTrigger overlay={(props: any) => <Tooltip {...props}>Choose a gif</Tooltip>}>
                 <Button variant="link" className="Input-Action"><MaterialIcon icon="gif" size={40} /></Button>
               </OverlayTrigger>
@@ -222,6 +207,21 @@ class BuilderPage extends React.Component<{}, State> {
                 value={this.state.messageDraft}
                 onChange={this.handleMessageChange}
                 autoFocus />
+            </Form>
+
+            <Form onSubmit={this.submitNewResponse} className="Add-Response New">
+              {this.showAddResponse() &&
+                <Form.Control
+                  className="Chat-Bubble-Input Chat-Bubble-Input-Human"
+                  type="text"
+                  placeholder="Add a response option..."
+                  value={this.state.responseDraft}
+                  onChange={this.handleResponseChange} />}
+                <DropdownButton id="dropdown-basic-button" variant="link" className="Input-Action Macros" title={<MaterialIcon icon="add_circle" size={35} />}>
+                  <Dropdown.Item href="#" onClick={this.addMacro('comment', 'Collect a comment')}>Collect a comment</Dropdown.Item>
+                  <Dropdown.Item href="#" onClick={this.addMacro('email', 'Email a document')}>Send a document</Dropdown.Item>
+                  <Dropdown.Item href="#" onClick={this.addMacro('star', 'Ask for a rating')}>Ask for a rating</Dropdown.Item>
+                </DropdownButton>
             </Form>
           </div>
         </div>

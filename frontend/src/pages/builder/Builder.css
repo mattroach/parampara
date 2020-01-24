@@ -113,7 +113,7 @@ textarea.Chat-Bubble-Input {
 .Controls {
   border-top: 2px solid #eee;
   padding-top: 8px;
-  margin-top: 24px;
+  margin-top: 50px;
 }
 
 .Chat-Bubble-Input {
@@ -131,6 +131,10 @@ textarea.Chat-Bubble-Input {
 .Chat-Bubble-Input:focus {
   background-color: #efefef;
   box-shadow: none;
+}
+
+.Add-Message.New {
+  float: left;
 }
 
 .Add-Response.New {
