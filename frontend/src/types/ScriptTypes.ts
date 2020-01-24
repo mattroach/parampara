@@ -9,7 +9,7 @@ export type ScriptItem = {
 } & (MessageItem | ChooseResponseItem | CommentItem);
 
 export enum ScriptItemType {
-  Message, Image, ChooseResponse, Comment
+  Message = 'Message', Image = 'Image', ChooseResponse = 'ChooseResponse', Comment = 'Comment'
 }
 
 export type MessageItem = {

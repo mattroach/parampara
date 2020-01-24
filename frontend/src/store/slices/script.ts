@@ -3,6 +3,8 @@ import { Script, ScriptItemType } from '../../types/scriptTypes'
 
 let initialState: Script = {
   items: [
+    { type: ScriptItemType.Message, message: 'Hello you!' },
+    { type: ScriptItemType.Message, message: 'Welcome to Parampara' },
     { type: ScriptItemType.Message, message: 'Hows your day?' },
     {
       type: ScriptItemType.ChooseResponse, responses: [
