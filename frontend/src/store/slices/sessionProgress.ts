@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SessionProgress } from '../../types/sessionProgress';
-import { ScriptItem } from '../../types/scriptTypes';
+import { SessionProgress, ChooseResponseItemProgress } from '../../types/sessionProgress';
+import { MessageItem } from '../../types/scriptTypes';
 import { AppThunk } from '../store';
 
 let initialState: SessionProgress = {
@@ -12,24 +12,37 @@ const sessionProgressSlice = createSlice({
   name: 'sessionProgress',
   initialState,
   reducers: {
-    progressItem(state, action: PayloadAction<ScriptItem>) {
-      state.currentItemId = state.currentItemId += 1;
+    progressMessageItem(state, action: PayloadAction<MessageItem>) {
+      const { payload } = action;
 
-      state.items = state.items.concat([{ item: action.payload }])
+      state.currentItemId = payload.nextId ? payload.nextId : state.currentItemId + 1;
+
+      state.items = state.items.concat([{ item: payload }])
+    },
+    progressChoiceResponseItem(state, action: PayloadAction<ChooseResponseItemProgress>) {
+      const { payload } = action;
+
+      const choice = payload.progress.choice;
+      const nextId = payload.item.responses[choice].nextId;
+
+      state.currentItemId = nextId ? nextId : state.currentItemId + 1;
+
+      state.items = state.items.concat([payload])
     },
   }
 })
 
 export const {
-  progressItem
+  progressMessageItem,
+  progressChoiceResponseItem
 } = sessionProgressSlice.actions
 
 export default sessionProgressSlice.reducer
 
-export const progressItemOnTimer = (
-  scriptItem: ScriptItem
+export const progressMessageItemOnTimer = (
+  scriptItem: MessageItem
 ): AppThunk => async dispatch => {
   setTimeout(() => {
-    dispatch(progressItem(scriptItem))
-  }, 2000);
+    dispatch(progressMessageItem(scriptItem))
+  }, 500);
 }

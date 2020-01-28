@@ -4,9 +4,7 @@ export type Script = {
   items: ScriptItem[];
 }
 
-export type ScriptItem = {
-  type: ScriptItemType;
-} & (MessageItem | ChooseResponseItem | CommentItem);
+export type ScriptItem = MessageItem | ChooseResponseItem | CommentItem;
 
 export enum ScriptItemType {
   Message = 'Message', Image = 'Image', ChooseResponse = 'ChooseResponse', Comment = 'Comment'

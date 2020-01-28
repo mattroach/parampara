@@ -1,16 +1,24 @@
-import { ScriptItem, ScriptItemType } from "./scriptTypes";
+import { ScriptItemType, MessageItem, ChooseResponseItem, CommentItem } from "./scriptTypes";
 
 export type SessionProgress = {
   currentItemId: number;
   items: ProgressItem[];
 };
 
-export type ProgressItem = {
-  item: ScriptItem;
-  progress?: { // TODO should be stronger typing
-    choice?: number;
-    content?: string;
-  }
+export type ProgressItem = MessageItemProgress | ChooseResponseItemProgress | CommentItemProgress;
+
+export type MessageItemProgress = {
+  item: MessageItem;
+}
+
+export type ChooseResponseItemProgress = {
+  item: ChooseResponseItem;
+  progress: {choice: number}
+}
+
+export type CommentItemProgress = {
+  item: CommentItem;
+  progress: {content: string}
 }
 
 const exampleProgress: SessionProgress = {

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useDispatch } from 'react-redux'
 
-import { progressItemOnTimer } from '../../../store/slices/sessionProgress';
+import { progressMessageItemOnTimer } from '../../../store/slices/sessionProgress';
 
 import { ScriptItem, ScriptItemType } from '../../../types/scriptTypes'
 import BotMessage from './item-types/BotMessage'
@@ -14,7 +14,7 @@ const NextItem: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
 
   switch (item.type) {
     case ScriptItemType.Message:
-      dispatch(progressItemOnTimer(item))
+      dispatch(progressMessageItemOnTimer(item))
       return <BotMessage item={item} />
     case ScriptItemType.ChooseResponse:
       return <ChooseResponse item={item} />

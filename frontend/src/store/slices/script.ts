@@ -9,10 +9,10 @@ let initialState: Script = {
     {
       type: ScriptItemType.ChooseResponse, responses: [
         { message: 'Good' },
-        { message: 'Bad', nextId: 3 }
+        { message: 'Bad', nextId: 5 }
       ]
     },
-    { type: ScriptItemType.Message, message: 'Nice to hear!', nextId: 4 },
+    { type: ScriptItemType.Message, message: 'Nice to hear!', nextId: 6 },
     { type: ScriptItemType.Message, message: 'Sorry to hear that.' },
     { type: ScriptItemType.Message, message: 'I am emailing you a document. What do you think about that?' },
     //{ type: ScriptItemType.Message., CONTENT: 'Hello! please see <a href="http://">this document</a>' },
