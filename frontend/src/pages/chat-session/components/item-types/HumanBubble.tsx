@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
+import ItemWrap from './ItemWrap';
 
-const Wrapper = styled.div`
+const Wrapper = styled(ItemWrap)`
   margin: 20px 0;
 
   text-align: right;
@@ -11,7 +12,6 @@ const Bubble = styled.span`
   display: inline-block;
   border-radius: 15px;
   padding: 7px 13px;
-  max-width: 75%;
   line-height: 1.3;
 
   background-color: #0076ff;

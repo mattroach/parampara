@@ -6,8 +6,9 @@ import { ChooseResponseItem } from '../../../../types/scriptTypes';
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
 import { progressItemOnTimer } from '../../../../store/slices/sessionProgress';
+import ItemWrap from './ItemWrap';
 
-const Wrapper = styled.div`
+const Wrapper = styled(ItemWrap)`
   margin: 40px 0;
 `;
 
