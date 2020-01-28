@@ -2,13 +2,13 @@ import React from 'react'
 import styled from 'styled-components';
 import { ChooseResponseItemProgress } from '../../../../types/sessionProgress';
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   margin: 20px 0;
 
   text-align: right;
 `;
 
-export const Bubble = styled.span`
+const Bubble = styled.span`
   display: inline-block;
   border-radius: 15px;
   padding: 7px 13px;

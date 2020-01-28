@@ -5,13 +5,13 @@ import { ChooseResponseItem } from '../../../../types/scriptTypes';
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
-import { progressChoiceResponseItem } from '../../../../store/slices/sessionProgress';
+import { progressItemOnTimer } from '../../../../store/slices/sessionProgress';
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   margin: 40px 0;
 `;
 
-export const ResponseButton = styled(Button)`
+const ResponseButton = styled(Button)`
   border-radius: 15px;
   padding: 7px 15px;
   line-height: 1.3;
@@ -29,17 +29,20 @@ export const ResponseButton = styled(Button)`
 
 type Props = {
   item: ChooseResponseItem;
-  progressChoiceResponseItem: typeof progressChoiceResponseItem;
+  progressItemOnTimer: typeof progressItemOnTimer;
 };
 
 class ChooseResponse extends React.Component<Props, {}> {
-  
+
   handleClick = (choice: number) => (event: any) => {
     event.preventDefault();
+    
+    const { item } = this.props;
 
-    this.props.progressChoiceResponseItem({
+    this.props.progressItemOnTimer({
+      type: item.type,
       progress: { choice },
-      item: this.props.item
+      item
     });
   }
 
@@ -54,4 +57,5 @@ class ChooseResponse extends React.Component<Props, {}> {
   }
 }
 
-export default connect(null, {progressChoiceResponseItem})(ChooseResponse)
+// @ts-ignore
+export default connect(null, {progressItemOnTimer})(ChooseResponse)

@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components';
 import { MessageItem } from '../../../../types/scriptTypes';
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   margin: 10px 0;
 `;
 
-export const Bubble = styled.span`
+const Bubble = styled.span`
   display: inline-block;
   background-color: #efefef;
   border-radius: 15px;

@@ -1,48 +1,53 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SessionProgress, ChooseResponseItemProgress } from '../../types/sessionProgress';
-import { MessageItem } from '../../types/scriptTypes';
+import { SessionProgress, ProgressItem, ChooseResponseItemProgress, CommentItemProgress } from '../../types/sessionProgress';
+import { MessageItem, ScriptItemType } from '../../types/scriptTypes';
 import { AppThunk } from '../store';
 
 let initialState: SessionProgress = {
+  currentItemProcessed: false,
   currentItemId: 0,
   items: []
-};
+}
 
 const sessionProgressSlice = createSlice({
   name: 'sessionProgress',
   initialState,
   reducers: {
-    progressMessageItem(state, action: PayloadAction<MessageItem>) {
-      const { payload } = action;
-
-      state.currentItemId = payload.nextId ? payload.nextId : state.currentItemId + 1;
-
-      state.items = state.items.concat([{ item: payload }])
-    },
-    progressChoiceResponseItem(state, action: PayloadAction<ChooseResponseItemProgress>) {
-      const { payload } = action;
-
-      const choice = payload.progress.choice;
-      const nextId = payload.item.responses[choice].nextId;
-
-      state.currentItemId = nextId ? nextId : state.currentItemId + 1;
-
+    progressItem(state, action: PayloadAction<ProgressItem>) {
+      const { payload } = action
       state.items = state.items.concat([payload])
+      state.currentItemProcessed = true
     },
+    incrementCurrentItem(state, action: PayloadAction<number | undefined>) {
+      const nextId = action.payload
+
+      state.currentItemId = nextId ? nextId : state.currentItemId + 1
+      state.currentItemProcessed = false
+    }
   }
 })
 
 export const {
-  progressMessageItem,
-  progressChoiceResponseItem
+  progressItem,
+  incrementCurrentItem: progressCurrentItem,
 } = sessionProgressSlice.actions
 
 export default sessionProgressSlice.reducer
 
-export const progressMessageItemOnTimer = (
-  scriptItem: MessageItem
+export const progressItemOnTimer = (
+  itemProgress: ProgressItem
 ): AppThunk => async dispatch => {
+  dispatch(progressItem(itemProgress))
+
+  let nextId: number | undefined
+  if (itemProgress.type == ScriptItemType.ChooseResponse) {
+    const choice = itemProgress.progress.choice
+    nextId = itemProgress.item.responses[choice].nextId
+  } else if (itemProgress.type == ScriptItemType.Message) {
+    nextId = itemProgress.item.nextId
+  }
+
   setTimeout(() => {
-    dispatch(progressMessageItem(scriptItem))
-  }, 500);
+    dispatch(progressCurrentItem(nextId))
+  }, 2000)
 }

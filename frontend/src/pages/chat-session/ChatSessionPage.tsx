@@ -18,7 +18,7 @@ class ChatSessionPage extends React.Component<Props, State> {
     return (
       <styles.Wrapper>
         {sessionProgress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
-        <NextItem item={nextItem} />
+        {sessionProgress.currentItemProcessed || <NextItem item={nextItem} />}
       </styles.Wrapper>
     )
   }
