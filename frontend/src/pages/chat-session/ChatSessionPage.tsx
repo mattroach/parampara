@@ -15,10 +15,13 @@ type Props = ReturnType<typeof mapStateToProps>;
 class ChatSessionPage extends React.Component<Props, State> {
   render() {
     const { sessionProgress, nextItem } = this.props;
+
+    const showNextItem = nextItem && !sessionProgress.currentItemProcessed
+
     return (
       <styles.Wrapper>
         {sessionProgress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
-        {sessionProgress.currentItemProcessed || <NextItem item={nextItem} />}
+        {showNextItem && <NextItem item={nextItem} />}
       </styles.Wrapper>
     )
   }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SessionProgress, ProgressItem, ChooseResponseItemProgress, CommentItemProgress } from '../../types/sessionProgress';
-import { MessageItem, ScriptItemType } from '../../types/scriptTypes';
+import { SessionProgress, ProgressItem } from '../../types/sessionProgress';
+import { ScriptItemType } from '../../types/scriptTypes';
 import { AppThunk } from '../store';
 
 let initialState: SessionProgress = {
@@ -40,10 +40,10 @@ export const progressItemOnTimer = (
   dispatch(progressItem(itemProgress))
 
   let nextId: number | undefined
-  if (itemProgress.type == ScriptItemType.ChooseResponse) {
+  if (itemProgress.type === ScriptItemType.ChooseResponse) {
     const choice = itemProgress.progress.choice
     nextId = itemProgress.item.responses[choice].nextId
-  } else if (itemProgress.type == ScriptItemType.Message) {
+  } else if (itemProgress.type === ScriptItemType.Message) {
     nextId = itemProgress.item.nextId
   }
 

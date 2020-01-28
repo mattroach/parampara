@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 import { connect } from 'react-redux';
-//import { progressCommentItem } from '../../../../store/slices/sessionProgress';
+import { progressItemOnTimer } from '../../../../store/slices/sessionProgress';
+import { CommentItem } from '../../../../types/scriptTypes';
 
 const Wrapper = styled.div`
   margin: 40px 0;
@@ -32,15 +33,36 @@ const MessageInput = styled(Form.Control)`
   }
 `;
 
+type State = {
+  message: string;
+}
 type Props = {
-  //progressCommentItem: typeof progressCommentItem;
+  item: CommentItem;
+  progressItemOnTimer: typeof progressItemOnTimer;
 };
 
-class Comment extends React.Component<Props, {}> {
+class Comment extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      message: ''
+    }
+  }
+
+  updateMessage = (event: any) => {
+    this.setState({message: event.target.value})
+  }
 
   handleSubmit = (event: any) => {
     event.preventDefault();
+    
+    const { item } = this.props;
 
+    this.props.progressItemOnTimer({
+      type: item.type,
+      progress: { content: this.state.message },
+      item
+    });
 
   }
 
@@ -48,7 +70,7 @@ class Comment extends React.Component<Props, {}> {
     return (
       <Wrapper>
         <Form inline={true} onSubmit={this.handleSubmit}>
-          <MessageInput placeholder="Your comment" autoFocus />
+          <MessageInput placeholder="Your comment" onChange={this.updateMessage} autoFocus />
           <GoButton variant="primary" type="submit">Go</GoButton>
         </Form>
       </Wrapper>
@@ -56,4 +78,5 @@ class Comment extends React.Component<Props, {}> {
   }
 }
 
-export default connect(null, {})(Comment)
+// @ts-ignore
+export default connect(null, {progressItemOnTimer})(Comment)

@@ -20,7 +20,7 @@ const NextItem: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
     case ScriptItemType.ChooseResponse:
       return <ChooseResponse item={item} />
     case ScriptItemType.Comment:
-      return <Comment />
+      return <Comment item={item} />
     //default:
     //  return <div>Not implemented {item.type}</div>
   }
