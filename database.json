@@ -1,0 +1,5 @@
+{
+  "dev": "postgres://postgres:parampara@localhost/postgres",
+
+  "prod": "postgres://uname:pw@localhost/dbname"
+}

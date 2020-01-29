@@ -3,6 +3,7 @@ import { logger } from '@shared';
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import { ParamsDictionary } from 'express-serve-static-core';
+import Script from 'src/models/Script';
 
 // Init shared
 const router = Router();
@@ -23,7 +24,8 @@ router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params as ParamsDictionary;
 
-    const script = { id };
+    const script = await Script.query().findById(id);
+
     return res.status(OK).json(script);
   } catch (err) {
     logger.error(err.message, err);

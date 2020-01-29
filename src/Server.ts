@@ -5,6 +5,17 @@ import logger from 'morgan';
 import path from 'path';
 import BaseRouter from './routes';
 
+import Knex from 'knex'
+import { Model } from 'objection'
+
+// Init db stuff
+const knex = Knex({
+  client: 'pg',
+  connection: 'postgres://postgres:parampara@localhost/postgres' // process.env.DATABASE_URL
+});
+
+Model.knex(knex)
+
 // Init express
 const app = express();
 
