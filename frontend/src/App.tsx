@@ -2,7 +2,8 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  useParams
 } from "react-router-dom";
 
 import BuilderPage from "./pages/builder/BuilderPage";
@@ -17,11 +18,14 @@ export default function App() {
           <Route path="/builder">
             <BuilderPage />
           </Route>
-          <Route path="/">
-            <ChatSessionPage />
+          <Route path="/s/:id">
+            <ChatSessionRoute />
           </Route>
         </Switch>
       </div>
     </Router>
   );
 }
+
+const ChatSessionRoute: React.FunctionComponent = () =>
+  <ChatSessionPage scriptId={(useParams() as any).id} />

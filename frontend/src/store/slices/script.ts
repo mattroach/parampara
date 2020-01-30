@@ -1,24 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Script, ScriptItemType } from '../../types/scriptTypes'
+
+import axios from 'axios';
+
+import { Script } from '../../types/scriptTypes'
+import { AppThunk } from '../store';
 
 let initialState: Script = {
-  items: [
-    { type: ScriptItemType.Message, message: 'Hello you!' },
-    { type: ScriptItemType.Message, message: 'Welcome to Parampara' },
-    { type: ScriptItemType.Message, message: 'Hows your day?' },
-    {
-      type: ScriptItemType.ChooseResponse, responses: [
-        { message: 'Good' },
-        { message: 'Bad', nextId: 5 }
-      ]
-    },
-    { type: ScriptItemType.Message, message: 'Nice to hear!', nextId: 6 },
-    { type: ScriptItemType.Message, message: 'Sorry to hear that.' },
-    { type: ScriptItemType.Message, message: 'I am emailing you a document. What do you think about that?' },
-    //{ type: ScriptItemType.Message., CONTENT: 'Hello! please see <a href="http://">this document</a>' },
-    { type: ScriptItemType.Comment },
-    { type: ScriptItemType.Message, message: 'Good bye!' },
-  ]
+  items: []
 };
 
 const scriptSlice = createSlice({
@@ -26,7 +14,8 @@ const scriptSlice = createSlice({
   initialState,
   reducers: {
     updateScript(state, action: PayloadAction<Script>) {
-      state = action.payload;
+      state.items = action.payload.items;
+      console.log('new state', state)
     },
   }
 })
@@ -36,3 +25,13 @@ export const {
 } = scriptSlice.actions
 
 export default scriptSlice.reducer
+
+export const loadScript = (
+  scriptId: string
+): AppThunk => async dispatch => {
+
+  axios.get(`/api/script/${scriptId}`)
+    .then((response) => {
+      dispatch(updateScript(response.data.content))
+    })
+}

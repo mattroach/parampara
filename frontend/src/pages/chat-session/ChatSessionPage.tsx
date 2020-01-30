@@ -5,16 +5,25 @@ import * as styles from './ChatSessionPage.styles';
 import { RootState } from '../../store/rootReducer';
 import ProgressedItem from './components/ProgressedItem';
 import NextItem from './components/NextItem';
+import {loadScript} from '../../store/slices/script'
 
 type State = {
 
 };
 
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = {
+  loadScript: typeof loadScript;
+  scriptId: string;
+} & ReturnType<typeof mapStateToProps>;
 
 class ChatSessionPage extends React.Component<Props, State> {
+
+  componentDidMount() {
+    this.props.loadScript(this.props.scriptId);
+  }
+
   render() {
-    const { sessionProgress, nextItem } = this.props;
+    const { sessionProgress, nextItem, scriptId } = this.props;
 
     const showNextItem = nextItem && !sessionProgress.currentItemProcessed
 
@@ -36,4 +45,5 @@ function mapStateToProps(state: RootState) {
   }
 }
 
-export default connect(mapStateToProps)(ChatSessionPage)
+// @ts-ignore
+export default connect(mapStateToProps, {loadScript})(ChatSessionPage)
