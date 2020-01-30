@@ -6,12 +6,13 @@ import path from 'path';
 import BaseRouter from './routes';
 
 import Knex from 'knex'
-import { Model } from 'objection'
+import { Model, knexSnakeCaseMappers } from 'objection'
 
 // Init db stuff
 const knex = Knex({
   client: 'pg',
-  connection: 'postgres://postgres:parampara@localhost/postgres' // process.env.DATABASE_URL
+  connection: 'postgres://postgres:parampara@localhost/postgres', // process.env.DATABASE_URL
+  ...knexSnakeCaseMappers()
 });
 
 Model.knex(knex)

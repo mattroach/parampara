@@ -4,15 +4,15 @@ CREATE TABLE script (
   created timestamp DEFAULT now()
 );
 
-CREATE TABLE scriptVersion (
+CREATE TABLE script_version (
   id uuid PRIMARY KEY NOT NULL,
-  scriptId uuid NOT NULL REFERENCES script(id),
+  script_id uuid NOT NULL REFERENCES script(id),
   version integer,
   created timestamp DEFAULT now(),
   title varchar(100) NOT NULL,
-  reportingEmail varchar(100) NOT NULL,
+  reporting_email varchar(100) NOT NULL,
   content text NOT NULL,
-  allowAnon boolean DEFAULT TRUE
+  allow_anon boolean DEFAULT TRUE
 );
 
 -- test data
@@ -22,18 +22,20 @@ VALUES
   ('f13a7adb-a202-48ae-a739-3b9c2e166a68' :: uuid) returning id;
 
 INSERT INTO
-  public.scriptversion (
-    scriptid,
+  public.script_version (
+    script_id,
     id,
+    version,
     title,
-    reportingemail,
+    reporting_email,
     content
   )
 VALUES
   (
     'f13a7adb-a202-48ae-a739-3b9c2e166a68' :: uuid,
     'b653c75e-2e5c-4d27-ac57-88ad8c82c926' :: uuid,
+    1,
     'the title' :: character varying(100),
     'jonah@getparampara.com' :: character varying(100),
-    '{}' :: text
+    '{"items":[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?"},{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":5}]},{"type":"Message","message":"Nice to hear!","nextId":6},{"type":"Message","message":"Sorry to hear that."},{"type":"Message","message":"I am emailing you a document. What do you think about that?"},{"type":"Comment"},{"type":"Message","message":"Good bye!"}]}' :: text
   ) returning id;
