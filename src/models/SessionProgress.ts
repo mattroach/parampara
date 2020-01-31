@@ -3,10 +3,10 @@ import { Model } from 'objection'
 export default class SessionProgress extends Model {
   id!: string
   scriptId!: string
-  progress!: any
+  items!: any
   sessionUserId!: string
 
   static tableName = 'session_progress'
 
-  static jsonAttributes = ['progress']
+  static jsonAttributes = ['items']
 }

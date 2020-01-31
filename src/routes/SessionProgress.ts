@@ -19,10 +19,9 @@ router.post('/', async (req: Request, res: Response) => {
     if (!scriptId)
       throw new Error('No scriptId provided')
 
-    const progress = sessionProgressService.getOrCreateSessionProgress(scriptId, email)
+    const progress = await sessionProgressService.getOrCreateSessionProgress(scriptId, email)
 
     return res.status(OK).json(progress)
-
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({

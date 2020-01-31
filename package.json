@@ -9,13 +9,11 @@
     "test": "nodemon --config nodemon.test.json"
   },
   "_moduleAliases": {
-    "@daos": "dist/daos",
     "@entities": "dist/entities",
     "@shared": "dist/shared",
     "@server": "dist/Server"
   },
   "dependencies": {
-    "@types/uuid": "^3.4.7",
     "axios": "^0.19.2",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.4",
@@ -41,6 +39,7 @@
     "@types/morgan": "^1.7.37",
     "@types/node": "^13.1.8",
     "@types/supertest": "^2.0.8",
+    "@types/uuid": "^3.4.7",
     "find": "^0.3.0",
     "fs-extra": "^8.1.0",
     "jasmine": "^3.5.0",

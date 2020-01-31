@@ -10,17 +10,18 @@ class SessionProgressService {
       if (user) {
         const existingProgress = await this.getSessionProgress(scriptId, user.id)
 
-        if (existingProgress) {
+        if (existingProgress)
           return existingProgress
-        }
 
         return await this.createSessionProgress(scriptId, user.id)
       }
 
       const newUser = await this.createUser(email)
-      return await this.createSessionProgress(scriptId, newUser.id)
+      const progress = await this.createSessionProgress(scriptId, newUser.id)
+      return await this.getSessionProgressById(progress.id);
     }
-    return await this.createSessionProgress(scriptId)
+    const progress = await this.createSessionProgress(scriptId)
+    return await this.getSessionProgressById(progress.id);
   }
 
   private async createSessionProgress(scriptId: string, userId?: string) {
@@ -41,6 +42,10 @@ class SessionProgressService {
   private async getUserByEmail(email: string) {
     return (await SessionUser.query()
       .where('email', email))[0]
+  }
+
+  private async getSessionProgressById(id: string) {
+    return await SessionProgress.query().findById(id)
   }
 
   private async getSessionProgress(scriptId: string, userId: string) {
