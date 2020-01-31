@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components';
-import { MessageItem } from '../../../../types/scriptTypes';
 import ItemWrap from './ItemWrap';
 
 const Bubble = styled.span`
@@ -11,10 +10,10 @@ const Bubble = styled.span`
   line-height: 1.3;
 `;
 
-const BotMessage: React.FunctionComponent<{ item: MessageItem }> = ({ item }) => {
+const BotMessage: React.FunctionComponent<{ message: string }> = ({ message }) => {
   return (
     <ItemWrap>
-      <Bubble>{item.message}</Bubble>
+      <Bubble>{message}</Bubble>
     </ItemWrap>
   ) 
 }

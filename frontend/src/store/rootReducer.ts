@@ -4,8 +4,8 @@ import scriptReducer from './slices/script'
 import sessionProgressReducer from './slices/sessionProgress'
 
 const rootReducer = combineReducers({
-  script: scriptReducer,
-  sessionProgress: sessionProgressReducer
+  scriptStore: scriptReducer,
+  sessionProgressStore: sessionProgressReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -8,7 +8,7 @@ import Commented from './item-types/Commented'
 const ProgressedItem: React.FunctionComponent<{ itemProgress: ProgressItem }> = ({ itemProgress }) => {  
   switch (itemProgress.type) {
     case ScriptItemType.Message:
-      return <BotMessage item={itemProgress.item} />
+      return <BotMessage message={itemProgress.item.message} />
     case ScriptItemType.ChooseResponse:
       return <ChosenResponse itemProgress={itemProgress} />
     case ScriptItemType.Comment:

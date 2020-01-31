@@ -16,7 +16,7 @@ const NextItem: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
   switch (item.type) {
     case ScriptItemType.Message:
       dispatch(progressItemOnTimer({ type: ScriptItemType.Message, item }))
-      return <BotMessage item={item} />
+      return <BotMessage message={item.message} />
     case ScriptItemType.ChooseResponse:
       return <ChooseResponse item={item} />
     case ScriptItemType.Comment:

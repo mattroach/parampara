@@ -1,4 +1,5 @@
 import { logger } from './Logger';
+import { v4 as uuidv4 } from 'uuid';
 
 export const paramMissingError = 'One or more of the required parameters was missing.';
 
@@ -8,6 +9,6 @@ export const pErr = (err: Error) => {
     }
 };
 
-export const getRandomInt = () => {
-    return Math.floor(Math.random() * 1_000_000_000_000);
+export const uuid = () => {
+  return uuidv4();
 };

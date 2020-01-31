@@ -1,33 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SessionProgress, ProgressItem } from '../../types/sessionProgress';
+
+import axios from 'axios';
+
+import { SessionProgressStore, SessionProgress, ProgressItem } from '../../types/sessionProgress';
 import { ScriptItemType } from '../../types/scriptTypes';
 import { AppThunk } from '../store';
 
-let initialState: SessionProgress = {
+let initialState: SessionProgressStore = {
   currentItemProcessed: false,
-  currentItemId: 0,
-  items: []
 }
 
 const sessionProgressSlice = createSlice({
   name: 'sessionProgress',
   initialState,
   reducers: {
+    updateProgress(state, action: PayloadAction<SessionProgress>) {
+      state.progress = action.payload
+    },
     progressItem(state, action: PayloadAction<ProgressItem>) {
+      if (!state.progress) {
+        throw new Error('Trying to progress item when no progress is loaded yet');
+      }
+
       const { payload } = action
-      state.items = state.items.concat([payload])
+      state.progress.items = state.progress.items.concat([payload])
       state.currentItemProcessed = true
     },
     incrementCurrentItem(state, action: PayloadAction<number | undefined>) {
+      if (!state.progress) {
+        throw new Error('Trying to progress item id when no progress is loaded yet');
+      }
+
       const nextId = action.payload
 
-      state.currentItemId = nextId ? nextId : state.currentItemId + 1
+      state.progress.currentItemId = nextId ? nextId : state.progress.currentItemId + 1
       state.currentItemProcessed = false
     }
   }
 })
 
 export const {
+  updateProgress,
   progressItem,
   incrementCurrentItem: progressCurrentItem,
 } = sessionProgressSlice.actions
@@ -50,4 +63,17 @@ export const progressItemOnTimer = (
   setTimeout(() => {
     dispatch(progressCurrentItem(nextId))
   }, 2000)
+}
+
+// Will load (if exists) or create the progress
+export const loadProgress = (
+  scriptId: string,
+  email?: string
+): AppThunk => async dispatch => {
+  axios.post('/api/sessionProgress/', {email, scriptId})
+    .then((response) => {
+      const progress: SessionProgress = response.data;
+
+      dispatch(updateProgress(progress))
+    })
 }

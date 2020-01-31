@@ -5,7 +5,8 @@ import * as styles from './ChatSessionPage.styles';
 import { RootState } from '../../store/rootReducer';
 import ProgressedItem from './components/ProgressedItem';
 import NextItem from './components/NextItem';
-import {loadScript} from '../../store/slices/script'
+import { loadScript } from '../../store/slices/script'
+import UserIdentification from './components/UserIdentification';
 
 type State = {
 
@@ -23,27 +24,35 @@ class ChatSessionPage extends React.Component<Props, State> {
   }
 
   render() {
-    const { sessionProgress, nextItem, scriptId } = this.props;
+    const { progress, nextItem, currentItemProcessed, scriptLoaded} = this.props;
 
-    const showNextItem = nextItem && !sessionProgress.currentItemProcessed
+    if (!scriptLoaded) {
+      return <styles.Wrapper></styles.Wrapper>
+    }
+
+    const showNextItem = nextItem && progress && !currentItemProcessed
 
     return (
       <styles.Wrapper>
-        {sessionProgress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
-        {showNextItem && <NextItem item={nextItem} />}
+        <UserIdentification />
+        {progress && progress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
+        {showNextItem && nextItem && <NextItem item={nextItem} />}
       </styles.Wrapper>
     )
   }
 }
 
 function mapStateToProps(state: RootState) {
-  const { sessionProgress, script } = state;
+  const { progress, currentItemProcessed } = state.sessionProgressStore;
+  const { script } = state.scriptStore;
 
-  return {
-    sessionProgress,
-    nextItem: script.items[sessionProgress.currentItemId]
+  let nextItem;
+  if (script && progress) {
+    nextItem = script.content.items[progress.currentItemId]
   }
+
+  return { progress, nextItem, currentItemProcessed, scriptLoaded: !!script }
 }
 
 // @ts-ignore
-export default connect(mapStateToProps, {loadScript})(ChatSessionPage)
+export default connect(mapStateToProps, { loadScript })(ChatSessionPage)

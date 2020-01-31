@@ -1,7 +1,13 @@
 import { ScriptItemType, MessageItem, ChooseResponseItem, CommentItem } from "./scriptTypes";
 
-export type SessionProgress = {
+
+export type SessionProgressStore = {
   currentItemProcessed: boolean;
+  progress?: SessionProgress;
+};
+
+export type SessionProgress = {
+  id: string;
   currentItemId: number;
   items: ProgressItem[];
 };

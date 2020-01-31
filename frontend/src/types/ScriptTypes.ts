@@ -1,7 +1,16 @@
 
 
+export type ScriptStore = {
+  script?: Script;
+}
+
 export type Script = {
-  items: ScriptItem[];
+  id: string;
+  scriptId: string;
+  allowAnon: boolean;
+  content: {
+    items: ScriptItem[];
+  }
 }
 
 export type ScriptItem = MessageItem | ChooseResponseItem | CommentItem;

@@ -15,6 +15,20 @@ CREATE TABLE script_version (
   allow_anon boolean DEFAULT TRUE
 );
 
+CREATE TABLE "session_user" (
+  id uuid PRIMARY KEY NOT NULL,
+  created timestamp DEFAULT now(),
+  email varchar(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE session_progress (
+  id uuid PRIMARY KEY NOT NULL,
+  session_user_id uuid NOT NULL REFERENCES "session_user"(id),
+  script_id uuid NOT NULL REFERENCES script(id),
+  created timestamp DEFAULT now(),
+  progress text NOT NULL
+);
+
 -- test data
 INSERT INTO
   public.script (id)
@@ -28,6 +42,7 @@ INSERT INTO
     version,
     title,
     reporting_email,
+    allow_anon,
     content
   )
 VALUES
@@ -37,5 +52,6 @@ VALUES
     1,
     'the title' :: character varying(100),
     'jonah@getparampara.com' :: character varying(100),
+    FALSE,
     '{"items":[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?"},{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":5}]},{"type":"Message","message":"Nice to hear!","nextId":6},{"type":"Message","message":"Sorry to hear that."},{"type":"Message","message":"I am emailing you a document. What do you think about that?"},{"type":"Comment"},{"type":"Message","message":"Good bye!"}]}' :: text
   ) returning id;

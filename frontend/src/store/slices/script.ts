@@ -2,20 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import axios from 'axios';
 
-import { Script } from '../../types/scriptTypes'
+import { ScriptStore, Script } from '../../types/scriptTypes'
 import { AppThunk } from '../store';
 
-let initialState: Script = {
-  items: []
-};
+let initialState: ScriptStore = {};
 
 const scriptSlice = createSlice({
   name: 'script',
   initialState,
   reducers: {
     updateScript(state, action: PayloadAction<Script>) {
-      state.items = action.payload.items;
-      console.log('new state', state)
+      state.script = action.payload
     },
   }
 })
@@ -32,6 +29,8 @@ export const loadScript = (
 
   axios.get(`/api/script/${scriptId}`)
     .then((response) => {
-      dispatch(updateScript(response.data.content))
+      const script: Script = response.data;
+
+      dispatch(updateScript(script))
     })
 }
