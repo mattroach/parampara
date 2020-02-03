@@ -1,42 +1,40 @@
 
 
 export type ScriptStore = {
-  script?: Script;
+  script?: Script
 }
 
 export type Script = {
-  id: string;
-  scriptId: string;
-  allowAnon: boolean;
-  content: {
-    items: ScriptItem[];
-  }
+  id: string
+  scriptId: string
+  allowAnon: boolean
+  items: ScriptItem[]
 }
 
-export type ScriptItem = MessageItem | ChooseResponseItem | CommentItem;
+export type ScriptItem = MessageItem | ChooseResponseItem | CommentItem
 
 export enum ScriptItemType {
   Message = 'Message', Image = 'Image', ChooseResponse = 'ChooseResponse', Comment = 'Comment'
 }
 
 export type MessageItem = {
-  type: ScriptItemType.Message;
-  message: string;
-  nextId?: number;
+  type: ScriptItemType.Message
+  message: string
+  nextId?: number
 }
 
 export type CommentItem = {
-  type: ScriptItemType.Comment;
+  type: ScriptItemType.Comment
 }
 
 export type ChooseResponseItem = {
-  type: ScriptItemType.ChooseResponse;
-  responses: ResponseChoice[];
+  type: ScriptItemType.ChooseResponse
+  responses: ResponseChoice[]
 }
 
 export type ResponseChoice = {
-  message: string;
-  nextId?: number;
+  message: string
+  nextId?: number
 }
 
 // const exampleScript: Script = {

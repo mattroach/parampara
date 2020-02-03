@@ -10,6 +10,7 @@ import { Model, knexSnakeCaseMappers } from 'objection'
 
 // Init db stuff
 const knex = Knex({
+  debug: true,
   client: 'pg',
   connection: 'postgres://postgres:parampara@localhost/postgres', // process.env.DATABASE_URL
   ...knexSnakeCaseMappers()

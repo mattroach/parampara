@@ -11,7 +11,7 @@ CREATE TABLE script_version (
   created timestamp NOT NULL DEFAULT now(),
   title varchar(100) NOT NULL,
   reporting_email varchar(100) NOT NULL,
-  content text NOT NULL,
+  items text NOT NULL,
   allow_anon boolean DEFAULT TRUE
 );
 
@@ -44,7 +44,7 @@ INSERT INTO
     title,
     reporting_email,
     allow_anon,
-    content
+    items
   )
 VALUES
   (

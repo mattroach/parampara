@@ -3,6 +3,17 @@ import SessionProgress from 'src/models/SessionProgress'
 import { uuid } from '@shared'
 
 class SessionProgressService {
+  async updateSessionProgress(sessionId: string, currentItemId: number, items: any[]) {
+    const numUpdated = await SessionProgress.query()
+      .findById(sessionId)
+      .patch({ currentItemId, items })
+    
+    console.log(numUpdated)
+
+    if (numUpdated === 0)
+      throw Error(`session ID ${sessionId} not found`)
+  }
+
   async getOrCreateSessionProgress(scriptId: string, email?: string): Promise<SessionProgress> {
     if (email) {
       const user = await this.getUserByEmail(email)
@@ -18,10 +29,10 @@ class SessionProgressService {
 
       const newUser = await this.createUser(email)
       const progress = await this.createSessionProgress(scriptId, newUser.id)
-      return await this.getSessionProgressById(progress.id);
+      return await this.getSessionProgressById(progress.id)
     }
     const progress = await this.createSessionProgress(scriptId)
-    return await this.getSessionProgressById(progress.id);
+    return await this.getSessionProgressById(progress.id)
   }
 
   private async createSessionProgress(scriptId: string, userId?: string) {

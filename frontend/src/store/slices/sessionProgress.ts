@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import axios from 'axios';
+import axios from 'axios'
+import { throttle } from 'throttle-debounce'
 
-import { SessionProgressStore, SessionProgress, ProgressItem } from '../../types/sessionProgress';
-import { ScriptItemType } from '../../types/scriptTypes';
-import { AppThunk } from '../store';
+import { SessionProgressStore, SessionProgress, ProgressItem } from '../../types/sessionProgress'
+import { ScriptItemType } from '../../types/scriptTypes'
+import { AppThunk } from '../store'
 
 let initialState: SessionProgressStore = {
   currentItemProcessed: false,
@@ -19,7 +20,7 @@ const sessionProgressSlice = createSlice({
     },
     progressItem(state, action: PayloadAction<ProgressItem>) {
       if (!state.progress) {
-        throw new Error('Trying to progress item when no progress is loaded yet');
+        throw new Error('Trying to progress item when no progress is loaded yet')
       }
 
       const { payload } = action
@@ -28,7 +29,7 @@ const sessionProgressSlice = createSlice({
     },
     incrementCurrentItem(state, action: PayloadAction<number | undefined>) {
       if (!state.progress) {
-        throw new Error('Trying to progress item id when no progress is loaded yet');
+        throw new Error('Trying to progress item id when no progress is loaded yet')
       }
 
       const nextId = action.payload
@@ -39,17 +40,17 @@ const sessionProgressSlice = createSlice({
   }
 })
 
-export const {
+const {
   updateProgress,
   progressItem,
-  incrementCurrentItem: progressCurrentItem,
+  incrementCurrentItem,
 } = sessionProgressSlice.actions
 
 export default sessionProgressSlice.reducer
 
 export const progressItemOnTimer = (
   itemProgress: ProgressItem
-): AppThunk => async dispatch => {
+): AppThunk => async (dispatch, getState) => {
   dispatch(progressItem(itemProgress))
 
   let nextId: number | undefined
@@ -61,7 +62,10 @@ export const progressItemOnTimer = (
   }
 
   setTimeout(() => {
-    dispatch(progressCurrentItem(nextId))
+    dispatch(incrementCurrentItem(nextId))
+
+    console.log('invoking throttled func')
+    updateProgressOnServer(getState)
   }, 2000)
 }
 
@@ -70,10 +74,21 @@ export const loadProgress = (
   scriptId: string,
   email?: string
 ): AppThunk => async dispatch => {
-  axios.post('/api/sessionProgress/', {email, scriptId})
+  axios.post('/api/sessionProgress/', { email, scriptId })
     .then((response) => {
-      const progress: SessionProgress = response.data;
+      const progress: SessionProgress = response.data
 
       dispatch(updateProgress(progress))
     })
 }
+
+const updateProgressOnServer = throttle(3000, false, (getState) => {
+  console.log('throttled func is called')
+  const { progress } = getState().sessionProgressStore
+
+  if (!progress)
+    throw Error('No progress available')
+
+  const { currentItemId, items } = progress
+  axios.put(`/api/sessionProgress/${progress.id}`, { currentItemId, items })
+})
