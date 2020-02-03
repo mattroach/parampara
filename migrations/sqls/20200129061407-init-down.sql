@@ -5,3 +5,4 @@ DROP TABLE "session_user";
 
 DROP TABLE script_version;
 DROP TABLE script;
+DROP TABLE "admin";

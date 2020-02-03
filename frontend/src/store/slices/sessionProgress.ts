@@ -51,7 +51,7 @@ const {
 
 export default sessionProgressSlice.reducer
 
-export const progressItemOnTimer = (
+export const progressItemAndDelayNext = (
   itemProgress: ProgressItem
 ): AppThunk => async (dispatch, getState) => {
   dispatch(progressItem(itemProgress))

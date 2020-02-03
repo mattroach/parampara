@@ -5,7 +5,7 @@ import { ChooseResponseItem } from '../../../../types/scriptTypes';
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
-import { progressItemOnTimer } from '../../../../store/slices/sessionProgress';
+import { progressItemAndDelayNext } from '../../../../store/slices/sessionProgress';
 import ItemWrap from './ItemWrap';
 
 const Wrapper = styled(ItemWrap)`
@@ -30,7 +30,7 @@ const ResponseButton = styled(Button)`
 
 type Props = {
   item: ChooseResponseItem;
-  progressItemOnTimer: typeof progressItemOnTimer;
+  progressItemAndDelayNext: typeof progressItemAndDelayNext;
 };
 
 class ChooseResponse extends React.Component<Props, {}> {
@@ -40,7 +40,7 @@ class ChooseResponse extends React.Component<Props, {}> {
     
     const { item } = this.props;
 
-    this.props.progressItemOnTimer({
+    this.props.progressItemAndDelayNext({
       type: item.type,
       progress: { choice },
       item
@@ -59,4 +59,4 @@ class ChooseResponse extends React.Component<Props, {}> {
 }
 
 // @ts-ignore
-export default connect(null, {progressItemOnTimer})(ChooseResponse)
+export default connect(null, {progressItemAndDelayNext})(ChooseResponse)
