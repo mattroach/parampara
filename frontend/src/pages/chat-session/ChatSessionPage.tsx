@@ -1,36 +1,36 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
-import * as styles from './ChatSessionPage.styles';
-import { RootState } from '../../store/rootReducer';
-import ProgressedItem from './components/ProgressedItem';
-import NextItem from './components/NextItem';
+import * as styles from './ChatSessionPage.styles'
+import { RootState } from '../../store/rootReducer'
+import ProgressedItem from './components/ProgressedItem'
+import NextItem from './components/NextItem'
 import { loadScript } from '../../store/slices/script'
-import UserIdentification from './components/UserIdentification';
+import UserIdentification from './components/UserIdentification'
 
 type State = {
 
-};
+}
 
 type Props = {
-  loadScript: typeof loadScript;
-  scriptId: string;
-} & ReturnType<typeof mapStateToProps>;
+  loadScript: typeof loadScript
+  scriptId: string
+} & ReturnType<typeof mapStateToProps>
 
 class ChatSessionPage extends React.Component<Props, State> {
 
   componentDidMount() {
-    this.props.loadScript(this.props.scriptId);
+    this.props.loadScript(this.props.scriptId)
   }
 
   render() {
-    const { progress, nextItem, currentItemProcessed, scriptLoaded} = this.props;
+    const { progress, nextItem, scriptLoaded, currentItemDelaying } = this.props
 
     if (!scriptLoaded) {
       return <styles.Wrapper></styles.Wrapper>
     }
 
-    const showNextItem = nextItem && progress && !currentItemProcessed
+    const showNextItem = nextItem && progress && !currentItemDelaying
 
     return (
       <styles.Wrapper>
@@ -43,15 +43,15 @@ class ChatSessionPage extends React.Component<Props, State> {
 }
 
 function mapStateToProps(state: RootState) {
-  const { progress, currentItemProcessed } = state.sessionProgressStore;
-  const { script } = state.scriptStore;
+  const { progress, currentItemDelaying } = state.sessionProgressStore
+  const { script } = state.scriptStore
 
-  let nextItem;
+  let nextItem
   if (script && progress) {
     nextItem = script.items[progress.currentItemId]
   }
 
-  return { progress, nextItem, currentItemProcessed, scriptLoaded: !!script }
+  return { progress, nextItem, scriptLoaded: !!script, currentItemDelaying }
 }
 
 // @ts-ignore

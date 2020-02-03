@@ -8,7 +8,7 @@ import { ScriptItemType } from '../../types/scriptTypes'
 import { AppThunk } from '../store'
 
 let initialState: SessionProgressStore = {
-  currentItemProcessed: false,
+  currentItemDelaying: false
 }
 
 const sessionProgressSlice = createSlice({
@@ -19,23 +19,26 @@ const sessionProgressSlice = createSlice({
       state.progress = action.payload
     },
     progressItem(state, action: PayloadAction<ProgressItem>) {
-      if (!state.progress) {
+      const {progress} = state
+      if (!progress) {
         throw new Error('Trying to progress item when no progress is loaded yet')
       }
 
-      const { payload } = action
-      state.progress.items = state.progress.items.concat([payload])
-      state.currentItemProcessed = true
-    },
-    incrementCurrentItem(state, action: PayloadAction<number | undefined>) {
-      if (!state.progress) {
-        throw new Error('Trying to progress item id when no progress is loaded yet')
+      const itemProgress = action.payload
+      let nextId: number | undefined
+      if (itemProgress.type === ScriptItemType.ChooseResponse) {
+        const choice = itemProgress.progress.choice
+        nextId = itemProgress.item.responses[choice].nextId
+      } else if (itemProgress.type === ScriptItemType.Message) {
+        nextId = itemProgress.item.nextId
       }
 
-      const nextId = action.payload
-
-      state.progress.currentItemId = nextId ? nextId : state.progress.currentItemId + 1
-      state.currentItemProcessed = false
+      progress.items = progress.items.concat([itemProgress])
+      progress.currentItemId = nextId ? nextId : progress.currentItemId + 1
+      state.currentItemDelaying = true
+    },
+    endDelay(state) {
+      state.currentItemDelaying = false
     }
   }
 })
@@ -43,7 +46,7 @@ const sessionProgressSlice = createSlice({
 const {
   updateProgress,
   progressItem,
-  incrementCurrentItem,
+  endDelay
 } = sessionProgressSlice.actions
 
 export default sessionProgressSlice.reducer
@@ -53,20 +56,11 @@ export const progressItemOnTimer = (
 ): AppThunk => async (dispatch, getState) => {
   dispatch(progressItem(itemProgress))
 
-  let nextId: number | undefined
-  if (itemProgress.type === ScriptItemType.ChooseResponse) {
-    const choice = itemProgress.progress.choice
-    nextId = itemProgress.item.responses[choice].nextId
-  } else if (itemProgress.type === ScriptItemType.Message) {
-    nextId = itemProgress.item.nextId
-  }
-
   setTimeout(() => {
-    dispatch(incrementCurrentItem(nextId))
-
-    console.log('invoking throttled func')
-    updateProgressOnServer(getState)
+    dispatch(endDelay())
   }, 2000)
+
+  updateProgressOnServer(getState)
 }
 
 // Will load (if exists) or create the progress
@@ -83,7 +77,6 @@ export const loadProgress = (
 }
 
 const updateProgressOnServer = throttle(3000, false, (getState) => {
-  console.log('throttled func is called')
   const { progress } = getState().sessionProgressStore
 
   if (!progress)

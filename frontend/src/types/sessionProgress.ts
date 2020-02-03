@@ -1,32 +1,32 @@
-import { ScriptItemType, MessageItem, ChooseResponseItem, CommentItem } from "./scriptTypes";
+import { ScriptItemType, MessageItem, ChooseResponseItem, CommentItem } from "./scriptTypes"
 
 
 export type SessionProgressStore = {
-  currentItemProcessed: boolean;
-  progress?: SessionProgress;
-};
+  currentItemDelaying: boolean
+  progress?: SessionProgress
+}
 
 export type SessionProgress = {
-  id: string;
-  currentItemId: number;
-  items: ProgressItem[];
-};
+  id: string
+  currentItemId: number
+  items: ProgressItem[]
+}
 
-export type ProgressItem = MessageItemProgress | ChooseResponseItemProgress | CommentItemProgress;
+export type ProgressItem = MessageItemProgress | ChooseResponseItemProgress | CommentItemProgress
 
 export type MessageItemProgress = {
-  type: ScriptItemType.Message;
-  item: MessageItem;
+  type: ScriptItemType.Message
+  item: MessageItem
 }
 
 export type ChooseResponseItemProgress = {
-  type: ScriptItemType.ChooseResponse;
-  item: ChooseResponseItem;
-  progress: {choice: number}
+  type: ScriptItemType.ChooseResponse
+  item: ChooseResponseItem
+  progress: { choice: number }
 }
 
 export type CommentItemProgress = {
-  type: ScriptItemType.Comment;
-  item: CommentItem;
-  progress: {content: string}
+  type: ScriptItemType.Comment
+  item: CommentItem
+  progress: { content: string }
 }
