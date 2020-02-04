@@ -1,6 +1,6 @@
 export type Script = {
   id: string
-  latestVersion: ScriptVersion
+  version: ScriptVersion
 }
 
 export type ScriptVersion = {

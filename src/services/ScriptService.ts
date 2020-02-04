@@ -3,6 +3,9 @@ import ScriptVersion from 'src/models/ScriptVersion';
 
 import { uuid } from '@shared';
 
+export enum ScriptVersionCode {
+  latest = 'latest', draft = 'draft'
+}
 class ScriptService {
   async getScripts(adminId: string) {
     return await Script.query()
@@ -10,14 +13,14 @@ class ScriptService {
       .orderBy('created')
   }
 
-  async getScript(scriptId: string) {
+  async getScript(scriptId: string, versionCode: ScriptVersionCode) {
     const script = await Script.query()
       .findById(scriptId)
-      .withGraphFetched('latestVersion');
-    
-    if (!script.latestVersion)
+      .withGraphFetched(`version(${versionCode})`)
+
+    if (!script.version)
       throw Error('Script is not published')
-    
+
     return script
   }
 

@@ -63,7 +63,7 @@ function mapStateToProps(state: RootState) {
     throw new Error('Script should be loaded');
   
 
-  return { allowAnon: script.latestVersion.allowAnon, scriptId: script.id }
+  return { allowAnon: script.version.allowAnon, scriptId: script.id }
 }
 
 // @ts-ignore

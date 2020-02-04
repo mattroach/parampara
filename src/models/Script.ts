@@ -1,23 +1,27 @@
-import { Model, RelationMappingsThunk } from 'objection';
+import { Model, Modifiers, RelationMappingsThunk } from 'objection';
 
 import ScriptVersion from './ScriptVersion';
 
 export default class Script extends Model {
   id!: string
   adminId!: string
-  latestVersion?: ScriptVersion
+  version?: ScriptVersion
 
   static tableName = 'script'
 
+  static modifiers: Modifiers = {
+    
+  }
+
+
   static relationMappings: RelationMappingsThunk = () => ({
-    latestVersion: {
+    version: {
       relation: Model.HasOneRelation,
       modelClass: ScriptVersion,
       join: {
         from: 'script.id',
         to: 'script_version.scriptId'
-      },
-      modify: builder => builder.where('version', '!=', ScriptVersion.DRAFT_VERSION)
+      }
     }
   });
 }

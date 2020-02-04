@@ -48,7 +48,7 @@ function mapStateToProps(state: RootState) {
 
   let nextItem
   if (script && progress) {
-    nextItem = script.latestVersion.items[progress.currentItemId]
+    nextItem = script.version.items[progress.currentItemId]
   }
 
   return { progress, nextItem, scriptLoaded: !!script, currentItemDelaying }

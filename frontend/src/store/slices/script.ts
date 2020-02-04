@@ -31,7 +31,7 @@ export const loadScript = (
   scriptId: string
 ): AppThunk => async dispatch => {
 
-  axios.get(`/api/script/${scriptId}`)
+  axios.get(`/api/script/${scriptId}`, {params: {version: 'latest'}})
     .then((response) => {
       const script: Script = response.data;
 

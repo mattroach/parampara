@@ -3,7 +3,7 @@ import { Request, Response, Router } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import ScriptVersion from 'src/models/ScriptVersion';
-import scriptService from 'src/services/ScriptService';
+import scriptService, { ScriptVersionCode } from 'src/services/ScriptService';
 
 import { logger } from '@shared';
 
@@ -11,7 +11,7 @@ const router = Router()
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const adminId = req.query.adminId
+    const {adminId} = req.query
 
     if (!adminId)
       throw Error('Must pass in a adminId')
@@ -30,8 +30,11 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params as ParamsDictionary
+    const { version }: { version: ScriptVersionCode } = req.query
+    if (!(version in ScriptVersionCode))
+      throw Error('Bad version')
 
-    const script = await scriptService.getScript(id)
+    const script = await scriptService.getScript(id, version)
 
     return res.status(OK).json(script)
   } catch (err) {

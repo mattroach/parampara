@@ -64,6 +64,25 @@ INSERT INTO
 VALUES
   (
     'f13a7adb-a202-48ae-a739-3b9c2e166a68' :: uuid,
+    'b653c75e-2e5c-4d27-ac57-88ad8c82c925' :: uuid,
+    0,
+    'jonah@getparampara.com' :: character varying(100),
+    FALSE,
+    '[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?"},{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":5}]},{"type":"Message","message":"Nice to hear!","nextId":6},{"type":"Message","message":"Sorry to hear that."},{"type":"Message","message":"I am emailing you a document. What do you think about that?"},{"type":"Comment"},{"type":"Message","message":"Good bye!"}]' :: text
+  ) returning id;
+
+INSERT INTO
+  public.script_version (
+    script_id,
+    id,
+    version,
+    reporting_email,
+    allow_anon,
+    items
+  )
+VALUES
+  (
+    'f13a7adb-a202-48ae-a739-3b9c2e166a68' :: uuid,
     'b653c75e-2e5c-4d27-ac57-88ad8c82c926' :: uuid,
     1,
     'jonah@getparampara.com' :: character varying(100),
