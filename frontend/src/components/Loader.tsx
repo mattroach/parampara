@@ -1,12 +1,11 @@
 import React from 'react'
-
-import styled from 'styled-components'
-
 import Spinner from 'react-bootstrap/Spinner'
+import styled from 'styled-components'
 
 
 const Wrapper = styled.div`
   text-align: center;
+  padding: 10px 0;
 `
 
 type State = {

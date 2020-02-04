@@ -27,7 +27,7 @@ class CreateScriptButton extends React.Component<Props, State> {
     axios.post('/api/script', { adminId })
       .then((response) => {
         const scriptId = response.data.id
-        this.props.history.push(`/builder/${adminId}/${scriptId}`)
+        this.props.history.push(`/builder/${adminId}/${scriptId}/create`)
       })
   }
 

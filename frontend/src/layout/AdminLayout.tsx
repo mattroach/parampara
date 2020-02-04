@@ -5,12 +5,8 @@ import styled from 'styled-components';
 import { RootState } from '../store/rootReducer';
 import { loadAdmin } from '../store/slices/admin';
 import AppNavBar from './AppNavBar';
-import Loader from './Loader';
+import Loader from '../components/Loader';
 
-export const Wrapper = styled.section`
-  margin: 20px;
-  max-width: 1000px;
-`
 
 type Props = {
   adminId: string
@@ -31,9 +27,7 @@ class AdminLayout extends React.Component<Props, {}> {
     return (
       <>
         <AppNavBar extra={this.props.navbarExtra} />
-        <Wrapper>
-          {this.props.children}
-        </Wrapper>
+        {this.props.children}
       </>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, useParams } from 'react-router-dom';
 
-import AdminPage from './pages/admin/AdminPage';
+import ScriptDirectory from './pages/script-directory/ScriptDirectory';
 import BuilderOldPage from './pages/builder-old/BuilderPage';
 import BuilderPage from './pages/builder/BuilderPage';
 import ChatSessionPage from './pages/chat-session/ChatSessionPage';
@@ -11,7 +11,7 @@ export default function App() {
     <Router>
       <div>
         <Switch>
-          <Route path="/builder/:adminId/:scriptId">
+          <Route path="/builder/:adminId/:scriptId/create">
             <BuilderRoute />
           </Route>
           <Route path="/builder-old">
@@ -33,9 +33,9 @@ const ChatSessionRoute: React.FunctionComponent = () =>
   <ChatSessionPage scriptId={(useParams() as any).id} />
 
 const AdminRoute: React.FunctionComponent = () =>
-  <AdminPage adminId={(useParams() as any).id} />
+  <ScriptDirectory adminId={(useParams() as any).id} />
 
 const BuilderRoute: React.FunctionComponent = () => {
   const params = (useParams() as any)
-  return <BuilderPage adminId={params.adminId} scriptId={params.scriptId} />
+  return <BuilderPage adminId={params.adminId} scriptId={params.scriptId}  />
 }

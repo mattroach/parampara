@@ -52,7 +52,7 @@ class Scripts extends React.Component<Props, State> {
         </thead>
         <tbody>
           {scripts.map((script, i) => <tr key={i}>
-            <td><Link to={`/builder/${adminId}/${script.id}`}>
+            <td><Link to={`/builder/${adminId}/${script.id}/create`}>
               {script.title ? script.title : 'Unnamed script'}
             </Link></td>
             <td><DateFormatted datetime={script.created} /></td>

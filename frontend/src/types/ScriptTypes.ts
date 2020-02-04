@@ -1,6 +1,7 @@
 export type Script = {
   id: string
   version: ScriptVersion
+  title: string
 }
 
 export type ScriptVersion = {

@@ -1,15 +1,15 @@
-import axios from 'axios';
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import * as api from '../../api'
+import { Script } from '../../types/scriptTypes'
+import { AppThunk } from '../store'
 
-import { Script } from '../../types/scriptTypes';
-import { AppThunk } from '../store';
 
 export type ScriptStore = {
   script?: Script
 }
 
-let initialState: ScriptStore = {};
+let initialState: ScriptStore = {}
 
 const scriptSlice = createSlice({
   name: 'script',
@@ -21,7 +21,7 @@ const scriptSlice = createSlice({
   }
 })
 
-export const {
+const {
   updateScript,
 } = scriptSlice.actions
 
@@ -30,11 +30,6 @@ export default scriptSlice.reducer
 export const loadScript = (
   scriptId: string
 ): AppThunk => async dispatch => {
-
-  axios.get(`/api/script/${scriptId}`, {params: {version: 'latest'}})
-    .then((response) => {
-      const script: Script = response.data;
-
-      dispatch(updateScript(script))
-    })
+  const script = await api.getScript(scriptId, 'latest')
+  dispatch(updateScript(script))
 }
