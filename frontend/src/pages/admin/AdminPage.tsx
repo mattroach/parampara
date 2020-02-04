@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/Button'
 
 import * as styles from './AdminPage.styles'
 
+import AdminLayout from '../../components/AdminLayout'
 import {loadAdmin} from '../../store/slices/admin'
 import { RootState } from '../../store/rootReducer'
-import AppNavBar from '../../components/AppNavBar'
 import Scripts from './components/Scripts'
 import Loader from '../../components/Loader'
 
@@ -31,14 +31,13 @@ class AdminPage extends React.Component<Props, State> {
       return <Loader />
 
     return (
-      <styles.Wrapper>
-        <AppNavBar />
-        <styles.Header>Your Paramparas</styles.Header>
+      <AdminLayout>
+        <h2>Your Paramparas</h2>
         <styles.AddNewButton>
           <Button variant="secondary">Create a new Parampara</Button>
         </styles.AddNewButton>
         <Scripts adminId={this.props.adminId} />
-      </styles.Wrapper>
+      </AdminLayout>
     )
   }
 }
