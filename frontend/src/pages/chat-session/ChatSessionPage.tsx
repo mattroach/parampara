@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
-import * as styles from './ChatSessionPage.styles'
-import { RootState } from '../../store/rootReducer'
-import ProgressedItem from './components/ProgressedItem'
-import NextItem from './components/NextItem'
-import { loadScript } from '../../store/slices/script'
-import UserIdentification from './components/UserIdentification'
+import { RootState } from '../../store/rootReducer';
+import { loadScript } from '../../store/slices/script';
+import * as styles from './ChatSessionPage.styles';
+import NextItem from './components/NextItem';
+import ProgressedItem from './components/ProgressedItem';
+import UserIdentification from './components/UserIdentification';
 
 type State = {
 
@@ -48,7 +48,7 @@ function mapStateToProps(state: RootState) {
 
   let nextItem
   if (script && progress) {
-    nextItem = script.items[progress.currentItemId]
+    nextItem = script.latestVersion.items[progress.currentItemId]
   }
 
   return { progress, nextItem, scriptLoaded: !!script, currentItemDelaying }

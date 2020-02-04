@@ -1,10 +1,11 @@
 
-import { logger } from '@shared'
-import { Request, Response, Router } from 'express'
-import { BAD_REQUEST, OK } from 'http-status-codes'
-import { ParamsDictionary } from 'express-serve-static-core'
-import ScriptVersion from 'src/models/ScriptVersion'
-import scriptService from 'src/services/ScriptService'
+import { Request, Response, Router } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { BAD_REQUEST, OK } from 'http-status-codes';
+import ScriptVersion from 'src/models/ScriptVersion';
+import scriptService from 'src/services/ScriptService';
+
+import { logger } from '@shared';
 
 const router = Router()
 
@@ -16,7 +17,7 @@ router.get('/', async (req: Request, res: Response) => {
       throw Error('Must pass in a adminId')
 
     const scripts = await scriptService.getScripts(adminId)
-    
+
     return res.status(OK).json(scripts)
   } catch (err) {
     logger.error(err.message, err)
@@ -30,14 +31,9 @@ router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params as ParamsDictionary
 
-    const scriptsResult = await ScriptVersion.query()
-      .where('scriptId', id)
-      .where('version', '!=', ScriptVersion.DRAFT_VERSION)
-      .orderBy('version')
-      .limit(1)
-    const scriptResult = scriptsResult[0]
+    const script = await scriptService.getScript(id)
 
-    return res.status(OK).json(scriptResult)
+    return res.status(OK).json(script)
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
@@ -45,5 +41,24 @@ router.get('/:id', async (req: Request, res: Response) => {
     })
   }
 })
+
+router.post('/', async (req: Request, res: Response) => {
+  try {
+    const adminId: string = req.body.adminId
+
+    if (!adminId)
+      throw Error('Must pass in a adminId')
+
+    const script = await scriptService.createScript(adminId)
+
+    return res.status(OK).json(script)
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    })
+  }
+})
+
 
 export default router

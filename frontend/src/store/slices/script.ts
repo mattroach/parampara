@@ -1,9 +1,13 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
 import axios from 'axios';
 
-import { ScriptStore, Script } from '../../types/scriptTypes'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { Script } from '../../types/scriptTypes';
 import { AppThunk } from '../store';
+
+export type ScriptStore = {
+  script?: Script
+}
 
 let initialState: ScriptStore = {};
 

@@ -1,15 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import Table from 'react-bootstrap/Table';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import styled from 'styled-components'
-
-import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
-import Spinner from 'react-bootstrap/Spinner'
-
-import { loadScripts } from '../../../store/slices/scripts'
-import { RootState } from '../../../store/rootReducer'
-import { Link } from 'react-router-dom'
+import { RootState } from '../../../store/rootReducer';
+import { loadScripts } from '../../../store/slices/scripts';
 
 const StyledTable = styled(Table)`
   td {
@@ -38,7 +36,7 @@ class Scripts extends React.Component<Props, State> {
 
 
   render() {
-    const { scripts } = this.props
+    const { adminId, scripts } = this.props
 
     if (!scripts)
       return <Spinner animation="border" />
@@ -54,7 +52,9 @@ class Scripts extends React.Component<Props, State> {
         </thead>
         <tbody>
           {scripts.map((script, i) => <tr key={i}>
-            <td><Link to={'/builder/' + script.id}>{script.title}</Link></td>
+            <td><Link to={`/builder/${adminId}/${script.id}`}>
+              {script.title ? script.title : 'Unnamed script'}
+            </Link></td>
             <td><DateFormatted datetime={script.created} /></td>
             <th><Button variant="danger" size="sm">Delete</Button></th>
           </tr>)}

@@ -9,7 +9,7 @@ CREATE TABLE "admin" (
 CREATE TABLE script (
   id uuid PRIMARY KEY NOT NULL,
   admin_id uuid NOT NULL REFERENCES "admin"(id),
-  title varchar(100) NOT NULL,
+  title varchar(100) NOT NULL DEFAULT '',
   created timestamp DEFAULT now()
 );
 
@@ -18,8 +18,8 @@ CREATE TABLE script_version (
   script_id uuid NOT NULL REFERENCES script(id),
   version integer NOT NULL,
   created timestamp NOT NULL DEFAULT now(),
-  reporting_email varchar(100) NOT NULL,
-  items text NOT NULL,
+  reporting_email varchar(100),
+  items text NOT NULL default '[]',
   allow_anon boolean DEFAULT TRUE
 );
 

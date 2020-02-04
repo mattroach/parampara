@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { RootState } from '../../../store/rootReducer';
-import BotMessage from './item-types/BotMessage';
-import TextInput from './item-types/TextInput';
-import HumanBubble from './item-types/HumanBubble';
 import { loadProgress } from '../../../store/slices/sessionProgress';
+import BotMessage from './item-types/BotMessage';
+import HumanBubble from './item-types/HumanBubble';
+import TextInput from './item-types/TextInput';
 
 type State = {
   askEmail: boolean;
@@ -62,7 +63,7 @@ function mapStateToProps(state: RootState) {
     throw new Error('Script should be loaded');
   
 
-  return { allowAnon: script.allowAnon, scriptId: script.scriptId }
+  return { allowAnon: script.latestVersion.allowAnon, scriptId: script.id }
 }
 
 // @ts-ignore

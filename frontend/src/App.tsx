@@ -1,23 +1,21 @@
-import React from "react"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useParams
-} from "react-router-dom"
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, useParams } from 'react-router-dom';
 
-import BuilderPage from "./pages/builder/BuilderPage"
-import ChatSessionPage from "./pages/chat-session/ChatSessionPage"
-import AdminPage from "./pages/admin/AdminPage"
-
+import AdminPage from './pages/admin/AdminPage';
+import BuilderOldPage from './pages/builder-old/BuilderPage';
+import BuilderPage from './pages/builder/BuilderPage';
+import ChatSessionPage from './pages/chat-session/ChatSessionPage';
 
 export default function App() {
   return (
     <Router>
       <div>
         <Switch>
-          <Route path="/builder">
-            <BuilderPage />
+          <Route path="/builder/:adminId/:scriptId">
+            <BuilderRoute />
+          </Route>
+          <Route path="/builder-old">
+            <BuilderOldPage />
           </Route>
           <Route path="/u/:id">
             <AdminRoute />
@@ -36,3 +34,8 @@ const ChatSessionRoute: React.FunctionComponent = () =>
 
 const AdminRoute: React.FunctionComponent = () =>
   <AdminPage adminId={(useParams() as any).id} />
+
+const BuilderRoute: React.FunctionComponent = () => {
+  const params = (useParams() as any)
+  return <BuilderPage adminId={params.adminId} scriptId={params.scriptId} />
+}

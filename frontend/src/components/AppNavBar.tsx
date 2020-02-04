@@ -1,12 +1,16 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import Navbar from 'react-bootstrap/Navbar'
+import React from 'react';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import { useSelector } from 'react-redux';
 
-import logo from './logo_white.png'
-import { RootState } from '../store/rootReducer'
+import { RootState } from '../store/rootReducer';
+import logo from './logo_white.png';
 
+type Props = {
+  extra: React.ReactNode
+}
 
-const AppNavBar: React.FunctionComponent<{}> = () => {
+const AppNavBar: React.FunctionComponent<Props> = ({extra}) => {
   const email = useSelector((state: RootState) => state.adminStore.admin?.email)
 
   return (
@@ -14,6 +18,7 @@ const AppNavBar: React.FunctionComponent<{}> = () => {
       <Navbar.Brand href="#">
         <img alt="Parampara" src={logo} width={200} />
       </Navbar.Brand>
+      {extra}
       <div className="ml-auto">
         <Navbar.Text>
           Signed in as: <strong>{email}</strong>

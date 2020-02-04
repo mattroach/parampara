@@ -16,7 +16,7 @@ type State = {
 export default class Loader extends React.Component<{}, State> {
 
   componentDidMount() {
-    //should wait 100ms before showing the spinner
+    //TODO should wait 100ms before showing the spinner to prevent flickering
   }
 
   render() {
