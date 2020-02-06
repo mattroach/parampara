@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
+import { updateTitle } from 'store/slices/script'
 
 const StyledTitle = styled(Form.Control)`
   width: 100%;
@@ -15,9 +16,11 @@ type State = {
 }
 
 type Props = {
-} & ReturnType<typeof mapStateToProps>
+} & ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps
 
 class Title extends React.Component<Props, State> {
+  inputRef: React.RefObject<HTMLInputElement> = React.createRef()
+
   state = {
     value: this.props.title
   }
@@ -26,13 +29,26 @@ class Title extends React.Component<Props, State> {
     this.setState({ value: event.target.value })
   }
 
+  saveChanges = () => {
+    this.props.updateTitle(this.props.scriptId, this.state.value)
+  }
+
+  onSubmit = (event: any) => {
+    event.preventDefault()
+    this.inputRef.current?.blur()
+  }
+
   render() {
     return (
-      <StyledTitle
-        size="lg"
-        placeholder="Script title"
-        value={this.state.value}
-        onChange={this.onChange} />
+      <Form onSubmit={this.onSubmit}>
+        <StyledTitle
+          ref={this.inputRef}
+          size="lg"
+          placeholder="Script title"
+          value={this.state.value}
+          onBlur={this.saveChanges}
+          onChange={this.onChange} />
+      </Form>
     )
   }
 }
@@ -43,8 +59,10 @@ function mapStateToProps(state: RootState) {
   if (!script)
     throw Error('Script not loaded')
 
-  return { title: script.title }
+  return { scriptId: script.id, title: script.title }
 }
 
+const mapDispatchToProps = { updateTitle }
+
 // @ts-ignore
-export default connect(mapStateToProps, {})(Title)
+export default connect(mapStateToProps, mapDispatchToProps)(Title)

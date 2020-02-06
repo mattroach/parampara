@@ -92,7 +92,7 @@ function mapStateToProps(state: RootState) {
 
   const lastItem = script.version.items[script.version.items.length - 1]
   return {
-    lastItemIsMessage: lastItem.type == ScriptItemType.Message
+    lastItemIsMessage: lastItem && lastItem.type == ScriptItemType.Message
   }
 }
 

@@ -47,6 +47,11 @@ const scriptSlice = createSlice({
 
       item.responses.unshift({ message: option })
     },
+    _updateTitle(state, action: PayloadAction<string>) {
+      if (!state.script)
+        throw Error('Script not loaded')
+      state.script.title = action.payload
+    }
   }
 })
 
@@ -55,7 +60,8 @@ const {
   clearScript,
   _addItem,
   _updateItem,
-  _appendResponseOption
+  _appendResponseOption,
+  _updateTitle
 } = scriptSlice.actions
 
 export default scriptSlice.reducer
@@ -73,6 +79,11 @@ export const updateItem = (position: number, item: ScriptItem): AppThunk => asyn
 export const appendResponseOption = (position: number, option: string): AppThunk => async (dispatch, getState) => {
   dispatch(_appendResponseOption({ position, option }))
   saveItemsToServer(getState)
+}
+
+export const updateTitle = (scriptId: string, title: string): AppThunk => async (dispatch) => {
+  api.updateScript(scriptId, { title })
+    .then(() => dispatch(_updateTitle(title)))
 }
 
 export const loadScript = (
