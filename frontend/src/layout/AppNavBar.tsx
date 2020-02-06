@@ -1,15 +1,15 @@
-import React from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import { useSelector } from 'react-redux';
+import React from 'react'
+import Navbar from 'react-bootstrap/Navbar'
+import { useSelector } from 'react-redux'
 
-import { RootState } from '../store/rootReducer';
-import logo from './logo_white.png';
+import { RootState } from 'store/rootReducer'
+import logo from './logo_white.png'
 
 type Props = {
   extra: React.ReactNode
 }
 
-const AppNavBar: React.FunctionComponent<Props> = ({extra}) => {
+const AppNavBar: React.FunctionComponent<Props> = ({ extra }) => {
   const email = useSelector((state: RootState) => state.adminStore.admin?.email)
 
   return (

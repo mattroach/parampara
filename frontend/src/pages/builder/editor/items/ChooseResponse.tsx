@@ -1,8 +1,10 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
-import { ChooseResponseItem } from '../../../../types/scriptTypes'
+import { connect } from 'react-redux'
+import { appendResponseOption } from 'store/slices/script'
 import styled from 'styled-components'
-import { ResponseEditField, ResponseBubble, NavId } from './styles'
+import { ChooseResponseItem } from 'types/scriptTypes'
+import { NavId, ResponseBubble, ResponseEditField } from './styles'
 
 const ItemWrap = styled.div`
   margin: 20px 0;
@@ -19,9 +21,8 @@ type State = {
 
 type Props = {
   item: ChooseResponseItem
-  // appendResponseOption: (option: string) => void
-  // editNav: (i: number) => (newVal: number) => void
-}
+  position: number
+} & typeof mapDispatchToProps
 
 class ChooseResponse extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -34,7 +35,7 @@ class ChooseResponse extends React.Component<Props, State> {
   submitNewResponse = (event: any) => {
     event.preventDefault()
 
-    //this.props.appendResponseOption(this.state.responseDraft)
+    this.props.appendResponseOption(this.props.position, this.state.responseDraft)
 
     this.setState({ responseDraft: '' })
   }
@@ -66,9 +67,13 @@ class ChooseResponse extends React.Component<Props, State> {
             </ResponseBubble>
           )
         })}
-     
+
       </ItemWrap>
     )
   }
 }
-export default ChooseResponse
+
+const mapDispatchToProps = { appendResponseOption }
+
+// @ts-ignore
+export default connect(null, mapDispatchToProps)(ChooseResponse)

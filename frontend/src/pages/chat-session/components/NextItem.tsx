@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useDispatch } from 'react-redux'
 
-import { progressItemAndDelayNext } from '../../../store/slices/sessionProgress'
+import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 
 import { ScriptItem, ScriptItemType } from '../../../types/scriptTypes'
 import BotMessage from './item-types/BotMessage'
@@ -22,8 +22,8 @@ const NextItem: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
     case ScriptItemType.Comment:
       return <Comment item={item} />
     default:
-     return <div>Not implemented {item.type}</div>
+      return <div>Not implemented {item.type}</div>
   }
 }
 
-export default NextItem;
+export default NextItem

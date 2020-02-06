@@ -1,14 +1,14 @@
-import MaterialIcon from 'material-icons-react';
-import React from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Form from 'react-bootstrap/Form';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
+import MaterialIcon from 'material-icons-react'
+import React from 'react'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Form from 'react-bootstrap/Form'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import { RootState } from '../../../store/rootReducer';
-import { addItem } from '../../../store/slices/script';
-import { ChooseResponseItem, CommentItem, ScriptItemType } from '../../../types/scriptTypes';
+import { RootState } from 'store/rootReducer'
+import { addItem } from 'store/slices/script'
+import { ChooseResponseItem, CommentItem, ScriptItemType } from '../../../types/scriptTypes'
 
 const StyledForm = styled(Form)`
   float: right;

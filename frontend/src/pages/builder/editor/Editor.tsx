@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/rootReducer'
+import { RootState } from 'store/rootReducer'
 import Item from './Item'
 import MainControls from './MainControls'
 
 
 const Editor: React.FunctionComponent = () => {
-  const items = useSelector((state: RootState) => state.scriptStore.script?.version.items);
+  const items = useSelector((state: RootState) => state.scriptStore.script?.version.items)
 
   if (!items)
     throw Error('Items not loaded')

@@ -14,7 +14,7 @@ type Props = {
 const Item: React.FunctionComponent<Props> = ({ item, position }) => {
   switch (item.type) {
     case ScriptItemType.ChooseResponse:
-      return <ChooseResponse item={item} />
+      return <ChooseResponse item={item} position={position} />
     case ScriptItemType.Comment:
       return <Comment item={item} position={position} />
     case ScriptItemType.Image:

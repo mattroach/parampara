@@ -1,20 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
-import { RootState } from '../../../store/rootReducer';
-import { loadProgress } from '../../../store/slices/sessionProgress';
-import BotMessage from './item-types/BotMessage';
-import HumanBubble from './item-types/HumanBubble';
-import TextInput from './item-types/TextInput';
+import { RootState } from 'store/rootReducer'
+import { loadProgress } from 'store/slices/sessionProgress'
+import BotMessage from './item-types/BotMessage'
+import HumanBubble from './item-types/HumanBubble'
+import TextInput from './item-types/TextInput'
 
 type State = {
-  askEmail: boolean;
-  email?: string;
-};
+  askEmail: boolean
+  email?: string
+}
 
 type Props = {
   loadProgress: typeof loadProgress
-} & ReturnType<typeof mapStateToProps>;
+} & ReturnType<typeof mapStateToProps>
 
 class UserIdentification extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -35,16 +35,16 @@ class UserIdentification extends React.Component<Props, State> {
 
   onSubmit = (email: string) => {
     this.setState({ email, askEmail: false })
-    
+
     this.props.loadProgress(this.props.scriptId, email)
   }
 
   render() {
-    const { allowAnon } = this.props;
+    const { allowAnon } = this.props
     if (allowAnon)
-      return null;
-    
-    const {email} = this.state
+      return null
+
+    const { email } = this.state
 
     return (
       <>
@@ -57,14 +57,14 @@ class UserIdentification extends React.Component<Props, State> {
 }
 
 function mapStateToProps(state: RootState) {
-  const { script } = state.scriptStore;
+  const { script } = state.scriptStore
 
   if (!script)
-    throw new Error('Script should be loaded');
-  
+    throw new Error('Script should be loaded')
+
 
   return { allowAnon: script.version.allowAnon, scriptId: script.id }
 }
 
 // @ts-ignore
-export default connect(mapStateToProps, {loadProgress})(UserIdentification)
+export default connect(mapStateToProps, { loadProgress })(UserIdentification)

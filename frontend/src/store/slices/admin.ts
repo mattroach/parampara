@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AppThunk } from '../store';
+import { AppThunk } from 'store/store'
 
 type AdminDetails = {
   id: number

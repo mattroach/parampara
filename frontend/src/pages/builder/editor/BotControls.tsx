@@ -1,12 +1,12 @@
-import React from 'react';
-import Form from 'react-bootstrap/Form';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
+import React from 'react'
+import Form from 'react-bootstrap/Form'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import { addItem } from '../../../store/slices/script';
-import { MessageItem, ScriptItemType } from '../../../types/scriptTypes';
-import InlineIconButton from './InlineIconButton';
-import { EditField } from './items/styles';
+import { addItem } from 'store/slices/script'
+import { MessageItem, ScriptItemType } from 'types/scriptTypes'
+import InlineIconButton from './InlineIconButton'
+import { EditField } from './items/styles'
 
 const StyledForm = styled(Form)`
   display: inline;

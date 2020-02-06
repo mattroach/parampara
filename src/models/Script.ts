@@ -9,8 +9,18 @@ export default class Script extends Model {
 
   static tableName = 'script'
 
+  // static get jsonSchema() {
+  //   return {
+  //     type: 'object',
+
+  //     properties: {
+  //       title: { type: 'string' }
+  //     }
+  //   }
+  // }
+
   static modifiers: Modifiers = {
-    
+
   }
 
 

@@ -11,7 +11,7 @@ const router = Router()
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const {adminId} = req.query
+    const { adminId } = req.query
 
     if (!adminId)
       throw Error('Must pass in a adminId')
@@ -55,6 +55,26 @@ router.post('/', async (req: Request, res: Response) => {
     const script = await scriptService.createScript(adminId)
 
     return res.status(OK).json(script)
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    })
+  }
+})
+
+
+router.put('/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params as ParamsDictionary
+
+    const script = req.body
+
+    console.log(id, script)
+
+    await scriptService.updateScript(id, script)
+
+    return res.status(OK).json({})
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({

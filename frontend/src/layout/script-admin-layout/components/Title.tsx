@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import { RootState } from '../../../store/rootReducer'
+import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
 
 const StyledTitle = styled(Form.Control)`
@@ -23,7 +23,7 @@ class Title extends React.Component<Props, State> {
   }
 
   onChange = (event: any) => {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value })
   }
 
   render() {
@@ -43,8 +43,8 @@ function mapStateToProps(state: RootState) {
   if (!script)
     throw Error('Script not loaded')
 
-  return { title:  script.title}
+  return { title: script.title }
 }
 
 // @ts-ignore
-export default connect(mapStateToProps, { })(Title)
+export default connect(mapStateToProps, {})(Title)

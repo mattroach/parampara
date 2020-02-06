@@ -1,13 +1,13 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
-import Table from 'react-bootstrap/Table';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React from 'react'
+import Button from 'react-bootstrap/Button'
+import Spinner from 'react-bootstrap/Spinner'
+import Table from 'react-bootstrap/Table'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
-import { RootState } from '../../../store/rootReducer';
-import { loadScripts } from '../../../store/slices/scripts';
+import { RootState } from 'store/rootReducer'
+import { loadScripts } from 'store/slices/scripts'
 
 const StyledTable = styled(Table)`
   td {

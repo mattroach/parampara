@@ -7,6 +7,21 @@ export enum ScriptVersionCode {
   latest = 'latest', draft = 'draft'
 }
 class ScriptService {
+
+  // Todo should take some sort of ScriptUpdate object which is limited in the fields it can have (e.g. no ID, etc)
+  async updateScript(id: string, script: Script) {
+    await Script.query()
+      .findById(id)
+      .patch(script)
+
+    if (script.version) {
+      await ScriptVersion.query()
+        .where('scriptId', id)
+        .modify('draft')
+        .patch(script.version)
+    }
+  }
+
   async getScripts(adminId: string) {
     return await Script.query()
       .where('adminId', adminId)

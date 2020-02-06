@@ -1,12 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
-import { RootState } from '../../store/rootReducer';
-import { loadScript } from '../../store/slices/script';
-import * as styles from './ChatSessionPage.styles';
-import NextItem from './components/NextItem';
-import ProgressedItem from './components/ProgressedItem';
-import UserIdentification from './components/UserIdentification';
+import { RootState } from 'store/rootReducer'
+import { loadScript } from 'store/slices/script'
+import * as styles from './ChatSessionPage.styles'
+import NextItem from './components/NextItem'
+import ProgressedItem from './components/ProgressedItem'
+import UserIdentification from './components/UserIdentification'
 import { ScriptVersionType } from '../../api'
 
 type State = {

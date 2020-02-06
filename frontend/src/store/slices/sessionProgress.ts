@@ -5,7 +5,7 @@ import { throttle } from 'throttle-debounce'
 
 import { SessionProgressStore, SessionProgress, ProgressItem } from '../../types/sessionProgress'
 import { ScriptItemType } from '../../types/scriptTypes'
-import { AppThunk } from '../store'
+import { AppThunk } from 'store/store'
 
 let initialState: SessionProgressStore = {
   currentItemDelaying: false
@@ -19,7 +19,7 @@ const sessionProgressSlice = createSlice({
       state.progress = action.payload
     },
     progressItem(state, action: PayloadAction<ProgressItem>) {
-      const {progress} = state
+      const { progress } = state
       if (!progress) {
         throw new Error('Trying to progress item when no progress is loaded yet')
       }

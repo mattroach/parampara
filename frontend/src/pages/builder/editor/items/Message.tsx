@@ -1,12 +1,12 @@
-import React from 'react';
-import Form from 'react-bootstrap/Form';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
+import React from 'react'
+import Form from 'react-bootstrap/Form'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import { updateItem } from '../../../../store/slices/script';
-import { MessageItem, ScriptItemType } from '../../../../types/scriptTypes';
-import Positioned from './components/Positioned';
-import { BotBubble, EditField } from './styles';
+import { updateItem } from 'store/slices/script'
+import { MessageItem, ScriptItemType } from 'types/scriptTypes'
+import Positioned from './components/Positioned'
+import { BotBubble, EditField } from './styles'
 
 //import ChatContextMenu from './ChatContextMenu'
 

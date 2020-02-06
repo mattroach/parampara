@@ -1,9 +1,9 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { RootState } from '../store/rootReducer';
-import { loadAdmin } from '../store/slices/admin';
-import AppNavBar from './AppNavBar';
-import Loader from '../components/Loader';
+import React from 'react'
+import { connect } from 'react-redux'
+import { RootState } from 'store/rootReducer'
+import { loadAdmin } from 'store/slices/admin'
+import AppNavBar from './AppNavBar'
+import Loader from '../components/Loader'
 
 
 type Props = {

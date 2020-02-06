@@ -4,11 +4,11 @@ import Nav from 'react-bootstrap/Nav'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import Loader from '../../components/Loader'
-import { RootState } from '../../store/rootReducer'
-import { loadScript } from '../../store/slices/script'
+import { RootState } from 'store/rootReducer'
+import { loadScript } from 'store/slices/script'
 import AdminLayout from '../AdminLayout'
 import Header from './components/Header'
-import { ScriptVersionType } from '../../api'
+import { ScriptVersionType } from 'api'
 
 type Props = {
   adminId: string

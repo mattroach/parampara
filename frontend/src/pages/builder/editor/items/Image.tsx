@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageItem } from '../../../../types/scriptTypes'
+import { ImageItem } from 'types/scriptTypes'
 import styled from 'styled-components'
 
 const ItemWrap = styled.div`
