@@ -1,15 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import axios from 'axios';
 
-import axios from 'axios'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppThunk } from '../store'
+import { AppThunk } from '../store';
 
 type AdminDetails = {
   id: number
   email: string
 }
 
-type AdminStore = {
+export type AdminStore = {
   admin?: AdminDetails
 }
 

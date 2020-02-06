@@ -1,7 +1,7 @@
 export type Script = {
   id: string
-  version: ScriptVersion
   title: string
+  version: ScriptVersion
 }
 
 export type ScriptVersion = {
@@ -10,7 +10,7 @@ export type ScriptVersion = {
   items: ScriptItem[]
 }
 
-export type ScriptItem = MessageItem | ChooseResponseItem | CommentItem
+export type ScriptItem = MessageItem | ImageItem | ChooseResponseItem | CommentItem
 
 export enum ScriptItemType {
   Message = 'Message', Image = 'Image', ChooseResponse = 'ChooseResponse', Comment = 'Comment'
@@ -24,6 +24,10 @@ export type MessageItem = {
 
 export type CommentItem = {
   type: ScriptItemType.Comment
+}
+
+export type ImageItem = {
+  type: ScriptItemType.Image
 }
 
 export type ChooseResponseItem = {

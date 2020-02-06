@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import axios from 'axios';
 
-import axios from 'axios'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppThunk } from '../store'
+import { AppThunk } from '../store';
 
 type ListedScript = {
   id: number
@@ -10,7 +10,7 @@ type ListedScript = {
   created: string
 }
 
-type ScriptsStore = {
+export type ScriptsStore = {
   scripts?: ListedScript[]
 }
 

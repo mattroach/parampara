@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-
 import { RootState } from '../store/rootReducer';
 import { loadAdmin } from '../store/slices/admin';
 import AppNavBar from './AppNavBar';

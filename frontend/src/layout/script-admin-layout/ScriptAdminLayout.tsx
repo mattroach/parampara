@@ -3,17 +3,12 @@ import React from 'react'
 import Nav from 'react-bootstrap/Nav'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import styled from 'styled-components'
 import Loader from '../../components/Loader'
 import { RootState } from '../../store/rootReducer'
 import { loadScript } from '../../store/slices/script'
 import AdminLayout from '../AdminLayout'
 import Header from './components/Header'
-
-const Wrapper = styled.section`
-  margin: 20px;
-  max-width: 1000px;
-`
+import { ScriptVersionType } from '../../api'
 
 type Props = {
   adminId: string
@@ -24,7 +19,7 @@ type Props = {
 class BuilderPage extends React.Component<Props, {}> {
 
   componentDidMount() {
-    this.props.loadScript(this.props.scriptId)
+    this.props.loadScript(this.props.scriptId, ScriptVersionType.draft)
   }
 
   goBackToDirectory = (event: any) => {
@@ -39,11 +34,11 @@ class BuilderPage extends React.Component<Props, {}> {
         adminId={adminId}
         navbarExtra={
           <Nav className="mr-auto">
-            <Nav.Link href="#" onClick={this.goBackToDirectory}>Back to directory</Nav.Link>
+            <Nav.Link href="#" onClick={this.goBackToDirectory}>Back to main menu</Nav.Link>
           </Nav>
         }>
         {scriptLoaded ? <Header /> : <Loader />}
-        {scriptLoaded && <Wrapper>{children}</Wrapper>}
+        {scriptLoaded && children}
       </AdminLayout>
     )
   }

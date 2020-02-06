@@ -7,6 +7,7 @@ import * as styles from './ChatSessionPage.styles';
 import NextItem from './components/NextItem';
 import ProgressedItem from './components/ProgressedItem';
 import UserIdentification from './components/UserIdentification';
+import { ScriptVersionType } from '../../api'
 
 type State = {
 
@@ -20,7 +21,7 @@ type Props = {
 class ChatSessionPage extends React.Component<Props, State> {
 
   componentDidMount() {
-    this.props.loadScript(this.props.scriptId)
+    this.props.loadScript(this.props.scriptId, ScriptVersionType.latest)
   }
 
   render() {

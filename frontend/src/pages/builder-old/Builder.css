@@ -25,6 +25,7 @@
 }
 
 .Navigation {
+  vertical-align: middle;
   display: inline-block;
   text-align: center;
   width: 22px;  
@@ -126,9 +127,6 @@ textarea.Chat-Bubble-Input {
 
 .Chat-Bubble-Input:focus {
   width: 300px;
-}
-
-.Chat-Bubble-Input:focus {
   background-color: #efefef;
   box-shadow: none;
 }
