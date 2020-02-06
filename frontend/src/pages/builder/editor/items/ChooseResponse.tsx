@@ -53,8 +53,7 @@ class ChooseResponse extends React.Component<Props, State> {
             type="text"
             placeholder="Add..."
             value={this.state.responseDraft}
-            onChange={this.handleResponseChange}
-            autoFocus />
+            onChange={this.handleResponseChange} />
         </InlineForm>
 
         {item.responses.map((response, i) => {

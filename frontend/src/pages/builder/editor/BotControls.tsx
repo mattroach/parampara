@@ -58,8 +58,7 @@ class BotControls extends React.Component<Props, State> {
           type="text"
           placeholder="Add a message..."
           value={this.state.messageDraft}
-          onChange={this.handleMessageChange}
-          autoFocus />
+          onChange={this.handleMessageChange} />
       </StyledForm>
     )
   }

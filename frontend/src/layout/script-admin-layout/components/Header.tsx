@@ -1,10 +1,12 @@
-import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import styled from 'styled-components';
+import React from 'react'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import styled from 'styled-components'
 
-import Navigation from './Navigation';
-import Title from './Title';
+import Navigation from './Navigation'
+import Title from './Title'
+import PreviewButton from './PreviewButton'
+import PublishButton from './PublishButton'
 
 const Wrapper = styled.div`
   background: #fafbfc;
@@ -18,8 +20,9 @@ const StyledNav = styled(Navigation)`
   width: 260px;
   margin: 27px auto -1px auto;
 `
-const Share = styled.div`
+const LastCol = styled(Col)`
   text-align: right;
+  padding-top: 15px;
 `
 
 const Header: React.FunctionComponent = () => {
@@ -30,7 +33,7 @@ const Header: React.FunctionComponent = () => {
         <Col>
           <StyledNav />
         </Col>
-        <Col><Share></Share></Col>
+        <LastCol><PreviewButton /><PublishButton /></LastCol>
       </Row>
     </Wrapper>
   )
