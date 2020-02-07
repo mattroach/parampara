@@ -1,14 +1,12 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-
 import { updateItem } from 'store/slices/script'
+import styled from 'styled-components'
 import { MessageItem, ScriptItemType } from 'types/scriptTypes'
-import Positioned from './components/Positioned'
-import { BotBubble, EditField } from './styles'
-
-//import ChatContextMenu from './ChatContextMenu'
+import Positioned from '../components/Positioned'
+import { BotBubble, EditField } from '../styles'
+import Menu from './Menu'
 
 const ItemWrap = styled.div`
   margin: 10px 0;
@@ -86,7 +84,7 @@ class Message extends React.Component<Props, State> {
                 autoFocus />
             </Form>
             : <BotBubble onClick={this.edit} ref={this.bubbleRef}>
-              {/* <ChatContextMenu onEdit={this.edit} container={this.bubbleRef} onEditNav={() => null} /> */}
+              <Menu position={position} />
               {item.message}
             </BotBubble>
           }

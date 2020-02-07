@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { appendResponseOption } from 'store/slices/script'
 import styled from 'styled-components'
 import { ChooseResponseItem } from 'types/scriptTypes'
-import { NavId, ResponseBubble, ResponseEditField } from './styles'
+import { NavId, ResponseBubble, ResponseEditField } from '../styles'
+import Menu from './Menu'
 
 const ItemWrap = styled.div`
   margin: 20px 0;
@@ -45,7 +46,7 @@ class ChooseResponse extends React.Component<Props, State> {
   };
 
   render() {
-    const { item } = this.props
+    const { item, position } = this.props
     return (
       <ItemWrap>
         <InlineForm onSubmit={this.submitNewResponse}>
@@ -60,7 +61,7 @@ class ChooseResponse extends React.Component<Props, State> {
           const bubbleRef: React.RefObject<HTMLDivElement> = React.createRef()
           return (
             <ResponseBubble key={i} ref={bubbleRef} >
-              {/* <ChatContextMenu onEdit={() => null} container={bubbleRef} onEditNav={this.props.editNav(i)} navigation={option.navigation} /> */}
+              <Menu position={position} responsePosition={i} />
               {response.message}
               {response.nextId ? <NavId>{response.nextId}</NavId> : null}
             </ResponseBubble>

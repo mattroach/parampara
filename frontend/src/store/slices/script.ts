@@ -39,6 +39,32 @@ const scriptSlice = createSlice({
 
       state.script.version.items[action.payload.position] = action.payload.item
     },
+    _removeItem(state, action: PayloadAction<{ position: number }>) {
+      if (!state.script)
+        throw Error('Script not loaded')
+
+      const { items } = state.script.version
+      const { position } = action.payload
+      items.splice(position, 1)
+    },
+    _removeResponseChoice(state, action: PayloadAction<{ position: number, responsePosition: number }>) {
+      if (!state.script)
+        throw Error('Script not loaded')
+
+      const { items } = state.script.version
+      const { position, responsePosition } = action.payload
+      const item = items[position]
+
+      if (item.type !== ScriptItemType.ChooseResponse)
+        throw Error('Invalid response type')
+
+      if (item.responses.length === 1) {
+        // There is only one option left, so remove the whole item
+        items.splice(position, 1)
+      } else {
+        item.responses.splice(responsePosition, 1)
+      }
+    },
     _appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
       const { position, option } = action.payload
       const item = state.script?.version.items[position]
@@ -61,7 +87,9 @@ const {
   _addItem,
   _updateItem,
   _appendResponseOption,
-  _updateTitle
+  _updateTitle,
+  _removeItem,
+  _removeResponseChoice
 } = scriptSlice.actions
 
 export default scriptSlice.reducer
@@ -78,6 +106,16 @@ export const updateItem = (position: number, item: ScriptItem): AppThunk => asyn
 
 export const appendResponseOption = (position: number, option: string): AppThunk => async (dispatch, getState) => {
   dispatch(_appendResponseOption({ position, option }))
+  saveItemsToServer(getState)
+}
+
+export const removeResponseChoice = (position: number, responsePosition: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_removeResponseChoice({ position, responsePosition }))
+  saveItemsToServer(getState)
+}
+
+export const removeItem = (position: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_removeItem({ position }))
   saveItemsToServer(getState)
 }
 

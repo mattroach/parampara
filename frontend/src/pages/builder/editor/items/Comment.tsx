@@ -1,10 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-import Widget from './Widget'
 import { CommentItem } from 'types/scriptTypes'
-
-const ItemWrap = styled.div`
-`
+import Widget from './Widget'
 
 type Props = {
   item: CommentItem

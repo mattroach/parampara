@@ -6,6 +6,10 @@ export const BubbleBase = styled.div`
   border-radius: 15px;
   padding: 7px 13px;
   line-height: 1.3;
+
+  :hover .item-menu > button {
+    display: inline;
+  }
 `
 
 export const BotBubble = styled(BubbleBase)`

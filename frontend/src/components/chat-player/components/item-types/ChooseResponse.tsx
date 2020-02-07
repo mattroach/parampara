@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ChooseResponseItem } from '../../../../types/scriptTypes'
+import { ChooseResponseItem } from 'types/scriptTypes'
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
