@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 
 type State = {
 }
@@ -21,6 +20,7 @@ class MyComponent extends React.Component<Props, State> {
 
 const mapDispatchToProps = {}
 
+// @ts-ignore
 function mapStateToProps(state: RootState) {
   return {}
 }

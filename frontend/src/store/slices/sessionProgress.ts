@@ -3,9 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { throttle } from 'throttle-debounce'
 
-import { SessionProgressStore, SessionProgress, ProgressItem } from '../../types/sessionProgress'
+import { SessionProgress, ProgressItem } from '../../types/sessionProgress'
 import { ScriptItemType } from '../../types/scriptTypes'
 import { AppThunk } from 'store/store'
+
+type SessionProgressStore = {
+  currentItemDelaying: boolean
+  progress?: SessionProgress
+}
 
 let initialState: SessionProgressStore = {
   currentItemDelaying: false
@@ -39,6 +44,12 @@ const sessionProgressSlice = createSlice({
     },
     endDelay(state) {
       state.currentItemDelaying = false
+    },
+    initPreviewProgress(state) {
+      state.progress = {
+        currentItemId: 0,
+        items: []
+      }
     }
   }
 })
@@ -46,8 +57,11 @@ const sessionProgressSlice = createSlice({
 const {
   updateProgress,
   progressItem,
-  endDelay
+  endDelay,
+  initPreviewProgress
 } = sessionProgressSlice.actions
+
+export { initPreviewProgress }
 
 export default sessionProgressSlice.reducer
 
@@ -63,8 +77,8 @@ export const progressItemAndDelayNext = (
   updateProgressOnServer(getState)
 }
 
-// Will load (if exists) or create the progress
-export const loadProgress = (
+// Will load (if exists) or create the progress on the server
+export const loadProgressFromServer = (
   scriptId: string,
   email?: string
 ): AppThunk => async dispatch => {
@@ -82,6 +96,12 @@ const updateProgressOnServer = throttle(3000, false, (getState) => {
   if (!progress)
     throw Error('No progress available')
 
-  const { currentItemId, items } = progress
-  axios.put(`/api/sessionProgress/${progress.id}`, { currentItemId, items })
+  const { currentItemId, items, id } = progress
+
+  if (!id) {
+    // We must be in preview mode: do not save progress
+    return
+  }
+
+  axios.put(`/api/sessionProgress/${id}`, { currentItemId, items })
 })

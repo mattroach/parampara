@@ -1,10 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit'
-
-import { SessionProgressStore } from '../types/sessionProgress'
-import adminReducer, { AdminStore } from './slices/admin'
-import scriptReducer, { ScriptStore } from './slices/script'
-import scriptsReducer, { ScriptsStore } from './slices/scripts'
+import adminReducer from './slices/admin'
+import scriptReducer from './slices/script'
+import scriptsReducer from './slices/scripts'
 import sessionProgressReducer from './slices/sessionProgress'
+
 
 const rootReducer = combineReducers({
   adminStore: adminReducer,

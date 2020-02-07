@@ -5,7 +5,9 @@ import NextItem from './components/NextItem'
 import ProgressedItem from './components/ProgressedItem'
 import UserIdentification from './components/UserIdentification'
 
-type Props = ReturnType<typeof mapStateToProps>
+type Props = {
+  isPreviewMode: boolean
+} & ReturnType<typeof mapStateToProps>
 
 class ChatPlayer extends React.Component<Props> {
 
@@ -14,7 +16,7 @@ class ChatPlayer extends React.Component<Props> {
 
     return (
       <>
-        <UserIdentification />
+        <UserIdentification isPreviewMode={this.props.isPreviewMode} />
         {progress && progress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
         {progress && nextItem && <NextItem item={nextItem} />}
       </>

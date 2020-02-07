@@ -23,7 +23,7 @@ class ChatSessionPage extends React.Component<Props> {
 
     return (
       <styles.Wrapper>
-        {scriptLoaded && <ChatPlayer />}
+        {scriptLoaded && <ChatPlayer isPreviewMode={false} />}
       </styles.Wrapper>
     )
   }
