@@ -1,11 +1,11 @@
 
-import { Request, Response, Router } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { BAD_REQUEST, OK } from 'http-status-codes';
-import ScriptVersion from 'src/models/ScriptVersion';
-import scriptService, { ScriptVersionCode } from 'src/services/ScriptService';
+import { Request, Response, Router } from 'express'
+import { ParamsDictionary } from 'express-serve-static-core'
+import { BAD_REQUEST, OK } from 'http-status-codes'
+import ScriptVersion from 'src/models/ScriptVersion'
+import scriptService, { ScriptVersionCode } from 'src/services/ScriptService'
 
-import { logger } from '@shared';
+import { logger } from '@shared'
 
 const router = Router()
 
@@ -69,8 +69,6 @@ router.put('/:id', async (req: Request, res: Response) => {
     const { id } = req.params as ParamsDictionary
 
     const script = req.body
-
-    console.log(id, script)
 
     await scriptService.updateScript(id, script)
 

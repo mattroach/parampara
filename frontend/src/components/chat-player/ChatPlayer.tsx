@@ -12,11 +12,11 @@ type Props = {
 class ChatPlayer extends React.Component<Props> {
 
   render() {
-    const { progress, nextItem } = this.props
+    const { progress, nextItem, isPreviewMode } = this.props
 
     return (
       <>
-        <UserIdentification isPreviewMode={this.props.isPreviewMode} />
+        <UserIdentification isPreviewMode={isPreviewMode} />
         {progress && progress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
         {progress && nextItem && <NextItem item={nextItem} />}
       </>

@@ -6,3 +6,7 @@ body {
 .bg-primary {
   background-color: #2c54ff !important;
 }
+
+.modal-backdrop.extraDark {
+  opacity: 0.9;
+}

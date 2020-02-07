@@ -20,6 +20,7 @@ class UserIdentification extends React.Component<Props, State> {
   state: State = {
     askEmail: false
   }
+  static DELAY = 2000
 
   componentDidMount() {
     if (this.props.allowAnon) {
@@ -27,7 +28,7 @@ class UserIdentification extends React.Component<Props, State> {
     } else {
       setTimeout(() => {
         this.setState({ askEmail: true })
-      }, 2000)
+      }, UserIdentification.DELAY)
     }
   }
 
@@ -37,10 +38,14 @@ class UserIdentification extends React.Component<Props, State> {
   }
 
   initProgress = (email?: string) => {
-    if (this.props.isPreviewMode)
-      this.props.initPreviewProgress()
-    else
-      this.props.loadProgressFromServer(this.props.scriptId, email)
+
+    //TODO this could be better. The loading of progress from the server may already take time, so silly to delay double
+    setTimeout(() => {
+      if (this.props.isPreviewMode)
+        this.props.initPreviewProgress()
+      else
+        this.props.loadProgressFromServer(this.props.scriptId, email)
+    }, UserIdentification.DELAY / 2) // TODO just divide by 2 to estimate the response from the server
   }
 
   render() {
@@ -51,7 +56,7 @@ class UserIdentification extends React.Component<Props, State> {
 
     return (
       <>
-        <BotMessage message="What's your email address?" />
+        <BotMessage message="Hello! Please enter your email to get started." />
         {this.state.askEmail && <TextInput placeholder="Type email" onSubmit={this.onSubmit} />}
         {email && <HumanBubble message={email} />}
       </>

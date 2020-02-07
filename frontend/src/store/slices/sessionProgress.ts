@@ -50,6 +50,9 @@ const sessionProgressSlice = createSlice({
         currentItemId: 0,
         items: []
       }
+    },
+    clearProgress(state) {
+      state.progress = undefined
     }
   }
 })
@@ -58,10 +61,11 @@ const {
   updateProgress,
   progressItem,
   endDelay,
-  initPreviewProgress
+  initPreviewProgress,
+  clearProgress
 } = sessionProgressSlice.actions
 
-export { initPreviewProgress }
+export { initPreviewProgress, clearProgress }
 
 export default sessionProgressSlice.reducer
 

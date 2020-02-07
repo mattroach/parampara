@@ -7,8 +7,6 @@ class SessionProgressService {
     const numUpdated = await SessionProgress.query()
       .findById(sessionId)
       .patch({ currentItemId, items })
-    
-    console.log(numUpdated)
 
     if (numUpdated === 0)
       throw Error(`session ID ${sessionId} not found`)

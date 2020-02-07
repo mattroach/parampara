@@ -92,7 +92,6 @@ export const loadScript = (
 ): AppThunk => async (dispatch, getState) => {
   const currentId = getState().scriptStore.script?.id
 
-  console.log(currentId, scriptId)
   if (currentId && scriptId !== currentId) {
     dispatch(clearScript())
   }
