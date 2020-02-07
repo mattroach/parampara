@@ -1,5 +1,5 @@
-import Form from 'react-bootstrap/Form';
-import styled from 'styled-components';
+import Form from 'react-bootstrap/Form'
+import styled from 'styled-components'
 
 export const BubbleBase = styled.div`
   display: inline-block;
@@ -27,6 +27,7 @@ const BubbleFieldBase = styled(Form.Control)`
   border-radius: 15px;
   padding: 7px 13px;
   line-height: 1.3;
+  transition: width 100ms;
   
   border: none;
   resize: none;
@@ -49,21 +50,29 @@ export const EditField = styled(BubbleFieldBase)`
   }
 `
 
-export const ResponseEditField = styled(BubbleFieldBase)`
+export const ResponseAddField = styled(BubbleFieldBase)`
   background-color: #0076ff;
   color: white;
-  width: 70px;
   display: inline-block;
+  width: 170px;
 
   :focus {
+    width: 240px;
     color: white;
-    width: 170px;
     background-color: #0076ff;
   }
 
   ::placeholder {
     color: #fff;
     opacity: .6;
+  }
+`
+
+export const ResponseEditField = styled(ResponseAddField)`
+  width: 70px;
+
+  :focus {
+    width: 170px;
   }
 `
 

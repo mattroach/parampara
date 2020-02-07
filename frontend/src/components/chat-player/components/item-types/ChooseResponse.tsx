@@ -9,7 +9,8 @@ import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import ItemWrap from './ItemWrap'
 
 const Wrapper = styled(ItemWrap)`
-  margin: 40px 0;
+  margin: 20px 0;
+  text-align: right;
 `
 
 const ResponseButton = styled(Button)`

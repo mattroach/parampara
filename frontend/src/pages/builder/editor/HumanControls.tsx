@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { RootState } from 'store/rootReducer'
 import { addItem } from 'store/slices/script'
 import { ChooseResponseItem, CommentItem, ScriptItemType } from '../../../types/scriptTypes'
+import { ResponseAddField } from './items/styles'
 
 const StyledForm = styled(Form)`
   float: right;
@@ -16,7 +17,17 @@ const StyledForm = styled(Form)`
     vertical-align: top;
   }
 `
-
+const IconButton = styled(DropdownButton)`
+  display: inline;
+  button {
+    opacity: 0.9;
+    vertical-align: top;
+    padding: 0;
+  }
+  .dropdown-toggle::after {
+    display: none;  
+  }
+`
 
 type State = {
   responseDraft: string
@@ -68,16 +79,15 @@ class HumanControls extends React.Component<Props, State> {
 
     return (
       <StyledForm onSubmit={this.submitNewResponse}>
-        <Form.Control
-          className="Chat-Bubble-Input Chat-Bubble-Input-Human"
+        <ResponseAddField
           type="text"
-          placeholder="Add a response option..."
+          placeholder="Add a response..."
           value={this.state.responseDraft}
           onChange={this.handleResponseChange} />
-        <DropdownButton id="dropdown-basic-button" variant="link" className="Input-Action Macros" title={<MaterialIcon icon="add_circle" size={35} />}>
+        <IconButton id="widgets" variant="link" title={<MaterialIcon icon="add_circle" size={35} color="#0076ff" />}>
           <Dropdown.Item href="#" onClick={this.addWidget('comment', 'Collect a comment')}>Collect a comment</Dropdown.Item>
           {/* <Dropdown.Item href="#" onClick={this.addWidget('email', 'Email a document')}>Send a document</Dropdown.Item> */}
-        </DropdownButton>
+        </IconButton>
       </StyledForm>
     )
   }

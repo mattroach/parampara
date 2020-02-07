@@ -45,6 +45,10 @@ const StyledModalTitle = styled(Modal.Title)`
   width: 100%;
 `
 
+const StyledModalBody = styled(Modal.Body)`
+  overflow: auto;
+`
+
 type Props = {
 }
 
@@ -68,9 +72,9 @@ const PreviewButton: React.FunctionComponent<Props> = () => {
         <StyledHeader closeButton>
           <StyledModalTitle>This is a preview of your current draft</StyledModalTitle>
         </StyledHeader>
-        <Modal.Body>
+        <StyledModalBody>
           <ChatPlayer isPreviewMode={true} />
-        </Modal.Body>
+        </StyledModalBody>
       </StyledModal>
     </>
   )

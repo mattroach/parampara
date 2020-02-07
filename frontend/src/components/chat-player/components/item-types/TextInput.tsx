@@ -1,14 +1,15 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-import ItemWrap from './ItemWrap';
+import ItemWrap from './ItemWrap'
 
 const Wrapper = styled(ItemWrap)`
-  margin: 40px 0;
-`;
+  margin: 20px 0;
+  text-align: right;
+`
 
 const GoButton = styled(Button)`
   border-radius: 100%;
@@ -19,7 +20,7 @@ const GoButton = styled(Button)`
   width: 30px;
   height: 30px;
   padding: 0; 
-`;
+`
 
 const MessageInput = styled(Form.Control)`
   border: none;
@@ -29,7 +30,7 @@ const MessageInput = styled(Form.Control)`
   :focus {
     box-shadow: none;
   }
-`;
+`
 
 type State = {
   content: string
@@ -37,7 +38,7 @@ type State = {
 type Props = {
   placeholder: string
   onSubmit: (content: string) => void
-};
+}
 
 class TextInput extends React.Component<Props, State> {
   constructor(props: any) {
@@ -48,15 +49,15 @@ class TextInput extends React.Component<Props, State> {
   }
 
   updateContent = (event: any) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    this.setState({content: event.target.value})
+    this.setState({ content: event.target.value })
   }
 
   handleSubmit = (event: any) => {
-    event.preventDefault();
-    
-    this.props.onSubmit(this.state.content);
+    event.preventDefault()
+
+    this.props.onSubmit(this.state.content)
   }
 
   render() {
@@ -67,7 +68,7 @@ class TextInput extends React.Component<Props, State> {
           <GoButton variant="primary" type="submit">Go</GoButton>
         </Form>
       </Wrapper>
-    );
+    )
   }
 }
 
