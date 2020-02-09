@@ -27,6 +27,7 @@ const ItemMenu: React.FunctionComponent<Props> = ({ id, children }) => (
   <>
     <StyledDropdownButton
       id={'edit-item-' + id}
+      variant="secondary"
       className="item-menu"
       title=""
       onClick={(event: any) => event.stopPropagation()}

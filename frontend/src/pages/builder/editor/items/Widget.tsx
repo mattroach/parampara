@@ -28,16 +28,13 @@ type Props = {
 
 class Widget extends React.Component<Props, State> {
 
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-
-    }
-  };
   render() {
+    const { children } = this.props
+
     return (
       <ItemWrap>
         <Bubble>
+          {children}
           <MaterialIcon icon={this.props.icon} size={20} color="#006bfa" />
           {this.props.title}
         </Bubble>

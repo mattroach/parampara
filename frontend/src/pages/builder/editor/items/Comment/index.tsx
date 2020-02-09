@@ -1,6 +1,7 @@
 import React from 'react'
 import { CommentItem } from 'types/scriptTypes'
-import Widget from './Widget'
+import Widget from '../Widget'
+import Menu from './Menu'
 
 type Props = {
   item: CommentItem
@@ -10,7 +11,9 @@ type Props = {
 const Comment: React.FunctionComponent<Props> = ({ item, position }) => {
 
   return (
-    <Widget icon="comment" title="Collect a comment" />
+    <Widget icon="comment" title="Collect a comment">
+      <Menu position={position} />
+    </Widget>
   )
 }
 
