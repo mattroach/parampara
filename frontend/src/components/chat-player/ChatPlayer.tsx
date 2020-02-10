@@ -17,7 +17,7 @@ class ChatPlayer extends React.Component<Props> {
     return (
       <>
         <UserIdentification isPreviewMode={isPreviewMode} />
-        {progress && progress.items.map((itemProgress, i) => <ProgressedItem key={i} itemProgress={itemProgress} />)}
+        {progress && progress.items.map((progressItem, i) => <ProgressedItem key={i} progressItem={progressItem} />)}
         {progress && nextItem && <NextItem item={nextItem} />}
       </>
     )

@@ -1,4 +1,4 @@
-import { ScriptItemType, MessageItem, ChooseResponseItem, CommentItem } from "./scriptTypes"
+import { ScriptActionType, ScriptItem } from "./scriptTypes"
 
 export type SessionProgress = {
   id?: string // will be undefined if in preview mode and not saving the progress to the server
@@ -6,21 +6,25 @@ export type SessionProgress = {
   items: ProgressItem[]
 }
 
-export type ProgressItem = MessageItemProgress | ChooseResponseItemProgress | CommentItemProgress
-
-export type MessageItemProgress = {
-  type: ScriptItemType.Message
-  item: MessageItem
+export type ProgressItem = {
+  item: ScriptItem
+  actionResult?: ActionResult
 }
 
-export type ChooseResponseItemProgress = {
-  type: ScriptItemType.ChooseResponse
-  item: ChooseResponseItem
-  progress: { choice: number }
+export type ActionResult = ChooseResponseResult | CommentResult
+
+export type ChooseResponseResult = {
+  type: ScriptActionType.ChooseResponse
+  choice: number
 }
 
-export type CommentItemProgress = {
-  type: ScriptItemType.Comment
-  item: CommentItem
-  progress: { content: string }
+export type CommentResult = {
+  type: ScriptActionType.Comment
+  content: string
 }
+
+// TODO: do something like this for better typing
+// type TestProgressItemCR = {
+//   item: ScriptItem<ChooseResponseAction>
+//   actionProgress: ChooseResponseActionProgress
+// }

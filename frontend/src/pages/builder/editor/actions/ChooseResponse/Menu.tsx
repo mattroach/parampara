@@ -2,7 +2,7 @@ import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { useDispatch } from 'react-redux'
 import { removeResponseChoice } from 'store/slices/script'
-import ItemMenu from '../components/ItemMenu'
+import ItemMenu from '../../items/components/ItemMenu'
 
 type Props = {
   position: number

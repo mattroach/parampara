@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { RootState } from 'store/rootReducer'
-import { addItem } from 'store/slices/script'
-import { ChooseResponseItem, CommentItem, ScriptItemType } from '../../../types/scriptTypes'
+import { addAction } from 'store/slices/script'
+import { ChooseResponseAction, CommentAction, ScriptItemType, ScriptActionType } from '../../../types/scriptTypes'
 import { ResponseAddField } from './items/styles'
 
 const StyledForm = styled(Form)`
@@ -45,32 +45,32 @@ class HumanControls extends React.Component<Props, State> {
   submitNewResponse = (event: any) => {
     event.preventDefault()
 
-    const item: ChooseResponseItem = {
-      type: ScriptItemType.ChooseResponse,
+    const item: ChooseResponseAction = {
+      type: ScriptActionType.ChooseResponse,
       responses: [{ message: this.state.responseDraft }]
     }
 
-    this.props.addItem(item)
+    this.props.addAction(item)
 
     this.setState({ responseDraft: '' })
   }
 
   handleResponseChange = (e: any) => {
     this.setState({ responseDraft: e.target.value })
-  };
+  }
 
   showAddResponse() {
-    return this.props.lastItemIsMessage
+    return !this.props.lastItemHasAction
   }
 
   addWidget = (icon: string, title: string) => (event: any) => {
     event.preventDefault()
 
-    const item: CommentItem = {
-      type: ScriptItemType.Comment
+    const item: CommentAction = {
+      type: ScriptActionType.Comment
     }
 
-    this.props.addItem(item)
+    this.props.addAction(item)
   }
 
   render() {
@@ -93,7 +93,7 @@ class HumanControls extends React.Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = { addItem }
+const mapDispatchToProps = { addAction }
 
 function mapStateToProps(state: RootState) {
   const { script } = state.scriptStore
@@ -102,7 +102,7 @@ function mapStateToProps(state: RootState) {
 
   const lastItem = script.version.items[script.version.items.length - 1]
   return {
-    lastItemIsMessage: lastItem && lastItem.type === ScriptItemType.Message
+    lastItemHasAction: lastItem && lastItem.action !== undefined
   }
 }
 

@@ -10,28 +10,38 @@ export type ScriptVersion = {
   items: ScriptItem[]
 }
 
-export type ScriptItem = MessageItem | ImageItem | ChooseResponseItem | CommentItem
+export type ScriptItem = MessageItem | ImageItem
+
+export type ScriptAction = ChooseResponseAction | CommentAction
+
 
 export enum ScriptItemType {
-  Message = 'Message', Image = 'Image', ChooseResponse = 'ChooseResponse', Comment = 'Comment'
+  Message = 'Message', Image = 'Image'
 }
+
+export enum ScriptActionType {
+  ChooseResponse = 'ChooseResponse', Comment = 'Comment'
+}
+
 
 export type MessageItem = {
   type: ScriptItemType.Message
   message: string
   nextId?: number
-}
-
-export type CommentItem = {
-  type: ScriptItemType.Comment
+  action?: ScriptAction
 }
 
 export type ImageItem = {
   type: ScriptItemType.Image
+  action?: ScriptAction
 }
 
-export type ChooseResponseItem = {
-  type: ScriptItemType.ChooseResponse
+export type CommentAction = {
+  type: ScriptActionType.Comment
+}
+
+export type ChooseResponseAction = {
+  type: ScriptActionType.ChooseResponse
   responses: ResponseChoice[]
 }
 

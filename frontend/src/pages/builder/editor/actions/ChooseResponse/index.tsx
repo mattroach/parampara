@@ -3,8 +3,8 @@ import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
 import { appendResponseOption } from 'store/slices/script'
 import styled from 'styled-components'
-import { ChooseResponseItem } from 'types/scriptTypes'
-import { NavId, ResponseBubble, ResponseEditField } from '../styles'
+import { ChooseResponseAction } from 'types/scriptTypes'
+import { NavId, ResponseBubble, ResponseEditField } from '../../items/styles'
 import Menu from './Menu'
 
 const ItemWrap = styled.div`
@@ -21,7 +21,7 @@ type State = {
 }
 
 type Props = {
-  item: ChooseResponseItem
+  action: ChooseResponseAction
   position: number
 } & typeof mapDispatchToProps
 
@@ -46,7 +46,7 @@ class ChooseResponse extends React.Component<Props, State> {
   };
 
   render() {
-    const { item, position } = this.props
+    const { action, position } = this.props
     return (
       <ItemWrap>
         <InlineForm onSubmit={this.submitNewResponse}>
@@ -57,7 +57,7 @@ class ChooseResponse extends React.Component<Props, State> {
             onChange={this.handleResponseChange} />
         </InlineForm>
 
-        {item.responses.map((response, i) => {
+        {action.responses.map((response, i) => {
           const bubbleRef: React.RefObject<HTMLDivElement> = React.createRef()
           return (
             <ResponseBubble key={i} ref={bubbleRef} >

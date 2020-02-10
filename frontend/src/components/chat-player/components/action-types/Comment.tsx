@@ -2,13 +2,14 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
-import { CommentItem } from '../../../../types/scriptTypes'
-import TextInput from './TextInput'
+import { CommentAction, ScriptItem, ScriptActionType } from '../../../../types/scriptTypes'
+import TextInput from '../item-types/TextInput'
 
 type State = {
 }
 type Props = {
-  item: CommentItem
+  item: ScriptItem
+  action: CommentAction
   progressItemAndDelayNext: typeof progressItemAndDelayNext
 }
 
@@ -19,8 +20,10 @@ class Comment extends React.Component<Props, State> {
     const { item } = this.props
 
     this.props.progressItemAndDelayNext({
-      type: item.type,
-      progress: { content },
+      actionResult: {
+        type: ScriptActionType.Comment,
+        content
+      },
       item
     })
 

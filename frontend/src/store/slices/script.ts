@@ -4,7 +4,7 @@ import { throttle } from 'throttle-debounce'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import api, { PartialScript, ScriptVersionType } from '../../api'
-import { Script, ScriptItem, ScriptItemType } from '../../types/scriptTypes'
+import { Script, ScriptItem, ScriptItemType, ScriptAction, ScriptActionType } from '../../types/scriptTypes'
 import { RootState } from '../rootReducer'
 import { AppThunk } from 'store/store'
 
@@ -26,6 +26,24 @@ const scriptSlice = createSlice({
     },
     clearScript(state) {
       state.script = undefined
+    },
+    _removeAction(state, action: PayloadAction<{ position: number }>) {
+      if (!state.script)
+        throw Error('Script not loaded')
+
+      let { position } = action.payload
+      state.script.version.items[position].action = undefined
+    },
+    _addAction(state, action: PayloadAction<{ action: ScriptAction, position?: number }>) {
+      if (!state.script)
+        throw Error('Script not loaded')
+
+      let { position } = action.payload
+
+      if (position === undefined)
+        position = state.script.version.items.length - 1
+
+      state.script.version.items[position].action = action.payload.action
     },
     _addItem(state, action: PayloadAction<ScriptItem>) {
       if (!state.script)
@@ -55,23 +73,23 @@ const scriptSlice = createSlice({
       const { position, responsePosition } = action.payload
       const item = items[position]
 
-      if (item.type !== ScriptItemType.ChooseResponse)
-        throw Error('Invalid response type')
+      if (item.action?.type !== ScriptActionType.ChooseResponse)
+        throw Error('Invalid action type')
 
-      if (item.responses.length === 1) {
-        // There is only one option left, so remove the whole item
-        items.splice(position, 1)
+      if (item.action.responses.length === 1) {
+        // There is only one option left, so remove the whole action
+        item.action = undefined
       } else {
-        item.responses.splice(responsePosition, 1)
+        item.action.responses.splice(responsePosition, 1)
       }
     },
     _appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
       const { position, option } = action.payload
       const item = state.script?.version.items[position]
-      if (!item || item.type !== ScriptItemType.ChooseResponse)
-        throw Error('Script does not exist or trying to edit an invalid item')
+      if (item?.action?.type !== ScriptActionType.ChooseResponse)
+        throw Error('Script does not exist or trying to edit an invalid action')
 
-      item.responses.unshift({ message: option })
+      item.action.responses.unshift({ message: option })
     },
     _updateTitle(state, action: PayloadAction<string>) {
       if (!state.script)
@@ -89,10 +107,22 @@ const {
   _appendResponseOption,
   _updateTitle,
   _removeItem,
-  _removeResponseChoice
+  _removeResponseChoice,
+  _addAction,
+  _removeAction
 } = scriptSlice.actions
 
 export default scriptSlice.reducer
+
+export const removeAction = (position: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_removeAction({ position }))
+  saveItemsToServer(getState)
+}
+
+export const addAction = (action: ScriptAction, position?: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_addAction({ action, position }))
+  saveItemsToServer(getState)
+}
 
 export const addItem = (item: ScriptItem): AppThunk => async (dispatch, getState) => {
   dispatch(_addItem(item))

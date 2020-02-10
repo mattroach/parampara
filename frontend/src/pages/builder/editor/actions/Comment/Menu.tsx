@@ -1,6 +1,6 @@
 import React from 'react'
-import ItemMenu from '../components/ItemMenu'
-import ItemMenuDelete from '../components/ItemMenuDelete'
+import ItemMenu from '../../items/components/ItemMenu'
+import DeleteItem from './DeleteItem'
 
 type Props = {
   position: number
@@ -9,7 +9,7 @@ type Props = {
 const Menu: React.FunctionComponent<Props> = ({ position }) => {
   return (
     <ItemMenu id={position}>
-      <ItemMenuDelete position={position} />
+      <DeleteItem position={position} />
     </ItemMenu>
   )
 }

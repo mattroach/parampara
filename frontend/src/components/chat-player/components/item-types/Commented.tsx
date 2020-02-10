@@ -1,9 +1,9 @@
 import React from 'react'
-import { CommentItemProgress } from '../../../../types/sessionProgress';
-import HumanBubble from './HumanBubble';
+import { CommentResult } from '../../../../types/sessionProgress'
+import HumanBubble from './HumanBubble'
 
-const ChosenResponse: React.FunctionComponent<{ itemProgress: CommentItemProgress }> = ({ itemProgress }) => {
-  return <HumanBubble message={itemProgress.progress.content} />
+const ChosenResponse: React.FunctionComponent<{ actionProgress: CommentResult }> = ({ actionProgress }) => {
+  return <HumanBubble message={actionProgress.content} />
 }
 
-export default ChosenResponse;
+export default ChosenResponse

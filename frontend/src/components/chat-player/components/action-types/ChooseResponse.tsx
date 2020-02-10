@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ChooseResponseItem } from 'types/scriptTypes'
+import { ChooseResponseAction, ScriptActionType, ScriptItem } from 'types/scriptTypes'
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
-import ItemWrap from './ItemWrap'
+import ItemWrap from '../item-types/ItemWrap'
 
 const Wrapper = styled(ItemWrap)`
   margin: 20px 0;
@@ -30,7 +30,8 @@ const ResponseButton = styled(Button)`
 `
 
 type Props = {
-  item: ChooseResponseItem
+  item: ScriptItem
+  action: ChooseResponseAction
   progressItemAndDelayNext: typeof progressItemAndDelayNext
 }
 
@@ -42,8 +43,10 @@ class ChooseResponse extends React.Component<Props, {}> {
     const { item } = this.props
 
     this.props.progressItemAndDelayNext({
-      type: item.type,
-      progress: { choice },
+      actionResult: {
+        type: ScriptActionType.ChooseResponse,
+        choice
+      },
       item
     })
   }
@@ -51,7 +54,7 @@ class ChooseResponse extends React.Component<Props, {}> {
   render() {
     return (
       <Wrapper>
-        {this.props.item.responses.map((response, i) =>
+        {this.props.action.responses.map((response, i) =>
           <ResponseButton key={i} variant="link" onClick={this.handleClick(i)}>{response.message}</ResponseButton>
         )}
       </Wrapper>

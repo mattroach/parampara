@@ -71,7 +71,7 @@ VALUES
     0,
     'jonah@getparampara.com' :: character varying(100),
     TRUE,
-    '[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?"},{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":5}]},{"type":"Message","message":"Nice to hear!","nextId":6},{"type":"Message","message":"Sorry to hear that."},{"type":"Message","message":"I am emailing you a document. What do you think about that?"},{"type":"Comment"},{"type":"Message","message":"Good bye!"}]' :: text
+    '[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?","action":{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":4}] } },{ "type" :"Message","message" :"Nice to hear!","nextId" :5 },{ "type" :"Message","message" :"Sorry to hear that." },{ "type" :"Message","message" :"I am emailing you a document. What do you think about that?","action": { "type" :"Comment" } },{ "type" :"Message","message" :"Good bye!" } ]' :: text
   ) returning id;
 
 INSERT INTO
@@ -90,5 +90,5 @@ VALUES
     1,
     'jonah@getparampara.com' :: character varying(100),
     TRUE,
-    '[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?"},{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":5}]},{"type":"Message","message":"Nice to hear!","nextId":6},{"type":"Message","message":"Sorry to hear that."},{"type":"Message","message":"I am emailing you a document. What do you think about that?"},{"type":"Comment"},{"type":"Message","message":"Good bye!"}]' :: text
+    '[{"type":"Message","message":"Hello you!"},{"type":"Message","message":"Welcome to Parampara"},{"type":"Message","message":"Hows your day?","action":{"type":"ChooseResponse","responses":[{"message":"Good"},{"message":"Bad","nextId":4}] } },{ "type" :"Message","message" :"Nice to hear!","nextId" :5 },{ "type" :"Message","message" :"Sorry to hear that." },{ "type" :"Message","message" :"I am emailing you a document. What do you think about that?","action": { "type" :"Comment" } },{ "type" :"Message","message" :"Good bye!" } ]' :: text
   ) returning id;

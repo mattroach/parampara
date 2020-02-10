@@ -4,7 +4,7 @@ import axios from 'axios'
 import { throttle } from 'throttle-debounce'
 
 import { SessionProgress, ProgressItem } from '../../types/sessionProgress'
-import { ScriptItemType } from '../../types/scriptTypes'
+import { ScriptItemType, ScriptActionType } from '../../types/scriptTypes'
 import { AppThunk } from 'store/store'
 
 type SessionProgressStore = {
@@ -30,11 +30,16 @@ const sessionProgressSlice = createSlice({
       }
 
       const itemProgress = action.payload
+      const { actionResult: actionProgress } = itemProgress
       let nextId: number | undefined
-      if (itemProgress.type === ScriptItemType.ChooseResponse) {
-        const choice = itemProgress.progress.choice
-        nextId = itemProgress.item.responses[choice].nextId
-      } else if (itemProgress.type === ScriptItemType.Message) {
+      if (actionProgress?.type === ScriptActionType.ChooseResponse) {
+        const choice = actionProgress.choice
+
+        if (itemProgress.item.action?.type !== ScriptActionType.ChooseResponse)
+          throw Error('Corrupted script')
+
+        nextId = itemProgress.item.action.responses[choice].nextId
+      } else if (itemProgress.item.type === ScriptItemType.Message) {
         nextId = itemProgress.item.nextId
       }
 
