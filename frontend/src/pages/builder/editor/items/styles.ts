@@ -17,7 +17,7 @@ export const BotBubble = styled(BubbleBase)`
   background-color: #efefef;
   color: black;
 `
-export const ResponseBubble = styled(BubbleBase)`
+export const ActionBubble = styled(BubbleBase)`
   border: 1px solid #006bfa;
   color: #006bfa;
   margin-left: 4px; 
@@ -27,14 +27,13 @@ export const ResponseBubble = styled(BubbleBase)`
   line-height: 1.5;
 `
 
-const BubbleFieldBase = styled(Form.Control)`
+export const BubbleFieldBase = styled(Form.Control)`
   border-radius: 15px;
   padding: 7px 13px;
   line-height: 1.3;
   transition: width 100ms;
   
   border: none;
-  resize: none;
 
   :focus {
     box-shadow: none;
@@ -72,13 +71,6 @@ export const ResponseAddField = styled(BubbleFieldBase)`
   }
 `
 
-export const ResponseEditField = styled(ResponseAddField)`
-  width: 70px;
-
-  :focus {
-    width: 170px;
-  }
-`
 
 export const NavId = styled.span`
   vertical-align: middle;

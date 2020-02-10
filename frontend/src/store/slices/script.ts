@@ -83,13 +83,21 @@ const scriptSlice = createSlice({
         item.action.responses.splice(responsePosition, 1)
       }
     },
-    _appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
-      const { position, option } = action.payload
-      const item = state.script?.version.items[position]
-      if (item?.action?.type !== ScriptActionType.ChooseResponse)
+    _updateResponseOption(state, action: PayloadAction<{ position: number, responsePosition: number, newMsg: string }>) {
+      const { position, responsePosition, newMsg } = action.payload
+      const itemAction = state.script?.version.items[position].action
+      if (itemAction?.type !== ScriptActionType.ChooseResponse)
         throw Error('Script does not exist or trying to edit an invalid action')
 
-      item.action.responses.unshift({ message: option })
+      itemAction.responses[responsePosition].message = newMsg
+    },
+    _appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
+      const { position, option } = action.payload
+      const itemAction = state.script?.version.items[position].action
+      if (itemAction?.type !== ScriptActionType.ChooseResponse)
+        throw Error('Script does not exist or trying to edit an invalid action')
+
+      itemAction.responses.unshift({ message: option })
     },
     _updateTitle(state, action: PayloadAction<string>) {
       if (!state.script)
@@ -104,6 +112,7 @@ const {
   clearScript,
   _addItem,
   _updateItem,
+  _updateResponseOption,
   _appendResponseOption,
   _updateTitle,
   _removeItem,
@@ -131,6 +140,11 @@ export const addItem = (item: ScriptItem): AppThunk => async (dispatch, getState
 
 export const updateItem = (position: number, item: ScriptItem): AppThunk => async (dispatch, getState) => {
   dispatch(_updateItem({ position, item }))
+  saveItemsToServer(getState)
+}
+
+export const updateResponseOption = (position: number, responsePosition: number, newMsg: string): AppThunk => async (dispatch, getState) => {
+  dispatch(_updateResponseOption({ position, newMsg, responsePosition }))
   saveItemsToServer(getState)
 }
 

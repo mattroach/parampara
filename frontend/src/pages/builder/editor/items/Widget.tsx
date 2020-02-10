@@ -1,7 +1,7 @@
 import MaterialIcon from 'material-icons-react'
 import React from 'react'
 import styled from 'styled-components'
-import { ResponseBubble } from './styles'
+import { ActionBubble } from './styles'
 
 
 const ItemWrap = styled.div`
@@ -9,7 +9,7 @@ const ItemWrap = styled.div`
   text-align: right;
 `
 
-const Bubble = styled(ResponseBubble)`
+const Bubble = styled(ActionBubble)`
   box-shadow: none;
   font-style: italic;
   i {

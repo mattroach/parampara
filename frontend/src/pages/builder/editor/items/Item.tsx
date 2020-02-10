@@ -1,9 +1,9 @@
 import React from 'react'
 import { ScriptItem, ScriptItemType, ScriptActionType, ScriptAction } from 'types/scriptTypes'
-import ChooseResponse from './actions/ChooseResponse'
-import Comment from './actions/Comment'
-import Image from './items/Image'
-import Message from './items/Message'
+import ChooseResponse from '../actions/ChooseResponse'
+import Comment from '../actions/Comment'
+import Image from './Image'
+import Message from './Message'
 
 
 type Props = {
