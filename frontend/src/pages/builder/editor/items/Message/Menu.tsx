@@ -18,7 +18,7 @@ const Menu: React.FunctionComponent<Props> = ({ position, item }) => {
 
   return (
     <ItemMenu id={position}>
-      <Dropdown.Item as="button" disabled={!!item.action} onClick={newResponseChoice}>Add response choice</Dropdown.Item>
+      <Dropdown.Item as="button" disabled={!!item.action} onClick={newResponseChoice}>Add response option</Dropdown.Item>
       <Dropdown.Item as="button" disabled={!!item.action} onClick={deleteItem}>Collect a comment</Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item as="button">Add navigation jump</Dropdown.Item>

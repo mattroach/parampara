@@ -15,12 +15,13 @@ const Position = styled(NavId)`
 
 type Props = {
   position: number
+  className?: string
 }
 
-const Positioned: React.FunctionComponent<Props> = ({ position, children }) => {
+const Positioned: React.FunctionComponent<Props> = ({ position, children, className }) => {
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <Position>{position}</Position>
       {children}
     </Wrapper>

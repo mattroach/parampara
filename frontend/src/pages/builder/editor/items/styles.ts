@@ -12,11 +12,6 @@ export const BubbleBase = styled.div`
   }
 `
 
-export const BotBubble = styled(BubbleBase)`
-  max-width: 400px;
-  background-color: #efefef;
-  color: black;
-`
 export const ActionBubble = styled(BubbleBase)`
   border: 1px solid #006bfa;
   color: #006bfa;
@@ -26,12 +21,11 @@ export const ActionBubble = styled(BubbleBase)`
   padding: 5px 13px;
   line-height: 1.5;
 `
-
-export const BubbleFieldBase = styled(Form.Control)`
-  border-radius: 15px;
-  padding: 7px 13px;
+export const NestedBubbleFieldBase = styled(Form.Control)`
+  padding: 0;
   line-height: 1.3;
   transition: width 100ms;
+  background: transparent;
   
   resize: none; 
   border: none;
@@ -40,6 +34,11 @@ export const BubbleFieldBase = styled(Form.Control)`
     box-shadow: none;
     outline: none;
   }
+`
+
+export const BubbleFieldBase = styled(NestedBubbleFieldBase)`
+  border-radius: 15px;
+  padding: 7px 13px;
 `
 
 export const EditField = styled(BubbleFieldBase)`
@@ -78,7 +77,7 @@ export const NavId = styled.span`
   display: inline-block;
   text-align: center;
   width: 22px;  
-  background: #efefef;
+  background: rgba(0, 0, 0, .08);
   color: rgba(27,31,35,.7);
   font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   font-size: 0.8em;
