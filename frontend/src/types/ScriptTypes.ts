@@ -33,6 +33,7 @@ export type MessageItem = {
 
 export type ImageItem = {
   type: ScriptItemType.Image
+  nextId?: number
   action?: ScriptAction
 }
 

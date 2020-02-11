@@ -5,18 +5,20 @@ import styled from 'styled-components'
 const StyledDropdownButton = styled(DropdownButton)`
   > button {
     right: -14px;
-    top: -22px;
+    top: -20px;
     position: absolute;
     height: 23px;
     line-height: 25px;
     padding: 0 6px;
     border: none;
-    display: none;
     font-size: 12px;
+    
+    display: inline-block;
+    opacity: 0;
   }
 
   > button[aria-expanded="true"] {
-    display: inline;
+    opacity: 1;
   }
 `
 

@@ -8,7 +8,7 @@ export const BubbleBase = styled.div`
   line-height: 1.3;
 
   :hover .item-menu > button {
-    display: inline;
+    opacity: 1;
   }
 `
 
@@ -54,19 +54,18 @@ export const EditField = styled(BubbleFieldBase)`
 `
 
 export const ResponseAddField = styled(BubbleFieldBase)`
-  background-color: #0076ff;
-  color: white;
+  border: 1px solid #0076ff;
+  color: #0076ff;
   display: inline-block;
   width: 170px;
 
   :focus {
+    border: 1px solid #0076ff;
     width: 240px;
-    color: white;
-    background-color: #0076ff;
   }
 
   ::placeholder {
-    color: #fff;
+    color: #0076ff;
     opacity: .6;
   }
 `

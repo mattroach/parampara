@@ -19,7 +19,7 @@ const Item: React.FunctionComponent<Props> = ({ item, position }) => {
 
   return (
     <>
-      {newItemPosition == position && <NewItemForm position={position} />}
+      {newItemPosition === position && <NewItemForm position={position} />}
       <ItemMain item={item} position={position} />
       <Action action={item.action} position={position} />
     </>

@@ -1,10 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { updateItem } from 'store/slices/script'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { MessageItem } from 'types/scriptTypes'
 import Positioned from '../components/Positioned'
-import { NavId, BubbleBase } from '../styles'
+import { BubbleBase, NavId } from '../styles'
 import EditableContent from './EditableContent'
 import Menu from './Menu'
 
@@ -24,32 +22,23 @@ const StyledPositioned = styled(Positioned)`
   margin: 10px 0;
 `
 
-type State = {
-}
-
 type Props = {
   item: MessageItem
   position: number
-} & typeof mapDispatchToProps
-
-class Message extends React.Component<Props, State> {
-
-  render() {
-    const { position, item } = this.props
-
-    return (
-      <StyledPositioned position={position}>
-        <BotBubble>
-          <Menu position={position} item={item} />
-          <EditableContent position={position} item={item} />
-          {item.nextId ? <NavId>{item.nextId}</NavId> : null}
-        </BotBubble>
-      </StyledPositioned>
-    )
-  }
 }
 
-const mapDispatchToProps = { updateItem }
+const Message: React.FunctionComponent<Props> = ({ position, item }) => {
+  const containerRef = useRef(null)
 
-// @ts-ignore
-export default connect(null, mapDispatchToProps)(Message)
+  return (
+    <StyledPositioned position={position}>
+      <BotBubble ref={containerRef}>
+        <Menu position={position} item={item} containerRef={containerRef} />
+        <EditableContent position={position} item={item} />
+        {item.nextId ? <NavId>{item.nextId}</NavId> : null}
+      </BotBubble>
+    </StyledPositioned>
+  )
+}
+
+export default Message

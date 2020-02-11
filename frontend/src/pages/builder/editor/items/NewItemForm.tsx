@@ -1,8 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
-import BotControls from '../BotControls'
-import { cancelNewItemForm } from 'store/slices/script'
 import { useDispatch } from 'react-redux'
+import { cancelNewItemForm } from 'store/slices/script'
+import BotControls from '../BotControls'
 
 type Props = {
   position: number
