@@ -82,6 +82,19 @@ const scriptSlice = createSlice({
 
       state.script.version.items[action.payload.position] = action.payload.item
     },
+    _updateNextId(state, action: PayloadAction<{ position: number, nextId: number }>) {
+      if (!state.script)
+        throw Error('Script not loaded')
+
+      const { nextId, position } = action.payload
+      const item = state.script.version.items[position]
+
+      console.log(position, nextId)
+      if (nextId === position + 1)
+        item.nextId = undefined
+      else
+        item.nextId = nextId
+    },
     _removeItem(state, action: PayloadAction<{ position: number }>) {
       if (!state.script)
         throw Error('Script not loaded')
@@ -140,6 +153,7 @@ const {
   newItemForm,
   cancelNewItemForm,
   _addItem,
+  _updateNextId,
   _updateItem,
   _updateResponseOption,
   _appendResponseOption,
@@ -171,6 +185,11 @@ export const addAction = (action: ScriptAction, position?: number): AppThunk => 
 
 export const addItem = (item: ScriptItem, position?: number): AppThunk => async (dispatch, getState) => {
   dispatch(_addItem({ item, position }))
+  saveItemsToServer(getState)
+}
+
+export const updateNextId = (position: number, nextId: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_updateNextId({ position, nextId }))
   saveItemsToServer(getState)
 }
 

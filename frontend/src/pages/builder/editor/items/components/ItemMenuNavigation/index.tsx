@@ -12,6 +12,7 @@ type Props = {
 
 const ItemMenuNavigation: React.FunctionComponent<Props> = ({ position, targetRef }) => {
   const [show, setShow] = useState(false)
+  const hide = () => setShow(false)
 
   return (
     <>
@@ -19,10 +20,12 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({ position, targetRe
         show={show}
         target={targetRef.current}
         placement="right"
+        rootClose={true}
+        onHide={hide}
       >
         <Popover id="popover-nav">
           <Popover.Content>
-            <NavigationForm position={position} />
+            <NavigationForm position={position} onSelect={hide} />
           </Popover.Content>
         </Popover>
       </Overlay>
