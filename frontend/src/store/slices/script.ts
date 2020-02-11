@@ -55,12 +55,19 @@ const scriptSlice = createSlice({
       if (!state.script)
         throw Error('Script not loaded')
 
-      let { position } = action.payload
+      const { items } = state.script.version
+      let { position, action: itemAction } = action.payload
 
       if (position === undefined)
-        position = state.script.version.items.length - 1
+        position = items.length - 1
 
-      state.script.version.items[position].action = action.payload.action
+      const item = items[position]
+      item.action = itemAction
+
+      // If the action is ChooseResponse, clear out the nextId as nextId is not allowed on items
+      // with response choices (the nextId is instead defined in the ChooseResponse options)
+      if (itemAction.type === ScriptActionType.ChooseResponse)
+        item.nextId = undefined
     },
     _addItem(state, action: PayloadAction<{ item: ScriptItem, position?: number }>) {
       if (!state.script)

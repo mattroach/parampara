@@ -8,9 +8,10 @@ import NavigationForm from './NavigationForm'
 type Props = {
   position: number
   targetRef: React.RefObject<any>
+  disabled?: boolean
 }
 
-const ItemMenuNavigation: React.FunctionComponent<Props> = ({ position, targetRef }) => {
+const ItemMenuNavigation: React.FunctionComponent<Props> = ({ disabled, position, targetRef }) => {
   const [show, setShow] = useState(false)
   const hide = () => setShow(false)
 
@@ -29,7 +30,7 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({ position, targetRe
           </Popover.Content>
         </Popover>
       </Overlay>
-      <Dropdown.Item as="button" onClick={() => setShow(true)}>Add navigation jump</Dropdown.Item>
+      <Dropdown.Item as="button" disabled={disabled} onClick={() => setShow(true)}>Add navigation jump</Dropdown.Item>
     </>
   )
 }

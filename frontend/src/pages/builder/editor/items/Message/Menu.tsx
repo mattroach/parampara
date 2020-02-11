@@ -19,12 +19,14 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
   const newResponseChoice = () => dispatch(newResponseChoiceForm(position))
   const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
 
+  const hasAction = !!item.action
+
   return (
     <ItemMenu id={position}>
-      <Dropdown.Item as="button" disabled={!!item.action} onClick={newResponseChoice}>Add response option</Dropdown.Item>
-      <Dropdown.Item as="button" disabled={!!item.action} onClick={deleteItem}>Collect a comment</Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={newResponseChoice}>Add response option</Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={deleteItem}>Collect a comment</Dropdown.Item>
       <Dropdown.Divider />
-      <ItemMenuNavigation position={position} targetRef={containerRef} />
+      <ItemMenuNavigation disabled={hasAction} position={position} targetRef={containerRef} />
       <Dropdown.Divider />
       <Dropdown.Item as="button" onClick={() => newItem(position)}>Insert 1 above</Dropdown.Item>
       <Dropdown.Item as="button" onClick={() => newItem(position + 1)}>Insert 1 below</Dropdown.Item>
