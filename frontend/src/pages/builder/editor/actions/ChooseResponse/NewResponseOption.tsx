@@ -1,9 +1,9 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import { appendResponseOption, cancelNewResponseChoice, addAction } from 'store/slices/script'
+import { addAction, appendResponseOption, cancelResponseChoiceForm } from 'store/slices/script'
 import styled from 'styled-components'
-import { ChooseResponseAction, ScriptActionType } from 'types/scriptTypes'
+import { ScriptActionType } from 'types/scriptTypes'
 import { BubbleFieldBase } from '../../items/styles'
 
 export const ResponseEditField = styled(BubbleFieldBase)`
@@ -69,7 +69,7 @@ class ChooseResponse extends React.Component<Props, State> {
           responses: [{ message: this.state.responseDraft }]
         }, this.props.position)
       } else {
-        this.props.cancelNewResponseChoice()
+        this.props.cancelResponseChoiceForm()
         return
       }
     }
@@ -107,7 +107,7 @@ class ChooseResponse extends React.Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = { appendResponseOption, cancelNewResponseChoice, addAction }
+const mapDispatchToProps = { appendResponseOption, cancelResponseChoiceForm, addAction }
 
 // @ts-ignore
 export default connect(null, mapDispatchToProps)(ChooseResponse)

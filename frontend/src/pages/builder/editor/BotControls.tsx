@@ -13,7 +13,7 @@ const StyledForm = styled(Form)`
 `
 
 const AddMessageControl = styled(EditField)`
-  display: inline-box;
+  display: inline-block;
   width: 260px;
  
   :focus {
@@ -26,23 +26,40 @@ type State = {
 }
 
 type Props = {
+  autoFocus?: boolean
+  insertPosition?: number
+  onAddItem?: () => void
+  onBlur?: () => void
 } & typeof mapDispatchToProps
 
 class BotControls extends React.Component<Props, State> {
+  inputRef: React.RefObject<HTMLInputElement> = React.createRef()
+
   state = {
     messageDraft: '',
   }
 
+  componentDidMount() {
+    if (this.props.autoFocus) {
+      setTimeout(() => {
+        this.inputRef.current?.focus()
+      }, 1) // This is a hack. The menu onclick seems to steal focus, this gets around that
+    }
+  }
+
   submitNewBotMessage = (event: any) => {
     event.preventDefault()
+    const { addItem, onAddItem, insertPosition } = this.props
 
     const item: MessageItem = {
       type: ScriptItemType.Message,
       message: this.state.messageDraft
     }
 
-    this.props.addItem(item)
+    addItem(item, insertPosition)
+
     this.setState({ messageDraft: '' })
+    onAddItem && onAddItem()
   }
 
   handleMessageChange = (e: any) => {
@@ -52,12 +69,14 @@ class BotControls extends React.Component<Props, State> {
   render() {
     return (
       <StyledForm onSubmit={this.submitNewBotMessage}>
-        <InlineIconButton tooltip="Choose a gif" icon="gif" />
         <AddMessageControl
+          ref={this.inputRef}
           type="text"
           placeholder="Add a message..."
           value={this.state.messageDraft}
-          onChange={this.handleMessageChange} />
+          onChange={this.handleMessageChange}
+          onBlur={this.props.onBlur} />
+        <InlineIconButton tooltip="Choose a gif" icon="gif" />
       </StyledForm>
     )
   }

@@ -74,7 +74,7 @@ class EditableContent extends React.Component<Props, State> {
   }
 
   render() {
-    const { position, item } = this.props
+    const { item } = this.props
 
     return (
       <>

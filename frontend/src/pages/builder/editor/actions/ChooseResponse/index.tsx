@@ -15,7 +15,6 @@ type Props = {
 }
 
 const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) => {
-
   return (
     <ItemWrap>
       <NewResponseOption
@@ -26,10 +25,8 @@ const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) =>
       {action && action.responses.map((response, i) => {
         return <ResponseOption key={i + response.message} position={position} responsePosition={i} response={response} />
       })}
-
     </ItemWrap>
   )
-
 }
 
 export default ChooseResponse

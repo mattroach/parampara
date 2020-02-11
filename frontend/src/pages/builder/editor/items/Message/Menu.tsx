@@ -4,7 +4,7 @@ import ItemMenuDelete from '../components/ItemMenuDelete'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { ScriptItem, ScriptActionType } from 'types/scriptTypes'
 import { useDispatch } from 'react-redux'
-import { addAction, addNewResponseChoice } from 'store/slices/script'
+import { addAction, newResponseChoiceForm, newItemForm } from 'store/slices/script'
 
 type Props = {
   position: number
@@ -14,7 +14,8 @@ type Props = {
 const Menu: React.FunctionComponent<Props> = ({ position, item }) => {
   const dispatch = useDispatch()
   const deleteItem = () => dispatch(addAction({ type: ScriptActionType.Comment }, position))
-  const newResponseChoice = () => dispatch(addNewResponseChoice(position))
+  const newResponseChoice = () => dispatch(newResponseChoiceForm(position))
+  const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
 
   return (
     <ItemMenu id={position}>
@@ -23,6 +24,8 @@ const Menu: React.FunctionComponent<Props> = ({ position, item }) => {
       <Dropdown.Divider />
       <Dropdown.Item as="button">Add navigation jump</Dropdown.Item>
       <Dropdown.Divider />
+      <Dropdown.Item as="button" onClick={() => newItem(position)}>Insert 1 above</Dropdown.Item>
+      <Dropdown.Item as="button" onClick={() => newItem(position + 1)}>Insert 1 below</Dropdown.Item>
       <ItemMenuDelete position={position} />
     </ItemMenu>
   )

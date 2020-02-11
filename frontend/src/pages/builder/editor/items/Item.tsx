@@ -6,6 +6,7 @@ import Image from './Image'
 import Message from './Message'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
+import NewItemForm from './NewItemForm'
 
 
 type Props = {
@@ -14,8 +15,11 @@ type Props = {
 }
 
 const Item: React.FunctionComponent<Props> = ({ item, position }) => {
+  const newItemPosition = useSelector((state: RootState) => state.scriptStore.newItemPosition)
+
   return (
     <>
+      {newItemPosition == position && <NewItemForm position={position} />}
       <ItemMain item={item} position={position} />
       <Action action={item.action} position={position} />
     </>

@@ -1,13 +1,14 @@
-import MaterialIcon from 'material-icons-react';
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import styled from 'styled-components';
+import MaterialIcon from 'material-icons-react'
+import React from 'react'
+import Button from 'react-bootstrap/Button'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import styled from 'styled-components'
 
 const IconButton = styled(Button)`
   vertical-align: top;
   padding: 0;
+  height: 40px;
 `
 type Props = {
   icon: string

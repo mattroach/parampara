@@ -4,12 +4,12 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-
 import { RootState } from 'store/rootReducer'
 import { addAction } from 'store/slices/script'
-import { ChooseResponseAction, CommentAction, ScriptItemType, ScriptActionType } from '../../../types/scriptTypes'
+import styled from 'styled-components'
+import { ChooseResponseAction, CommentAction, ScriptActionType } from '../../../types/scriptTypes'
 import { ResponseAddField } from './items/styles'
+
 
 const StyledForm = styled(Form)`
   float: right;

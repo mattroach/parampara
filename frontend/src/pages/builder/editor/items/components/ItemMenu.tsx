@@ -11,7 +11,6 @@ const StyledDropdownButton = styled(DropdownButton)`
     line-height: 25px;
     padding: 0 6px;
     border: none;
-    opacity: .9;
     display: none;
     font-size: 12px;
   }

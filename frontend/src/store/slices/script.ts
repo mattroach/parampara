@@ -1,12 +1,12 @@
 
-import { throttle } from 'throttle-debounce'
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import api, { PartialScript, ScriptVersionType } from '../../api'
-import { Script, ScriptItem, ScriptItemType, ScriptAction, ScriptActionType } from '../../types/scriptTypes'
-import { RootState } from '../rootReducer'
 import { AppThunk } from 'store/store'
+import { throttle } from 'throttle-debounce'
+import api, { PartialScript, ScriptVersionType } from '../../api'
+import { Script, ScriptAction, ScriptActionType, ScriptItem } from '../../types/scriptTypes'
+import { RootState } from '../rootReducer'
+
+
 
 /**
  * This store is used by both the ui and the editor atm. Probably, the ui should use the progress store instead
@@ -17,6 +17,7 @@ export type ScriptStore = {
   // If the user clicked "add response choice" on an item, this will be set to the position ID
   // of the item they are adding the response to
   newResponseChoicePosition?: number
+  newItemPosition?: number
 }
 
 let initialState: ScriptStore = {}
@@ -31,11 +32,17 @@ const scriptSlice = createSlice({
     clearScript(state) {
       state.script = undefined
     },
-    addNewResponseChoice(state, action: PayloadAction<number>) {
+    newResponseChoiceForm(state, action: PayloadAction<number>) {
       state.newResponseChoicePosition = action.payload
     },
-    cancelNewResponseChoice(state) {
+    cancelResponseChoiceForm(state) {
       state.newResponseChoicePosition = undefined
+    },
+    newItemForm(state, action: PayloadAction<number>) {
+      state.newItemPosition = action.payload
+    },
+    cancelNewItemForm(state) {
+      state.newItemPosition = undefined
     },
     _removeAction(state, action: PayloadAction<{ position: number }>) {
       if (!state.script)
@@ -55,11 +62,19 @@ const scriptSlice = createSlice({
 
       state.script.version.items[position].action = action.payload.action
     },
-    _addItem(state, action: PayloadAction<ScriptItem>) {
+    _addItem(state, action: PayloadAction<{ item: ScriptItem, position?: number }>) {
       if (!state.script)
         throw Error('Script not loaded')
 
-      state.script.version.items.push(action.payload)
+      const { item, position } = action.payload
+
+      if (position) {
+        state.script.version.items.splice(position, 0, item)
+      } else {
+        state.script.version.items.push(item)
+      }
+
+
     },
     _updateItem(state, action: PayloadAction<{ position: number, item: ScriptItem }>) {
       if (!state.script)
@@ -120,8 +135,10 @@ const scriptSlice = createSlice({
 const {
   updateScript,
   clearScript,
-  addNewResponseChoice,
-  cancelNewResponseChoice,
+  newResponseChoiceForm,
+  cancelResponseChoiceForm,
+  newItemForm,
+  cancelNewItemForm,
   _addItem,
   _updateItem,
   _updateResponseOption,
@@ -133,7 +150,12 @@ const {
   _removeAction,
 } = scriptSlice.actions
 
-export { addNewResponseChoice, cancelNewResponseChoice }
+export {
+  newResponseChoiceForm,
+  cancelResponseChoiceForm,
+  newItemForm,
+  cancelNewItemForm,
+}
 
 export default scriptSlice.reducer
 
@@ -147,8 +169,8 @@ export const addAction = (action: ScriptAction, position?: number): AppThunk => 
   saveItemsToServer(getState)
 }
 
-export const addItem = (item: ScriptItem): AppThunk => async (dispatch, getState) => {
-  dispatch(_addItem(item))
+export const addItem = (item: ScriptItem, position?: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_addItem({ item, position }))
   saveItemsToServer(getState)
 }
 
