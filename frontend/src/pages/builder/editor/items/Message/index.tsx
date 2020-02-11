@@ -46,7 +46,7 @@ class Message extends React.Component<Props, State> {
     event.preventDefault()
 
     const item: MessageItem = {
-      type: ScriptItemType.Message,
+      ...this.props.item,
       message: this.state.messageDraft
     }
 
@@ -84,7 +84,7 @@ class Message extends React.Component<Props, State> {
                 autoFocus />
             </Form>
             : <BotBubble onClick={this.edit} ref={this.bubbleRef}>
-              <Menu position={position} />
+              <Menu position={position} item={item} />
               {item.message}
             </BotBubble>
           }

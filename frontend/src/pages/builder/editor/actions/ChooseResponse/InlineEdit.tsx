@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import { updateResponseOption } from 'store/slices/script'
+import { updateResponseOption, removeResponseChoice } from 'store/slices/script'
 import AutosizeInput from 'react-input-autosize'
 
 import styled from 'styled-components'
@@ -42,19 +42,27 @@ type Props = {
 } & typeof mapDispatchToProps
 
 class InlineEdit extends React.Component<Props, State> {
+  inputRef: HTMLInputElement | null = null
   state = {
     responseDraft: this.props.message
   }
 
+  onSubmit = (event: any) => {
+    event.preventDefault()
+
+    this.inputRef?.blur()
+  }
+
   submitChange = (event: any) => {
     event.preventDefault()
-    const { position, responsePosition, updateResponseOption } = this.props
+    const { position, responsePosition, updateResponseOption, removeResponseChoice } = this.props
     const { responseDraft } = this.state
 
-    if (!responseDraft)
-      return
-
-    updateResponseOption(position, responsePosition, responseDraft)
+    if (responseDraft) {
+      updateResponseOption(position, responsePosition, responseDraft)
+    } else {
+      removeResponseChoice(position, responsePosition)
+    }
   }
 
   handleChange = (e: any) => {
@@ -64,8 +72,9 @@ class InlineEdit extends React.Component<Props, State> {
   render() {
     return (
 
-      <InlineForm onSubmit={this.submitChange}>
+      <InlineForm onSubmit={this.onSubmit}>
         <ResponseEditField
+          inputRef={ref => (this.inputRef = ref)}
           type="text"
           placeholder="Edit..."
           value={this.state.responseDraft}
@@ -76,7 +85,7 @@ class InlineEdit extends React.Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = { updateResponseOption }
+const mapDispatchToProps = { updateResponseOption, removeResponseChoice }
 
 // @ts-ignore
 export default connect(null, mapDispatchToProps)(InlineEdit)

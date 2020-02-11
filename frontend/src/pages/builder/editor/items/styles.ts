@@ -33,6 +33,7 @@ export const BubbleFieldBase = styled(Form.Control)`
   line-height: 1.3;
   transition: width 100ms;
   
+  resize: none; 
   border: none;
 
   :focus {

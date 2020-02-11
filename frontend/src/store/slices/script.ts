@@ -13,6 +13,10 @@ import { AppThunk } from 'store/store'
  */
 export type ScriptStore = {
   script?: Script
+
+  // If the user clicked "add response choice" on an item, this will be set to the position ID
+  // of the item they are adding the response to
+  newResponseChoicePosition?: number
 }
 
 let initialState: ScriptStore = {}
@@ -26,6 +30,12 @@ const scriptSlice = createSlice({
     },
     clearScript(state) {
       state.script = undefined
+    },
+    addNewResponseChoice(state, action: PayloadAction<number>) {
+      state.newResponseChoicePosition = action.payload
+    },
+    cancelNewResponseChoice(state) {
+      state.newResponseChoicePosition = undefined
     },
     _removeAction(state, action: PayloadAction<{ position: number }>) {
       if (!state.script)
@@ -110,6 +120,8 @@ const scriptSlice = createSlice({
 const {
   updateScript,
   clearScript,
+  addNewResponseChoice,
+  cancelNewResponseChoice,
   _addItem,
   _updateItem,
   _updateResponseOption,
@@ -118,8 +130,10 @@ const {
   _removeItem,
   _removeResponseChoice,
   _addAction,
-  _removeAction
+  _removeAction,
 } = scriptSlice.actions
+
+export { addNewResponseChoice, cancelNewResponseChoice }
 
 export default scriptSlice.reducer
 

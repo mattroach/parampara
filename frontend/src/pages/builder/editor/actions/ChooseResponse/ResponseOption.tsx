@@ -7,6 +7,11 @@ import InlineEdit from './InlineEdit'
 
 export const ResponseBubble = styled(ActionBubble)`
   box-shadow: 0px 2px 6px #d9d9d9;
+  transition: box-shadow 0.15s ease-in-out;
+
+  :focus-within {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+  }
 `
 
 type Props = {
