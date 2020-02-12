@@ -7,12 +7,15 @@ import NavigationForm from './NavigationForm'
 
 type Props = {
   position: number
+  currentValue: number | undefined
   targetRef: React.RefObject<any>
   disabled?: boolean
   onChangeNavigation: (nextId: number) => void
 }
 
-const ItemMenuNavigation: React.FunctionComponent<Props> = ({ disabled, position, targetRef, onChangeNavigation }) => {
+const ItemMenuNavigation: React.FunctionComponent<Props> = ({
+  disabled, currentValue, position, targetRef, onChangeNavigation
+}) => {
   const [isShow, setShow] = useState(false)
   const hide = () => setShow(false)
   const show = () => setShow(true)
@@ -33,7 +36,7 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({ disabled, position
       >
         <Popover id="popover-nav">
           <Popover.Content>
-            <NavigationForm position={position} onSelect={changeNavigation} />
+            <NavigationForm position={position} onSelect={changeNavigation} currentValue={currentValue} />
           </Popover.Content>
         </Popover>
       </Overlay>

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
 import api, { PartialScript, ScriptVersionType } from '../../api'
-import { Script, ScriptAction, ScriptActionType, ScriptItem } from '../../types/scriptTypes'
+import { Script, ScriptAction, ScriptActionType, ScriptItem, ChooseResponseAction } from '../../types/scriptTypes'
 import { RootState } from '../rootReducer'
 
 
@@ -76,11 +76,20 @@ const scriptSlice = createSlice({
     _updateItem(state, action: PayloadAction<{ position: number, item: ScriptItem }>) {
       state.script!.version.items[action.payload.position] = action.payload.item
     },
+    _updateResponseNextId(state, action: PayloadAction<{ position: number, responsePosition: number, nextId: number }>) {
+      const { nextId, responsePosition, position } = action.payload
+      const itemAction = state.script!.version.items[position].action! as ChooseResponseAction
+      const response = itemAction.responses[responsePosition]
+
+      if (nextId === position + 1)
+        response.nextId = undefined
+      else
+        response.nextId = nextId
+    },
     _updateNextId(state, action: PayloadAction<{ position: number, nextId: number }>) {
       const { nextId, position } = action.payload
       const item = state.script!.version.items[position]
 
-      console.log(position, nextId)
       if (nextId === position + 1)
         item.nextId = undefined
       else
@@ -94,31 +103,24 @@ const scriptSlice = createSlice({
     _removeResponseChoice(state, action: PayloadAction<{ position: number, responsePosition: number }>) {
       const { items } = state.script!.version
       const { position, responsePosition } = action.payload
-      const item = items[position]
+      const itemAction = items[position].action as ChooseResponseAction
 
-      if (item.action?.type !== ScriptActionType.ChooseResponse)
-        throw Error('Invalid action type')
-
-      if (item.action.responses.length === 1) {
+      if (itemAction.responses.length === 1) {
         // There is only one option left, so remove the whole action
-        item.action = undefined
+        items[position].action = undefined
       } else {
-        item.action.responses.splice(responsePosition, 1)
+        itemAction.responses.splice(responsePosition, 1)
       }
     },
     _updateResponseOption(state, action: PayloadAction<{ position: number, responsePosition: number, newMsg: string }>) {
       const { position, responsePosition, newMsg } = action.payload
-      const itemAction = state.script?.version.items[position].action
-      if (itemAction?.type !== ScriptActionType.ChooseResponse)
-        throw Error('Script does not exist or trying to edit an invalid action')
+      const itemAction = state.script?.version.items[position].action as ChooseResponseAction
 
       itemAction.responses[responsePosition].message = newMsg
     },
     _appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
       const { position, option } = action.payload
-      const itemAction = state.script?.version.items[position].action
-      if (itemAction?.type !== ScriptActionType.ChooseResponse)
-        throw Error('Script does not exist or trying to edit an invalid action')
+      const itemAction = state.script?.version.items[position].action as ChooseResponseAction
 
       itemAction.responses.unshift({ message: option })
     },
@@ -136,6 +138,7 @@ const {
   newItemForm,
   cancelNewItemForm,
   _addItem,
+  _updateResponseNextId,
   _updateNextId,
   _updateItem,
   _updateResponseOption,
@@ -168,6 +171,11 @@ export const addAction = (action: ScriptAction, position?: number): AppThunk => 
 
 export const addItem = (item: ScriptItem, position?: number): AppThunk => async (dispatch, getState) => {
   dispatch(_addItem({ item, position }))
+  saveItemsToServer(getState)
+}
+
+export const updateResponseNextId = (position: number, responsePosition: number, nextId: number): AppThunk => async (dispatch, getState) => {
+  dispatch(_updateResponseNextId({ position, responsePosition, nextId }))
   saveItemsToServer(getState)
 }
 

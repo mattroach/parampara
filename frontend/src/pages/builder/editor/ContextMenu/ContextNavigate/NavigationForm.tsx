@@ -15,23 +15,16 @@ const StyledControlWrap = styled.span`
 
 type Props = {
   position: number
+  currentValue: number | undefined
   onSelect: (nextId: number) => void
 }
 
-const NavigationForm: React.FunctionComponent<Props> = ({ position, onSelect }) => {
-  const { nextItems, nextId } = useSelector((state: RootState) => {
-    const { script } = state.scriptStore
-    if (!script) throw Error('no script')
-
-    return {
-      nextItems: script.version.items.slice(position + 1),
-      nextId: script.version.items[position].nextId
-    }
-  })
+const NavigationForm: React.FunctionComponent<Props> = ({ position, currentValue, onSelect }) => {
+  const nextItems = useSelector((state: RootState) => state.scriptStore.script!.version.items.slice(position + 1))
 
   const onChange = (event: any) => onSelect(parseInt(event.target.value))
 
-  const defaultValue = nextId ? nextId : position + 1
+  const defaultValue = currentValue ? currentValue : position + 1
   return (
     <>
       Navigate to
@@ -41,10 +34,7 @@ const NavigationForm: React.FunctionComponent<Props> = ({ position, onSelect }) 
           value={defaultValue.toString()}
           onChange={onChange}
           autoFocus>
-          {nextItems.map((item, i) => {
-            const pos = i + position + 1
-            return <Option key={i} item={item} pos={pos} />
-          })}
+          {nextItems.map((item, i) => <Option key={i} item={item} pos={i + position + 1} />)}
         </Form.Control>
       </StyledControlWrap>
     </>

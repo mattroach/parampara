@@ -21,12 +21,11 @@ type Props = {
 }
 
 const ResponseOption: React.FunctionComponent<Props> = ({ position, responsePosition, response }) => {
-
   const bubbleRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   return (
     <ResponseBubble ref={bubbleRef} >
-      <Menu position={position} responsePosition={responsePosition} />
+      <Menu response={response} position={position} responsePosition={responsePosition} containerRef={bubbleRef} />
       <InlineEdit position={position} responsePosition={responsePosition} message={response.message} />
       {response.nextId ? <NavId>{response.nextId}</NavId> : null}
     </ResponseBubble>
