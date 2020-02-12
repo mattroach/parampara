@@ -7,7 +7,7 @@ type Props = {
   position: number
 }
 
-const ItemMenuDelete: React.FunctionComponent<Props> = ({ position }) => {
+const ContextDelete: React.FunctionComponent<Props> = ({ position }) => {
   const dispatch = useDispatch()
   const deleteItem = () => dispatch(removeItem(position))
 
@@ -16,4 +16,4 @@ const ItemMenuDelete: React.FunctionComponent<Props> = ({ position }) => {
   )
 }
 
-export default ItemMenuDelete
+export default ContextDelete

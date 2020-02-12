@@ -45,17 +45,11 @@ const scriptSlice = createSlice({
       state.newItemPosition = undefined
     },
     _removeAction(state, action: PayloadAction<{ position: number }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
       let { position } = action.payload
-      state.script.version.items[position].action = undefined
+      state.script!.version.items[position].action = undefined
     },
     _addAction(state, action: PayloadAction<{ action: ScriptAction, position?: number }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
-      const { items } = state.script.version
+      const { items } = state.script!.version
       let { position, action: itemAction } = action.payload
 
       if (position === undefined)
@@ -70,31 +64,21 @@ const scriptSlice = createSlice({
         item.nextId = undefined
     },
     _addItem(state, action: PayloadAction<{ item: ScriptItem, position?: number }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
       const { item, position } = action.payload
+      const { items } = state.script!.version
 
       if (position) {
-        state.script.version.items.splice(position, 0, item)
+        items.splice(position, 0, item)
       } else {
-        state.script.version.items.push(item)
+        items.push(item)
       }
-
-
     },
     _updateItem(state, action: PayloadAction<{ position: number, item: ScriptItem }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
-      state.script.version.items[action.payload.position] = action.payload.item
+      state.script!.version.items[action.payload.position] = action.payload.item
     },
     _updateNextId(state, action: PayloadAction<{ position: number, nextId: number }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
       const { nextId, position } = action.payload
-      const item = state.script.version.items[position]
+      const item = state.script!.version.items[position]
 
       console.log(position, nextId)
       if (nextId === position + 1)
@@ -103,18 +87,12 @@ const scriptSlice = createSlice({
         item.nextId = nextId
     },
     _removeItem(state, action: PayloadAction<{ position: number }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
-      const { items } = state.script.version
+      const { items } = state.script!.version
       const { position } = action.payload
       items.splice(position, 1)
     },
     _removeResponseChoice(state, action: PayloadAction<{ position: number, responsePosition: number }>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-
-      const { items } = state.script.version
+      const { items } = state.script!.version
       const { position, responsePosition } = action.payload
       const item = items[position]
 
@@ -145,9 +123,7 @@ const scriptSlice = createSlice({
       itemAction.responses.unshift({ message: option })
     },
     _updateTitle(state, action: PayloadAction<string>) {
-      if (!state.script)
-        throw Error('Script not loaded')
-      state.script.title = action.payload
+      state.script!.title = action.payload
     }
   }
 })

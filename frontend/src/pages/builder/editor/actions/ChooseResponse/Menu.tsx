@@ -2,7 +2,7 @@ import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { useDispatch } from 'react-redux'
 import { removeResponseChoice } from 'store/slices/script'
-import ItemMenu from '../../items/components/ItemMenu'
+import ContextMenu from '../../ContextMenu'
 
 type Props = {
   position: number
@@ -15,9 +15,9 @@ const Menu: React.FunctionComponent<Props> = ({ position, responsePosition }) =>
   const deleteItem = () => dispatch(removeResponseChoice(position, responsePosition))
 
   return (
-    <ItemMenu id={position}>
+    <ContextMenu id={position}>
       <Dropdown.Item as="button" onClick={deleteItem}>Delete</Dropdown.Item>
-    </ItemMenu>
+    </ContextMenu>
   )
 }
 

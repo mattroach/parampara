@@ -26,7 +26,7 @@ type Props = {
   id: number
 }
 
-const ItemMenu: React.FunctionComponent<Props> = ({ id, children }) => (
+const ContextMenu: React.FunctionComponent<Props> = ({ id, children }) => (
   <>
     <StyledDropdownButton
       id={'edit-item-' + id}
@@ -40,4 +40,4 @@ const ItemMenu: React.FunctionComponent<Props> = ({ id, children }) => (
   </>
 )
 
-export default ItemMenu
+export default ContextMenu

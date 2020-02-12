@@ -1,10 +1,9 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import { ScriptItem, ScriptItemType } from 'types/scriptTypes'
 import styled from 'styled-components'
-import { updateNextId } from 'store/slices/script'
+import { ScriptItem, ScriptItemType } from 'types/scriptTypes'
 
 const StyledControlWrap = styled.span`
   > select {
@@ -16,12 +15,10 @@ const StyledControlWrap = styled.span`
 
 type Props = {
   position: number
-  onSelect: () => void
+  onSelect: (nextId: number) => void
 }
 
 const NavigationForm: React.FunctionComponent<Props> = ({ position, onSelect }) => {
-  const dispatch = useDispatch()
-
   const { nextItems, nextId } = useSelector((state: RootState) => {
     const { script } = state.scriptStore
     if (!script) throw Error('no script')
@@ -32,10 +29,7 @@ const NavigationForm: React.FunctionComponent<Props> = ({ position, onSelect }) 
     }
   })
 
-  const onChange = (event: any) => {
-    dispatch(updateNextId(position, parseInt(event.target.value)))
-    onSelect()
-  }
+  const onChange = (event: any) => onSelect(parseInt(event.target.value))
 
   const defaultValue = nextId ? nextId : position + 1
   return (

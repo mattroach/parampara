@@ -9,16 +9,23 @@ type Props = {
   position: number
   targetRef: React.RefObject<any>
   disabled?: boolean
+  onChangeNavigation: (nextId: number) => void
 }
 
-const ItemMenuNavigation: React.FunctionComponent<Props> = ({ disabled, position, targetRef }) => {
-  const [show, setShow] = useState(false)
+const ItemMenuNavigation: React.FunctionComponent<Props> = ({ disabled, position, targetRef, onChangeNavigation }) => {
+  const [isShow, setShow] = useState(false)
   const hide = () => setShow(false)
+  const show = () => setShow(true)
+
+  const changeNavigation = (nextId: number) => {
+    onChangeNavigation(nextId)
+    hide()
+  }
 
   return (
     <>
       <Overlay
-        show={show}
+        show={isShow}
         target={targetRef.current}
         placement="right"
         rootClose={true}
@@ -26,11 +33,11 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({ disabled, position
       >
         <Popover id="popover-nav">
           <Popover.Content>
-            <NavigationForm position={position} onSelect={hide} />
+            <NavigationForm position={position} onSelect={changeNavigation} />
           </Popover.Content>
         </Popover>
       </Overlay>
-      <Dropdown.Item as="button" disabled={disabled} onClick={() => setShow(true)}>Add navigation jump</Dropdown.Item>
+      <Dropdown.Item as="button" disabled={disabled} onClick={show}>Add navigation jump</Dropdown.Item>
     </>
   )
 }
