@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { addAction } from 'store/slices/script'
 import styled from 'styled-components'
-import { ChooseResponseAction, CommentAction, ScriptActionType } from '../../../types/scriptTypes'
+import { ChooseResponseAction, CommentAction, ScriptActionType } from '../../../../types/scriptTypes'
 import { ResponseAddField } from './items/styles'
 
 

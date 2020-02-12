@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import AdminLayout from '../../layout/AdminLayout'
+import AdminLayout from 'layout/AdminLayout'
 import CreateScriptButton from './components/CreateScriptButton'
 import Scripts from './components/Scripts'
 

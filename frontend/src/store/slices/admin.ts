@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from 'store/store'
 
 type AdminDetails = {
-  id: number
+  id: string
   email: string
 }
 
@@ -33,7 +33,11 @@ export default scriptSlice.reducer
 
 export const loadAdmin = (
   adminId: string
-): AppThunk => async dispatch => {
+): AppThunk => async (dispatch, getState) => {
+
+  // If the admin is already loaded, skip.
+  if (getState().adminStore.admin?.id == adminId)
+    return
 
   axios.get(`/api/admin/${adminId}`)
     .then((response) => {

@@ -4,7 +4,7 @@ import { RootState } from 'store/rootReducer'
 import { loadScript } from 'store/slices/script'
 import { ScriptVersionType } from 'api'
 import ChatPlayer from 'components/chat-player/ChatPlayer'
-import * as styles from './ChatSessionPage.styles'
+import * as styles from './ChatPlayerPage.styles'
 
 
 type Props = {

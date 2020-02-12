@@ -27,7 +27,6 @@ type Props = {
   loadScripts: typeof loadScripts
 } & ReturnType<typeof mapStateToProps>
 
-
 class Scripts extends React.Component<Props, State> {
 
   componentDidMount() {
