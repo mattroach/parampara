@@ -36,7 +36,7 @@ export const loadAdmin = (
 ): AppThunk => async (dispatch, getState) => {
 
   // If the admin is already loaded, skip.
-  if (getState().adminStore.admin?.id == adminId)
+  if (getState().adminStore.admin?.id === adminId)
     return
 
   axios.get(`/api/admin/${adminId}`)

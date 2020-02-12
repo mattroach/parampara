@@ -19,7 +19,8 @@ CREATE TABLE script_version (
   created timestamp NOT NULL DEFAULT now(),
   reporting_email varchar(100),
   items text NOT NULL default '[]',
-  allow_anon boolean DEFAULT TRUE
+  allow_anon boolean DEFAULT TRUE,
+  unique (script_id, version)
 );
 
 CREATE TABLE "session_user" (

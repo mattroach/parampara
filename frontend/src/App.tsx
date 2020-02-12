@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch, useParams } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import ScriptDirectoryPage from './pages/admin/ScriptDirectoryPage'
 import BuilderOldPage from './pages/builder-old/BuilderPage'
@@ -12,39 +12,37 @@ export default function App() {
     <Router>
       <div>
         <Switch>
-          <Route path="/builder/:adminId/:scriptId/create">
-            <BuilderRoute />
-          </Route>
-          <Route path="/builder/:adminId/:scriptId/share">
-            <ShareRoute />
-          </Route>
+          <Route path="/u/:adminId"
+            render={({ match }) =>
+              <ScriptDirectoryPage adminId={match.params.adminId} />} />
+
+          <Route path="/builder/:adminId/:scriptId/create"
+            render={({ match }) =>
+              <BuilderPage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
+
+          <Route path="/builder/:adminId/:scriptId/share"
+            render={({ match }) =>
+              <SharePage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
+
+          <Route path="/s/:id"
+            render={({ match }) =>
+              <ChatPlayerPage scriptId={match.params.id} />} />
+
+
           <Route path="/builder-old">
             <BuilderOldPage />
           </Route>
-          <Route path="/u/:id">
-            <AdminRoute />
-          </Route>
-          <Route path="/s/:id">
-            <ChatSessionRoute />
-          </Route>
+
         </Switch>
       </div>
     </Router>
   )
 }
 
-const ChatSessionRoute: React.FunctionComponent = () =>
-  <ChatPlayerPage scriptId={(useParams() as any).id} />
-
-const AdminRoute: React.FunctionComponent = () =>
-  <ScriptDirectoryPage adminId={(useParams() as any).id} />
-
-const BuilderRoute: React.FunctionComponent = () => {
-  const params = (useParams() as any)
-  return <BuilderPage adminId={params.adminId} scriptId={params.scriptId} />
+const appPaths = {
+  baseUrl: () => 'http://localhost:3000',
+  playScript: (scriptId: string) => `/s/${scriptId}`,
+  scriptDirectory: (adminId: string) => `/u/${adminId}`
 }
 
-const ShareRoute: React.FunctionComponent = () => {
-  const params = (useParams() as any)
-  return <SharePage adminId={params.adminId} scriptId={params.scriptId} />
-}
+export { appPaths }

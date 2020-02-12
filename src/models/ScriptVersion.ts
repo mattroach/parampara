@@ -1,10 +1,12 @@
-import { Model, Modifiers } from 'objection';
+import { Model, Modifiers } from 'objection'
 
 export default class ScriptVersion extends Model {
   id!: string
   scriptId!: string
   version!: number
   reportingEmail!: string
+  allowAnon!: boolean
+  items!: any
 
   static tableName = 'script_version'
 

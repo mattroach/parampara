@@ -63,14 +63,28 @@ router.post('/', async (req: Request, res: Response) => {
   }
 })
 
+router.post('/publish/:id', async (req: Request, res: Response) => {
+  try {
+    const { id: scriptId } = req.params as ParamsDictionary
+
+    await scriptService.publishScript(scriptId)
+
+    return res.status(OK).json({})
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    })
+  }
+})
 
 router.put('/:id', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params as ParamsDictionary
+    const { id: scriptId } = req.params as ParamsDictionary
 
     const script = req.body
 
-    await scriptService.updateScript(id, script)
+    await scriptService.updateScript(scriptId, script)
 
     return res.status(OK).json({})
   } catch (err) {

@@ -1,12 +1,27 @@
-import Script from 'src/models/Script';
-import ScriptVersion from 'src/models/ScriptVersion';
+import Script from 'src/models/Script'
+import ScriptVersion from 'src/models/ScriptVersion'
 
-import { uuid } from '@shared';
+import { uuid } from '@shared'
+import { raw } from 'objection'
 
 export enum ScriptVersionCode {
   latest = 'latest', draft = 'draft'
 }
 class ScriptService {
+  async publishScript(scriptId: string) {
+    const draft = (await ScriptVersion.query()
+      .modify('draft')
+      .where('scriptId', scriptId))[0]
+
+    await ScriptVersion.query().insert({
+      id: uuid(),
+      scriptId,
+      version: ScriptVersion.query().select(raw('version + 1')).modify('latest'),
+      reportingEmail: draft.reportingEmail,
+      items: draft.items,
+      allowAnon: draft.allowAnon,
+    })
+  }
 
   // Todo should take some sort of ScriptUpdate object which is limited in the fields it can have (e.g. no ID, etc)
   async updateScript(id: string, script: Script) {
