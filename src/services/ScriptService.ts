@@ -1,5 +1,5 @@
-import Script from 'src/models/Script'
-import ScriptVersion from 'src/models/ScriptVersion'
+import Script from '../models/Script'
+import ScriptVersion from '../models/ScriptVersion'
 
 import { uuid } from '@shared'
 import { raw } from 'objection'

@@ -3,7 +3,7 @@ import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { BAD_REQUEST, OK } from 'http-status-codes'
 import { ParamsDictionary } from 'express-serve-static-core'
-import Admin from 'src/models/Admin'
+import Admin from '../models/Admin'
 
 const router = Router()
 

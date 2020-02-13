@@ -3,7 +3,7 @@ import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { BAD_REQUEST, OK } from 'http-status-codes'
 import { ParamsDictionary } from 'express-serve-static-core'
-import sessionProgressService from 'src/services/SessionProgressService'
+import sessionProgressService from '../services/SessionProgressService'
 
 const router = Router()
 

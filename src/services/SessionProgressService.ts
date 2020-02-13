@@ -1,5 +1,5 @@
-import SessionUser from 'src/models/SessionUser'
-import SessionProgress from 'src/models/SessionProgress'
+import SessionUser from '../models/SessionUser'
+import SessionProgress from '../models/SessionProgress'
 import { uuid } from '@shared'
 
 class SessionProgressService {

@@ -1,11 +1,10 @@
 
+import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { BAD_REQUEST, OK } from 'http-status-codes'
-import ScriptVersion from 'src/models/ScriptVersion'
-import scriptService, { ScriptVersionCode } from 'src/services/ScriptService'
+import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 
-import { logger } from '@shared'
 
 const router = Router()
 
