@@ -231,12 +231,12 @@ export const loadScript = (
 
   const script = await api.getScript(scriptId, version ? version : ScriptVersionType.latest)
   dispatch(updateScript(script))
-};
+}
 
 export const publishScript = (): AppThunk => async (dispatch, getState) => {
   await api.publishScript(getState().scriptStore.script!.id)
 }
-  
+
 const saveItemsToServer = throttle(3000, false, (getState: () => RootState) => {
   const { script } = getState().scriptStore
 

@@ -1,5 +1,8 @@
 {
-  "dev": "postgres://postgres:parampara@localhost/postgres",
-
-  "prod": "postgres://uname:pw@localhost/dbname"
+  "dev": {
+    "ENV": "DATABASE_URL"
+  },
+  "prod": {
+    "ENV": "DATABASE_URL"
+  }
 }

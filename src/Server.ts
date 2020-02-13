@@ -1,9 +1,9 @@
-import cookieParser from 'cookie-parser';
-import express from 'express';
-import { Request, Response } from 'express';
-import logger from 'morgan';
-import path from 'path';
-import BaseRouter from './routes';
+import cookieParser from 'cookie-parser'
+import express from 'express'
+import { Request, Response } from 'express'
+import logger from 'morgan'
+import path from 'path'
+import BaseRouter from './routes'
 
 import Knex from 'knex'
 import { Model, knexSnakeCaseMappers } from 'objection'
@@ -12,21 +12,21 @@ import { Model, knexSnakeCaseMappers } from 'objection'
 const knex = Knex({
   debug: true,
   client: 'pg',
-  connection: 'postgres://postgres:parampara@localhost/postgres', // process.env.DATABASE_URL
+  connection: process.env.DATABASE_URL,
   ...knexSnakeCaseMappers()
-});
+})
 
 Model.knex(knex)
 
 // Init express
-const app = express();
+const app = express()
 
 // Add middleware/settings/routes to express.
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(cookieParser());
-app.use('/api', BaseRouter);
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
+app.use('/api', BaseRouter)
 
 /**
  * Point express to the 'views' directory. If you're using a
@@ -44,4 +44,4 @@ app.use('/api', BaseRouter);
 // });
 
 // Export express instance
-export default app;
+export default app
