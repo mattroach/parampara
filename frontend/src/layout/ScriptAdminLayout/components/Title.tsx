@@ -47,7 +47,9 @@ class Title extends React.Component<Props, State> {
           placeholder="Script title"
           value={this.state.value}
           onBlur={this.saveChanges}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+          autoFocus={!this.state.value}
+        />
       </Form>
     )
   }

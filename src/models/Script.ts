@@ -1,10 +1,12 @@
-import { Model, Modifiers, RelationMappingsThunk } from 'objection';
+import { Model, Modifiers, RelationMappingsThunk } from 'objection'
 
-import ScriptVersion from './ScriptVersion';
+import ScriptVersion from './ScriptVersion'
 
 export default class Script extends Model {
   id!: string
   adminId!: string
+  reportingEmail!: string
+  allowAnon!: boolean
   version?: ScriptVersion
 
   static tableName = 'script'

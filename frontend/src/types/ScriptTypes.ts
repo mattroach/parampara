@@ -2,11 +2,11 @@ export type Script = {
   id: string
   title: string
   version: ScriptVersion
+  allowAnon: boolean
 }
 
 export type ScriptVersion = {
   id: string
-  allowAnon: boolean
   items: ScriptItem[]
 }
 

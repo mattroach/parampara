@@ -69,7 +69,7 @@ function mapStateToProps(state: RootState) {
   if (!script)
     throw new Error('Script should be loaded')
 
-  return { allowAnon: script.version.allowAnon, scriptId: script.id }
+  return { allowAnon: script.allowAnon, scriptId: script.id }
 }
 
 const mapDispatchToProps = { loadProgressFromServer, initPreviewProgress }

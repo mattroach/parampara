@@ -18,9 +18,7 @@ class ScriptService {
       id: uuid(),
       scriptId,
       version: ScriptVersion.query().select(raw('version + 1')).modify('latest'),
-      reportingEmail: draft.reportingEmail,
       items: draft.items,
-      allowAnon: draft.allowAnon,
     })
   }
 

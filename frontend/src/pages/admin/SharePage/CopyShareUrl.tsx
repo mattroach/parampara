@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { appPaths } from 'App'
 
-const CopyShareUrl: React.FunctionComponent = () => {
+const CopyShareUrl: React.FunctionComponent<{ className?: string }> = ({ className }) => {
   const scriptId = useSelector((state: RootState) => state.scriptStore.script!.id)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -19,7 +19,7 @@ const CopyShareUrl: React.FunctionComponent = () => {
   }
 
   return (
-    <InputGroup>
+    <InputGroup className={className}>
       <Form.Control value={url} onFocus={onFocus} ref={inputRef as React.RefObject<any>} readOnly />
       <InputGroup.Append>
         <Button variant="outline-secondary" onClick={onCopy} >Copy to clipboard</Button>

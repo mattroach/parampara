@@ -22,9 +22,6 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
 
   return (
     <ContextMenu id={position}>
-      <Dropdown.Item as="button" disabled={hasAction} onClick={newResponseChoice}>Add response option</Dropdown.Item>
-      <Dropdown.Item as="button" disabled={hasAction} onClick={deleteItem}>Collect a comment</Dropdown.Item>
-      <Dropdown.Divider />
       <ContextNavigate
         disabled={hasAction}
         position={position}
@@ -32,6 +29,9 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
         onChangeNavigation={changeNavigation}
         currentValue={item.nextId}
       />
+      <Dropdown.Divider />
+      <Dropdown.Item as="button" disabled={hasAction} onClick={newResponseChoice}>Add response option</Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={deleteItem}>Collect a comment</Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item as="button" onClick={() => newItem(position)}>Insert 1 above</Dropdown.Item>
       <Dropdown.Item as="button" onClick={() => newItem(position + 1)}>Insert 1 below</Dropdown.Item>

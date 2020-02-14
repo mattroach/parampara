@@ -32,6 +32,9 @@ const scriptSlice = createSlice({
     clearScript(state) {
       state.script = undefined
     },
+    _configureAllowAnon(state, action: PayloadAction<boolean>) {
+      state.script!.allowAnon = action.payload
+    },
     newResponseChoiceForm(state, action: PayloadAction<number>) {
       state.newResponseChoicePosition = action.payload
     },
@@ -132,6 +135,7 @@ const scriptSlice = createSlice({
 
 const {
   updateScript,
+  _configureAllowAnon,
   clearScript,
   newResponseChoiceForm,
   cancelResponseChoiceForm,
@@ -235,6 +239,14 @@ export const loadScript = (
 
 export const publishScript = (): AppThunk => async (dispatch, getState) => {
   await api.publishScript(getState().scriptStore.script!.id)
+}
+
+export const configureAllowAnon = (allowAnon: boolean): AppThunk => async (dispatch, getState) => {
+  api.updateScript(getState().scriptStore.script!.id, { allowAnon })
+
+  // Not ideal but we pro-activly change the value even before the server responds.
+  // TODO we should handle the failure case.
+  dispatch(_configureAllowAnon(allowAnon))
 }
 
 const saveItemsToServer = throttle(3000, false, (getState: () => RootState) => {
