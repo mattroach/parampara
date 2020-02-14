@@ -5,7 +5,7 @@ import { RootState } from 'store/rootReducer'
 import { loadProgressFromServer, initPreviewProgress, MESSAGE_BASE_DELAY } from 'store/slices/sessionProgress'
 import BotMessage from './item-types/BotMessage'
 import HumanBubble from './item-types/HumanBubble'
-import TextInput from './item-types/TextInput'
+import TextInput from './action-types/TextInput'
 
 type State = {
   askEmail: boolean

@@ -19,7 +19,7 @@ export default ProgressedItem
 const ProgressedItemMain: React.FunctionComponent<{ progressItem: ProgressItem }> = ({ progressItem }) => {
   switch (progressItem.item.type) {
     case ScriptItemType.Message:
-      return <BotMessage message={progressItem.item.message} />
+      return <BotMessage message={progressItem.item.message} disableAnimateIn={true} />
     default:
       return <div>Progressed item {progressItem.item.type}</div>
   }

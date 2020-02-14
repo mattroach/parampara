@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-import ItemWrap from './ItemWrap'
+import ItemWrap from '../item-types/ItemWrap'
 
 const Wrapper = styled(ItemWrap)`
   margin: 20px 0;

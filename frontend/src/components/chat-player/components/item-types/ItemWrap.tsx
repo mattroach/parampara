@@ -1,12 +1,12 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   margin: 10px 0;
   overflow: hidden;
-`;
+`
 
-const AnimatedContent = styled.span`
+const AnimatedContent = styled.span<{ disableAnimateIn?: boolean }>`
   display: inline-block;
   max-width: 75%;
 
@@ -20,15 +20,20 @@ const AnimatedContent = styled.span`
       opacity: 1;
     }
   }
-  animation: .1s linear 0s 1 slideInFromLeft;
-`;
+  ${props => !props.disableAnimateIn && 'animation: .1s linear 0s 1 slideInFromLeft;'};
+`
 
-const ItemWrap: React.FunctionComponent<{className?: string}> = ({ children, className }) => {
-  return (
-    <Wrapper className={className}>
-      <AnimatedContent>{children}</AnimatedContent>
-    </Wrapper>
-  ) 
+type Props = {
+  className?: string
+  disableAnimateIn?: boolean
 }
 
-export default ItemWrap;
+const ItemWrap: React.FunctionComponent<Props> = ({ children, className, disableAnimateIn }) => {
+  return (
+    <Wrapper className={className}>
+      <AnimatedContent disableAnimateIn={disableAnimateIn}>{children}</AnimatedContent>
+    </Wrapper>
+  )
+}
+
+export default ItemWrap

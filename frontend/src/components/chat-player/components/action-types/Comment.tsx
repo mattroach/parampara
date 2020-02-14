@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import { CommentAction, ScriptItem, ScriptActionType } from '../../../../types/scriptTypes'
-import TextInput from '../item-types/TextInput'
+import TextInput from './TextInput'
 
 type State = {
 }
