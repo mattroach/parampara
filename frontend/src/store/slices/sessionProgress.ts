@@ -7,6 +7,8 @@ import { SessionProgress, ProgressItem } from '../../types/sessionProgress'
 import { ScriptItemType, ScriptActionType } from '../../types/scriptTypes'
 import { AppThunk } from 'store/store'
 
+export const MESSAGE_BASE_DELAY = 2000
+
 type SessionProgressStore = {
   currentItemDelaying: boolean
   progress?: SessionProgress
@@ -81,7 +83,7 @@ export const progressItemAndDelayNext = (
 
   setTimeout(() => {
     dispatch(endDelay())
-  }, 2000)
+  }, MESSAGE_BASE_DELAY)
 
   updateProgressOnServer(getState)
 }

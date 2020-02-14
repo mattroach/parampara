@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { RootState } from 'store/rootReducer'
-import { loadProgressFromServer, initPreviewProgress } from 'store/slices/sessionProgress'
+import { loadProgressFromServer, initPreviewProgress, MESSAGE_BASE_DELAY } from 'store/slices/sessionProgress'
 import BotMessage from './item-types/BotMessage'
 import HumanBubble from './item-types/HumanBubble'
 import TextInput from './item-types/TextInput'
@@ -20,7 +20,6 @@ class UserIdentification extends React.Component<Props, State> {
   state: State = {
     askEmail: false
   }
-  static DELAY = 2000
 
   componentDidMount() {
     if (this.props.allowAnon) {
@@ -28,7 +27,7 @@ class UserIdentification extends React.Component<Props, State> {
     } else {
       setTimeout(() => {
         this.setState({ askEmail: true })
-      }, UserIdentification.DELAY)
+      }, MESSAGE_BASE_DELAY)
     }
   }
 
@@ -45,7 +44,7 @@ class UserIdentification extends React.Component<Props, State> {
         this.props.initPreviewProgress()
       else
         this.props.loadProgressFromServer(this.props.scriptId, email)
-    }, UserIdentification.DELAY / 2) // TODO just divide by 2 to estimate the response from the server
+    }, MESSAGE_BASE_DELAY / 2) // TODO just divide by 2 to estimate the response from the server
   }
 
   render() {

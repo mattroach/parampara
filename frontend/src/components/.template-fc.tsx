@@ -8,7 +8,8 @@ type Props = {
 }
 
 const MyComp: React.FunctionComponent<Props> = ({ children }) => {
-  //  const statevar = useSelector((state: RootState) => state..)
+  // const statevar = useSelector((state: RootState) => state..)
+  // const [show, setShow] = useState(false)
 
   return (
     <Wrapper>
