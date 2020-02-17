@@ -1,12 +1,12 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-
 import { addItem } from 'store/slices/script'
+import styled from 'styled-components'
 import { MessageItem, ScriptItemType } from 'types/scriptTypes'
-import InlineIconButton from './InlineIconButton'
+import GiphyButton from './GiphyButton'
 import { EditField } from './items/styles'
+
 
 const StyledForm = styled(Form)`
   display: inline;
@@ -76,7 +76,7 @@ class BotControls extends React.Component<Props, State> {
           value={this.state.messageDraft}
           onChange={this.handleMessageChange}
           onBlur={this.props.onBlur} />
-        <InlineIconButton tooltip="Choose a gif" icon="gif" />
+        <GiphyButton />
       </StyledForm>
     )
   }
