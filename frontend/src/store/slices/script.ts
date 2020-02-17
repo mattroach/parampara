@@ -7,7 +7,6 @@ import { Script, ScriptAction, ScriptActionType, ScriptItem, ChooseResponseActio
 import { RootState } from '../rootReducer'
 
 
-
 /**
  * This store is used by both the ui and the editor atm. Probably, the ui should use the progress store instead
  */
@@ -31,6 +30,9 @@ const scriptSlice = createSlice({
     },
     clearScript(state) {
       state.script = undefined
+    },
+    setHasUnpublishedChanges(state, action: PayloadAction<boolean>) {
+      state.script!.hasUnpublishedChanges = action.payload
     },
     _configureAllowAnon(state, action: PayloadAction<boolean>) {
       state.script!.allowAnon = action.payload
@@ -137,6 +139,7 @@ const {
   updateScript,
   _configureAllowAnon,
   clearScript,
+  setHasUnpublishedChanges,
   newResponseChoiceForm,
   cancelResponseChoiceForm,
   newItemForm,
@@ -165,52 +168,52 @@ export default scriptSlice.reducer
 
 export const removeAction = (position: number): AppThunk => async (dispatch, getState) => {
   dispatch(_removeAction({ position }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const addAction = (action: ScriptAction, position?: number): AppThunk => async (dispatch, getState) => {
   dispatch(_addAction({ action, position }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const addItem = (item: ScriptItem, position?: number): AppThunk => async (dispatch, getState) => {
   dispatch(_addItem({ item, position }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const updateResponseNextId = (position: number, responsePosition: number, nextId: number): AppThunk => async (dispatch, getState) => {
   dispatch(_updateResponseNextId({ position, responsePosition, nextId }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const updateNextId = (position: number, nextId: number): AppThunk => async (dispatch, getState) => {
   dispatch(_updateNextId({ position, nextId }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const updateItem = (position: number, item: ScriptItem): AppThunk => async (dispatch, getState) => {
   dispatch(_updateItem({ position, item }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const updateResponseOption = (position: number, responsePosition: number, newMsg: string): AppThunk => async (dispatch, getState) => {
   dispatch(_updateResponseOption({ position, newMsg, responsePosition }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const appendResponseOption = (position: number, option: string): AppThunk => async (dispatch, getState) => {
   dispatch(_appendResponseOption({ position, option }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const removeResponseChoice = (position: number, responsePosition: number): AppThunk => async (dispatch, getState) => {
   dispatch(_removeResponseChoice({ position, responsePosition }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const removeItem = (position: number): AppThunk => async (dispatch, getState) => {
   dispatch(_removeItem({ position }))
-  saveItemsToServer(getState)
+  dispatch(scriptContentUpdated())
 }
 
 export const updateTitle = (scriptId: string, title: string): AppThunk => async (dispatch) => {
@@ -238,6 +241,7 @@ export const loadScript = (
 }
 
 export const publishScript = (): AppThunk => async (dispatch, getState) => {
+  dispatch(setHasUnpublishedChanges(false))
   await api.publishScript(getState().scriptStore.script!.id)
 }
 
@@ -249,7 +253,12 @@ export const configureAllowAnon = (allowAnon: boolean): AppThunk => async (dispa
   dispatch(_configureAllowAnon(allowAnon))
 }
 
-const saveItemsToServer = throttle(3000, false, (getState: () => RootState) => {
+const scriptContentUpdated = (): AppThunk => async (dispatch, getState) => {
+  dispatch(setHasUnpublishedChanges(true))
+  updateScriptOnServer(getState)
+}
+
+const updateScriptOnServer = throttle(3000, false, (getState: () => RootState) => {
   const { script } = getState().scriptStore
 
   if (!script)

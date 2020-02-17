@@ -20,20 +20,26 @@ class ScriptService {
       version: ScriptVersion.query().select(raw('version + 1')).modify('latest'),
       items: draft.items,
     })
+
+    await Script.query()
+      .findById(scriptId)
+      .patch({ hasUnpublishedChanges: false })
   }
 
   // Todo should take some sort of ScriptUpdate object which is limited in the fields it can have (e.g. no ID, etc)
   async updateScript(id: string, script: Script) {
-    await Script.query()
-      .findById(id)
-      .patch(script)
-
     if (script.version) {
       await ScriptVersion.query()
         .where('scriptId', id)
         .modify('draft')
         .patch(script.version)
+
+      script.hasUnpublishedChanges = true
     }
+
+    await Script.query()
+      .findById(id)
+      .patch(script)
   }
 
   async getScripts(adminId: string) {

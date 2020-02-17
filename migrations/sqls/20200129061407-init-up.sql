@@ -11,7 +11,8 @@ CREATE TABLE script (
   title varchar(100) NOT NULL DEFAULT '',
   created timestamp DEFAULT now(),
   allow_anon boolean DEFAULT TRUE,
-  reporting_email varchar(100)
+  reporting_email varchar(100),
+  has_unpublished_changes boolean DEFAULT TRUE
 );
 
 CREATE TABLE script_version (

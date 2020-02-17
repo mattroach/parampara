@@ -3,6 +3,7 @@ export type Script = {
   title: string
   version: ScriptVersion
   allowAnon: boolean
+  hasUnpublishedChanges: boolean
 }
 
 export type ScriptVersion = {

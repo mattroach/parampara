@@ -7,6 +7,7 @@ export default class Script extends Model {
   adminId!: string
   reportingEmail!: string
   allowAnon!: boolean
+  hasUnpublishedChanges!: boolean
   version?: ScriptVersion
 
   static tableName = 'script'
