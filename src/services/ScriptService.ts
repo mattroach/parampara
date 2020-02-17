@@ -3,7 +3,6 @@ import ScriptVersion from '../models/ScriptVersion'
 
 import { uuid } from '@shared'
 import { raw } from 'objection'
-import starterTemplate from './starterTemplate'
 
 export enum ScriptVersionCode {
   latest = 'latest', draft = 'draft'
@@ -68,8 +67,7 @@ class ScriptService {
     await ScriptVersion.query().insert({
       id: uuid(),
       scriptId: script.id,
-      version: ScriptVersion.DRAFT_VERSION,
-      items: starterTemplate
+      version: ScriptVersion.DRAFT_VERSION
     })
 
     return script
