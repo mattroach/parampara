@@ -33,7 +33,5 @@ const ActionItem: React.FunctionComponent<{ progressItem: ProgressItem, actionPr
       return <ChosenResponse progressItem={progressItem} actionProgress={actionProgress} />
     case ScriptActionType.Comment:
       return <Commented actionProgress={actionProgress} />
-    // default:
-    //   return <div>Progressed item {itemProgress.item.type}</div>
   }
 }

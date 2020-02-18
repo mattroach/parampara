@@ -34,7 +34,7 @@ type State = {
 }
 
 type Props = {
-
+  onAddItem?: () => void
 } & typeof mapDispatchToProps & ReturnType<typeof mapStateToProps>
 
 class HumanControls extends React.Component<Props, State> {
@@ -53,6 +53,7 @@ class HumanControls extends React.Component<Props, State> {
     this.props.addAction(item)
 
     this.setState({ responseDraft: '' })
+    this.props.onAddItem && this.props.onAddItem()
   }
 
   handleResponseChange = (e: any) => {
@@ -71,6 +72,7 @@ class HumanControls extends React.Component<Props, State> {
     }
 
     this.props.addAction(item)
+    this.props.onAddItem && this.props.onAddItem()
   }
 
   render() {

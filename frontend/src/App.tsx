@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import ScriptDirectoryPage from './pages/admin/ScriptDirectoryPage'
-import BuilderOldPage from './pages/builder-old/BuilderPage'
 import BuilderPage from './pages/admin/BuilderPage'
 import ChatPlayerPage from 'pages/ChatPlayerPage'
 import SharePage from 'pages/admin/SharePage'
@@ -27,12 +26,6 @@ export default function App() {
           <Route path="/s/:id"
             render={({ match }) =>
               <ChatPlayerPage scriptId={match.params.id} />} />
-
-
-          <Route path="/builder-old">
-            <BuilderOldPage />
-          </Route>
-
         </Switch>
       </div>
     </Router>

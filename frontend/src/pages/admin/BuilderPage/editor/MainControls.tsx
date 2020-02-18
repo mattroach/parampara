@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-import BotControls from './BotControls';
-import HumanControls from './HumanControls';
+import BotControls from './BotControls'
+import HumanControls from './HumanControls'
 
 const Wrapper = styled.div`
   border-top: 2px solid #eee;
@@ -11,10 +11,17 @@ const Wrapper = styled.div`
 `
 
 const MainControls: React.FunctionComponent = () => {
+  const scrollDown = () => {
+    // We need to delay it, as when the item is first added, the new render hasn't actually happened yet.
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight)
+    }, 1)
+  }
+
   return (
     <Wrapper>
-      <BotControls />
-      <HumanControls />
+      <BotControls onAddItem={scrollDown} />
+      <HumanControls onAddItem={scrollDown} />
     </Wrapper>
   )
 }
