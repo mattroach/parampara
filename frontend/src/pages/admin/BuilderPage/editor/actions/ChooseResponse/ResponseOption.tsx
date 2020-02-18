@@ -1,17 +1,17 @@
 import React from 'react'
 import Menu from './Menu'
-import { NavId, ActionBubble } from '../../items/styles'
+import { NavId, ActionBubble, BubbleBase } from '../../items/styles'
 import { ResponseChoice } from 'types/scriptTypes'
 import styled from 'styled-components'
 import InlineEdit from './InlineEdit'
 
-export const ResponseBubble = styled(ActionBubble)`
+const StyledBubbleBase = styled(BubbleBase)`
+  margin-left: 4px; 
   box-shadow: 0px 2px 6px #d9d9d9;
-  transition: box-shadow 0.15s ease-in-out;
+`
 
-  :focus-within {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
-  }
+const StyledNavId = styled(NavId)`
+  margin-left: 8px;
 `
 
 type Props = {
@@ -24,11 +24,13 @@ const ResponseOption: React.FunctionComponent<Props> = ({ position, responsePosi
   const bubbleRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   return (
-    <ResponseBubble ref={bubbleRef} >
+    <StyledBubbleBase ref={bubbleRef}>
       <Menu response={response} position={position} responsePosition={responsePosition} containerRef={bubbleRef} />
-      <InlineEdit position={position} responsePosition={responsePosition} message={response.message} />
-      {response.nextId ? <NavId>{response.nextId}</NavId> : null}
-    </ResponseBubble>
+      <ActionBubble>
+        <InlineEdit position={position} responsePosition={responsePosition} message={response.message} />
+        {response.nextId ? <StyledNavId>{response.nextId}</StyledNavId> : null}
+      </ActionBubble>
+    </StyledBubbleBase>
   )
 }
 

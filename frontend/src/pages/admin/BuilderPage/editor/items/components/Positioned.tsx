@@ -10,7 +10,6 @@ const Position = styled(NavId)`
   position: absolute;
   top: 6px;
   left: -26px;
-  margin-left: 0;
 `
 
 type Props = {

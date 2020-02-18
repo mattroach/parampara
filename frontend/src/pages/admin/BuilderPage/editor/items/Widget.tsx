@@ -1,7 +1,7 @@
 import MaterialIcon from 'material-icons-react'
 import React from 'react'
 import styled from 'styled-components'
-import { ActionBubble } from './styles'
+import { BubbleBase, ActionBubble } from './styles'
 
 
 const ItemWrap = styled.div`
@@ -18,29 +18,23 @@ const Bubble = styled(ActionBubble)`
   }
 `
 
-type State = {
-}
-
 type Props = {
   icon: string
   title: string
 }
 
-class Widget extends React.Component<Props, State> {
-
-  render() {
-    const { children } = this.props
-
-    return (
-      <ItemWrap>
+const Widget: React.FunctionComponent<Props> = ({ children, icon, title }) => {
+  return (
+    <ItemWrap>
+      <BubbleBase>
+        {children}
         <Bubble>
-          {children}
-          <MaterialIcon icon={this.props.icon} size={20} color="#006bfa" />
-          {this.props.title}
+          <MaterialIcon icon={icon} size={20} color="#006bfa" />
+          {title}
         </Bubble>
-      </ItemWrap>
-    )
-  }
+      </BubbleBase>
+    </ItemWrap>
+  )
 }
 
 export default Widget

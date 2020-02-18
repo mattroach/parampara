@@ -4,8 +4,8 @@ import styled from 'styled-components'
 
 const StyledDropdownButton = styled(DropdownButton)`
   > button {
-    right: -14px;
-    top: -20px;
+    right: -7px;
+    top: -12px;
     position: absolute;
     height: 23px;
     line-height: 25px;

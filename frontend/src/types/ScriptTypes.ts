@@ -34,6 +34,10 @@ export type MessageItem = {
 
 export type ImageItem = {
   type: ScriptItemType.Image
+  url: string
+  title: string
+  width: number
+  height: number
   nextId?: number
   action?: ScriptAction
 }

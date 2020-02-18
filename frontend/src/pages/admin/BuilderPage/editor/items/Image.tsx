@@ -1,22 +1,22 @@
 import React from 'react'
-import { ImageItem } from 'types/scriptTypes'
 import styled from 'styled-components'
+import { ImageItem } from 'types/scriptTypes'
+import ItemTemplate from './components/ItemTemplate'
 
-const ItemWrap = styled.div`
+const StyledImage = styled.img`
+  border-radius: 15px;
 `
-
 
 type Props = {
   item: ImageItem
   position: number
 }
 
-const Image: React.FunctionComponent<Props> = ({ item, position }) => {
-
+const Image: React.FunctionComponent<Props> = ({ position, item }) => {
   return (
-    <ItemWrap>
-      {item.type}
-    </ItemWrap>
+    <ItemTemplate position={position} item={item}>
+      <StyledImage src={item.url} width={item.width} height={item.height} alt={item.title} />
+    </ItemTemplate>
   )
 }
 

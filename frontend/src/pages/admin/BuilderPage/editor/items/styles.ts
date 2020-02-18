@@ -4,19 +4,21 @@ import styled from 'styled-components'
 export const BubbleBase = styled.div`
   display: inline-block;
   border-radius: 15px;
-  padding: 7px 13px;
-  line-height: 1.3;
 
   :hover .item-menu > button {
     opacity: 1;
   }
+  
+  transition: box-shadow 0.15s ease-in-out;
+  :focus-within {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+  }
 `
 
-export const ActionBubble = styled(BubbleBase)`
+export const ActionBubble = styled.div`
+  border-radius: 15px;
   border: 1px solid #006bfa;
   color: #006bfa;
-  margin-left: 4px; 
-  box-shadow: 0px 2px 6px #d9d9d9;
 
   padding: 5px 13px;
   line-height: 1.5;
@@ -83,5 +85,4 @@ export const NavId = styled.span`
   line-height: 18px;
   border-radius: 100%;
   padding: 2px 0;
-  margin-left: 8px;
 `
