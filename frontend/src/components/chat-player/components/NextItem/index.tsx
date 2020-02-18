@@ -5,6 +5,7 @@ import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import { ScriptItem, ScriptItemType } from 'types/scriptTypes'
 import BotMessage from '../item-types/BotMessage'
 import NextItemAction from './NextItemAction'
+import BotImage from '../item-types/BotImage'
 
 // Todo: should it pull the item from redux instead of via a prop?
 const NextItem: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
@@ -26,13 +27,13 @@ export default NextItem
 const NextItemMain: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
   const dispatch = useDispatch()
 
+  if (!item.action)
+    dispatch(progressItemAndDelayNext({ item }))
+
   switch (item.type) {
     case ScriptItemType.Message:
-      if (!item.action)
-        dispatch(progressItemAndDelayNext({ item }))
-
       return <BotMessage message={item.message} />
-    default:
-      return <div>Not implemented {item.type}</div>
+    case ScriptItemType.Image:
+      return <BotImage item={item} />
   }
 }

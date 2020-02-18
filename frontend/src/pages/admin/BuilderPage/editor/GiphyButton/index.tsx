@@ -6,28 +6,30 @@ import Overlay from 'react-bootstrap/Overlay'
 
 
 const GiphyButton: React.FunctionComponent = () => {
-  const [show, setShow] = useState(false)
+  const [isShow, setShow] = useState(false)
   const targetRef = useRef<HTMLInputElement>(null)
+
+  const hide = () => setShow(false)
 
   return (
     <>
       <InlineIconButton
         ref={targetRef}
-        disableTooltip={show}
+        disableTooltip={isShow}
         tooltip="Choose a gif"
         icon="gif"
         onClick={() => setShow(true)}
       />
 
       <Overlay
-        show={show}
+        show={isShow}
         target={targetRef.current!}
         placement="top"
-        onHide={() => setShow(false)}
+        onHide={hide}
         rootClose={true}
       >
         <Popover id="popover-giphy">
-          <GiphyPicker />
+          <GiphyPicker onPick={hide} />
         </Popover>
       </Overlay>
     </>

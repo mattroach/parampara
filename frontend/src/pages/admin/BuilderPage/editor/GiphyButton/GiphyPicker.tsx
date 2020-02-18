@@ -57,6 +57,7 @@ type GiphyItem = {
 }
 
 type Props = {
+  onPick: () => void
 } & typeof mapDispatchToProps
 
 type State = {
@@ -109,6 +110,7 @@ class GiphyPicker extends React.Component<Props, State> {
     }
 
     this.props.addItem(item)
+    this.props.onPick()
   }
 
   render() {

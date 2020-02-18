@@ -63,7 +63,7 @@ export const ResponseAddField = styled(BubbleFieldBase)`
 
   :focus {
     border: 1px solid #0076ff;
-    width: 240px;
+    width: 200px;
   }
 
   ::placeholder {

@@ -14,11 +14,7 @@ const StyledForm = styled(Form)`
 
 const AddMessageControl = styled(EditField)`
   display: inline-block;
-  width: 260px;
- 
-  :focus {
-    width: 340px;
-  }
+  width: 300px;
 `
 
 type State = {
