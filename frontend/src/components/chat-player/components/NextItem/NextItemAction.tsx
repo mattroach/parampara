@@ -9,10 +9,11 @@ const NextItemAction: React.FunctionComponent<{ item: ScriptItem, action: Script
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setShow(true)
     }, MESSAGE_BASE_DELAY)
-  })
+    return () => clearTimeout(timer)
+  }, [])
 
   if (!show)
     return null

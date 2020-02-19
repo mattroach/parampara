@@ -33,7 +33,14 @@ export default function App() {
 }
 
 const appPaths = {
-  baseUrl: () => 'http://localhost:3000',
+  baseUrl: () => {
+    const defaultPorts = { "http:": 80, "https:": 443 }
+    const protocol = window.location.protocol as 'http:' | 'https:'
+    const { hostname, port } = window.location
+
+    return protocol + "//" + hostname
+      + ((port && parseInt(port) !== defaultPorts[protocol]) ? (":" + port) : "")
+  },
   playScript: (scriptId: string) => `/s/${scriptId}`,
   scriptDirectory: (adminId: string) => `/u/${adminId}`
 }
