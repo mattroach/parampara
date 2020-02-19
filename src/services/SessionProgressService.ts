@@ -1,15 +1,25 @@
-import SessionUser from '../models/SessionUser'
-import SessionProgress from '../models/SessionProgress'
 import { uuid } from '@shared'
+import SessionProgress from '../models/SessionProgress'
+import SessionUser from '../models/SessionUser'
+import sessionResponseService from './SessionResponseService'
 
 class SessionProgressService {
-  async updateSessionProgress(sessionId: string, currentItemId: number, items: any[]) {
-    const numUpdated = await SessionProgress.query()
+  async updateSessionProgress(
+    sessionId: string,
+    scriptVersionId: string,
+    currentItemId: number,
+    items: any[]
+  ) {
+    const session = (await SessionProgress.query().findById(sessionId))
+
+    if (!session)
+      throw Error(`session ID ${sessionId} not found`)
+
+    await sessionResponseService.saveNewResponses(session, scriptVersionId, items)
+
+    await SessionProgress.query()
       .findById(sessionId)
       .patch({ currentItemId, items })
-
-    if (numUpdated === 0)
-      throw Error(`session ID ${sessionId} not found`)
   }
 
   async getOrCreateSessionProgress(scriptId: string, email?: string): Promise<SessionProgress> {

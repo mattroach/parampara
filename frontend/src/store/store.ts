@@ -17,6 +17,4 @@ export type AppDispatch = typeof store.dispatch
 
 export type AppThunk = ThunkAction<void, RootState, null, Action<string>>
 
-export type rootstatetest = ReturnType<typeof store.dispatch>
-
 export default store

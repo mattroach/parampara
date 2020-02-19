@@ -12,6 +12,10 @@ type StartOrLoadProgressReq = {
   scriptId: string
 }
 
+/**
+ * Returns an existing session for the corresponding scriptId and email, or otherwise creates a
+ * new session and returns that. If no email is passed in, it will always return a new anon session.
+ */
 router.post('/', async (req: Request, res: Response) => {
   try {
     const request: StartOrLoadProgressReq = req.body
@@ -33,6 +37,7 @@ router.post('/', async (req: Request, res: Response) => {
 
 type UpdateProgressReq = {
   currentItemId: number
+  scriptVersionId: string
   items: any[]
 }
 
@@ -40,12 +45,15 @@ router.put('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params as ParamsDictionary
 
-    const updateRequest: UpdateProgressReq = req.body
+    const reqParams: UpdateProgressReq = req.body
 
     if (!id)
       throw new Error('No scriptId provided')
 
-    await sessionProgressService.updateSessionProgress(id, updateRequest.currentItemId, updateRequest.items)
+    if (!reqParams.currentItemId || !reqParams.scriptVersionId || !reqParams.items)
+      throw new Error('Params missing')
+
+    await sessionProgressService.updateSessionProgress(id, reqParams.scriptVersionId, reqParams.currentItemId, reqParams.items)
 
     return res.status(OK).json({})
   } catch (err) {

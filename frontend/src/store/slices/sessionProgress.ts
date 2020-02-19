@@ -6,6 +6,7 @@ import { throttle } from 'throttle-debounce'
 import { SessionProgress, ProgressItem } from '../../types/sessionProgress'
 import { ScriptItemType, ScriptActionType } from '../../types/scriptTypes'
 import { AppThunk } from 'store/store'
+import { RootState } from 'store/rootReducer'
 
 export const MESSAGE_BASE_DELAY = 2000
 
@@ -101,18 +102,19 @@ export const loadProgressFromServer = (
     })
 }
 
-const updateProgressOnServer = throttle(3000, false, (getState) => {
+const updateProgressOnServer = throttle(3000, false, (getState: () => RootState) => {
   const { progress } = getState().sessionProgressStore
+  const scriptVersionId = getState().scriptStore.script!.version.id
 
   if (!progress)
     throw Error('No progress available')
 
-  const { currentItemId, items, id } = progress
+  const { currentItemId, items, id, } = progress
 
   if (!id) {
     // We must be in preview mode: do not save progress
     return
   }
 
-  axios.put(`/api/sessionProgress/${id}`, { currentItemId, items })
+  axios.put(`/api/sessionProgress/${id}`, { currentItemId, items, scriptVersionId })
 })
