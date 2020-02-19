@@ -6,14 +6,21 @@ import SessionProgress from '../models/SessionProgress'
 import Objection = require('objection')
 
 class SessionResponseService {
-  async saveNewResponses(lastSession: SessionProgress, scriptVersionId: string, items: ProgressItem[]) {
-    const prevPosition = lastSession.items.length // TODO should store in the table instead?
+  async getSessionsWithResponses(scriptId: string) {
+    return await SessionProgress.query()
+      .select('id', 'sessionUserId', 'created')
+      .withGraphFetched('responses')
+      .where('scriptId', scriptId)
+      .orderBy('created')
+  }
+
+  async saveNewResponses(lastSession: SessionProgress, items: ProgressItem[]) {
+    // TODO should store in the table instead? but the items are probs deserialized anyways?
+    const prevPosition = lastSession.items.length
 
     items.slice(prevPosition)
       .forEach(async (item, i) => {
         if (!item.actionResult) return
-
-        const itemIndex = i + prevPosition
 
         if (item.actionResult.type === ScriptActionType.ChooseResponse) {
           const action = item.item.action as ChooseResponseAction
@@ -22,16 +29,14 @@ class SessionResponseService {
             return
           }
 
-          await this.saveResponse(lastSession, scriptVersionId, {
-            itemIndex,
-            responseType: 'choice',
+          await this.saveResponse(lastSession, {
+            responseType: item.actionResult.type,
             message: this.getItemMessage(item.item),
             response: action.responses[item.actionResult.choice].message
           })
         } else {
-          await this.saveResponse(lastSession, scriptVersionId, {
-            itemIndex,
-            responseType: 'comment',
+          await this.saveResponse(lastSession, {
+            responseType: item.actionResult.type,
             message: this.getItemMessage(item.item),
             response: item.actionResult.content
           })
@@ -41,7 +46,6 @@ class SessionResponseService {
 
   private async saveResponse(
     lastSession: SessionProgress,
-    scriptVersionId: string,
     data: Objection.PartialModelObject<SessionResponse>
   ) {
     return await SessionResponse.query().insert({
@@ -49,14 +53,13 @@ class SessionResponseService {
       id: uuid(),
       sessionProgressId: lastSession.id,
       sessionUserId: lastSession.sessionUserId,
-      scriptId: lastSession.scriptId,
-      scriptVersionId
+      scriptId: lastSession.scriptId
     })
   }
 
   private getItemMessage(item: ScriptItem) {
     if (item.type === ScriptItemType.Image)
-      return 'Giphy'
+      return `(image) ${item.title}`
     else
       return item.message
   }

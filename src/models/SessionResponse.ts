@@ -1,15 +1,12 @@
 import { Model } from 'objection'
-
-export type ResponseType = 'choice' | 'comment'
+import { ScriptActionType } from 'frontend/src/types/scriptTypes'
 
 export default class SessionResponse extends Model {
   id!: string
   sessionProgressId!: string
   sessionUserId!: string
   scriptId!: string
-  scriptVersionId!: string
-  itemIndex!: number
-  responseType!: ResponseType
+  responseType!: ScriptActionType
   message!: string
   response!: string
 

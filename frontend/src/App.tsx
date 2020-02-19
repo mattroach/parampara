@@ -5,6 +5,7 @@ import ScriptDirectoryPage from './pages/admin/ScriptDirectoryPage'
 import BuilderPage from './pages/admin/BuilderPage'
 import ChatPlayerPage from 'pages/ChatPlayerPage'
 import SharePage from 'pages/admin/SharePage'
+import ResultsPage from 'pages/admin/ResultsPage'
 
 export default function App() {
   return (
@@ -22,6 +23,10 @@ export default function App() {
           <Route path="/builder/:adminId/:scriptId/share"
             render={({ match }) =>
               <SharePage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
+
+          <Route path="/builder/:adminId/:scriptId/results"
+            render={({ match }) =>
+              <ResultsPage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
 
           <Route path="/s/:id"
             render={({ match }) =>

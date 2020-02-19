@@ -4,7 +4,7 @@ import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { BAD_REQUEST, OK } from 'http-status-codes'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
-
+import sessionResponseService from '../services/SessionResponseService'
 
 const router = Router()
 
@@ -28,14 +28,29 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params as ParamsDictionary
+    const { id: scriptId } = req.params as ParamsDictionary
     const { version }: { version: ScriptVersionCode } = req.query
     if (!(version in ScriptVersionCode))
       throw Error('Bad version')
 
-    const script = await scriptService.getScript(id, version)
+    const script = await scriptService.getScript(scriptId, version)
 
     return res.status(OK).json(script)
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    })
+  }
+})
+
+router.get('/:id/results', async (req: Request, res: Response) => {
+  try {
+    const { id: scriptId } = req.params as ParamsDictionary
+
+    const results = await sessionResponseService.getSessionsWithResponses(scriptId)
+
+    return res.status(OK).json(results)
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({

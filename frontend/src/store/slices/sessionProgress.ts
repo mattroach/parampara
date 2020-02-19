@@ -104,7 +104,6 @@ export const loadProgressFromServer = (
 
 const updateProgressOnServer = throttle(3000, false, (getState: () => RootState) => {
   const { progress } = getState().sessionProgressStore
-  const scriptVersionId = getState().scriptStore.script!.version.id
 
   if (!progress)
     throw Error('No progress available')
@@ -116,5 +115,5 @@ const updateProgressOnServer = throttle(3000, false, (getState: () => RootState)
     return
   }
 
-  axios.put(`/api/sessionProgress/${id}`, { currentItemId, items, scriptVersionId })
+  axios.put(`/api/sessionProgress/${id}`, { currentItemId, items })
 })

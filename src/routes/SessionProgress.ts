@@ -37,7 +37,6 @@ router.post('/', async (req: Request, res: Response) => {
 
 type UpdateProgressReq = {
   currentItemId: number
-  scriptVersionId: string
   items: any[]
 }
 
@@ -50,10 +49,10 @@ router.put('/:id', async (req: Request, res: Response) => {
     if (!id)
       throw new Error('No scriptId provided')
 
-    if (!reqParams.currentItemId || !reqParams.scriptVersionId || !reqParams.items)
+    if (!reqParams.currentItemId || !reqParams.items)
       throw new Error('Params missing')
 
-    await sessionProgressService.updateSessionProgress(id, reqParams.scriptVersionId, reqParams.currentItemId, reqParams.items)
+    await sessionProgressService.updateSessionProgress(id, reqParams.currentItemId, reqParams.items)
 
     return res.status(OK).json({})
   } catch (err) {

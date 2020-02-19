@@ -6,7 +6,6 @@ import sessionResponseService from './SessionResponseService'
 class SessionProgressService {
   async updateSessionProgress(
     sessionId: string,
-    scriptVersionId: string,
     currentItemId: number,
     items: any[]
   ) {
@@ -15,7 +14,7 @@ class SessionProgressService {
     if (!session)
       throw Error(`session ID ${sessionId} not found`)
 
-    await sessionResponseService.saveNewResponses(session, scriptVersionId, items)
+    await sessionResponseService.saveNewResponses(session, items)
 
     await SessionProgress.query()
       .findById(sessionId)
