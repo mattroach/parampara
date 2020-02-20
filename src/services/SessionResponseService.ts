@@ -1,7 +1,7 @@
 import { uuid } from '@shared'
-import { ChooseResponseAction, ScriptActionType, ScriptItem, ScriptItemType } from 'frontend/src/types/scriptTypes'
-import { ProgressItem } from 'frontend/src/types/sessionProgress'
-import SessionResponse from 'src/models/SessionResponse'
+import { ChooseResponseAction, ScriptActionType, ScriptItem, ScriptItemType } from '../../frontend/src/types/scriptTypes'
+import { ProgressItem } from '../../frontend/src/types/sessionProgress'
+import SessionResponse from '../models/SessionResponse'
 import SessionProgress from '../models/SessionProgress'
 import Objection = require('objection')
 

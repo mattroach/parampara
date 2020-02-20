@@ -26,6 +26,20 @@ Model.knex(knex)
 // Init express
 const app = express()
 
+
+if (process.env.NODE_ENV === 'production') {
+  // Redirect to HTTPS
+  app.use((req, res, next) => {
+    // Insecure request?
+    if (req.get('x-forwarded-proto') == 'http') {
+      // Redirect to https://
+      return res.redirect('https://' + req.get('host') + req.url)
+    }
+
+    next()
+  })
+}
+
 // Add middleware/settings/routes to express.
 app.use(logger('dev'))
 app.use(express.json())
@@ -33,10 +47,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api', BaseRouter)
 
-const frontendDir = path.join(__dirname, '../frontend/build')
-app.use(express.static(frontendDir))
+// For dist builds ONLY - not useful for local dev runtime
+const publicDir = path.join(__dirname, '../public')
+app.use(express.static(publicDir))
 app.get('*', (req: Request, res: Response) => {
-  res.sendFile('index.html', { root: frontendDir })
+  res.sendFile('index.html', { root: publicDir })
 })
 
 // Export express instance

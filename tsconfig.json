@@ -34,10 +34,8 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
+    "index.ts",
     "spec/**/*.ts"
   ],
-  "exclude": [
-    "src/public/"
-  ]
+  "exclude": []
 }
