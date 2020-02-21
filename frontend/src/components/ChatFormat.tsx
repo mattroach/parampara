@@ -2,7 +2,7 @@ import React from 'react'
 import Linkify from 'react-linkify'
 
 const componentDecorator = (href: string, text: string, key: number) => (
-  <a href={href} key={key} target="_blank" rel="noopener">
+  <a href={href} key={key} target="_blank" rel="noopener noreferrer">
     {text}
   </a>
 )

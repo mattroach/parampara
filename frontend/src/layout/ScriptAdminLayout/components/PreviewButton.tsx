@@ -49,10 +49,7 @@ const StyledModalBody = styled(Modal.Body)`
   overflow: auto;
 `
 
-type Props = {
-}
-
-const PreviewButton: React.FunctionComponent<Props> = () => {
+const PreviewButton: React.FunctionComponent = () => {
   const [show, setShow] = useState(false)
   const dispatch = useDispatch()
 

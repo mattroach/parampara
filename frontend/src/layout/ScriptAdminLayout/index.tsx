@@ -16,7 +16,7 @@ type Props = {
   loadScript: typeof loadScript
 } & RouteComponentProps & ReturnType<typeof mapStateToProps>
 
-class BuilderPage extends React.Component<Props, {}> {
+class ScriptAdminLayout extends React.Component<Props> {
 
   componentDidMount() {
     this.props.loadScript(this.props.scriptId, ScriptVersionType.draft)
@@ -51,4 +51,4 @@ function mapStateToProps(state: RootState) {
 export default compose(
   withRouter,
   connect(mapStateToProps, { loadScript })
-)(BuilderPage) as any
+)(ScriptAdminLayout) as any
