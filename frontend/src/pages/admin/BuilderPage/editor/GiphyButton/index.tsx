@@ -4,12 +4,21 @@ import InlineIconButton from '../InlineIconButton'
 import Popover from 'react-bootstrap/Popover'
 import Overlay from 'react-bootstrap/Overlay'
 
+type Props = {
+  container: React.RefObject<HTMLDivElement>
+  insertPosition?: number
+  onAddItem?: () => void
+}
 
-const GiphyButton: React.FunctionComponent = () => {
+const GiphyButton: React.FunctionComponent<Props> = ({ container, insertPosition, onAddItem }) => {
   const [isShow, setShow] = useState(false)
   const targetRef = useRef<HTMLInputElement>(null)
 
   const hide = () => setShow(false)
+  const onPick = () => {
+    onAddItem && onAddItem()
+    hide()
+  }
 
   return (
     <>
@@ -24,12 +33,13 @@ const GiphyButton: React.FunctionComponent = () => {
       <Overlay
         show={isShow}
         target={targetRef.current!}
+        container={container.current!}
         placement="top"
         onHide={hide}
         rootClose={true}
       >
         <Popover id="popover-giphy">
-          <GiphyPicker onPick={hide} />
+          <GiphyPicker onPick={onPick} insertPosition={insertPosition} />
         </Popover>
       </Overlay>
     </>

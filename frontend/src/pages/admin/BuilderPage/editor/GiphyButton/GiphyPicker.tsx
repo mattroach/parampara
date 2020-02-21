@@ -58,6 +58,7 @@ type GiphyItem = {
 
 type Props = {
   onPick: () => void
+  insertPosition?: number
 } & typeof mapDispatchToProps
 
 type State = {
@@ -72,6 +73,10 @@ class GiphyPicker extends React.Component<Props, State> {
 
   componentDidMount() {
     this.triggerSearch()
+  }
+
+  componentWillUnmount() {
+    this.triggerSearch.cancel()
   }
 
   _search = () => {
@@ -109,7 +114,7 @@ class GiphyPicker extends React.Component<Props, State> {
       height: parseInt(imageDetails.height, 10)
     }
 
-    this.props.addItem(item)
+    this.props.addItem(item, this.props.insertPosition)
     this.props.onPick()
   }
 
@@ -140,5 +145,5 @@ class GiphyPicker extends React.Component<Props, State> {
 
 const mapDispatchToProps = { addItem }
 
-// @ts-ignore
+// @ts-ignore: redux issue
 export default connect(null, mapDispatchToProps)(GiphyPicker)

@@ -7,6 +7,9 @@ import { MessageItem, ScriptItemType } from 'types/scriptTypes'
 import GiphyButton from './GiphyButton'
 import { EditField } from './items/styles'
 
+const Wrapper = styled.div`
+  display: inline-block;
+`
 
 const StyledForm = styled(Form)`
   display: inline;
@@ -30,6 +33,7 @@ type Props = {
 
 class BotControls extends React.Component<Props, State> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef()
+  containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   state = {
     messageDraft: '',
@@ -40,6 +44,18 @@ class BotControls extends React.Component<Props, State> {
       setTimeout(() => {
         this.inputRef.current?.focus()
       }, 1) // This is a hack. The menu onclick seems to steal focus, this gets around that
+    }
+
+    this.props.onBlur && document.addEventListener('click', this.handleClickOutside)
+  }
+
+  componentWillUnmount() {
+    this.props.onBlur && document.removeEventListener('click', this.handleClickOutside)
+  }
+
+  handleClickOutside = (event: MouseEvent) => {
+    if (this.containerRef.current && !this.containerRef.current.contains(event.target as any)) {
+      this.props.onBlur!()
     }
   }
 
@@ -60,20 +76,26 @@ class BotControls extends React.Component<Props, State> {
 
   handleMessageChange = (e: any) => {
     this.setState({ messageDraft: e.target.value })
-  };
+  }
 
   render() {
     return (
-      <StyledForm onSubmit={this.submitNewBotMessage}>
-        <AddMessageControl
-          ref={this.inputRef}
-          type="text"
-          placeholder="Add a message..."
-          value={this.state.messageDraft}
-          onChange={this.handleMessageChange}
-          onBlur={this.props.onBlur} />
-        <GiphyButton />
-      </StyledForm>
+      <Wrapper ref={this.containerRef}>
+        <StyledForm onSubmit={this.submitNewBotMessage}>
+          <AddMessageControl
+            ref={this.inputRef}
+            type="text"
+            placeholder="Add a message..."
+            value={this.state.messageDraft}
+            onChange={this.handleMessageChange}
+          />
+          <GiphyButton
+            container={this.containerRef}
+            insertPosition={this.props.insertPosition}
+            onAddItem={this.props.onAddItem}
+          />
+        </StyledForm>
+      </Wrapper>
     )
   }
 }
