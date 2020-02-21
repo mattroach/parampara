@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ItemWrap from './ItemWrap'
+import ChatFormat from 'components/ChatFormat'
 
 const Bubble = styled.span`
   display: inline-block;
@@ -14,10 +15,12 @@ type Props = {
   message: string
   disableAnimateIn?: boolean
 }
+
+
 const BotMessage: React.FunctionComponent<Props> = ({ message, disableAnimateIn }) => {
   return (
     <ItemWrap disableAnimateIn={disableAnimateIn}>
-      <Bubble>{message}</Bubble>
+      <Bubble><ChatFormat>{message}</ChatFormat></Bubble>
     </ItemWrap>
   )
 }
