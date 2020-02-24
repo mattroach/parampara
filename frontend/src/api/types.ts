@@ -13,7 +13,8 @@ export type Session = {
   created: string
   durationSec: number
   progress: number
-  responses: SessionResponse[]
+  responses: SessionResponse[],
+  referrerCode?: string
 }
 
 export type SessionResponse = {

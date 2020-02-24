@@ -2,8 +2,7 @@ import { uuid } from '@shared'
 import SessionProgress from '../models/SessionProgress'
 import SessionUser from '../models/SessionUser'
 import sessionResponseService from './SessionResponseService'
-import Script from 'src/models/Script'
-import ScriptVersion from 'src/models/ScriptVersion'
+import ScriptVersion from '../models/ScriptVersion'
 
 class SessionProgressService {
   async updateSessionProgress(
@@ -31,7 +30,15 @@ class SessionProgressService {
     return Math.floor(100 * currentItemId / scriptVersion.items.length)
   }
 
-  async getOrCreateSessionProgress(scriptId: string, email?: string): Promise<SessionProgress> {
+  async getOrCreateSessionProgress(
+    scriptId: string,
+    data: {
+      email?: string,
+      referrerCode?: string
+    }
+  ): Promise<SessionProgress> {
+    const { email, referrerCode } = data
+
     if (email) {
       const user = await this.getUserByEmail(email)
 
@@ -41,18 +48,25 @@ class SessionProgressService {
         if (existingProgress)
           return existingProgress
 
-        return await this.createSessionProgress(scriptId, user.id)
+        return await this.createSessionProgress(scriptId, { userId: user.id, referrerCode })
       }
 
       const newUser = await this.createUser(email)
-      const progress = await this.createSessionProgress(scriptId, newUser.id)
+      const progress = await this.createSessionProgress(scriptId, { userId: newUser.id, referrerCode })
       return await this.getSessionProgressById(progress.id)
     }
-    const progress = await this.createSessionProgress(scriptId)
+    const progress = await this.createSessionProgress(scriptId, { referrerCode })
     return await this.getSessionProgressById(progress.id)
   }
 
-  private async createSessionProgress(scriptId: string, userId?: string) {
+  private async createSessionProgress(
+    scriptId: string,
+    data: {
+      userId?: string,
+      referrerCode?: string
+    }
+  ) {
+    const { userId, referrerCode } = data
     const scriptVersion = await ScriptVersion.query().where('scriptId', scriptId).modify('latest')
     const scriptVersionId = scriptVersion[0].id
 
@@ -60,7 +74,8 @@ class SessionProgressService {
       id: uuid(),
       sessionUserId: userId,
       scriptId,
-      scriptVersionId
+      scriptVersionId,
+      referrerCode
     })
   }
 

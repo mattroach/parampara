@@ -9,7 +9,8 @@ const router = Router()
 
 type StartOrLoadProgressReq = {
   email?: string
-  scriptId: string
+  scriptId: string,
+  referrerCode?: string
 }
 
 /**
@@ -19,12 +20,12 @@ type StartOrLoadProgressReq = {
 router.post('/', async (req: Request, res: Response) => {
   try {
     const request: StartOrLoadProgressReq = req.body
-    const { scriptId, email } = request
+    const { scriptId, email, referrerCode } = request
 
     if (!scriptId)
       throw new Error('No scriptId provided')
 
-    const progress = await sessionProgressService.getOrCreateSessionProgress(scriptId, email)
+    const progress = await sessionProgressService.getOrCreateSessionProgress(scriptId, { email, referrerCode })
 
     return res.status(OK).json(progress)
   } catch (err) {

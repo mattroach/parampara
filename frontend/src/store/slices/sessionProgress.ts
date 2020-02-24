@@ -1,12 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import axios from 'axios'
-import { throttle } from 'throttle-debounce'
-
-import { SessionProgress, ProgressItem } from '../../types/sessionProgress'
-import { ScriptItemType, ScriptActionType } from '../../types/scriptTypes'
-import { AppThunk } from 'store/store'
+import api from 'api'
 import { RootState } from 'store/rootReducer'
+import { AppThunk } from 'store/store'
+import { throttle } from 'throttle-debounce'
+import { ScriptActionType, ScriptItemType } from '../../types/scriptTypes'
+import { ProgressItem, SessionProgress } from '../../types/sessionProgress'
 
 export const MESSAGE_BASE_DELAY = 2000
 
@@ -94,12 +92,11 @@ export const loadProgressFromServer = (
   scriptId: string,
   email?: string
 ): AppThunk => async dispatch => {
-  axios.post('/api/sessionProgress/', { email, scriptId })
-    .then((response) => {
-      const progress: SessionProgress = response.data
+  const urlParams = new URLSearchParams(window.location.search)
+  const referrerCode = urlParams.get('r') || undefined
 
-      dispatch(updateProgress(progress))
-    })
+  const sessionProgress = await api.getOrCreateSessionProgress({ email, scriptId, referrerCode })
+  dispatch(updateProgress(sessionProgress))
 }
 
 const updateProgressOnServer = throttle(3000, false, (getState: () => RootState) => {
@@ -115,5 +112,5 @@ const updateProgressOnServer = throttle(3000, false, (getState: () => RootState)
     return
   }
 
-  axios.put(`/api/sessionProgress/${id}`, { currentItemId, items })
+  api.updateProgress(id, { currentItemId, items })
 })

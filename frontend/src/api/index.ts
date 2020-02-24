@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import { Script } from '../types/scriptTypes'
 import { ScriptVersionType, Session, PartialScript } from './types'
+import { ProgressItem, SessionProgress } from 'types/sessionProgress'
 
 const getScript = async (scriptId: string, version: ScriptVersionType): Promise<Script> => {
   const response = await axios.get(`/api/script/${scriptId}`, { params: { version } })
@@ -29,9 +30,31 @@ const publishScript = async (
   await axios.post(`/api/script/publish/${scriptId}`)
 }
 
+const getOrCreateSessionProgress = async (
+  data: {
+    scriptId: string,
+    email?: string,
+    referrerCode?: string
+  }
+): Promise<SessionProgress> => {
+  return (await axios.post('/api/sessionProgress/', data)).data
+}
+
+const updateProgress = async (
+  sessionProgressId: string,
+  data: {
+    currentItemId: number,
+    items: ProgressItem[]
+  }
+): Promise<void> => {
+  await axios.put(`/api/sessionProgress/${sessionProgressId}`, data)
+}
+
 export default {
   getScriptResults,
   getScript,
   updateScript,
-  publishScript
+  publishScript,
+  getOrCreateSessionProgress,
+  updateProgress
 }

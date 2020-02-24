@@ -11,6 +11,7 @@ export default class SessionProgress extends Model {
   sessionUserId!: string
   progress!: number
   durationSec!: number
+  referrerCode?: string
 
   responses?: SessionResponse[]
   scriptVersion?: ScriptVersion

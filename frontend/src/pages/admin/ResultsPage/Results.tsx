@@ -32,6 +32,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
           <th>Date</th>
           <th>User</th>
           <th>Progress</th>
+          <th>Referrer</th>
           <th>Responses</th>
         </tr>
       </thead>
@@ -42,6 +43,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
               <td>{dayjs(result.created).format('DD MMM YYYY, h:mma')}</td>
               <td>{result.sessionUserId}</td>
               <td><ProgressBar now={result.progress} label={`${result.progress}%`} /></td>
+              <td>{result.referrerCode}</td>
               <td>{result.responses.map(response => <Response data={response} />)}</td>
             </tr>
           )
