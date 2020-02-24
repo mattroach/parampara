@@ -4,10 +4,15 @@ import { RootState } from 'store/rootReducer'
 import NextItem from './components/NextItem'
 import ProgressedItem from './components/ProgressedItem'
 import UserIdentification from './components/UserIdentification'
+import styled from 'styled-components'
 
 type Props = {
   isPreviewMode: boolean
 } & ReturnType<typeof mapStateToProps>
+
+const ScrollBuffer = styled.div`
+  height: 200px;
+`
 
 class ChatPlayer extends React.Component<Props> {
 
@@ -19,6 +24,7 @@ class ChatPlayer extends React.Component<Props> {
         <UserIdentification isPreviewMode={isPreviewMode} />
         {progress && progress.items.map((progressItem, i) => <ProgressedItem key={i} progressItem={progressItem} />)}
         {progress && nextItem && <NextItem item={nextItem} />}
+        <ScrollBuffer />
       </>
     )
   }

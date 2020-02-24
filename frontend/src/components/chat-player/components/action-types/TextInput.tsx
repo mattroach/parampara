@@ -26,6 +26,7 @@ const MessageInput = styled(Form.Control)`
   border: none;
   border-bottom: 1px solid #888;
   border-radius: 0;
+  width: 200px;
 
   :focus {
     box-shadow: none;
@@ -41,11 +42,13 @@ type Props = {
 }
 
 class TextInput extends React.Component<Props, State> {
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      content: ''
-    }
+  state: State = {
+    content: ''
+  }
+  containerRef: React.RefObject<HTMLDivElement> = React.createRef()
+
+  componentDidMount() {
+    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
   }
 
   updateContent = (event: any) => {
@@ -62,7 +65,7 @@ class TextInput extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper ref={this.containerRef}>
         <Form inline={true} onSubmit={this.handleSubmit}>
           <MessageInput placeholder={this.props.placeholder} onChange={this.updateContent} autoFocus />
           <GoButton variant="primary" type="submit">Go</GoButton>

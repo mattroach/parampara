@@ -6,7 +6,7 @@ import { throttle } from 'throttle-debounce'
 import { ScriptActionType, ScriptItemType } from '../../types/scriptTypes'
 import { ProgressItem, SessionProgress } from '../../types/sessionProgress'
 
-export const MESSAGE_BASE_DELAY = 1600
+export const MESSAGE_BASE_DELAY = 200//1600
 
 type SessionProgressStore = {
   currentItemDelaying: boolean

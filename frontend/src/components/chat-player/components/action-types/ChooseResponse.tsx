@@ -8,9 +8,12 @@ import { connect } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import ItemWrap from '../item-types/ItemWrap'
 
-const Wrapper = styled(ItemWrap)`
-  margin: 20px 0;
-  text-align: right;
+const Wrapper = styled(ItemWrap).attrs(props => ({
+  unlimitedWidth: true
+}))`
+  margin: 30px 0;
+  text-align: center;
+  width: 100%;
 `
 
 const ResponseButton = styled(Button)`
@@ -21,7 +24,7 @@ const ResponseButton = styled(Button)`
   border-color: #006bfa;
   color: #006bfa;
   box-shadow: 0px 2px 6px #d9d9d9;
-  margin-right: 8px;
+  margin: 4px 8px 4px 0;
 
   :hover, :active, :visited {
     text-decoration: none;
@@ -35,7 +38,12 @@ type Props = {
   progressItemAndDelayNext: typeof progressItemAndDelayNext
 }
 
-class ChooseResponse extends React.Component<Props, {}> {
+class ChooseResponse extends React.Component<Props> {
+  containerRef: React.RefObject<HTMLDivElement> = React.createRef()
+
+  componentDidMount() {
+    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
+  }
 
   handleClick = (choice: number) => (event: any) => {
     event.preventDefault()
@@ -53,7 +61,7 @@ class ChooseResponse extends React.Component<Props, {}> {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper ref={this.containerRef}>
         {this.props.action.responses.map((response, i) =>
           <ResponseButton key={i} variant="link" onClick={this.handleClick(i)}>{response.message}</ResponseButton>
         )}

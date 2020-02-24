@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
   margin: 10px 0;
-  overflow: hidden;
 `
 
-const AnimatedContent = styled.span<{ disableAnimateIn?: boolean }>`
+const AnimatedContent = styled.span<{ disableAnimateIn?: boolean, unlimitedWidth?: boolean }>`
   display: inline-block;
-  max-width: 75%;
+  ${props => !props.unlimitedWidth && 'max-width: 75%;'}
 
   @keyframes slideInFromLeft {
     0% {
@@ -26,14 +25,16 @@ const AnimatedContent = styled.span<{ disableAnimateIn?: boolean }>`
 type Props = {
   className?: string
   disableAnimateIn?: boolean
+  unlimitedWidth?: boolean,
+  children: React.ReactNode
 }
 
-const ItemWrap: React.FunctionComponent<Props> = ({ children, className, disableAnimateIn }) => {
+const ItemWrap: React.RefForwardingComponent<HTMLDivElement, Props> = ({ children, className, disableAnimateIn, unlimitedWidth }, ref) => {
   return (
-    <Wrapper className={className}>
-      <AnimatedContent disableAnimateIn={disableAnimateIn}>{children}</AnimatedContent>
+    <Wrapper className={className} ref={ref}>
+      <AnimatedContent disableAnimateIn={disableAnimateIn} unlimitedWidth={unlimitedWidth}>{children}</AnimatedContent>
     </Wrapper>
   )
 }
 
-export default ItemWrap
+export default forwardRef(ItemWrap)

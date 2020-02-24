@@ -5,15 +5,13 @@ import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import { CommentAction, ScriptItem, ScriptActionType } from '../../../../types/scriptTypes'
 import TextInput from './TextInput'
 
-type State = {
-}
 type Props = {
   item: ScriptItem
   action: CommentAction
   progressItemAndDelayNext: typeof progressItemAndDelayNext
 }
 
-class Comment extends React.Component<Props, State> {
+class Comment extends React.Component<Props> {
 
 
   handleSubmit = (content: string) => {
