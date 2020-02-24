@@ -6,7 +6,9 @@ import Button from 'react-bootstrap/Button'
 
 import ItemWrap from '../item-types/ItemWrap'
 
-const Wrapper = styled(ItemWrap)`
+const Wrapper = styled(ItemWrap).attrs(props => ({
+  unlimitedWidth: true
+}))`
   margin: 20px 0;
   text-align: right;
 `

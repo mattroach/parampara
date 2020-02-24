@@ -10,29 +10,27 @@ import ResultsPage from 'pages/admin/ResultsPage'
 export default function App() {
   return (
     <Router>
-      <div>
-        <Switch>
-          <Route path="/u/:adminId"
-            render={({ match }) =>
-              <ScriptDirectoryPage adminId={match.params.adminId} />} />
+      <Switch>
+        <Route path="/u/:adminId"
+          render={({ match }) =>
+            <ScriptDirectoryPage adminId={match.params.adminId} />} />
 
-          <Route path="/builder/:adminId/:scriptId/create"
-            render={({ match }) =>
-              <BuilderPage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
+        <Route path="/builder/:adminId/:scriptId/create"
+          render={({ match }) =>
+            <BuilderPage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
 
-          <Route path="/builder/:adminId/:scriptId/share"
-            render={({ match }) =>
-              <SharePage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
+        <Route path="/builder/:adminId/:scriptId/share"
+          render={({ match }) =>
+            <SharePage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
 
-          <Route path="/builder/:adminId/:scriptId/results"
-            render={({ match }) =>
-              <ResultsPage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
+        <Route path="/builder/:adminId/:scriptId/results"
+          render={({ match }) =>
+            <ResultsPage adminId={match.params.adminId} scriptId={match.params.scriptId} />} />
 
-          <Route path="/s/:id"
-            render={({ match }) =>
-              <ChatPlayerPage scriptId={match.params.id} />} />
-        </Switch>
-      </div>
+        <Route path="/s/:id"
+          render={({ match }) =>
+            <ChatPlayerPage scriptId={match.params.id} />} />
+      </Switch>
     </Router>
   )
 }
