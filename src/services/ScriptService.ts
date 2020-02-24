@@ -16,7 +16,7 @@ class ScriptService {
     await ScriptVersion.query().insert({
       id: uuid(),
       scriptId,
-      version: ScriptVersion.query().select(raw('version + 1')).modify('latest'),
+      version: ScriptVersion.query().select(raw('version + 1')).where('scriptId', scriptId).orderBy('version', 'desc').limit(1),
       items: draft.items,
     })
 
