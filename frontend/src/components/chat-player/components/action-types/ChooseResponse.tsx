@@ -39,12 +39,6 @@ type Props = {
 }
 
 class ChooseResponse extends React.Component<Props> {
-  containerRef: React.RefObject<HTMLDivElement> = React.createRef()
-
-  componentDidMount() {
-    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
-  }
-
   handleClick = (choice: number) => (event: any) => {
     event.preventDefault()
 
@@ -61,7 +55,7 @@ class ChooseResponse extends React.Component<Props> {
 
   render() {
     return (
-      <Wrapper ref={this.containerRef}>
+      <Wrapper>
         {this.props.action.responses.map((response, i) =>
           <ResponseButton key={i} variant="link" onClick={this.handleClick(i)}>{response.message}</ResponseButton>
         )}
