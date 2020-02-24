@@ -1,6 +1,7 @@
 import ScriptAdminLayout from 'layout/ScriptAdminLayout'
 import React from 'react'
 import styled from 'styled-components'
+import Results from './Results'
 
 type Props = {
   adminId: string
@@ -9,15 +10,16 @@ type Props = {
 
 const Wrapper = styled.section`
   margin: 20px auto;
-  max-width: 600px;
+  padding: 0 20px;
 `
 
 const ResultsPage: React.FunctionComponent<Props> = ({ adminId, scriptId }) => {
+
   return (
     <ScriptAdminLayout adminId={adminId} scriptId={scriptId}>
       <Wrapper>
-        <h4>View your results amigo</h4>
-        <p>So delightful</p>
+        <h4>Results</h4>
+        <Results scriptId={scriptId} />
       </Wrapper>
     </ScriptAdminLayout>
   )

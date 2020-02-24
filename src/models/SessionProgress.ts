@@ -1,5 +1,6 @@
 import { Model, RelationMappingsThunk } from 'objection'
 import SessionResponse from './SessionResponse'
+import ScriptVersion from './ScriptVersion'
 
 export default class SessionProgress extends Model {
   id!: string
@@ -8,8 +9,11 @@ export default class SessionProgress extends Model {
   currentItemId!: number
   items!: any
   sessionUserId!: string
+  progress!: number
+  durationSec!: number
 
   responses?: SessionResponse[]
+  scriptVersion?: ScriptVersion
 
   static tableName = 'session_progress'
 
@@ -22,6 +26,14 @@ export default class SessionProgress extends Model {
       join: {
         from: 'session_progress.id',
         to: 'session_response.sessionProgressId'
+      }
+    },
+    scriptVersion: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: ScriptVersion,
+      join: {
+        from: 'session_progress.scriptVersionId',
+        to: 'script_version.id'
       }
     }
   });

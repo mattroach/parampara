@@ -20,6 +20,7 @@
     "axios": "^0.19.2",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.4",
+    "dayjs": "^1.8.20",
     "db-migrate": "^0.11.6",
     "db-migrate-pg": "^1.0.0",
     "dotenv": "^8.2.0",

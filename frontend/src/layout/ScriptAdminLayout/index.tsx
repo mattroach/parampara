@@ -8,7 +8,7 @@ import { RootState } from 'store/rootReducer'
 import { loadScript } from 'store/slices/script'
 import AdminLayout from '../AdminLayout'
 import Header from './components/Header'
-import { ScriptVersionType } from 'api'
+import { ScriptVersionType } from 'api/types'
 
 type Props = {
   adminId: string

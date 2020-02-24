@@ -8,7 +8,7 @@ import Objection = require('objection')
 class SessionResponseService {
   async getSessionsWithResponses(scriptId: string) {
     return await SessionProgress.query()
-      .select('id', 'sessionUserId', 'created')
+      .select('id', 'sessionUserId', 'created', 'progress', 'durationSec')
       .withGraphFetched('responses')
       .where('scriptId', scriptId)
       .orderBy('created')

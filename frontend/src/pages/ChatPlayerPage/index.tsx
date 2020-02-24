@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { loadScript } from 'store/slices/script'
-import { ScriptVersionType } from 'api'
+import { ScriptVersionType } from 'api/types'
 import ChatPlayer from 'components/chat-player/ChatPlayer'
 import * as styles from './ChatPlayerPage.styles'
 

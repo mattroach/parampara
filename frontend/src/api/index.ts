@@ -1,28 +1,7 @@
 import axios from 'axios'
 
-import { Script, ScriptActionType } from '../types/scriptTypes'
-import { DeepPartial } from '@reduxjs/toolkit'
-
-export type PartialScript = DeepPartial<Script>
-
-export enum ScriptVersionType {
-  latest = 'latest', draft = 'draft'
-}
-
-export type Session = {
-  id: string
-  sessionUserId: string
-  created: string
-  responses: SessionResponse[]
-}
-
-export type SessionResponse = {
-  id: string
-  created: string
-  responseType: ScriptActionType
-  message: string
-  response: string
-}
+import { Script } from '../types/scriptTypes'
+import { ScriptVersionType, Session, PartialScript } from './types'
 
 const getScript = async (scriptId: string, version: ScriptVersionType): Promise<Script> => {
   const response = await axios.get(`/api/script/${scriptId}`, { params: { version } })
@@ -50,4 +29,9 @@ const publishScript = async (
   await axios.post(`/api/script/publish/${scriptId}`)
 }
 
-export default { getScript, updateScript, publishScript }
+export default {
+  getScriptResults,
+  getScript,
+  updateScript,
+  publishScript
+}

@@ -2,7 +2,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
-import api, { PartialScript, ScriptVersionType } from '../../api'
+import api from 'api'
+import { PartialScript, ScriptVersionType } from 'api/types'
 import { Script, ScriptAction, ScriptActionType, ScriptItem, ChooseResponseAction } from '../../types/scriptTypes'
 import { RootState } from '../rootReducer'
 

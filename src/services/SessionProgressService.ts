@@ -2,6 +2,8 @@ import { uuid } from '@shared'
 import SessionProgress from '../models/SessionProgress'
 import SessionUser from '../models/SessionUser'
 import sessionResponseService from './SessionResponseService'
+import Script from 'src/models/Script'
+import ScriptVersion from 'src/models/ScriptVersion'
 
 class SessionProgressService {
   async updateSessionProgress(
@@ -18,7 +20,15 @@ class SessionProgressService {
 
     await SessionProgress.query()
       .findById(sessionId)
-      .patch({ currentItemId, items })
+      .patch({
+        currentItemId,
+        items,
+        progress: await this.getProgress(currentItemId, session)
+      })
+  }
+  private async getProgress(currentItemId: number, session: SessionProgress) {
+    const scriptVersion = await session.$relatedQuery('scriptVersion')
+    return Math.floor(100 * currentItemId / scriptVersion.items.length)
   }
 
   async getOrCreateSessionProgress(scriptId: string, email?: string): Promise<SessionProgress> {
@@ -43,10 +53,14 @@ class SessionProgressService {
   }
 
   private async createSessionProgress(scriptId: string, userId?: string) {
+    const scriptVersion = await ScriptVersion.query().where('scriptId', scriptId).modify('latest')
+    const scriptVersionId = scriptVersion[0].id
+
     return await SessionProgress.query().insert({
       id: uuid(),
       sessionUserId: userId,
-      scriptId
+      scriptId,
+      scriptVersionId
     })
   }
 

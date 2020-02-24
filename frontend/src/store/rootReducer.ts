@@ -3,13 +3,15 @@ import adminReducer from './slices/admin'
 import scriptReducer from './slices/script'
 import scriptsReducer from './slices/scripts'
 import sessionProgressReducer from './slices/sessionProgress'
+import scriptResultsReducer from './slices/scriptResults'
 
 
 const rootReducer = combineReducers({
   adminStore: adminReducer,
   scriptStore: scriptReducer,
   scriptsStore: scriptsReducer,
-  sessionProgressStore: sessionProgressReducer
+  sessionProgressStore: sessionProgressReducer,
+  scriptResultsStore: scriptResultsReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
