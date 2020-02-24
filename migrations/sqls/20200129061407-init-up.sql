@@ -40,7 +40,8 @@ CREATE TABLE session_progress (
   current_item_id integer NOT NULL default 0,
   progress integer NOT NULL default 0,
   duration_sec integer NOT NULL default 0,
-  items text NOT NULL default '[]'
+  items text NOT NULL default '[]',
+  referrer_code text 
 );
 
 CREATE TYPE response_type AS ENUM ('ChooseResponse', 'Comment');
