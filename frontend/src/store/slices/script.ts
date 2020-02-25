@@ -128,7 +128,7 @@ const scriptSlice = createSlice({
       const { position, option } = action.payload
       const itemAction = state.script?.version.items[position].action as ChooseResponseAction
 
-      itemAction.responses.unshift({ message: option })
+      itemAction.responses.push({ message: option })
     },
     _updateTitle(state, action: PayloadAction<string>) {
       state.script!.title = action.payload

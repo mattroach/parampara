@@ -17,14 +17,15 @@ type Props = {
 const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) => {
   return (
     <ItemWrap>
-      <NewResponseOption
-        position={position}
-        mode={action ? 'append' : 'create'}
-        autoFocus={!action} />
-
       {action && action.responses.map((response, i) => {
         return <ResponseOption key={i + response.message} position={position} responsePosition={i} response={response} />
       })}
+
+      <NewResponseOption
+        position={position}
+        mode={action ? 'append' : 'create'}
+        autoFocus={!action}
+      />
     </ItemWrap>
   )
 }
