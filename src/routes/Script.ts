@@ -3,6 +3,7 @@ import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { BAD_REQUEST, OK } from 'http-status-codes'
+import { Boolean, Record, String, Undefined, Unknown } from 'runtypes'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
 
@@ -92,11 +93,18 @@ router.post('/publish/:id', async (req: Request, res: Response) => {
   }
 })
 
+const UpdateScriptBody = Record({
+  title: String.Or(Undefined),
+  allowAnon: Boolean.Or(Undefined),
+  reportingEmail: String.Or(Undefined),
+  version: Record({ items: Unknown }).Or(Undefined)
+})
+
 router.put('/:id', async (req: Request, res: Response) => {
   try {
     const { id: scriptId } = req.params as ParamsDictionary
 
-    const script = req.body
+    const script = UpdateScriptBody.check(req.body)
 
     await scriptService.updateScript(scriptId, script)
 

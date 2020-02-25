@@ -5,6 +5,7 @@ import ScriptVersion from './ScriptVersion'
 export default class Script extends Model {
   id!: string
   adminId!: string
+  title!: string
   reportingEmail!: string
   allowAnon!: boolean
   hasUnpublishedChanges!: boolean

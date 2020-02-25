@@ -7,6 +7,14 @@ import { raw } from 'objection'
 export enum ScriptVersionCode {
   latest = 'latest', draft = 'draft'
 }
+
+type UpdateScriptBody = {
+  title?: string
+  reportingEmail?: string
+  allowAnon?: boolean
+  version?: { items: any }
+}
+
 class ScriptService {
   async publishScript(scriptId: string) {
     const draft = (await ScriptVersion.query()
@@ -25,20 +33,27 @@ class ScriptService {
       .patch({ hasUnpublishedChanges: false })
   }
 
-  // Todo should take some sort of ScriptUpdate object which is limited in the fields it can have (e.g. no ID, etc)
-  async updateScript(id: string, script: Script) {
-    if (script.version) {
+  async updateScript(id: string, script: UpdateScriptBody) {
+    const { version } = script
+    let hasUnpublishedChanges
+
+    if (version) {
       await ScriptVersion.query()
         .where('scriptId', id)
         .modify('draft')
-        .patch(script.version)
+        .patch({ items: version.items })
 
-      script.hasUnpublishedChanges = true
+      hasUnpublishedChanges = true
     }
 
     await Script.query()
       .findById(id)
-      .patch(script)
+      .patch({
+        title: script.title,
+        reportingEmail: script.reportingEmail,
+        allowAnon: script.allowAnon,
+        hasUnpublishedChanges
+      })
   }
 
   async getScripts(adminId: string) {
