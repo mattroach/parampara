@@ -6,11 +6,16 @@ import BuilderPage from './pages/admin/BuilderPage'
 import ChatPlayerPage from 'pages/ChatPlayerPage'
 import SharePage from 'pages/admin/SharePage'
 import ResultsPage from 'pages/admin/ResultsPage'
+import SuperAdminPage from 'pages/SuperAdminPage'
 
 export default function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/super-admin/:password"
+          render={({ match }) =>
+            <SuperAdminPage password={match.params.password} />} />
+
         <Route path="/u/:adminId"
           render={({ match }) =>
             <ScriptDirectoryPage adminId={match.params.adminId} />} />
