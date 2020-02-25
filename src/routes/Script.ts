@@ -36,6 +36,9 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     const script = await scriptService.getScript(scriptId, version)
 
+    // @ts-ignore: tmp until adminIds do not need to be secret
+    script.adminId = undefined
+
     return res.status(OK).json(script)
   } catch (err) {
     logger.error(err.message, err)
