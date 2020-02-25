@@ -3,7 +3,7 @@ import api from 'api'
 import { RootState } from 'store/rootReducer'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
-import { ScriptActionType, ScriptItemType } from '../../types/scriptTypes'
+import { ScriptActionType, ScriptItemType, ScriptItem } from '../../types/scriptTypes'
 import { ProgressItem, SessionProgress } from '../../types/sessionProgress'
 
 export const MESSAGE_BASE_DELAY = 1600
@@ -75,6 +75,15 @@ export { initPreviewProgress, clearProgress }
 
 export default sessionProgressSlice.reducer
 
+const calculateDelay = (prevItem: ScriptItem) => {
+  let delay = MESSAGE_BASE_DELAY - Math.floor(Math.random() * Math.floor(100))
+  if (prevItem.type === ScriptItemType.Message) {
+    delay += prevItem.message.length * 10
+  }
+  console.log('delay', delay)
+  return Math.min(delay, 8000)
+}
+
 export const progressItemAndDelayNext = (
   itemProgress: ProgressItem
 ): AppThunk => async (dispatch, getState) => {
@@ -82,7 +91,7 @@ export const progressItemAndDelayNext = (
 
   setTimeout(() => {
     dispatch(endDelay())
-  }, MESSAGE_BASE_DELAY)
+  }, calculateDelay(itemProgress.item))
 
   updateProgressOnServer(getState)
 }

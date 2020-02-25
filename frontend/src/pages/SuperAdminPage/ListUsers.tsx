@@ -19,7 +19,7 @@ const ListUsers: React.FunctionComponent<Props> = ({ password }) => {
       .then(response => {
         setUsers(response.data)
       })
-  }, [])
+  }, [password])
 
   return (
     <>

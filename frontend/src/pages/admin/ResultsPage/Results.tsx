@@ -22,7 +22,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadScriptResults(scriptId))
-  }, [])
+  }, [dispatch, scriptId])
 
 
   return (
