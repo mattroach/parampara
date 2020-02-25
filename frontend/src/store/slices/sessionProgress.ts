@@ -77,10 +77,12 @@ export default sessionProgressSlice.reducer
 
 const calculateDelay = (prevItem: ScriptItem) => {
   let delay = MESSAGE_BASE_DELAY - Math.floor(Math.random() * Math.floor(100))
-  if (prevItem.type === ScriptItemType.Message) {
+  if (prevItem.type === ScriptItemType.Message && !prevItem.action) {
+    // Don't add delay if there is an action: If they performed the
+    // action then they clearly read it anyways.
     delay += prevItem.message.length * 10
   }
-  console.log('delay', delay)
+
   return Math.min(delay, 8000)
 }
 
