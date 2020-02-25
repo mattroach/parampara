@@ -11,7 +11,7 @@ export const ResponseEditField = styled(BubbleFieldBase)`
   color: #006bfa;
   display: inline-block;  
   width: 70px;
-  margin: 4px 0 0 4px; 
+  margin-left: 4px; 
 
   :focus {
     width: 170px;

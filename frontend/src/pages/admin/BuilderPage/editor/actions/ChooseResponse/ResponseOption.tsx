@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import InlineEdit from './InlineEdit'
 
 const StyledBubbleBase = styled(BubbleBase)`
-  margin-left: 4px; 
+  margin: 0 0 4px 4px;
   box-shadow: 0px 2px 6px #d9d9d9;
 `
 
