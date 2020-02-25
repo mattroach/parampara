@@ -47,6 +47,11 @@ class TextInput extends React.Component<Props, State> {
   state: State = {
     content: ''
   }
+  containerRef: React.RefObject<HTMLDivElement> = React.createRef()
+
+  componentDidMount() {
+    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
+  }
 
   updateContent = (event: any) => {
     event.preventDefault()
@@ -62,7 +67,7 @@ class TextInput extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper ref={this.containerRef}>
         <Form inline={true} onSubmit={this.handleSubmit}>
           <MessageInput placeholder={this.props.placeholder} onChange={this.updateContent} autoFocus />
           <GoButton variant="primary" type="submit">Go</GoButton>
