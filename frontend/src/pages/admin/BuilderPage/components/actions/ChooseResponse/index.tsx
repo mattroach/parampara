@@ -5,7 +5,7 @@ import NewResponseOption from './NewResponseOption'
 import ResponseOption from './ResponseOption'
 
 const ItemWrap = styled.div`
-  margin: 20px 0;
+  margin: 10px 0 40px;
   text-align: right;
 `
 
