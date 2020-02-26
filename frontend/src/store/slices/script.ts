@@ -71,11 +71,18 @@ const scriptSlice = createSlice({
       const { item, position } = action.payload
       const { items } = state.script!.version
 
-      if (position) {
+      if (position !== undefined) {
         items.splice(position, 0, item)
+        updateNextIds(items, position, 1)
       } else {
         items.push(item)
       }
+    },
+    removeItem(state, action: PayloadAction<number>) {
+      const { items } = state.script!.version
+      const position = action.payload
+      items.splice(position, 1)
+      updateNextIds(items, position, -1)
     },
     updateItem(state, action: PayloadAction<{ position: number, item: ScriptItem }>) {
       state.script!.version.items[action.payload.position] = action.payload.item
@@ -98,11 +105,6 @@ const scriptSlice = createSlice({
         item.nextId = undefined
       else
         item.nextId = nextId
-    },
-    removeItem(state, action: PayloadAction<number>) {
-      const { items } = state.script!.version
-      const position = action.payload
-      items.splice(position, 1)
     },
     removeResponseChoice(state, action: PayloadAction<{ position: number, responsePosition: number }>) {
       const { items } = state.script!.version
@@ -133,6 +135,21 @@ const scriptSlice = createSlice({
     }
   }
 })
+
+const updateNextIds = (items: ScriptItem[], position: number, change: 1 | -1) => {
+  items.forEach((item, i) => {
+    if (item.nextId && item.nextId >= position) {
+      item.nextId += change
+    }
+    if (item.action && item.action.type === ScriptActionType.ChooseResponse) {
+      item.action.responses.forEach(response => {
+        if (response.nextId && response.nextId >= position) {
+          response.nextId += change
+        }
+      })
+    }
+  })
+}
 
 const {
   updateScript,
