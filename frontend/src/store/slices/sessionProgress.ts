@@ -76,14 +76,22 @@ export { initPreviewProgress, clearProgress }
 export default sessionProgressSlice.reducer
 
 const calculateDelay = (prevItem: ScriptItem) => {
-  let delay = MESSAGE_BASE_DELAY - Math.floor(Math.random() * Math.floor(100))
-  if (prevItem.type === ScriptItemType.Message && !prevItem.action) {
-    // Don't add delay if there is an action: If they performed the
-    // action then they clearly read it anyways.
-    delay += prevItem.message.length * 10
+  let delay = 0
+
+  // Don't add delay if there is an action: If they performed the
+  // action then they clearly read it anyways.
+  if (!prevItem.action) {
+    if (prevItem.type === ScriptItemType.Message) {
+      // Average reading speed of most adults is around 250 words per minute. This is 240ms per word
+      delay += prevItem.message.split(' ').length * 240
+    } else {
+      delay += MESSAGE_BASE_DELAY + 500 // Image
+    }
   }
 
-  return Math.min(delay, 8000)
+  const min = MESSAGE_BASE_DELAY - Math.floor(Math.random() * 100)
+  const max = 8000
+  return Math.max(Math.min(delay, max), min)
 }
 
 export const progressItemAndDelayNext = (

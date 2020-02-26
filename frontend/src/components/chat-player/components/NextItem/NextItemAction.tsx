@@ -5,7 +5,12 @@ import Comment from '../action-types/Comment'
 import { ScriptActionType, ScriptItem, ScriptAction } from 'types/scriptTypes'
 import { MESSAGE_BASE_DELAY } from 'store/slices/sessionProgress'
 
-const NextItemAction: React.FunctionComponent<{ item: ScriptItem, action: ScriptAction }> = ({ item, action }) => {
+type Props = {
+  item: ScriptItem,
+  action: ScriptAction
+}
+
+const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {

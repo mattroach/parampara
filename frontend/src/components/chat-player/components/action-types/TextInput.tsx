@@ -49,13 +49,7 @@ class TextInput extends React.Component<Props, State> {
   }
   containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
-  componentDidMount() {
-    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
-  }
-
   updateContent = (event: any) => {
-    event.preventDefault()
-
     this.setState({ content: event.target.value })
   }
 
@@ -63,6 +57,7 @@ class TextInput extends React.Component<Props, State> {
     event.preventDefault()
 
     this.props.onSubmit(this.state.content)
+    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
   }
 
   render() {

@@ -41,10 +41,6 @@ type Props = {
 class ChooseResponse extends React.Component<Props> {
   containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
-  componentDidMount() {
-    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
-  }
-
   handleClick = (choice: number) => (event: any) => {
     event.preventDefault()
 
@@ -57,6 +53,7 @@ class ChooseResponse extends React.Component<Props> {
       },
       item
     })
+    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
   }
 
   render() {
