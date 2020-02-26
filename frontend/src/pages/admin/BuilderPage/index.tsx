@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import ScriptAdminLayout from 'layout/ScriptAdminLayout'
-import Editor from './editor/Editor'
+import Editor from './components/Editor'
+import ServerSync from './components/ServerSync'
 
 type Props = {
   adminId: string
@@ -17,6 +18,7 @@ const Wrapper = styled.section`
 const BuilderPage: React.FunctionComponent<Props> = ({ adminId, scriptId }) => {
   return (
     <ScriptAdminLayout adminId={adminId} scriptId={scriptId}>
+      <ServerSync />
       <Wrapper><Editor /></Wrapper>
     </ScriptAdminLayout>
   )

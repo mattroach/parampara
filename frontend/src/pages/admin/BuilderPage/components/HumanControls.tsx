@@ -45,12 +45,12 @@ class HumanControls extends React.Component<Props, State> {
   submitNewResponse = (event: any) => {
     event.preventDefault()
 
-    const item: ChooseResponseAction = {
+    const action: ChooseResponseAction = {
       type: ScriptActionType.ChooseResponse,
       responses: [{ message: this.state.responseDraft }]
     }
 
-    this.props.addAction(item)
+    this.props.addAction({ action })
 
     this.setState({ responseDraft: '' })
     this.props.onAddItem && this.props.onAddItem()
@@ -67,11 +67,11 @@ class HumanControls extends React.Component<Props, State> {
   addWidget = (icon: string, title: string) => (event: any) => {
     event.preventDefault()
 
-    const item: CommentAction = {
+    const action: CommentAction = {
       type: ScriptActionType.Comment
     }
 
-    this.props.addAction(item)
+    this.props.addAction({ action })
     this.props.onAddItem && this.props.onAddItem()
   }
 

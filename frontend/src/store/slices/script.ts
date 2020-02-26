@@ -1,4 +1,3 @@
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
@@ -6,7 +5,6 @@ import api from 'api'
 import { PartialScript, ScriptVersionType } from 'api/types'
 import { Script, ScriptAction, ScriptActionType, ScriptItem, ChooseResponseAction } from '../../types/scriptTypes'
 import { RootState } from '../rootReducer'
-
 
 /**
  * This store is used by both the ui and the editor atm. Probably, the ui should use the progress store instead
@@ -50,11 +48,11 @@ const scriptSlice = createSlice({
     cancelNewItemForm(state) {
       state.newItemPosition = undefined
     },
-    _removeAction(state, action: PayloadAction<{ position: number }>) {
-      let { position } = action.payload
+    removeAction(state, action: PayloadAction<number>) {
+      const position = action.payload
       state.script!.version.items[position].action = undefined
     },
-    _addAction(state, action: PayloadAction<{ action: ScriptAction, position?: number }>) {
+    addAction(state, action: PayloadAction<{ action: ScriptAction, position?: number }>) {
       const { items } = state.script!.version
       let { position, action: itemAction } = action.payload
 
@@ -69,7 +67,7 @@ const scriptSlice = createSlice({
       if (itemAction.type === ScriptActionType.ChooseResponse)
         item.nextId = undefined
     },
-    _addItem(state, action: PayloadAction<{ item: ScriptItem, position?: number }>) {
+    addItem(state, action: PayloadAction<{ item: ScriptItem, position?: number }>) {
       const { item, position } = action.payload
       const { items } = state.script!.version
 
@@ -79,10 +77,10 @@ const scriptSlice = createSlice({
         items.push(item)
       }
     },
-    _updateItem(state, action: PayloadAction<{ position: number, item: ScriptItem }>) {
+    updateItem(state, action: PayloadAction<{ position: number, item: ScriptItem }>) {
       state.script!.version.items[action.payload.position] = action.payload.item
     },
-    _updateResponseNextId(state, action: PayloadAction<{ position: number, responsePosition: number, nextId: number }>) {
+    updateResponseNextId(state, action: PayloadAction<{ position: number, responsePosition: number, nextId: number }>) {
       const { nextId, responsePosition, position } = action.payload
       const itemAction = state.script!.version.items[position].action! as ChooseResponseAction
       const response = itemAction.responses[responsePosition]
@@ -92,7 +90,7 @@ const scriptSlice = createSlice({
       else
         response.nextId = nextId
     },
-    _updateNextId(state, action: PayloadAction<{ position: number, nextId: number }>) {
+    updateNextId(state, action: PayloadAction<{ position: number, nextId: number }>) {
       const { nextId, position } = action.payload
       const item = state.script!.version.items[position]
 
@@ -101,12 +99,12 @@ const scriptSlice = createSlice({
       else
         item.nextId = nextId
     },
-    _removeItem(state, action: PayloadAction<{ position: number }>) {
+    removeItem(state, action: PayloadAction<number>) {
       const { items } = state.script!.version
-      const { position } = action.payload
+      const position = action.payload
       items.splice(position, 1)
     },
-    _removeResponseChoice(state, action: PayloadAction<{ position: number, responsePosition: number }>) {
+    removeResponseChoice(state, action: PayloadAction<{ position: number, responsePosition: number }>) {
       const { items } = state.script!.version
       const { position, responsePosition } = action.payload
       const itemAction = items[position].action as ChooseResponseAction
@@ -118,13 +116,13 @@ const scriptSlice = createSlice({
         itemAction.responses.splice(responsePosition, 1)
       }
     },
-    _updateResponseOption(state, action: PayloadAction<{ position: number, responsePosition: number, newMsg: string }>) {
+    updateResponseOption(state, action: PayloadAction<{ position: number, responsePosition: number, newMsg: string }>) {
       const { position, responsePosition, newMsg } = action.payload
       const itemAction = state.script?.version.items[position].action as ChooseResponseAction
 
       itemAction.responses[responsePosition].message = newMsg
     },
-    _appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
+    appendResponseOption(state, action: PayloadAction<{ position: number, option: string }>) {
       const { position, option } = action.payload
       const itemAction = state.script?.version.items[position].action as ChooseResponseAction
 
@@ -145,17 +143,17 @@ const {
   cancelResponseChoiceForm,
   newItemForm,
   cancelNewItemForm,
-  _addItem,
-  _updateResponseNextId,
-  _updateNextId,
-  _updateItem,
-  _updateResponseOption,
-  _appendResponseOption,
   _updateTitle,
-  _removeItem,
-  _removeResponseChoice,
-  _addAction,
-  _removeAction,
+  addItem,
+  updateResponseNextId,
+  updateNextId,
+  updateItem,
+  updateResponseOption,
+  appendResponseOption,
+  removeItem,
+  removeResponseChoice,
+  addAction,
+  removeAction,
 } = scriptSlice.actions
 
 export {
@@ -163,59 +161,19 @@ export {
   cancelResponseChoiceForm,
   newItemForm,
   cancelNewItemForm,
+  addItem,
+  updateResponseNextId,
+  updateNextId,
+  updateItem,
+  updateResponseOption,
+  appendResponseOption,
+  removeItem,
+  removeResponseChoice,
+  addAction,
+  removeAction,
 }
 
 export default scriptSlice.reducer
-
-export const removeAction = (position: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_removeAction({ position }))
-  dispatch(scriptContentUpdated())
-}
-
-export const addAction = (action: ScriptAction, position?: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_addAction({ action, position }))
-  dispatch(scriptContentUpdated())
-}
-
-export const addItem = (item: ScriptItem, position?: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_addItem({ item, position }))
-  dispatch(scriptContentUpdated())
-}
-
-export const updateResponseNextId = (position: number, responsePosition: number, nextId: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_updateResponseNextId({ position, responsePosition, nextId }))
-  dispatch(scriptContentUpdated())
-}
-
-export const updateNextId = (position: number, nextId: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_updateNextId({ position, nextId }))
-  dispatch(scriptContentUpdated())
-}
-
-export const updateItem = (position: number, item: ScriptItem): AppThunk => async (dispatch, getState) => {
-  dispatch(_updateItem({ position, item }))
-  dispatch(scriptContentUpdated())
-}
-
-export const updateResponseOption = (position: number, responsePosition: number, newMsg: string): AppThunk => async (dispatch, getState) => {
-  dispatch(_updateResponseOption({ position, newMsg, responsePosition }))
-  dispatch(scriptContentUpdated())
-}
-
-export const appendResponseOption = (position: number, option: string): AppThunk => async (dispatch, getState) => {
-  dispatch(_appendResponseOption({ position, option }))
-  dispatch(scriptContentUpdated())
-}
-
-export const removeResponseChoice = (position: number, responsePosition: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_removeResponseChoice({ position, responsePosition }))
-  dispatch(scriptContentUpdated())
-}
-
-export const removeItem = (position: number): AppThunk => async (dispatch, getState) => {
-  dispatch(_removeItem({ position }))
-  dispatch(scriptContentUpdated())
-}
 
 export const updateTitle = (scriptId: string, title: string): AppThunk => async (dispatch) => {
   api.updateScript(scriptId, { title })
@@ -254,7 +212,7 @@ export const configureAllowAnon = (allowAnon: boolean): AppThunk => async (dispa
   dispatch(_configureAllowAnon(allowAnon))
 }
 
-const scriptContentUpdated = (): AppThunk => async (dispatch, getState) => {
+export const scriptContentUpdated = (): AppThunk => async (dispatch, getState) => {
   dispatch(setHasUnpublishedChanges(true))
   updateScriptOnServer(getState)
 }

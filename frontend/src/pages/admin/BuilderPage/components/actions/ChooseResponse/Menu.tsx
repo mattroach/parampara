@@ -15,8 +15,8 @@ type Props = {
 const Menu: React.FunctionComponent<Props> = ({ response, position, responsePosition, containerRef }) => {
   const dispatch = useDispatch()
 
-  const changeNavigation = (nextId: number) => dispatch(updateResponseNextId(position, responsePosition, nextId))
-  const deleteItem = () => dispatch(removeResponseChoice(position, responsePosition))
+  const changeNavigation = (nextId: number) => dispatch(updateResponseNextId({ position, responsePosition, nextId }))
+  const deleteItem = () => dispatch(removeResponseChoice({ position, responsePosition }))
 
   return (
     <ContextMenu id={position}>

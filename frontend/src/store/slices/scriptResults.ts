@@ -1,10 +1,7 @@
-import axios from 'axios'
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import { AppThunk } from 'store/store'
-import { Session } from 'api/types'
 import api from 'api'
+import { Session } from 'api/types'
+import { AppThunk } from 'store/store'
 
 export type ScriptsResultsStore = {
   data?: Session[]

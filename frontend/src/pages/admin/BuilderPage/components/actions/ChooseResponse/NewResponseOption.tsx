@@ -58,17 +58,23 @@ class ChooseResponse extends React.Component<Props, State> {
   submitNewResponse = (event: any) => {
     event.preventDefault()
 
+    const { position } = this.props
+    const option = this.state.responseDraft
+
     if (this.props.mode === 'append') {
       if (!this.state.responseDraft)
         return
 
-      this.props.appendResponseOption(this.props.position, this.state.responseDraft)
+      this.props.appendResponseOption({ position, option })
     } else {
       if (this.state.responseDraft) {
         this.props.addAction({
-          type: ScriptActionType.ChooseResponse,
-          responses: [{ message: this.state.responseDraft }]
-        }, this.props.position)
+          action: {
+            type: ScriptActionType.ChooseResponse,
+            responses: [{ message: option }]
+          },
+          position
+        })
       } else {
         this.props.cancelResponseChoiceForm()
         return

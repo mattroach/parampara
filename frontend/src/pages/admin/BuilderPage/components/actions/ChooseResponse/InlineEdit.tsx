@@ -59,9 +59,9 @@ class InlineEdit extends React.Component<Props, State> {
     const { responseDraft } = this.state
 
     if (responseDraft) {
-      updateResponseOption(position, responsePosition, responseDraft)
+      updateResponseOption({ position, responsePosition, newMsg: responseDraft })
     } else {
-      removeResponseChoice(position, responsePosition)
+      removeResponseChoice({ position, responsePosition })
     }
   }
 

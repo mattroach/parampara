@@ -57,7 +57,8 @@ class EditableContent extends React.Component<Props, State> {
       message: this.state.messageDraft
     }
 
-    this.props.updateItem(this.props.position, item)
+    const { position } = this.props
+    this.props.updateItem({ position, item })
 
     this.setState({ editMode: false })
   };

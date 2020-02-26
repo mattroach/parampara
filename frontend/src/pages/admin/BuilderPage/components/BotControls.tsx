@@ -68,7 +68,7 @@ class BotControls extends React.Component<Props, State> {
       message: this.state.messageDraft
     }
 
-    addItem(item, insertPosition)
+    addItem({ item, position: insertPosition })
 
     this.setState({ messageDraft: '' })
     onAddItem && onAddItem()

@@ -114,7 +114,7 @@ class GiphyPicker extends React.Component<Props, State> {
       height: parseInt(imageDetails.height, 10)
     }
 
-    this.props.addItem(item, this.props.insertPosition)
+    this.props.addItem({ item, position: this.props.insertPosition })
     this.props.onPick()
   }
 
