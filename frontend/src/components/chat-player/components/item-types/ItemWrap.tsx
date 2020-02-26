@@ -19,7 +19,7 @@ const AnimatedContent = styled.span<{ disableAnimateIn?: boolean, unlimitedWidth
       opacity: 1;
     }
   }
-  ${props => !props.disableAnimateIn && 'animation: .04s linear 0s 1 slideInFromLeft;'};
+  ${props => !props.disableAnimateIn && 'animation: .03s linear 0s 1 slideInFromLeft;'};
 `
 
 type Props = {

@@ -10,6 +10,7 @@ export enum ScriptVersionType {
 export type Session = {
   id: string
   sessionUserId: string
+  sessionUser: SessionUser
   created: string
   durationSec: number
   progress: number
@@ -23,4 +24,10 @@ export type SessionResponse = {
   responseType: ScriptActionType
   message: string
   response: string
+}
+
+export type SessionUser = {
+  email: string
+  id: string
+  created: string
 }

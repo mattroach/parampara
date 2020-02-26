@@ -9,9 +9,9 @@ class SessionResponseService {
   async getSessionsWithResponses(scriptId: string) {
     return await SessionProgress.query()
       .select('id', 'sessionUserId', 'created', 'progress', 'durationSec', 'referrerCode')
-      .withGraphFetched('responses')
+      .withGraphFetched('[responses, sessionUser]')
       .where('scriptId', scriptId)
-      .orderBy('created')
+      .orderBy('created', 'DESC')
   }
 
   async saveNewResponses(lastSession: SessionProgress, items: ProgressItem[]) {

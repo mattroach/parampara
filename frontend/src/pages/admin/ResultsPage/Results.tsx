@@ -5,46 +5,68 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadScriptResults } from 'store/slices/scriptResults'
 import { RootState } from 'store/rootReducer'
 import Table from 'react-bootstrap/Table'
-import { SessionResponse } from 'api/types'
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import Badge from 'react-bootstrap/Badge'
+import Loader from 'components/Loader'
+import transposeResults from './transposeResults'
 
 type Props = {
   scriptId: string
 }
 
 const StyledTable = styled(Table)`
+  margin-top: 20px;
+  font-size: 0.85rem;
+
   tbody td {
     vertical-align: middle;
+
+    :first-of-type {
+      white-space: nowrap;
+    }
+  }
+
+  td.response {
+    width: 45%;
   }
 `
 const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
+  const hasUsers = useSelector((state: RootState) => !state.scriptStore.script!.allowAnon)
   const scriptResults = useSelector((state: RootState) => state.scriptResultsStore.data)
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadScriptResults(scriptId))
   }, [dispatch, scriptId])
 
+  if (!scriptResults)
+    return <Loader />
+
+  const transposedResults = transposeResults(scriptResults)
 
   return (
-    <StyledTable responsive size="sm">
+    <StyledTable responsive hover size="sm">
       <thead>
         <tr>
           <th>Date</th>
-          <th>User</th>
           <th>Progress</th>
+          {hasUsers && <th>User</th>}
           <th>Referrer</th>
-          <th>Responses</th>
+          {transposedResults.columns.map((column, i) => <Column key={i} content={column} />)}
         </tr>
       </thead>
       <tbody>
-        {scriptResults?.map(result => {
+        {transposedResults.sessions.map(result => {
           return (
             <tr key={result.id}>
               <td>{dayjs(result.created).format('DD MMM YYYY, h:mma')}</td>
-              <td>{result.sessionUserId}</td>
               <td><ProgressBar now={result.progress} label={`${result.progress}%`} /></td>
-              <td>{result.referrerCode}</td>
-              <td>{result.responses.map(response => <Response data={response} />)}</td>
+              {hasUsers && <td>{result.sessionUser?.email}</td>}
+              <td><Badge variant="secondary">{result.referrerCode}</Badge></td>
+              {transposedResults.columns.map((column, i) => {
+                const response = result.responseByMessage[column]
+                return <td key={i} className="response">{response?.response}</td>
+              })}
             </tr>
           )
         })}
@@ -56,15 +78,6 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 export default Results
 
 
-const ResponseWrapper = styled.span`
-  background: #e9ecef;
-  border-radius: 6px;
-  margin-right: 4px;
-  padding: 2px 6px;
-`
-
-const Response: React.FunctionComponent<{ data: SessionResponse }> = ({ data }) => {
-  return (
-    <ResponseWrapper><i>{data.message}</i>: <strong>{data.response}</strong>  </ResponseWrapper>
-  )
+const Column: React.FunctionComponent<{ content: string }> = ({ content }) => {
+  return <th className="response">{content}</th>
 }
