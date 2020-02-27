@@ -15,7 +15,7 @@ type Props = {
   scriptId: string
 }
 const StyledTable = styled(({ extraCols: number, ...rest }) => <Table {...rest} />)`
-  margin-top: 20px;
+  margin: 20px 0 0 0;
   font-size: 0.85rem;
   min-width: ${props => 300 + props.extraCols * 150}px;
   thead th {

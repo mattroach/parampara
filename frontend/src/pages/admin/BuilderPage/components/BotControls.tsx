@@ -36,7 +36,7 @@ class BotControls extends React.Component<Props, State> {
   containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   state = {
-    messageDraft: '',
+    messageDraft: ''
   }
 
   componentDidMount() {
@@ -62,11 +62,11 @@ class BotControls extends React.Component<Props, State> {
   submitNewBotMessage = (event: any) => {
     event.preventDefault()
     const { addItem, onAddItem, insertPosition } = this.props
+    const { messageDraft: message } = this.state
 
-    const item: MessageItem = {
-      type: ScriptItemType.Message,
-      message: this.state.messageDraft
-    }
+    if (!message) return
+
+    const item: MessageItem = { type: ScriptItemType.Message, message }
 
     addItem({ item, position: insertPosition })
 
@@ -88,6 +88,7 @@ class BotControls extends React.Component<Props, State> {
             placeholder="Add a message..."
             value={this.state.messageDraft}
             onChange={this.handleMessageChange}
+            onBlur={this.submitNewBotMessage}
           />
           <GiphyButton
             container={this.containerRef}
@@ -104,5 +105,3 @@ const mapDispatchToProps = { addItem }
 
 // @ts-ignore
 export default connect(null, mapDispatchToProps)(BotControls)
-
-

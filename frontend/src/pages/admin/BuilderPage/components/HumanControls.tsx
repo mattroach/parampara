@@ -7,9 +7,12 @@ import { connect } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { addAction } from 'store/slices/script'
 import styled from 'styled-components'
-import { ChooseResponseAction, CommentAction, ScriptActionType } from '../../../../types/scriptTypes'
+import {
+  ChooseResponseAction,
+  CommentAction,
+  ScriptActionType
+} from '../../../../types/scriptTypes'
 import { ResponseAddField } from './items/styles'
-
 
 const StyledForm = styled(Form)`
   float: right;
@@ -25,7 +28,7 @@ const IconButton = styled(DropdownButton)`
     padding: 0;
   }
   .dropdown-toggle::after {
-    display: none;  
+    display: none;
   }
 `
 
@@ -35,19 +38,23 @@ type State = {
 
 type Props = {
   onAddItem?: () => void
-} & typeof mapDispatchToProps & ReturnType<typeof mapStateToProps>
+} & typeof mapDispatchToProps &
+  ReturnType<typeof mapStateToProps>
 
 class HumanControls extends React.Component<Props, State> {
   state = {
-    responseDraft: '',
+    responseDraft: ''
   }
 
   submitNewResponse = (event: any) => {
     event.preventDefault()
+    const { responseDraft: message } = this.state
+
+    if (!message) return
 
     const action: ChooseResponseAction = {
       type: ScriptActionType.ChooseResponse,
-      responses: [{ message: this.state.responseDraft }]
+      responses: [{ message }]
     }
 
     this.props.addAction({ action })
@@ -76,8 +83,7 @@ class HumanControls extends React.Component<Props, State> {
   }
 
   render() {
-    if (!this.showAddResponse())
-      return null
+    if (!this.showAddResponse()) return null
 
     return (
       <StyledForm onSubmit={this.submitNewResponse}>
@@ -85,9 +91,17 @@ class HumanControls extends React.Component<Props, State> {
           type="text"
           placeholder="Add a response..."
           value={this.state.responseDraft}
-          onChange={this.handleResponseChange} />
-        <IconButton id="widgets" variant="link" title={<MaterialIcon icon="add_circle" size={35} color="#0076ff" />}>
-          <Dropdown.Item href="#" onClick={this.addWidget('comment', 'Collect a comment')}>Collect a comment</Dropdown.Item>
+          onChange={this.handleResponseChange}
+          onBlur={this.submitNewResponse}
+        />
+        <IconButton
+          id="widgets"
+          variant="link"
+          title={<MaterialIcon icon="add_circle" size={35} color="#0076ff" />}
+        >
+          <Dropdown.Item href="#" onClick={this.addWidget('comment', 'Collect a comment')}>
+            Collect a comment
+          </Dropdown.Item>
           {/* <Dropdown.Item href="#" onClick={this.addWidget('email', 'Email a document')}>Send a document</Dropdown.Item> */}
         </IconButton>
       </StyledForm>
@@ -99,8 +113,7 @@ const mapDispatchToProps = { addAction }
 
 function mapStateToProps(state: RootState) {
   const { script } = state.scriptStore
-  if (!script)
-    throw new Error('No script')
+  if (!script) throw new Error('No script')
 
   const lastItem = script.version.items[script.version.items.length - 1]
   return {
