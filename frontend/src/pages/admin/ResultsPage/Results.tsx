@@ -9,19 +9,27 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import Badge from 'react-bootstrap/Badge'
 import Loader from 'components/Loader'
 import transposeResults from './transposeResults'
+import ColumnHeader from './ColumnHeader'
 
 type Props = {
   scriptId: string
 }
-
-const StyledTable = styled(Table)<{ extraCols: number }>`
+const StyledTable = styled(({ extraCols: number, ...rest }) => <Table {...rest} />)`
   margin-top: 20px;
   font-size: 0.85rem;
   min-width: ${props => 300 + props.extraCols * 150}px;
+  thead th {
+    /*
+    // Here is another way to keep the headers to one line. The downside is that
+    // it makes all columns 200px, even ones that don't need that much
+    max-width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; */
 
+    vertical-align: top;
+  }
   tbody td {
-    vertical-align: middle;
-
     :first-of-type {
       white-space: nowrap;
     }
@@ -50,7 +58,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
           {hasUsers && <th>User</th>}
           <th>Referrer</th>
           {transposedResults.columns.map((column, i) => (
-            <Column key={i} content={column} />
+            <ColumnHeader key={i} content={column} />
           ))}
         </tr>
       </thead>
@@ -79,7 +87,3 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 }
 
 export default Results
-
-const Column: React.FunctionComponent<{ content: string }> = ({ content }) => {
-  return <th>{content}</th>
-}
