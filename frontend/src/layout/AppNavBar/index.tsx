@@ -14,7 +14,7 @@ const AppNavBar: React.FunctionComponent<Props> = ({ extra }) => {
 
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
-      <Navbar.Brand href="#">
+      <Navbar.Brand>
         <img alt="Parampara" src={logo} width={200} />
       </Navbar.Brand>
       {extra}
