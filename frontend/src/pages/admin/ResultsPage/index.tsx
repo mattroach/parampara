@@ -14,7 +14,6 @@ const Wrapper = styled.section`
 `
 
 const ResultsPage: React.FunctionComponent<Props> = ({ adminId, scriptId }) => {
-
   return (
     <ScriptAdminLayout adminId={adminId} scriptId={scriptId}>
       <Wrapper>

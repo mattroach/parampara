@@ -14,9 +14,10 @@ type Props = {
   scriptId: string
 }
 
-const StyledTable = styled(Table)`
+const StyledTable = styled(Table)<{ extraCols: number }>`
   margin-top: 20px;
   font-size: 0.85rem;
+  min-width: ${props => 300 + props.extraCols * 150}px;
 
   tbody td {
     vertical-align: middle;
@@ -25,11 +26,8 @@ const StyledTable = styled(Table)`
       white-space: nowrap;
     }
   }
-
-  td.response {
-    width: 45%;
-  }
 `
+
 const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   const hasUsers = useSelector((state: RootState) => !state.scriptStore.script!.allowAnon)
   const scriptResults = useSelector((state: RootState) => state.scriptResultsStore.data)
@@ -39,20 +37,21 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
     dispatch(loadScriptResults(scriptId))
   }, [dispatch, scriptId])
 
-  if (!scriptResults)
-    return <Loader />
+  if (!scriptResults) return <Loader />
 
   const transposedResults = transposeResults(scriptResults)
 
   return (
-    <StyledTable responsive hover size="sm">
+    <StyledTable responsive hover size="sm" bordered extraCols={transposedResults.columns.length}>
       <thead>
         <tr>
           <th>Date</th>
           <th>Progress</th>
           {hasUsers && <th>User</th>}
           <th>Referrer</th>
-          {transposedResults.columns.map((column, i) => <Column key={i} content={column} />)}
+          {transposedResults.columns.map((column, i) => (
+            <Column key={i} content={column} />
+          ))}
         </tr>
       </thead>
       <tbody>
@@ -60,12 +59,16 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
           return (
             <tr key={result.id}>
               <td>{dayjs(result.created).format('DD MMM YYYY, h:mma')}</td>
-              <td><ProgressBar now={result.progress} label={`${result.progress}%`} /></td>
+              <td>
+                <ProgressBar now={result.progress} label={`${result.progress}%`} />
+              </td>
               {hasUsers && <td>{result.sessionUser?.email}</td>}
-              <td><Badge variant="secondary">{result.referrerCode}</Badge></td>
+              <td>
+                <Badge variant="secondary">{result.referrerCode}</Badge>
+              </td>
               {transposedResults.columns.map((column, i) => {
                 const response = result.responseByMessage[column]
-                return <td key={i} className="response">{response?.response}</td>
+                return <td key={i}>{response?.response}</td>
               })}
             </tr>
           )
@@ -77,7 +80,6 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 
 export default Results
 
-
 const Column: React.FunctionComponent<{ content: string }> = ({ content }) => {
-  return <th className="response">{content}</th>
+  return <th>{content}</th>
 }

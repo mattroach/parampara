@@ -1,4 +1,4 @@
-import { Session, SessionResponse } from "api/types"
+import { Session, SessionResponse } from 'api/types'
 
 type SessionWithKeyedResponses = {
   responseByMessage: { [message: string]: SessionResponse }
