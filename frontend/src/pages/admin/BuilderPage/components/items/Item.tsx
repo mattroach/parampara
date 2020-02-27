@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import NewItemForm from './NewItemForm'
 
-
 type Props = {
   item: ScriptItem
   position: number
@@ -37,8 +36,13 @@ const ItemMain: React.FunctionComponent<Props> = ({ item, position }) => {
   }
 }
 
-const Action: React.FunctionComponent<{ action?: ScriptAction, position: number }> = ({ action, position }) => {
-  const newResponseChoicePosition = useSelector((state: RootState) => state.scriptStore.newResponseChoicePosition)
+const Action: React.FunctionComponent<{ action?: ScriptAction; position: number }> = ({
+  action,
+  position
+}) => {
+  const newResponseChoicePosition = useSelector(
+    (state: RootState) => state.scriptStore.newResponseChoicePosition
+  )
 
   switch (action?.type) {
     case ScriptActionType.ChooseResponse:
@@ -46,8 +50,7 @@ const Action: React.FunctionComponent<{ action?: ScriptAction, position: number 
     case ScriptActionType.Comment:
       return <Comment position={position} />
     default:
-      if (newResponseChoicePosition === position)
-        return <ChooseResponse position={position} />
+      if (newResponseChoicePosition === position) return <ChooseResponse position={position} />
       return null
   }
 }

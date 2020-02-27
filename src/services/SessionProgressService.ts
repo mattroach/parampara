@@ -5,15 +5,10 @@ import sessionResponseService from './SessionResponseService'
 import ScriptVersion from '../models/ScriptVersion'
 
 class SessionProgressService {
-  async updateSessionProgress(
-    sessionId: string,
-    currentItemId: number,
-    items: any[]
-  ) {
-    const session = (await SessionProgress.query().findById(sessionId))
+  async updateSessionProgress(sessionId: string, currentItemId: number, items: any[]) {
+    const session = await SessionProgress.query().findById(sessionId)
 
-    if (!session)
-      throw Error(`session ID ${sessionId} not found`)
+    if (!session) throw Error(`session ID ${sessionId} not found`)
 
     await sessionResponseService.saveNewResponses(session, items)
 
@@ -27,13 +22,13 @@ class SessionProgressService {
   }
   private async getProgress(currentItemId: number, session: SessionProgress) {
     const scriptVersion = await session.$relatedQuery('scriptVersion')
-    return Math.floor(100 * currentItemId / scriptVersion.items.length)
+    return Math.floor((100 * currentItemId) / scriptVersion.items.length)
   }
 
   async getOrCreateSessionProgress(
     scriptId: string,
     data: {
-      email?: string,
+      email?: string
       referrerCode?: string
     }
   ): Promise<SessionProgress> {
@@ -43,34 +38,37 @@ class SessionProgressService {
       const user = await this.getUserByEmail(email)
 
       if (user) {
-        const existingProgress = await this.getSessionProgress(scriptId, user.id)
-
-        if (existingProgress)
-          return existingProgress
+        // Temporary change until we obfuscate user data: always create a new session
+        //const existingProgress = await this.getSessionProgress(scriptId, user.id)
+        // if (existingProgress)
+        //   return existingProgress
 
         return await this.createSessionProgress(scriptId, { userId: user.id, referrerCode })
       }
 
       const newUser = await this.createUser(email)
-      const progress = await this.createSessionProgress(scriptId, { userId: newUser.id, referrerCode })
-      return await this.getSessionProgressById(progress.id)
+      return await this.createSessionProgress(scriptId, {
+        userId: newUser.id,
+        referrerCode
+      })
     }
-    const progress = await this.createSessionProgress(scriptId, { referrerCode })
-    return await this.getSessionProgressById(progress.id)
+    return await this.createSessionProgress(scriptId, { referrerCode })
   }
 
   private async createSessionProgress(
     scriptId: string,
     data: {
-      userId?: string,
+      userId?: string
       referrerCode?: string
     }
   ) {
     const { userId, referrerCode } = data
-    const scriptVersion = await ScriptVersion.query().where('scriptId', scriptId).modify('latest')
+    const scriptVersion = await ScriptVersion.query()
+      .where('scriptId', scriptId)
+      .modify('latest')
     const scriptVersionId = scriptVersion[0].id
 
-    return await SessionProgress.query().insert({
+    return await SessionProgress.query().insertAndFetch({
       id: uuid(),
       sessionUserId: userId,
       scriptId,
@@ -87,18 +85,15 @@ class SessionProgressService {
   }
 
   private async getUserByEmail(email: string) {
-    return (await SessionUser.query()
-      .where('email', email))[0]
-  }
-
-  private async getSessionProgressById(id: string) {
-    return await SessionProgress.query().findById(id)
+    return (await SessionUser.query().where('email', email))[0]
   }
 
   private async getSessionProgress(scriptId: string, userId: string) {
-    return (await SessionProgress.query()
-      .where('scriptId', scriptId)
-      .where('sessionUserId', userId))[0]
+    return (
+      await SessionProgress.query()
+        .where('scriptId', scriptId)
+        .where('sessionUserId', userId)
+    )[0]
   }
 }
 
