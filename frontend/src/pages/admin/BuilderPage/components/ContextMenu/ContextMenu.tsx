@@ -12,12 +12,12 @@ const StyledDropdownButton = styled(DropdownButton)`
     padding: 0 6px;
     border: none;
     font-size: 12px;
-    
+
     display: inline-block;
     opacity: 0;
   }
 
-  > button[aria-expanded="true"] {
+  > button[aria-expanded='true'] {
     opacity: 1;
   }
 `
@@ -32,7 +32,7 @@ const ContextMenu: React.FunctionComponent<Props> = ({ id, children }) => (
       id={'edit-item-' + id}
       variant="secondary"
       className="item-menu"
-      title="Edit"
+      title="Action"
       onClick={(event: any) => event.stopPropagation()}
     >
       {children}

@@ -3,10 +3,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {overflow: auto}
+#root {
+  overflow: auto;
+}
 
 .bg-primary {
-  background-color: #2c54ff !important;
+  background-color: #006bfa !important;
 }
 
 .modal-backdrop.extraDark {

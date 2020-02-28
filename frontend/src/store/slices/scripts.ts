@@ -3,12 +3,8 @@ import axios from 'axios'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { AppThunk } from 'store/store'
-
-type ListedScript = {
-  id: number
-  title: string
-  created: string
-}
+import { ListedScript } from 'types/scriptTypes'
+import api from 'api'
 
 export type ScriptsStore = {
   scripts?: ListedScript[]
@@ -23,23 +19,26 @@ const scriptSlice = createSlice({
     updateScripts(state, action: PayloadAction<ListedScript[]>) {
       state.scripts = action.payload
     },
+    _deleteScript(state, action: PayloadAction<string>) {
+      const index = state.scripts!.findIndex(script => (script.id = action.payload))
+      state.scripts!.splice(index, 1)
+    }
   }
 })
 
-const {
-  updateScripts,
-} = scriptSlice.actions
+const { updateScripts, _deleteScript } = scriptSlice.actions
 
 export default scriptSlice.reducer
 
-export const loadScripts = (
-  adminId: string
-): AppThunk => async dispatch => {
+export const loadScripts = (adminId: string): AppThunk => async dispatch => {
+  axios.get(`/api/script`, { params: { adminId } }).then(response => {
+    const scripts: ListedScript[] = response.data
 
-  axios.get(`/api/script`, { params: { adminId } })
-    .then((response) => {
-      const scripts: ListedScript[] = response.data
+    dispatch(updateScripts(scripts))
+  })
+}
 
-      dispatch(updateScripts(scripts))
-    })
+export const deleteScript = (scriptId: string): AppThunk<Promise<void>> => async dispatch => {
+  await api.deleteScript(scriptId)
+  dispatch(_deleteScript(scriptId))
 }

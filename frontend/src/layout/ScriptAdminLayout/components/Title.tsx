@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
 import { updateTitle } from 'store/slices/script'
+import { AppDispatch } from 'store/store'
 
 const StyledTitle = styled(Form.Control)`
   width: 100%;
@@ -15,8 +16,7 @@ type State = {
   value: string
 }
 
-type Props = {
-} & ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps
+type Props = {} & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 class Title extends React.Component<Props, State> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef()
@@ -58,13 +58,13 @@ class Title extends React.Component<Props, State> {
 function mapStateToProps(state: RootState) {
   const { script } = state.scriptStore
 
-  if (!script)
-    throw Error('Script not loaded')
+  if (!script) throw Error('Script not loaded')
 
   return { scriptId: script.id, title: script.title }
 }
 
-const mapDispatchToProps = { updateTitle }
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  updateTitle: (scriptId: string, title: string) => dispatch(updateTitle(scriptId, title))
+})
 
-// @ts-ignore
 export default connect(mapStateToProps, mapDispatchToProps)(Title)

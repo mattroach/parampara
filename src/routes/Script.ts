@@ -1,4 +1,3 @@
-
 import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
@@ -13,8 +12,7 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const { adminId } = req.query
 
-    if (!adminId)
-      throw Error('Must pass in a adminId')
+    if (!adminId) throw Error('Must pass in a adminId')
 
     const scripts = await scriptService.getScripts(adminId)
 
@@ -22,7 +20,7 @@ router.get('/', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
@@ -31,8 +29,7 @@ router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id: scriptId } = req.params as ParamsDictionary
     const { version }: { version: ScriptVersionCode } = req.query
-    if (!(version in ScriptVersionCode))
-      throw Error('Bad version')
+    if (!(version in ScriptVersionCode)) throw Error('Bad version')
 
     const script = await scriptService.getScript(scriptId, version)
 
@@ -43,7 +40,22 @@ router.get('/:id', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
+    })
+  }
+})
+
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const { id: scriptId } = req.params as ParamsDictionary
+
+    await scriptService.deleteScript(scriptId)
+
+    return res.status(OK).json({})
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message
     })
   }
 })
@@ -58,7 +70,7 @@ router.get('/:id/results', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
@@ -67,8 +79,7 @@ router.post('/', async (req: Request, res: Response) => {
   try {
     const adminId: string = req.body.adminId
 
-    if (!adminId)
-      throw Error('Must pass in a adminId')
+    if (!adminId) throw Error('Must pass in a adminId')
 
     const script = await scriptService.createScript(adminId)
 
@@ -76,7 +87,7 @@ router.post('/', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
@@ -91,7 +102,7 @@ router.post('/publish/:id', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
@@ -115,10 +126,9 @@ router.put('/:id', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
-
 
 export default router

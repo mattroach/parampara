@@ -1,10 +1,14 @@
-export type Script = {
+export type ListedScript = {
   id: string
   title: string
+  created: string
+}
+
+export type Script = {
   version: ScriptVersion
   allowAnon: boolean
   hasUnpublishedChanges: boolean
-}
+} & ListedScript
 
 export type ScriptVersion = {
   id: string
@@ -15,15 +19,15 @@ export type ScriptItem = MessageItem | ImageItem
 
 export type ScriptAction = ChooseResponseAction | CommentAction
 
-
 export enum ScriptItemType {
-  Message = 'Message', Image = 'Image'
+  Message = 'Message',
+  Image = 'Image'
 }
 
 export enum ScriptActionType {
-  ChooseResponse = 'ChooseResponse', Comment = 'Comment'
+  ChooseResponse = 'ChooseResponse',
+  Comment = 'Comment'
 }
-
 
 export type MessageItem = {
   type: ScriptItemType.Message

@@ -10,40 +10,38 @@ const getScript = async (scriptId: string, version: ScriptVersionType): Promise<
   return response.data
 }
 
+const deleteScript = async (scriptId: string): Promise<void> => {
+  await axios.delete(`/api/script/${scriptId}`)
+}
+
 const getScriptResults = async (scriptId: string): Promise<Session[]> => {
   const response = await axios.get(`/api/script/${scriptId}/results`)
 
   return response.data
 }
 
-const updateScript = async (
-  scriptId: string, script: PartialScript
-): Promise<void> => {
+const updateScript = async (scriptId: string, script: PartialScript): Promise<void> => {
   const response = await axios.put(`/api/script/${scriptId}`, script)
 
   return response.data
 }
 
-const publishScript = async (
-  scriptId: string
-): Promise<void> => {
+const publishScript = async (scriptId: string): Promise<void> => {
   await axios.post(`/api/script/publish/${scriptId}`)
 }
 
-const getOrCreateSessionProgress = async (
-  data: {
-    scriptId: string,
-    email?: string,
-    referrerCode?: string
-  }
-): Promise<SessionProgress> => {
+const getOrCreateSessionProgress = async (data: {
+  scriptId: string
+  email?: string
+  referrerCode?: string
+}): Promise<SessionProgress> => {
   return (await axios.post('/api/sessionProgress/', data)).data
 }
 
 const updateProgress = async (
   sessionProgressId: string,
   data: {
-    currentItemId: number,
+    currentItemId: number
     items: ProgressItem[]
   }
 ): Promise<void> => {
@@ -53,6 +51,7 @@ const updateProgress = async (
 export default {
   getScriptResults,
   getScript,
+  deleteScript,
   updateScript,
   publishScript,
   getOrCreateSessionProgress,

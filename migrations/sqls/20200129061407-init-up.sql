@@ -17,7 +17,7 @@ CREATE TABLE script (
 
 CREATE TABLE script_version (
   id uuid PRIMARY KEY NOT NULL,
-  script_id uuid NOT NULL REFERENCES script(id),
+  script_id uuid NOT NULL REFERENCES script(id) ON DELETE CASCADE,
   version integer NOT NULL,
   created timestamp NOT NULL DEFAULT now(),
   items text NOT NULL default '[]',
@@ -34,7 +34,7 @@ CREATE TABLE "session_user" (
 CREATE TABLE session_progress (
   id uuid PRIMARY KEY NOT NULL,
   session_user_id uuid REFERENCES "session_user"(id),
-  script_id uuid NOT NULL REFERENCES script(id),
+  script_id uuid NOT NULL REFERENCES script(id) ON DELETE CASCADE,
   script_version_id uuid NOT NULL REFERENCES script_version(id),
   created timestamp NOT NULL DEFAULT now(),
   current_item_id integer NOT NULL default 0,
@@ -50,7 +50,7 @@ CREATE TABLE session_response (
   id uuid PRIMARY KEY NOT NULL,
   session_progress_id uuid NOT NULL REFERENCES "session_progress"(id),
   session_user_id uuid REFERENCES "session_user"(id),
-  script_id uuid NOT NULL REFERENCES script(id),
+  script_id uuid NOT NULL REFERENCES script(id) ON DELETE CASCADE,
   created timestamp NOT NULL DEFAULT now(),
   response_type response_type NOT NULL,
   message text NOT NULL,

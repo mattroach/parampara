@@ -5,7 +5,8 @@ import { uuid } from '@shared'
 import { raw } from 'objection'
 
 export enum ScriptVersionCode {
-  latest = 'latest', draft = 'draft'
+  latest = 'latest',
+  draft = 'draft'
 }
 
 type UpdateScriptBody = {
@@ -17,15 +18,21 @@ type UpdateScriptBody = {
 
 class ScriptService {
   async publishScript(scriptId: string) {
-    const draft = (await ScriptVersion.query()
-      .modify('draft')
-      .where('scriptId', scriptId))[0]
+    const draft = (
+      await ScriptVersion.query()
+        .modify('draft')
+        .where({ scriptId })
+    )[0]
 
     await ScriptVersion.query().insert({
       id: uuid(),
       scriptId,
-      version: ScriptVersion.query().select(raw('version + 1')).where('scriptId', scriptId).orderBy('version', 'desc').limit(1),
-      items: draft.items,
+      version: ScriptVersion.query()
+        .select(raw('version + 1'))
+        .where({ scriptId })
+        .orderBy('version', 'desc')
+        .limit(1),
+      items: draft.items
     })
 
     await Script.query()
@@ -56,10 +63,14 @@ class ScriptService {
       })
   }
 
+  async deleteScript(scriptId: string) {
+    return await Script.query().deleteById(scriptId)
+  }
+
   async getScripts(adminId: string) {
     return await Script.query()
       .where('adminId', adminId)
-      .orderBy('created')
+      .orderBy('created', 'DESC')
   }
 
   async getScript(scriptId: string, versionCode: ScriptVersionCode) {
@@ -67,8 +78,7 @@ class ScriptService {
       .findById(scriptId)
       .withGraphFetched(`version(${versionCode})`)
 
-    if (!script.version)
-      throw Error('Script is not published')
+    if (!script.version) throw Error('Script is not published')
 
     return script
   }
