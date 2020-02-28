@@ -54,7 +54,10 @@ class BotControls extends React.Component<Props, State> {
   }
 
   handleClickOutside = (event: MouseEvent) => {
-    if (this.containerRef.current && !this.containerRef.current.contains(event.target as any)) {
+    if (
+      this.containerRef.current &&
+      !this.containerRef.current.contains(event.target as any)
+    ) {
       this.props.onBlur!()
     }
   }

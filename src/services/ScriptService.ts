@@ -83,10 +83,11 @@ class ScriptService {
     return script
   }
 
-  async createScript(adminId: string) {
+  async createScript(adminId: string, scriptAttributes: { title: string }) {
     const script = await Script.query().insert({
       id: uuid(),
-      adminId
+      adminId,
+      title: scriptAttributes.title
     })
 
     await ScriptVersion.query().insert({

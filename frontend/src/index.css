@@ -14,3 +14,7 @@ body {
 .modal-backdrop.extraDark {
   opacity: 0.9;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}

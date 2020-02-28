@@ -1,16 +1,15 @@
-import React from 'react';
-import Button, { ButtonProps } from 'react-bootstrap/Button';
+import React from 'react'
+import Button, { ButtonProps } from 'react-bootstrap/Button'
 
-type Props = { isLoading: boolean } & ButtonProps
-  & { onClick?: (event: any) => void } // TODO proper typing
+type Props = { isLoading: boolean } & ButtonProps & { onClick?: (event: any) => void }
 
-const AppButton: React.FunctionComponent<Props> = (props) => {
-  const { isLoading, ...otherProps } = props
+const AppButton: React.FunctionComponent<Props> = props => {
+  const { isLoading, disabled, ...otherProps } = props
 
   return (
     <Button
       {...otherProps}
-      disabled={isLoading}
+      disabled={disabled || isLoading}
       onClick={isLoading ? undefined : props.onClick}
     >
       {isLoading ? 'Loading..' : props.children}

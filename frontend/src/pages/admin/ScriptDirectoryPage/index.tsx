@@ -5,7 +5,6 @@ import AdminLayout from 'layout/AdminLayout'
 import CreateScriptButton from './components/CreateScriptButton'
 import Scripts from './components/Scripts'
 
-
 const Wrapper = styled.section`
   margin: 60px auto 0 auto;
   max-width: 1000px;
@@ -21,7 +20,6 @@ type Props = {
 }
 
 export default class ScriptDirectory extends React.Component<Props, {}> {
-
   render() {
     return (
       <AdminLayout adminId={this.props.adminId}>

@@ -20,7 +20,9 @@ const scriptSlice = createSlice({
       state.scripts = action.payload
     },
     _deleteScript(state, action: PayloadAction<string>) {
-      const index = state.scripts!.findIndex(script => (script.id = action.payload))
+      const scriptId = action.payload
+      const index = state.scripts!.findIndex(script => script.id === scriptId)
+      if (index === -1) throw Error(`Cannot find script with ID ${scriptId}`)
       state.scripts!.splice(index, 1)
     }
   }
@@ -38,7 +40,9 @@ export const loadScripts = (adminId: string): AppThunk => async dispatch => {
   })
 }
 
-export const deleteScript = (scriptId: string): AppThunk<Promise<void>> => async dispatch => {
+export const deleteScript = (
+  scriptId: string
+): AppThunk<Promise<void>> => async dispatch => {
   await api.deleteScript(scriptId)
   dispatch(_deleteScript(scriptId))
 }

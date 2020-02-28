@@ -9,6 +9,11 @@ const IconButton = styled(Button)`
   vertical-align: top;
   padding: 0;
   height: 40px;
+
+  transition: box-shadow 0.15s ease-in-out;
+  :focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
 `
 type Props = {
   icon: string
@@ -17,7 +22,10 @@ type Props = {
   onClick?: () => void
 }
 
-const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = ({ icon, tooltip, onClick, disableTooltip }, ref) => {
+const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = (
+  { icon, tooltip, onClick, disableTooltip },
+  ref
+) => {
   const [show, setShow] = useState(false)
 
   return (
@@ -28,7 +36,9 @@ const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = 
         onClick={onClick}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-      ><MaterialIcon icon={icon} size={40} /></IconButton>
+      >
+        <MaterialIcon icon={icon} size={40} />
+      </IconButton>
 
       <Overlay
         target={(ref as RefObject<HTMLInputElement>).current!}
@@ -36,7 +46,9 @@ const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = 
         placement="top"
       >
         {(props: any) => (
-          <Tooltip {...props} show={props.show.toString()}>{tooltip}</Tooltip>
+          <Tooltip {...props} show={props.show.toString()}>
+            {tooltip}
+          </Tooltip>
         )}
       </Overlay>
     </>

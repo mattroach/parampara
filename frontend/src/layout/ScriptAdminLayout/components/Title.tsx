@@ -16,7 +16,8 @@ type State = {
   value: string
 }
 
-type Props = {} & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+type Props = {} & ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>
 
 class Title extends React.Component<Props, State> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef()
@@ -48,7 +49,6 @@ class Title extends React.Component<Props, State> {
           value={this.state.value}
           onBlur={this.saveChanges}
           onChange={this.onChange}
-          autoFocus={!this.state.value}
         />
       </Form>
     )

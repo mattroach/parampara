@@ -75,13 +75,18 @@ router.get('/:id/results', async (req: Request, res: Response) => {
   }
 })
 
+const CreateScriptBody = Record({
+  adminId: String,
+  title: String
+})
+
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const adminId: string = req.body.adminId
+    const { adminId, title } = CreateScriptBody.check(req.body)
 
     if (!adminId) throw Error('Must pass in a adminId')
 
-    const script = await scriptService.createScript(adminId)
+    const script = await scriptService.createScript(adminId, { title })
 
     return res.status(OK).json(script)
   } catch (err) {
