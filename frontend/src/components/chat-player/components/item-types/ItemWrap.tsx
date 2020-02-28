@@ -5,13 +5,13 @@ const Wrapper = styled.div`
   margin: 10px 0;
 `
 
-const AnimatedContent = styled.span<{ disableAnimateIn?: boolean, unlimitedWidth?: boolean }>`
+const AnimatedContent = styled.span<{ disableAnimateIn?: boolean; unlimitedWidth?: boolean }>`
   display: inline-block;
   ${props => !props.unlimitedWidth && 'max-width: 75%;'}
 
   @keyframes slideInFromLeft {
     0% {
-      transform: translateX(-10%);
+      transform: translateX(-10px);
       opacity: 0;
     }
     100% {
@@ -19,20 +19,25 @@ const AnimatedContent = styled.span<{ disableAnimateIn?: boolean, unlimitedWidth
       opacity: 1;
     }
   }
-  ${props => !props.disableAnimateIn && 'animation: .03s linear 0s 1 slideInFromLeft;'};
+  ${props => !props.disableAnimateIn && 'animation: .3s ease 0s 1 slideInFromLeft;'};
 `
 
 type Props = {
   className?: string
   disableAnimateIn?: boolean
-  unlimitedWidth?: boolean,
+  unlimitedWidth?: boolean
   children: React.ReactNode
 }
 
-const ItemWrap: React.RefForwardingComponent<HTMLDivElement, Props> = ({ children, className, disableAnimateIn, unlimitedWidth }, ref) => {
+const ItemWrap: React.RefForwardingComponent<HTMLDivElement, Props> = (
+  { children, className, disableAnimateIn, unlimitedWidth },
+  ref
+) => {
   return (
     <Wrapper className={className} ref={ref}>
-      <AnimatedContent disableAnimateIn={disableAnimateIn} unlimitedWidth={unlimitedWidth}>{children}</AnimatedContent>
+      <AnimatedContent disableAnimateIn={disableAnimateIn} unlimitedWidth={unlimitedWidth}>
+        {children}
+      </AnimatedContent>
     </Wrapper>
   )
 }
