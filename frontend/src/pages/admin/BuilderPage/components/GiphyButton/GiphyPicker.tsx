@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, RefObject } from 'react'
 import styled from 'styled-components'
 import Form from 'react-bootstrap/Form'
 import { debounce } from 'throttle-debounce'
@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 const ENDPOINT = 'https://api.giphy.com/v1/gifs/'
 const API_KEY = '4voMr27iyxRlBAGwrYXq0AZ9ZFhqhYkr'
 
-
 const StyledContent = styled(Popover.Content)`
   padding: 0;
 `
@@ -23,8 +22,8 @@ const StyledControl = styled(Form.Control)`
 
 const Giphy = styled.img`
   border-radius: 3px;
-  margin-bottom: 8px;  
-  display: block; 
+  margin-bottom: 8px;
+  display: block;
   cursor: pointer;
 
   box-sizing: border-box;
@@ -57,6 +56,7 @@ type GiphyItem = {
 }
 
 type Props = {
+  focusRef: RefObject<HTMLInputElement>
   onPick: () => void
   insertPosition?: number
 } & typeof mapDispatchToProps
@@ -91,7 +91,8 @@ class GiphyPicker extends React.Component<Props, State> {
       limit: 15
     }
 
-    axios.get(`${ENDPOINT}${action}`, { params })
+    axios
+      .get(`${ENDPOINT}${action}`, { params })
       .then((results: AxiosResponse<GiphyResults>) => {
         this.setState({ results: results.data })
       })
@@ -123,20 +124,21 @@ class GiphyPicker extends React.Component<Props, State> {
     return (
       <StyledContent>
         <StyledControl
+          ref={this.props.focusRef}
           type="text"
           placeholder="Search for a GIF..."
           onChange={this.searchValueChange}
-          autoFocus
         />
         <GiphyList>
-          {items && items.map(item =>
-            <Giphy
-              key={item.id}
-              alt={item.title}
-              src={item.images.fixed_width.url}
-              onClick={this.selectGiphy(item)}
-            />
-          )}
+          {items &&
+            items.map(item => (
+              <Giphy
+                key={item.id}
+                alt={item.title}
+                src={item.images.fixed_width.url}
+                onClick={this.selectGiphy(item)}
+              />
+            ))}
         </GiphyList>
       </StyledContent>
     )
@@ -145,5 +147,4 @@ class GiphyPicker extends React.Component<Props, State> {
 
 const mapDispatchToProps = { addItem }
 
-// @ts-ignore: redux issue
 export default connect(null, mapDispatchToProps)(GiphyPicker)

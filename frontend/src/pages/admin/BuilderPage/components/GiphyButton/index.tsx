@@ -10,14 +10,25 @@ type Props = {
   onAddItem?: () => void
 }
 
-const GiphyButton: React.FunctionComponent<Props> = ({ container, insertPosition, onAddItem }) => {
+const GiphyButton: React.FunctionComponent<Props> = ({
+  container,
+  insertPosition,
+  onAddItem
+}) => {
   const [isShow, setShow] = useState(false)
   const targetRef = useRef<HTMLInputElement>(null)
+  const focusRef = useRef<HTMLInputElement>(null)
 
   const hide = () => setShow(false)
   const onPick = () => {
     onAddItem && onAddItem()
     hide()
+  }
+
+  const focusGiphyPicker = () => {
+    // We must focus this way instead of via autoFocus, as autoFocus causes the scroll to jump to the very top
+    // (probably because the element is not rendered in the absolute position yet)
+    focusRef.current!.focus()
   }
 
   return (
@@ -34,12 +45,17 @@ const GiphyButton: React.FunctionComponent<Props> = ({ container, insertPosition
         show={isShow}
         target={targetRef.current!}
         container={container.current!}
+        onEntered={focusGiphyPicker}
         placement="top"
         onHide={hide}
         rootClose={true}
       >
         <Popover id="popover-giphy">
-          <GiphyPicker onPick={onPick} insertPosition={insertPosition} />
+          <GiphyPicker
+            onPick={onPick}
+            insertPosition={insertPosition}
+            focusRef={focusRef}
+          />
         </Popover>
       </Overlay>
     </>
