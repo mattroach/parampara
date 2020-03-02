@@ -6,14 +6,12 @@ import { ScriptVersionType } from 'api/types'
 import ChatPlayer from 'components/chat-player/ChatPlayer'
 import * as styles from './ChatPlayerPage.styles'
 
-
 type Props = {
   loadScript: typeof loadScript
   scriptId: string
 } & ReturnType<typeof mapStateToProps>
 
 class ChatSessionPage extends React.Component<Props> {
-
   componentDidMount() {
     this.props.loadScript(this.props.scriptId, ScriptVersionType.latest)
   }

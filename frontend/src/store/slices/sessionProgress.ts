@@ -3,8 +3,9 @@ import api from 'api'
 import { RootState } from 'store/rootReducer'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
-import { ScriptActionType, ScriptItemType, ScriptItem } from '../../types/scriptTypes'
-import { ProgressItem, SessionProgress } from '../../types/sessionProgress'
+import { ScriptActionType, ScriptItem, ScriptItemType } from 'types/scriptTypes'
+import { ProgressItem, SessionProgress } from 'types/sessionProgress'
+import TimeMe from 'timeme.js'
 
 export const MESSAGE_BASE_DELAY = 1600
 
@@ -26,9 +27,8 @@ const sessionProgressSlice = createSlice({
     },
     progressItem(state, action: PayloadAction<ProgressItem>) {
       const { progress } = state
-      if (!progress) {
+      if (!progress)
         throw new Error('Trying to progress item when no progress is loaded yet')
-      }
 
       const itemProgress = action.payload
       const { actionResult: actionProgress } = itemProgress
@@ -94,9 +94,10 @@ const calculateDelay = (prevItem: ScriptItem) => {
   return Math.max(Math.min(delay, max), min)
 }
 
-export const progressItemAndDelayNext = (
-  itemProgress: ProgressItem
-): AppThunk => async (dispatch, getState) => {
+export const progressItemAndDelayNext = (itemProgress: ProgressItem): AppThunk => async (
+  dispatch,
+  getState
+) => {
   dispatch(progressItem(itemProgress))
 
   setTimeout(() => {
@@ -111,25 +112,33 @@ export const loadProgressFromServer = (
   scriptId: string,
   email?: string
 ): AppThunk => async dispatch => {
+  TimeMe.initialize({
+    currentPageName: 'session-progress',
+    idleTimeoutInSeconds: 15
+  })
+
   const urlParams = new URLSearchParams(window.location.search)
   const referrerCode = urlParams.get('r') || undefined
 
-  const sessionProgress = await api.getOrCreateSessionProgress({ email, scriptId, referrerCode })
+  const sessionProgress = await api.getOrCreateSessionProgress({
+    email,
+    scriptId,
+    referrerCode
+  })
   dispatch(updateProgress(sessionProgress))
 }
 
 const updateProgressOnServer = throttle(3000, false, (getState: () => RootState) => {
   const { progress } = getState().sessionProgressStore
 
-  if (!progress)
-    throw Error('No progress available')
-
-  const { currentItemId, items, id, } = progress
+  if (!progress) throw Error('No progress available')
+  const { currentItemId, items, id } = progress
 
   if (!id) {
     // We must be in preview mode: do not save progress
     return
   }
 
-  api.updateProgress(id, { currentItemId, items })
+  const durationSec = Math.ceil(TimeMe.getTimeOnCurrentPageInSeconds())
+  api.updateProgress(id, { currentItemId, items, durationSec })
 })

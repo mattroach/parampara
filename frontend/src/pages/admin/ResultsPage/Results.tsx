@@ -10,6 +10,7 @@ import Badge from 'react-bootstrap/Badge'
 import Loader from 'components/Loader'
 import transposeResults from './transposeResults'
 import ColumnHeader from './ColumnHeader'
+import DurationFormatted from './DurationFormatted'
 
 type Props = {
   scriptId: string
@@ -50,11 +51,18 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   const transposedResults = transposeResults(scriptResults)
 
   return (
-    <StyledTable responsive hover size="sm" bordered extraCols={transposedResults.columns.length}>
+    <StyledTable
+      responsive
+      hover
+      size="sm"
+      bordered
+      extraCols={transposedResults.columns.length}
+    >
       <thead>
         <tr>
           <th>Date</th>
           <th>Progress</th>
+          <th>Duration</th>
           {hasUsers && <th>User</th>}
           <th>Referrer</th>
           {transposedResults.columns.map((column, i) => (
@@ -69,6 +77,9 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
               <td>{dayjs(result.created).format('DD MMM YYYY, h:mma')}</td>
               <td>
                 <ProgressBar now={result.progress} label={`${result.progress}%`} />
+              </td>
+              <td>
+                <DurationFormatted durationSec={result.durationSec} />
               </td>
               {hasUsers && <td>{result.sessionUser?.email}</td>}
               <td>

@@ -1,5 +1,10 @@
 import { uuid } from '@shared'
-import { ChooseResponseAction, ScriptActionType, ScriptItem, ScriptItemType } from '../../frontend/src/types/scriptTypes'
+import {
+  ChooseResponseAction,
+  ScriptActionType,
+  ScriptItem,
+  ScriptItemType
+} from '../../frontend/src/types/scriptTypes'
 import { ProgressItem } from '../../frontend/src/types/sessionProgress'
 import SessionResponse from '../models/SessionResponse'
 import SessionProgress from '../models/SessionProgress'
@@ -11,6 +16,7 @@ class SessionResponseService {
       .select('id', 'sessionUserId', 'created', 'progress', 'durationSec', 'referrerCode')
       .withGraphFetched('[responses, sessionUser]')
       .where('scriptId', scriptId)
+      .where('progress', '!=', 0)
       .orderBy('created', 'DESC')
   }
 
@@ -18,30 +24,29 @@ class SessionResponseService {
     // TODO should store in the table instead? but the items are probs deserialized anyways?
     const prevPosition = lastSession.items.length
 
-    items.slice(prevPosition)
-      .forEach(async (item, i) => {
-        if (!item.actionResult) return
+    items.slice(prevPosition).forEach(async (item, i) => {
+      if (!item.actionResult) return
 
-        if (item.actionResult.type === ScriptActionType.ChooseResponse) {
-          const action = item.item.action as ChooseResponseAction
-          if (action.responses.length === 1) {
-            // If there is only one response choice, skip storing the data for it - we don't care about it
-            return
-          }
-
-          await this.saveResponse(lastSession, {
-            responseType: item.actionResult.type,
-            message: this.getItemMessage(item.item),
-            response: action.responses[item.actionResult.choice].message
-          })
-        } else {
-          await this.saveResponse(lastSession, {
-            responseType: item.actionResult.type,
-            message: this.getItemMessage(item.item),
-            response: item.actionResult.content
-          })
+      if (item.actionResult.type === ScriptActionType.ChooseResponse) {
+        const action = item.item.action as ChooseResponseAction
+        if (action.responses.length === 1) {
+          // If there is only one response choice, skip storing the data for it - we don't care about it
+          return
         }
-      })
+
+        await this.saveResponse(lastSession, {
+          responseType: item.actionResult.type,
+          message: this.getItemMessage(item.item),
+          response: action.responses[item.actionResult.choice].message
+        })
+      } else {
+        await this.saveResponse(lastSession, {
+          responseType: item.actionResult.type,
+          message: this.getItemMessage(item.item),
+          response: item.actionResult.content
+        })
+      }
+    })
   }
 
   private async saveResponse(
@@ -58,12 +63,9 @@ class SessionResponseService {
   }
 
   private getItemMessage(item: ScriptItem) {
-    if (item.type === ScriptItemType.Image)
-      return `(image) ${item.title}`
-    else
-      return item.message
+    if (item.type === ScriptItemType.Image) return `(image) ${item.title}`
+    else return item.message
   }
-
 }
 
 export default new SessionResponseService()

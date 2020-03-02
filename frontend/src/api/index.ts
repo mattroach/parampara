@@ -54,6 +54,7 @@ const updateProgress = async (
   data: {
     currentItemId: number
     items: ProgressItem[]
+    durationSec: number
   }
 ): Promise<void> => {
   await axios.put(`/api/sessionProgress/${sessionProgressId}`, data)

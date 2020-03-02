@@ -17,10 +17,8 @@
     "@server": "dist/src/Server"
   },
   "dependencies": {
-    "axios": "^0.19.2",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.4",
-    "dayjs": "^1.8.20",
     "db-migrate": "^0.11.6",
     "db-migrate-pg": "^1.0.0",
     "dotenv": "^8.2.0",
@@ -31,8 +29,6 @@
     "morgan": "^1.9.1",
     "objection": "^2.1.2",
     "pg": "^7.17.1",
-    "react-input-autosize": "^2.2.2",
-    "react-linkify": "^1.0.0-alpha",
     "runtypes": "^4.1.0",
     "tslib": "^1.10.0",
     "uuid": "^3.4.0",
@@ -47,8 +43,6 @@
     "@types/jsonfile": "^5.0.0",
     "@types/morgan": "^1.7.37",
     "@types/node": "^13.1.8",
-    "@types/react-input-autosize": "^2.0.1",
-    "@types/react-linkify": "^1.0.0",
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.7",
     "find": "^0.3.0",

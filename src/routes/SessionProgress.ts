@@ -1,4 +1,3 @@
-
 import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { BAD_REQUEST, OK } from 'http-status-codes'
@@ -9,7 +8,7 @@ const router = Router()
 
 type StartOrLoadProgressReq = {
   email?: string
-  scriptId: string,
+  scriptId: string
   referrerCode?: string
 }
 
@@ -22,16 +21,18 @@ router.post('/', async (req: Request, res: Response) => {
     const request: StartOrLoadProgressReq = req.body
     const { scriptId, email, referrerCode } = request
 
-    if (!scriptId)
-      throw new Error('No scriptId provided')
+    if (!scriptId) throw new Error('No scriptId provided')
 
-    const progress = await sessionProgressService.getOrCreateSessionProgress(scriptId, { email, referrerCode })
+    const progress = await sessionProgressService.getOrCreateSessionProgress(scriptId, {
+      email,
+      referrerCode
+    })
 
     return res.status(OK).json(progress)
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
@@ -39,27 +40,30 @@ router.post('/', async (req: Request, res: Response) => {
 type UpdateProgressReq = {
   currentItemId: number
   items: any[]
+  durationSec: number
 }
 
 router.put('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params as ParamsDictionary
 
-    const reqParams: UpdateProgressReq = req.body
+    const { currentItemId, items, durationSec } = req.body as UpdateProgressReq
 
-    if (!id)
-      throw new Error('No scriptId provided')
+    if (!id) throw new Error('No scriptId provided')
 
-    if (!reqParams.currentItemId || !reqParams.items)
-      throw new Error('Params missing')
+    if (!currentItemId || !items || !durationSec) throw new Error('Params missing')
 
-    await sessionProgressService.updateSessionProgress(id, reqParams.currentItemId, reqParams.items)
+    await sessionProgressService.updateSessionProgress(id, {
+      currentItemId,
+      items,
+      durationSec
+    })
 
     return res.status(OK).json({})
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })

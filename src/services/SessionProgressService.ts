@@ -5,21 +5,28 @@ import sessionResponseService from './SessionResponseService'
 import ScriptVersion from '../models/ScriptVersion'
 
 class SessionProgressService {
-  async updateSessionProgress(sessionId: string, currentItemId: number, items: any[]) {
+  async updateSessionProgress(
+    sessionId: string,
+    data: {
+      currentItemId: number
+      items: any[]
+      durationSec: number
+    }
+  ) {
     const session = await SessionProgress.query().findById(sessionId)
 
     if (!session) throw Error(`session ID ${sessionId} not found`)
 
-    await sessionResponseService.saveNewResponses(session, items)
+    await sessionResponseService.saveNewResponses(session, data.items)
 
     await SessionProgress.query()
       .findById(sessionId)
       .patch({
-        currentItemId,
-        items,
-        progress: await this.getProgress(currentItemId, session)
+        ...data,
+        progress: await this.getProgress(data.currentItemId, session)
       })
   }
+
   private async getProgress(currentItemId: number, session: SessionProgress) {
     const scriptVersion = await session.$relatedQuery('scriptVersion')
     return Math.floor((100 * currentItemId) / scriptVersion.items.length)
@@ -43,7 +50,10 @@ class SessionProgressService {
         // if (existingProgress)
         //   return existingProgress
 
-        return await this.createSessionProgress(scriptId, { userId: user.id, referrerCode })
+        return await this.createSessionProgress(scriptId, {
+          userId: user.id,
+          referrerCode
+        })
       }
 
       const newUser = await this.createUser(email)
