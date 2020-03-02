@@ -4,14 +4,14 @@ import styled from 'styled-components'
 
 const StyledDropdownButton = styled(DropdownButton)`
   > button {
-    right: -7px;
-    top: -12px;
+    right: -5px;
+    top: -10px;
     position: absolute;
-    height: 23px;
-    line-height: 25px;
-    padding: 0 6px;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
     border: none;
-    font-size: 12px;
+    font-size: 10px;
 
     display: inline-block;
     opacity: 0;
@@ -32,7 +32,7 @@ const ContextMenu: React.FunctionComponent<Props> = ({ id, children }) => (
       id={'edit-item-' + id}
       variant="secondary"
       className="item-menu"
-      title="Action"
+      title="Actions"
       onClick={(event: any) => event.stopPropagation()}
     >
       {children}
