@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { MessageItem, ScriptItemType } from 'types/scriptTypes'
 import GiphyButton from './GiphyButton'
 import { EditField } from './items/styles'
+import MessageSubmitButton from './MessageSubmitButton'
 
 const Wrapper = styled.div`
   display: inline-block;
@@ -21,7 +22,7 @@ const AddMessageControl = styled(EditField)`
 `
 
 type State = {
-  messageDraft: string
+  message: string
 }
 
 type Props = {
@@ -36,7 +37,7 @@ class BotControls extends React.Component<Props, State> {
   containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   state = {
-    messageDraft: ''
+    message: ''
   }
 
   componentDidMount() {
@@ -65,7 +66,7 @@ class BotControls extends React.Component<Props, State> {
   submitNewBotMessage = (event: any) => {
     event.preventDefault()
     const { addItem, onAddItem, insertPosition } = this.props
-    const { messageDraft: message } = this.state
+    const { message } = this.state
 
     if (!message) return
 
@@ -73,15 +74,16 @@ class BotControls extends React.Component<Props, State> {
 
     addItem({ item, position: insertPosition })
 
-    this.setState({ messageDraft: '' })
+    this.setState({ message: '' })
     onAddItem && onAddItem()
   }
 
   handleMessageChange = (e: any) => {
-    this.setState({ messageDraft: e.target.value })
+    this.setState({ message: e.target.value })
   }
 
   render() {
+    const { message } = this.state
     return (
       <Wrapper ref={this.containerRef}>
         <StyledForm onSubmit={this.submitNewBotMessage}>
@@ -89,16 +91,21 @@ class BotControls extends React.Component<Props, State> {
             ref={this.inputRef}
             type="text"
             placeholder="Add a message..."
-            value={this.state.messageDraft}
+            value={message}
             onChange={this.handleMessageChange}
             onBlur={this.submitNewBotMessage}
+            autoFocus={this.props.autoFocus}
           />
+        </StyledForm>
+        {message ? (
+          <MessageSubmitButton />
+        ) : (
           <GiphyButton
             container={this.containerRef}
             insertPosition={this.props.insertPosition}
             onAddItem={this.props.onAddItem}
           />
-        </StyledForm>
+        )}
       </Wrapper>
     )
   }
@@ -106,5 +113,4 @@ class BotControls extends React.Component<Props, State> {
 
 const mapDispatchToProps = { addItem }
 
-// @ts-ignore
 export default connect(null, mapDispatchToProps)(BotControls)

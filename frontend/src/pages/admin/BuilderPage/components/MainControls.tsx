@@ -13,8 +13,14 @@ const Wrapper = styled.div`
 `
 
 const MainControls: React.FunctionComponent = () => {
-  const isScriptEmpty = useSelector((state: RootState) => {
-    return state.scriptStore.script!.version.items.length === 0
+  const isScriptEmpty = useSelector(
+    (state: RootState) => state.scriptStore.script!.version.items.length === 0
+  )
+
+  const canAddActionToLastItem = useSelector((state: RootState) => {
+    const { items } = state.scriptStore.script!.version
+    const lastItem = items[items.length - 1]
+    return lastItem && !lastItem.action
   })
 
   const scrollDown = () => {
@@ -27,7 +33,7 @@ const MainControls: React.FunctionComponent = () => {
   return (
     <Wrapper>
       <BotControls onAddItem={scrollDown} autoFocus={isScriptEmpty} />
-      <HumanControls onAddItem={scrollDown} />
+      {canAddActionToLastItem && <HumanControls onAddItem={scrollDown} />}
     </Wrapper>
   )
 }

@@ -38,6 +38,7 @@ const GiphyButton: React.FunctionComponent<Props> = ({
         disableTooltip={isShow}
         tooltip="Choose a gif"
         icon="gif"
+        iconSize={40}
         onClick={() => setShow(true)}
       />
 

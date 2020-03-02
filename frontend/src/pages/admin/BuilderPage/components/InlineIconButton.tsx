@@ -9,21 +9,29 @@ const IconButton = styled(Button)`
   vertical-align: top;
   padding: 0;
   height: 40px;
+  width: 40px;
 
   transition: box-shadow 0.15s ease-in-out;
   :focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
+
+  i {
+    vertical-align: middle;
+  }
 `
 type Props = {
   icon: string
+  iconSize?: number
+  color?: string
   tooltip: string
   disableTooltip?: boolean
   onClick?: () => void
+  type?: string
 }
 
 const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = (
-  { icon, tooltip, onClick, disableTooltip },
+  { icon, iconSize, color, tooltip, onClick, disableTooltip, type },
   ref
 ) => {
   const [show, setShow] = useState(false)
@@ -32,12 +40,13 @@ const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = 
     <>
       <IconButton
         ref={ref}
+        type={type}
         variant="link"
         onClick={onClick}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
       >
-        <MaterialIcon icon={icon} size={40} />
+        <MaterialIcon icon={icon} size={iconSize ? iconSize : 30} color={color} />
       </IconButton>
 
       <Overlay
