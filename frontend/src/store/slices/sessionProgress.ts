@@ -90,7 +90,7 @@ const calculateDelay = (prevItem: ScriptItem) => {
   }
 
   const min = MESSAGE_BASE_DELAY - Math.floor(Math.random() * 100)
-  const max = 8000
+  const max = 5000
   return Math.max(Math.min(delay, max), min)
 }
 
