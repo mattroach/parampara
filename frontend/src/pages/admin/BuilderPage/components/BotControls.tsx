@@ -5,7 +5,7 @@ import { addItem } from 'store/slices/script'
 import styled from 'styled-components'
 import { MessageItem, ScriptItemType } from 'types/scriptTypes'
 import GiphyButton from './GiphyButton'
-import { EditField } from './items/styles'
+import MessageField from './MessageField'
 import MessageSubmitButton from './MessageSubmitButton'
 
 const Wrapper = styled.div`
@@ -16,8 +16,7 @@ const StyledForm = styled(Form)`
   display: inline;
 `
 
-const AddMessageControl = styled(EditField)`
-  display: inline-block;
+const AddMessageControl = styled(MessageField)`
   width: 300px;
 `
 
@@ -33,7 +32,7 @@ type Props = {
 } & typeof mapDispatchToProps
 
 class BotControls extends React.Component<Props, State> {
-  inputRef: React.RefObject<HTMLInputElement> = React.createRef()
+  inputRef: React.RefObject<HTMLTextAreaElement> = React.createRef()
   containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   state = {
@@ -63,8 +62,8 @@ class BotControls extends React.Component<Props, State> {
     }
   }
 
-  submitNewBotMessage = (event: any) => {
-    event.preventDefault()
+  submitNewBotMessage = (e?: any) => {
+    e?.preventDefault()
     const { addItem, onAddItem, insertPosition } = this.props
     const { message } = this.state
 
@@ -78,8 +77,8 @@ class BotControls extends React.Component<Props, State> {
     onAddItem && onAddItem()
   }
 
-  handleMessageChange = (e: any) => {
-    this.setState({ message: e.target.value })
+  handleMessageChange = (message: string) => {
+    this.setState({ message })
   }
 
   render() {
@@ -88,18 +87,15 @@ class BotControls extends React.Component<Props, State> {
       <Wrapper ref={this.containerRef}>
         <StyledForm onSubmit={this.submitNewBotMessage}>
           <AddMessageControl
-            ref={this.inputRef}
-            type="text"
-            placeholder="Add a message..."
+            inputRef={this.inputRef}
             value={message}
             onChange={this.handleMessageChange}
-            onBlur={this.submitNewBotMessage}
+            onSubmit={this.submitNewBotMessage}
             autoFocus={this.props.autoFocus}
           />
+          {message && <MessageSubmitButton />}
         </StyledForm>
-        {message ? (
-          <MessageSubmitButton />
-        ) : (
+        {!message && (
           <GiphyButton
             container={this.containerRef}
             insertPosition={this.props.insertPosition}

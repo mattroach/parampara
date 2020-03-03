@@ -18,3 +18,7 @@ body {
 button:disabled {
   cursor: not-allowed;
 }
+
+.popover {
+  max-width: none;
+}
