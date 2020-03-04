@@ -19,6 +19,7 @@
     "@types/react-textarea-autosize": "^4.3.5",
     "@types/styled-components": "^4.4.2",
     "@types/throttle-debounce": "^2.1.0",
+    "@types/uuid": "^7.0.0",
     "@types/webpack-env": "^1.15.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
@@ -38,7 +39,8 @@
     "styled-components": "^5.0.0",
     "throttle-debounce": "^2.1.0",
     "timeme.js": "^2.0.4",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "uuid": "^7.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,6 +1,6 @@
-import React, { forwardRef } from 'react'
+import { EmojiData, Picker } from 'emoji-mart'
 import 'emoji-mart/css/emoji-mart.css'
-import { Picker, EmojiData } from 'emoji-mart'
+import React from 'react'
 
 type Props = {
   onSelect?: (emoji: EmojiData) => void

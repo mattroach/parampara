@@ -1,12 +1,12 @@
-import React, { ChangeEvent, RefObject } from 'react'
-import styled from 'styled-components'
-import Form from 'react-bootstrap/Form'
-import { debounce } from 'throttle-debounce'
 import axios, { AxiosResponse } from 'axios'
+import React, { ChangeEvent, RefObject } from 'react'
+import Form from 'react-bootstrap/Form'
 import Popover from 'react-bootstrap/Popover'
-import { addItem } from 'store/slices/script'
-import { ScriptItem, ScriptItemType } from 'types/scriptTypes'
 import { connect } from 'react-redux'
+import { createImageItem } from 'services/script'
+import { addItem } from 'store/slices/script'
+import styled from 'styled-components'
+import { debounce } from 'throttle-debounce'
 
 const ENDPOINT = 'https://api.giphy.com/v1/gifs/'
 const API_KEY = '4voMr27iyxRlBAGwrYXq0AZ9ZFhqhYkr'
@@ -107,13 +107,12 @@ class GiphyPicker extends React.Component<Props, State> {
   selectGiphy = (giphyItem: GiphyItem) => () => {
     const imageDetails = giphyItem.images.fixed_width
 
-    const item: ScriptItem = {
-      type: ScriptItemType.Image,
+    const item = createImageItem({
       url: imageDetails.url,
       title: giphyItem.title,
       width: parseInt(imageDetails.width, 10),
       height: parseInt(imageDetails.height, 10)
-    }
+    })
 
     this.props.addItem({ item, position: this.props.insertPosition })
     this.props.onPick()

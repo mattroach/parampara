@@ -17,9 +17,9 @@ const Editor: React.FunctionComponent = () => {
     <>
       <Items>
         {items.length === 0 && <EmptyState />}
-        {items.map((item, i) =>
-          <Item item={item} key={i} position={i} />
-        )}
+        {items.map((item, i) => (
+          <Item item={item} key={item.id} position={i} />
+        ))}
       </Items>
       <MainControls />
     </>

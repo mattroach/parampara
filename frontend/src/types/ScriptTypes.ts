@@ -29,12 +29,16 @@ export enum ScriptActionType {
   Comment = 'Comment'
 }
 
-export type MessageItem = {
-  type: ScriptItemType.Message
-  message: string
+type BaseItem = {
+  id: string
   nextId?: number
   action?: ScriptAction
 }
+
+export type MessageItem = {
+  type: ScriptItemType.Message
+  message: string
+} & BaseItem
 
 export type ImageItem = {
   type: ScriptItemType.Image
@@ -42,9 +46,7 @@ export type ImageItem = {
   title: string
   width: number
   height: number
-  nextId?: number
-  action?: ScriptAction
-}
+} & BaseItem
 
 export type CommentAction = {
   type: ScriptActionType.Comment

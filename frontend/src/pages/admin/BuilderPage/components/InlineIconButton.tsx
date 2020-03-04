@@ -8,7 +8,7 @@ import Overlay from 'react-bootstrap/Overlay'
 const IconButton = styled(Button)`
   vertical-align: top;
   padding: 0;
-  height: 40px;
+  height: 36px;
   width: 40px;
   border: none;
 

@@ -3,10 +3,10 @@ import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
 import { addItem } from 'store/slices/script'
 import styled from 'styled-components'
-import { MessageItem, ScriptItemType } from 'types/scriptTypes'
 import GiphyButton from './GiphyButton'
 import MessageField from './MessageField'
 import MessageSubmitButton from './MessageSubmitButton'
+import { createMessageItem } from 'services/script'
 
 const Wrapper = styled.div`
   display: inline-block;
@@ -58,6 +58,7 @@ class BotControls extends React.Component<Props, State> {
       this.containerRef.current &&
       !this.containerRef.current.contains(event.target as any)
     ) {
+      this.submitNewBotMessage()
       this.props.onBlur!()
     }
   }
@@ -69,7 +70,7 @@ class BotControls extends React.Component<Props, State> {
 
     if (!message) return
 
-    const item: MessageItem = { type: ScriptItemType.Message, message }
+    const item = createMessageItem(message)
 
     addItem({ item, position: insertPosition })
 
@@ -91,6 +92,7 @@ class BotControls extends React.Component<Props, State> {
             value={message}
             onChange={this.handleMessageChange}
             onSubmit={this.submitNewBotMessage}
+            onBlur={this.submitNewBotMessage}
             autoFocus={this.props.autoFocus}
           />
           {message && <MessageSubmitButton />}

@@ -1,4 +1,4 @@
-import { EmojiData, BaseEmoji, Picker } from 'emoji-mart'
+import { BaseEmoji, EmojiData } from 'emoji-mart'
 import React, { useRef, useState } from 'react'
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
@@ -33,7 +33,7 @@ const EmojiButton: React.FunctionComponent<Props> = ({ container, onSelect }) =>
   }
 
   const focusPicker = () => {
-    //This is hacky but neccessary because the picker library does not export any refs.
+    // This is hacky but neccessary because the picker library does not export any refs.
     pickerRef.current!.getElementsByTagName('input')[0].focus()
   }
 
