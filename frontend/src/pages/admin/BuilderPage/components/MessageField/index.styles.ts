@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-
-import Form from 'react-bootstrap/Form'
+import TextareaAutosize from 'react-textarea-autosize'
 
 export const Wrapper = styled.div`
   border-radius: 15px;
@@ -9,9 +8,8 @@ export const Wrapper = styled.div`
   display: inline-block;
 `
 
-export const InputField = styled(Form.Control).attrs(props => ({
-  as: 'textarea',
-  rows: 1,
+export const InputField = styled(TextareaAutosize).attrs(props => ({
+  minRows: 1,
   placeholder: 'Add a message...'
 }))`
   display: inline-block;

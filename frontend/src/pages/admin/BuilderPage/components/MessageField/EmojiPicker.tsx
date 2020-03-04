@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker, EmojiData } from 'emoji-mart'
 

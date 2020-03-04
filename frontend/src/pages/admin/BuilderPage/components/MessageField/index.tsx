@@ -1,4 +1,4 @@
-import React, { useRef, useState, RefObject } from 'react'
+import React, { useRef, RefObject } from 'react'
 import { Wrapper, InputField } from './index.styles'
 import EmojiButton from './EmojiButton'
 import { BaseEmoji } from 'emoji-mart'
@@ -22,7 +22,7 @@ const MessageField: React.FunctionComponent<Props> = ({
   onBlur,
   autoFocus
 }) => {
-  const containerRef = useRef<HTMLInputElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const selectEmoji = (emoji: BaseEmoji) => {
     onChange(value + emoji.native)
@@ -41,7 +41,7 @@ const MessageField: React.FunctionComponent<Props> = ({
   return (
     <Wrapper ref={containerRef} className={className}>
       <InputField
-        ref={inputRef}
+        inputRef={el => ((inputRef as any).current = el)}
         value={value}
         onChange={inputOnChange}
         onBlur={onBlur}

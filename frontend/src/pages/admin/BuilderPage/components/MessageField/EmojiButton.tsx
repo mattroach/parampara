@@ -1,4 +1,4 @@
-import { EmojiData, BaseEmoji } from 'emoji-mart'
+import { EmojiData, BaseEmoji, Picker } from 'emoji-mart'
 import React, { useRef, useState } from 'react'
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
@@ -22,6 +22,7 @@ type Props = {
 const EmojiButton: React.FunctionComponent<Props> = ({ container, onSelect }) => {
   // Shouldn't need this but currently required for InlineIconButton to work
   const targetRef = useRef<HTMLInputElement>(null)
+  const pickerRef = useRef<HTMLDivElement>(null)
 
   const [isShow, setShow] = useState(false)
   const hide = () => setShow(false)
@@ -31,6 +32,11 @@ const EmojiButton: React.FunctionComponent<Props> = ({ container, onSelect }) =>
     onSelect && onSelect(emoji as BaseEmoji)
   }
 
+  const focusPicker = () => {
+    //This is hacky but neccessary because the picker library does not export any refs.
+    pickerRef.current!.getElementsByTagName('input')[0].focus()
+  }
+
   return (
     <>
       <Button ref={targetRef} disableTooltip={isShow} onClick={() => setShow(true)} />
@@ -38,13 +44,15 @@ const EmojiButton: React.FunctionComponent<Props> = ({ container, onSelect }) =>
         show={isShow}
         target={targetRef.current!}
         container={container.current!}
+        onEntered={focusPicker}
         placement="top"
         onHide={hide}
         rootClose={true}
-        //transition={false}
       >
         <Popover id="popover-emoji">
-          <EmojiPicker onSelect={pickEmoji} />
+          <div ref={pickerRef}>
+            <EmojiPicker onSelect={pickEmoji} />
+          </div>
         </Popover>
       </Overlay>
     </>
