@@ -72,18 +72,20 @@ const MessageField: React.FunctionComponent<Props> = ({
 
   const selectEmoji = (emoji: BaseEmoji) => {
     inputRef.current!.focus()
-    if (lastSelectionStart === null) {
-      onChange(value + emoji.native)
-    } else {
-      jumpSelelection.current = true
-      onChange(
-        [
-          value.slice(0, lastSelectionStart),
-          emoji.native,
-          value.slice(lastSelectionStart)
-        ].join('')
-      )
-    }
+    onChange(value + emoji.native)
+    // Disabled because it's broken - bug in inserting at lastSelectionStart
+    // if (lastSelectionStart === null) {
+    //   onChange(value + emoji.native)
+    // } else {
+    //   jumpSelelection.current = true
+    //   onChange(
+    //     [
+    //       value.slice(0, lastSelectionStart),
+    //       emoji.native,
+    //       value.slice(lastSelectionStart)
+    //     ].join('')
+    //   )
+    // }
   }
 
   useEffect(() => {

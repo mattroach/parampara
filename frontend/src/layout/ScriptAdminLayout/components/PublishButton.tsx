@@ -26,16 +26,26 @@ const ButtonWrap = styled.span`
 const PublishButton: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const publish = () => dispatch(publishScript())
-  const hasUnpublishedChanges = useSelector((state: RootState) => state.scriptStore.script!.hasUnpublishedChanges)
+  const hasUnpublishedChanges = useSelector(
+    (state: RootState) => state.scriptStore.script!.hasUnpublishedChanges
+  )
 
   return (
-    <OverlayTrigger overlay={(props: any) =>
-      <Tooltip {...props} show={props.show.toString()}>
-        {hasUnpublishedChanges ? 'Publish your changes to the world' : 'Script is already published'}
-      </Tooltip>
-    }>
+    <OverlayTrigger
+      overlay={(props: any) => (
+        <Tooltip {...props} show={props.show.toString()}>
+          {hasUnpublishedChanges
+            ? 'Publish your changes to the world'
+            : 'Script is published, click share to send to your users'}
+        </Tooltip>
+      )}
+    >
       <ButtonWrap>
-        <StyledButton variant="primary" onClick={publish} disabled={!hasUnpublishedChanges}>
+        <StyledButton
+          variant="primary"
+          onClick={publish}
+          disabled={!hasUnpublishedChanges}
+        >
           <MaterialIcon icon="publish" size={20} color="white" />
           {hasUnpublishedChanges ? 'Publish' : 'Published'}
         </StyledButton>
