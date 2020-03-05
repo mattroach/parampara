@@ -1,39 +1,35 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import { loadAdmin } from 'store/slices/admin'
-import AppNavBar from './AppNavBar'
 import Loader from '../components/Loader'
-
+import AppNavBar from './AppNavBar'
+import { loadAdmin } from 'store/slices/admin'
 
 type Props = {
   adminId: string
   navbarExtra?: React.ReactNode
-  loadAdmin: typeof loadAdmin
-} & ReturnType<typeof mapStateToProps>
-
-class AdminLayout extends React.Component<Props, {}> {
-
-  componentDidMount() {
-    this.props.loadAdmin(this.props.adminId)
-  }
-
-  render() {
-    if (!this.props.admin)
-      return <Loader />
-
-    return (
-      <>
-        <AppNavBar extra={this.props.navbarExtra} />
-        {this.props.children}
-      </>
-    )
-  }
 }
 
-function mapStateToProps(state: RootState) {
-  return { admin: state.adminStore.admin }
+const AdminLayout: React.FunctionComponent<Props> = ({
+  children,
+  adminId,
+  navbarExtra
+}) => {
+  const dispatch = useDispatch()
+  const admin = useSelector((state: RootState) => state.adminStore.admin)
+
+  useEffect(() => {
+    dispatch(loadAdmin(adminId))
+  }, [])
+
+  if (!admin) return <Loader />
+
+  return (
+    <>
+      <AppNavBar extra={navbarExtra} adminId={adminId} />
+      {children}
+    </>
+  )
 }
 
-// @ts-ignore
-export default connect(mapStateToProps, { loadAdmin })(AdminLayout)
+export default AdminLayout
