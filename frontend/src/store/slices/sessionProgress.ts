@@ -40,7 +40,7 @@ const sessionProgressSlice = createSlice({
           throw Error('Corrupted script')
 
         nextId = itemProgress.item.action.responses[choice].nextId
-      } else if (itemProgress.item.type === ScriptItemType.Message) {
+      } else {
         nextId = itemProgress.item.nextId
       }
 
