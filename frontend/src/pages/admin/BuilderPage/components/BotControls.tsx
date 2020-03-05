@@ -88,6 +88,7 @@ class BotControls extends React.Component<Props, State> {
       <Wrapper ref={this.containerRef}>
         <StyledForm onSubmit={this.submitNewBotMessage}>
           <AddMessageControl
+            theme="bot"
             inputRef={this.inputRef}
             value={message}
             onChange={this.handleMessageChange}

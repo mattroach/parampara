@@ -63,6 +63,7 @@ const EditableContent: React.FunctionComponent<Props> = ({ item, position }) => 
       {editing ? (
         <Form onSubmit={submitEdit}>
           <StyledTextarea
+            theme="bot"
             inputRef={inputRef}
             onSubmit={submitEdit}
             value={messageDraft}

@@ -45,8 +45,7 @@ const InlineIconButton: React.RefForwardingComponent<HTMLInputElement, Props> = 
         ref={ref}
         type={type}
         variant="link"
-        onClick={(e: any) => {
-          //e.preventDefault()
+        onClick={() => {
           onClick && onClick()
         }}
         onMouseEnter={() => setShow(true)}

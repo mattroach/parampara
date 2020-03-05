@@ -12,8 +12,6 @@ type Props = {
 }
 
 class Comment extends React.Component<Props> {
-
-
   handleSubmit = (content: string) => {
     const { item } = this.props
 
@@ -24,11 +22,10 @@ class Comment extends React.Component<Props> {
       },
       item
     })
-
   }
 
   render() {
-    return <TextInput placeholder="Your comment" onSubmit={this.handleSubmit} />
+    return <TextInput placeholder="Type here..." onSubmit={this.handleSubmit} />
   }
 }
 

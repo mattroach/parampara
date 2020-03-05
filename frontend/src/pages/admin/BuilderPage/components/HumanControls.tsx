@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import { addAction } from 'store/slices/script'
 import styled from 'styled-components'
 import { ChooseResponseAction, CommentAction, ScriptActionType } from 'types/scriptTypes'
-import { ResponseAddField } from './items/styles'
 import MessageSubmitButton from './MessageSubmitButton'
+import MessageField from './MessageField'
 
 const StyledForm = styled(Form)`
   float: right;
@@ -38,12 +38,14 @@ type Props = {
 } & typeof mapDispatchToProps
 
 class HumanControls extends React.Component<Props, State> {
+  inputRef: React.RefObject<HTMLInputElement> = React.createRef()
+
   state = {
     responseDraft: ''
   }
 
-  submitNewResponse = (event: any) => {
-    event.preventDefault()
+  submitNewResponse = (event?: any) => {
+    event && event.preventDefault()
     const { responseDraft: message } = this.state
 
     if (!message) return
@@ -59,8 +61,8 @@ class HumanControls extends React.Component<Props, State> {
     this.props.onAddItem && this.props.onAddItem()
   }
 
-  handleResponseChange = (e: any) => {
-    this.setState({ responseDraft: e.target.value })
+  handleResponseChange = (responseDraft: string) => {
+    this.setState({ responseDraft })
   }
 
   addWidget = (icon: string, title: string) => (event: any) => {
@@ -78,11 +80,12 @@ class HumanControls extends React.Component<Props, State> {
     const { responseDraft } = this.state
     return (
       <StyledForm onSubmit={this.submitNewResponse}>
-        <ResponseAddField
-          type="text"
-          placeholder="Add a response..."
+        <MessageField
+          inputRef={this.inputRef}
+          theme="response"
           value={responseDraft}
           onChange={this.handleResponseChange}
+          onSubmit={this.submitNewResponse}
           onBlur={this.submitNewResponse}
         />
         {responseDraft ? (

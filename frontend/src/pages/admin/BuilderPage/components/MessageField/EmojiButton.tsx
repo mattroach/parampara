@@ -9,7 +9,8 @@ import EmojiPicker from './EmojiPicker'
 const Button = styled(InlineIconButton).attrs(props => ({
   icon: 'emoji_emotions',
   tooltip: 'Choose an emoji',
-  size: 28
+  size: 28,
+  color: props.theme.emojiColor
 }))`
   border-radius: 30px;
 `
