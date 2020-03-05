@@ -20,9 +20,18 @@ const IconButton = styled(DropdownButton)`
   display: inline;
   button {
     width: 40px;
+    height: 40px;
     opacity: 0.9;
     vertical-align: top;
     padding: 0;
+
+    transition: box-shadow 0.15s ease-in-out;
+    :focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
+  i {
+    vertical-align: middle;
   }
   .dropdown-toggle::after {
     display: none;
@@ -94,7 +103,7 @@ class HumanControls extends React.Component<Props, State> {
           <IconButton
             id="widgets"
             variant="link"
-            title={<MaterialIcon icon="add_circle" size={35} color="#0076ff" />}
+            title={<MaterialIcon icon="more_horiz" size={30} color="#0076ff" />}
           >
             <Dropdown.Item
               href="#"
