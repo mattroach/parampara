@@ -1,8 +1,7 @@
-
-import { logger, uuid } from '@shared'
+import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { BAD_REQUEST, OK } from 'http-status-codes'
-import { ParamsDictionary } from 'express-serve-static-core'
+import adminService from '../services/AdminService'
 import Admin from '../models/Admin'
 
 const router = Router()
@@ -10,8 +9,7 @@ const router = Router()
 const checkPassword = (password: string) => {
   // Really shitty auth. The whole admin backend needs to be moved to an external service, or at least decouled from the main
   // react bundle and have proper session auth on the backend - this is super temporary.
-  if (password !== 'f43gdo8jgo3')
-    throw Error('Password incorrect')
+  if (password !== 'f43gdo8jgo3') throw Error('Password incorrect')
 }
 
 router.get('/getUsers', async (req: Request, res: Response) => {
@@ -25,7 +23,7 @@ router.get('/getUsers', async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
@@ -37,19 +35,15 @@ router.post('/createUser', async (req: Request, res: Response) => {
 
     const email: string = req.body.email
 
-    const admins = await Admin.query().insert({
-      id: uuid(),
-      email
-    })
+    const admin = await adminService.createAdmin(email)
 
-    return res.status(OK).json(admins)
+    return res.status(OK).json(admin)
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({
-      error: err.message,
+      error: err.message
     })
   }
 })
-
 
 export default router

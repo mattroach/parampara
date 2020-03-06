@@ -3,6 +3,7 @@ import ScriptVersion from '../models/ScriptVersion'
 
 import { uuid } from '@shared'
 import { raw } from 'objection'
+import emailService from './EmailService'
 
 export enum ScriptVersionCode {
   latest = 'latest',
@@ -24,7 +25,7 @@ class ScriptService {
         .where({ scriptId })
     )[0]
 
-    await ScriptVersion.query().insert({
+    const newVersion = await ScriptVersion.query().insertAndFetch({
       id: uuid(),
       scriptId,
       version: ScriptVersion.query()
@@ -35,9 +36,16 @@ class ScriptService {
       items: draft.items
     })
 
-    await Script.query()
-      .findById(scriptId)
-      .patch({ hasUnpublishedChanges: false })
+    const script = await Script.query()
+      .patchAndFetchById(scriptId, {
+        hasUnpublishedChanges: false
+      })
+      .withGraphFetched('admin')
+
+    if (newVersion.version === 1) {
+      //If this is the first publish
+      emailService.scriptPublished(script.admin!, script)
+    }
   }
 
   async updateScript(id: string, script: UpdateScriptBody) {

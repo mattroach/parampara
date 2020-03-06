@@ -1,6 +1,7 @@
 import { Model, Modifiers, RelationMappingsThunk } from 'objection'
 
 import ScriptVersion from './ScriptVersion'
+import Admin from './Admin'
 
 export default class Script extends Model {
   id!: string
@@ -10,6 +11,7 @@ export default class Script extends Model {
   allowAnon!: boolean
   hasUnpublishedChanges!: boolean
   version?: ScriptVersion
+  admin?: Admin
 
   static tableName = 'script'
 
@@ -23,10 +25,7 @@ export default class Script extends Model {
   //   }
   // }
 
-  static modifiers: Modifiers = {
-
-  }
-
+  static modifiers: Modifiers = {}
 
   static relationMappings: RelationMappingsThunk = () => ({
     version: {
@@ -36,6 +35,14 @@ export default class Script extends Model {
         from: 'script.id',
         to: 'script_version.scriptId'
       }
+    },
+    admin: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: Admin,
+      join: {
+        from: 'script.adminId',
+        to: 'admin.id'
+      }
     }
-  });
+  })
 }
