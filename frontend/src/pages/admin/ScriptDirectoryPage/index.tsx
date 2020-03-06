@@ -24,7 +24,7 @@ export default class ScriptDirectory extends React.Component<Props, {}> {
     return (
       <AdminLayout adminId={this.props.adminId}>
         <Wrapper>
-          <h2>Your Paramparas</h2>
+          <h2>My Parampara</h2>
           <AddNewButton>
             <CreateScriptButton adminId={this.props.adminId} />
           </AddNewButton>

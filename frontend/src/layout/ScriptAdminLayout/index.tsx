@@ -33,11 +33,9 @@ class ScriptAdminLayout extends React.Component<Props> {
       <AdminLayout
         adminId={adminId}
         navbarExtra={
-          <Nav className="mr-auto">
-            <Nav.Link href="#" onClick={this.goBackToDirectory}>
-              Main menu
-            </Nav.Link>
-          </Nav>
+          <Nav.Link href="#" onClick={this.goBackToDirectory}>
+            Main menu
+          </Nav.Link>
         }
       >
         {scriptLoaded ? <Header /> : <Loader />}

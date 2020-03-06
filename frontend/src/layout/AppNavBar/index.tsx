@@ -30,7 +30,7 @@ const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        {extra}
+        <Nav className="mr-auto">{extra}</Nav>
         <Nav activeKey={false}>
           <NavDropdown title={email} id="account-dd">
             <NavDropdown.Item
