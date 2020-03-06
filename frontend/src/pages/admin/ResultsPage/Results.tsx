@@ -11,6 +11,7 @@ import Loader from 'components/Loader'
 import transposeResults from './transposeResults'
 import ColumnHeader from './ColumnHeader'
 import DurationFormatted from './DurationFormatted'
+import EmptyState from './EmptyState'
 
 type Props = {
   scriptId: string
@@ -47,6 +48,8 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   }, [dispatch, scriptId])
 
   if (!scriptResults) return <Loader />
+
+  if (scriptResults.length === 0) return <EmptyState />
 
   const transposedResults = transposeResults(scriptResults)
 
