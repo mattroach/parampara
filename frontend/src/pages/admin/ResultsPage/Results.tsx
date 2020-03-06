@@ -51,6 +51,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 
   if (scriptResults.length === 0) return <EmptyState />
 
+  const hasReferrers = !!scriptResults.find(e => e.referrerCode)
   const transposedResults = transposeResults(scriptResults)
 
   return (
@@ -67,7 +68,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
           <th>Progress</th>
           <th>Duration</th>
           {hasUsers && <th>User</th>}
-          <th>Referrer</th>
+          {hasReferrers && <th>Referrer</th>}
           {transposedResults.columns.map((column, i) => (
             <ColumnHeader key={i} content={column} />
           ))}
@@ -85,9 +86,11 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
                 <DurationFormatted durationSec={result.durationSec} />
               </td>
               {hasUsers && <td>{result.sessionUser?.email}</td>}
-              <td>
-                <Badge variant="secondary">{result.referrerCode}</Badge>
-              </td>
+              {hasReferrers && (
+                <td>
+                  <Badge variant="secondary">{result.referrerCode}</Badge>
+                </td>
+              )}
               {transposedResults.columns.map((column, i) => {
                 const response = result.responseByMessage[column]
                 return <td key={i}>{response?.response}</td>
