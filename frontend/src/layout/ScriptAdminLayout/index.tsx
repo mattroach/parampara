@@ -14,10 +14,10 @@ type Props = {
   adminId: string
   scriptId: string
   loadScript: typeof loadScript
-} & RouteComponentProps & ReturnType<typeof mapStateToProps>
+} & RouteComponentProps &
+  ReturnType<typeof mapStateToProps>
 
 class ScriptAdminLayout extends React.Component<Props> {
-
   componentDidMount() {
     this.props.loadScript(this.props.scriptId, ScriptVersionType.draft)
   }
@@ -34,9 +34,12 @@ class ScriptAdminLayout extends React.Component<Props> {
         adminId={adminId}
         navbarExtra={
           <Nav className="mr-auto">
-            <Nav.Link href="#" onClick={this.goBackToDirectory}>Back to main menu</Nav.Link>
+            <Nav.Link href="#" onClick={this.goBackToDirectory}>
+              Main menu
+            </Nav.Link>
           </Nav>
-        }>
+        }
+      >
         {scriptLoaded ? <Header /> : <Loader />}
         {scriptLoaded && children}
       </AdminLayout>

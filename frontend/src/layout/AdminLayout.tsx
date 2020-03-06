@@ -20,7 +20,7 @@ const AdminLayout: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     dispatch(loadAdmin(adminId))
-  }, [])
+  }, [dispatch, adminId])
 
   if (!admin) return <Loader />
 

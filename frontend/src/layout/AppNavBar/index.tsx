@@ -1,10 +1,12 @@
 import React from 'react'
 import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import { useSelector } from 'react-redux'
 
 import { RootState } from 'store/rootReducer'
 import logo from './logo_white.png'
 import { useHistory } from 'react-router-dom'
+import Nav from 'react-bootstrap/Nav'
 
 type Props = {
   extra: React.ReactNode
@@ -21,16 +23,40 @@ const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
   }
 
   return (
-    <Navbar bg="primary" variant="dark" expand="lg">
+    <Navbar collapseOnSelect bg="primary" variant="dark" expand="sm">
       <Navbar.Brand href="#" onClick={goBackToDirectory}>
         <img alt="Parampara" src={logo} width={200} />
       </Navbar.Brand>
-      {extra}
-      <div className="ml-auto">
-        <Navbar.Text>
-          Signed in as: <strong>{email}</strong>
-        </Navbar.Text>
-      </div>
+
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        {extra}
+        <Nav activeKey={false}>
+          <NavDropdown title={email} id="account-dd">
+            <NavDropdown.Item
+              href="https://getparampara.com/help.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Help
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              href="https://getparampara.com/privacy.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              href="https://getparampara.com/terms.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Terms
+            </NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   )
 }

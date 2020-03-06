@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   text-align: center;
   color: #777;
   img {
-    display: block; 
+    display: block;
     margin: 0 auto;
   }
 `
@@ -15,7 +15,7 @@ const EmptyState: React.FunctionComponent = () => {
   return (
     <Wrapper>
       <img alt="empty" src={graphic} width={202} height={202} />
-      Woohoo, a new Parampara! Get started by adding some bot  messages below.
+      Woohoo, a new Parampara! Get started by adding some messages below.
     </Wrapper>
   )
 }
