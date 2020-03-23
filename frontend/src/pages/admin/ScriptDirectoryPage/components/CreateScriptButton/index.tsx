@@ -12,7 +12,7 @@ const CreateScriptButton: React.FunctionComponent<Props> = ({ adminId }) => {
   return (
     <>
       <Button variant="secondary" onClick={() => setIsConfiguring(true)}>
-        Create a new Parampara
+        Create new Parampara
       </Button>
 
       <Configure

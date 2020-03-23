@@ -1,8 +1,9 @@
 import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { BAD_REQUEST, OK } from 'http-status-codes'
-import adminService from '../services/AdminService'
+import { Record, String } from 'runtypes'
 import Admin from '../models/Admin'
+import adminService from '../services/AdminService'
 
 const router = Router()
 
@@ -36,6 +37,29 @@ router.post('/createUser', async (req: Request, res: Response) => {
     const email: string = req.body.email
 
     const admin = await adminService.createAdmin(email)
+
+    return res.status(OK).json(admin)
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message
+    })
+  }
+})
+
+const UpdatePasswordReq = Record({
+  email: String,
+  newPassword: String
+})
+
+router.post('/updatePassword', async (req: Request, res: Response) => {
+  try {
+    const { password } = req.query
+    checkPassword(password)
+
+    const { email, newPassword } = UpdatePasswordReq.check(req.body)
+
+    const admin = await adminService.updatePassword(email, newPassword)
 
     return res.status(OK).json(admin)
   } catch (err) {

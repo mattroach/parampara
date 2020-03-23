@@ -13,10 +13,10 @@ const CreateUser: React.FunctionComponent<Props> = ({ password }) => {
   const updateEmail = (event: any) => setEmail(event.target.value)
   const submit = (event: any) => {
     event.preventDefault()
-    console.log(email)
     setEmail('')
 
-    axios.post(`/api/superadmin/createUser`, { email }, { params: { password } })
+    axios
+      .post(`/api/superadmin/createUser`, { email }, { params: { password } })
       .then(() => {
         window.location.reload(false)
       })
@@ -27,7 +27,9 @@ const CreateUser: React.FunctionComponent<Props> = ({ password }) => {
       <h4>Create a new user</h4>
       <Form onSubmit={submit}>
         <Form.Control placeholder="Email" onChange={updateEmail} />
-        <Button variant="primary" type="submit" disabled={!email}>Submit</Button>
+        <Button variant="primary" type="submit" disabled={!email}>
+          Submit
+        </Button>
       </Form>
     </>
   )
