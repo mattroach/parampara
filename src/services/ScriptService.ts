@@ -81,7 +81,11 @@ class ScriptService {
       .orderBy('created', 'DESC')
   }
 
-  async getScript(scriptId: string, versionCode: ScriptVersionCode) {
+  async getScript(scriptId: string) {
+    return await Script.query().findById(scriptId)
+  }
+
+  async getScriptWithVersion(scriptId: string, versionCode: ScriptVersionCode) {
     const script = await Script.query()
       .findById(scriptId)
       .withGraphFetched(`version(${versionCode})`)

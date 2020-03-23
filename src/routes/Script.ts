@@ -1,10 +1,11 @@
 import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
-import { BAD_REQUEST, OK } from 'http-status-codes'
+import { BAD_REQUEST, OK, UNAUTHORIZED } from 'http-status-codes'
 import { Boolean, Record, String, Undefined, Unknown } from 'runtypes'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
+import adminService from '../services/AdminService'
 
 const router = Router()
 
@@ -31,7 +32,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const { version }: { version: ScriptVersionCode } = req.query
     if (!(version in ScriptVersionCode)) throw Error('Bad version')
 
-    const script = await scriptService.getScript(scriptId, version)
+    const script = await scriptService.getScriptWithVersion(scriptId, version)
 
     // @ts-ignore: tmp until adminIds do not need to be secret
     script.adminId = undefined
@@ -63,6 +64,11 @@ router.delete('/:id', async (req: Request, res: Response) => {
 router.get('/:id/results', async (req: Request, res: Response) => {
   try {
     const { id: scriptId } = req.params as ParamsDictionary
+    const { password } = req.query
+
+    const script = await scriptService.getScript(scriptId)
+    if (!(await adminService.authenticatePassword(script.adminId, password)))
+      return res.status(UNAUTHORIZED).json('Authentication required')
 
     const results = await sessionResponseService.getSessionsWithResponses(scriptId)
 

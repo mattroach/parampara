@@ -36,7 +36,7 @@ const UpdatePassword: React.FunctionComponent<Props> = ({ password }) => {
   return (
     <>
       <h4>Update a user's password</h4>
-      <Form onSubmit={submit}>
+      <Form onSubmit={submit} inline>
         <Form.Control placeholder="Email" onChange={updateEmail} />
         <Form.Control placeholder="New password" onChange={updatePassword} />
         <Button variant="primary" type="submit" disabled={!email || !newPassword}>

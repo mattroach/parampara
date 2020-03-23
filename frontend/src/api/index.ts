@@ -25,8 +25,13 @@ const deleteScript = async (scriptId: string): Promise<void> => {
   await axios.delete(`/api/script/${scriptId}`)
 }
 
-const getScriptResults = async (scriptId: string): Promise<Session[]> => {
-  const response = await axios.get(`/api/script/${scriptId}/results`)
+const getScriptResults = async (
+  scriptId: string,
+  password?: string
+): Promise<Session[]> => {
+  const response = await axios.get(`/api/script/${scriptId}/results`, {
+    params: { password }
+  })
 
   return response.data
 }

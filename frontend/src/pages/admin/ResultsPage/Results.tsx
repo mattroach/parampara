@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadScriptResults } from 'store/slices/scriptResults'
@@ -12,6 +12,9 @@ import transposeResults from './transposeResults'
 import ColumnHeader from './ColumnHeader'
 import DurationFormatted from './DurationFormatted'
 import EmptyState from './EmptyState'
+import { AppDispatch } from 'store/store'
+import { AxiosError } from 'axios'
+import AuthenticateResults from './AuthenticateResults'
 
 type Props = {
   scriptId: string
@@ -42,12 +45,20 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   const hasUsers = useSelector((state: RootState) => !state.scriptStore.script!.allowAnon)
   const scriptResults = useSelector((state: RootState) => state.scriptResultsStore.data)
 
-  const dispatch = useDispatch()
+  const [needsAuth, setNeedsAuth] = useState(false)
+
+  const dispatch: any = useDispatch()
   useEffect(() => {
-    dispatch(loadScriptResults(scriptId))
+    dispatch(loadScriptResults(scriptId)).catch((e: AxiosError) => {
+      if (e.isAxiosError && e.response?.status === 401) setNeedsAuth(true)
+    })
   }, [dispatch, scriptId])
 
-  if (!scriptResults) return <Loader />
+  if (!scriptResults) {
+    if (needsAuth) return <AuthenticateResults scriptId={scriptId} />
+
+    return <Loader />
+  }
 
   if (scriptResults.length === 0) return <EmptyState />
 

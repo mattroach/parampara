@@ -25,7 +25,7 @@ const CreateUser: React.FunctionComponent<Props> = ({ password }) => {
   return (
     <>
       <h4>Create a new user</h4>
-      <Form onSubmit={submit}>
+      <Form onSubmit={submit} inline>
         <Form.Control placeholder="Email" onChange={updateEmail} />
         <Button variant="primary" type="submit" disabled={!email}>
           Submit

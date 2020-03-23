@@ -15,19 +15,18 @@ const scriptResultsSlice = createSlice({
   reducers: {
     updateData(state, action: PayloadAction<Session[]>) {
       state.data = action.payload
-    },
+    }
   }
 })
 
-const {
-  updateData,
-} = scriptResultsSlice.actions
+const { updateData } = scriptResultsSlice.actions
 
 export default scriptResultsSlice.reducer
 
 export const loadScriptResults = (
-  scriptId: string
+  scriptId: string,
+  password?: string
 ): AppThunk => async dispatch => {
-  const data = await api.getScriptResults(scriptId)
+  const data = await api.getScriptResults(scriptId, password)
   dispatch(updateData(data))
 }
