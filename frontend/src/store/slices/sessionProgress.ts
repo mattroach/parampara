@@ -7,7 +7,7 @@ import { ScriptActionType, ScriptItem, ScriptItemType } from 'types/scriptTypes'
 import { ProgressItem, SessionProgress } from 'types/sessionProgress'
 import TimeMe from 'timeme.js'
 
-export const MESSAGE_BASE_DELAY = 1600
+export const MESSAGE_BASE_DELAY = 1400
 
 type SessionProgressStore = {
   currentItemDelaying: boolean
@@ -83,14 +83,16 @@ const calculateDelay = (prevItem: ScriptItem) => {
   if (!prevItem.action) {
     if (prevItem.type === ScriptItemType.Message) {
       // Average reading speed of most adults is around 250 words per minute. This is 240ms per word
-      delay += prevItem.message.split(' ').length * 240
+      // We've further sped it up though, as some people read faster and most paramparas have breakpoint
+      // actions that allow slow readers to catch up.
+      delay += prevItem.message.split(' ').length * 210
     } else {
       delay += MESSAGE_BASE_DELAY + 500 // Image
     }
   }
 
   const min = MESSAGE_BASE_DELAY - Math.floor(Math.random() * 100)
-  const max = 5000
+  const max = 4000
   return Math.max(Math.min(delay, max), min)
 }
 
