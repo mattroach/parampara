@@ -1,12 +1,12 @@
 import cookieParser from 'cookie-parser'
-import express from 'express'
-import { Request, Response } from 'express'
-import logger from 'morgan'
-import path from 'path'
-import BaseRouter from './routes'
-
+import express, { Request, Response } from 'express'
+import fs from 'fs'
 import Knex from 'knex'
-import { Model, knexSnakeCaseMappers } from 'objection'
+import logger from 'morgan'
+import { knexSnakeCaseMappers, Model } from 'objection'
+import path from 'path'
+import getScriptOG from './getScriptOG'
+import BaseRouter from './routes'
 
 // Init db stuff
 const knex = Knex({
@@ -25,7 +25,6 @@ Model.knex(knex)
 
 // Init express
 const app = express()
-
 
 if (process.env.NODE_ENV === 'production') {
   // Redirect to HTTPS
@@ -50,6 +49,21 @@ app.use('/api', BaseRouter)
 // For dist builds ONLY - not useful for local dev runtime
 const publicDir = path.join(__dirname, '../public')
 app.use(express.static(publicDir))
+
+app.get('/s/:scriptId', (req: Request, res: Response) => {
+  const { scriptId } = req.params
+
+  fs.readFile(path.resolve(publicDir, 'index.html'), 'utf8', async (err, data) => {
+    if (err) {
+      console.error(err)
+      return res.status(500).send('An error occurred')
+    }
+    const headers = await getScriptOG(scriptId)
+    console.log('headers', headers)
+    return res.send(data.replace('</head>', headers + '</head>'))
+  })
+})
+
 app.get('*', (req: Request, res: Response) => {
   res.sendFile('index.html', { root: publicDir })
 })
