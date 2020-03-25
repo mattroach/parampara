@@ -10,6 +10,11 @@ export default class Script extends Model {
   reportingEmail!: string
   allowAnon!: boolean
   hasUnpublishedChanges!: boolean
+
+  metaImgUrl!: string | null
+  metaTitle!: string | null
+  metaDescription!: string | null
+
   version?: ScriptVersion
   admin?: Admin
 

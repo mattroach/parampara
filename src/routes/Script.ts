@@ -2,7 +2,7 @@ import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { BAD_REQUEST, OK, UNAUTHORIZED } from 'http-status-codes'
-import { Boolean, Record, String, Undefined, Unknown } from 'runtypes'
+import { Boolean, Record, String, Undefined, Unknown, Null } from 'runtypes'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
 import adminService from '../services/AdminService'
@@ -122,6 +122,9 @@ const UpdateScriptBody = Record({
   title: String.Or(Undefined),
   allowAnon: Boolean.Or(Undefined),
   reportingEmail: String.Or(Undefined),
+  metaImgUrl: String.Or(Null).Or(Undefined),
+  metaTitle: String.Or(Null).Or(Undefined),
+  metaDescription: String.Or(Null).Or(Undefined),
   version: Record({ items: Unknown }).Or(Undefined)
 })
 

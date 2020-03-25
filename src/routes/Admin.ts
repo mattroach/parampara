@@ -12,6 +12,9 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     const adminResult = await adminService.getById(id)
 
+    // @ts-ignore: hide password
+    adminResult.password = undefined
+
     return res.status(OK).json(adminResult)
   } catch (err) {
     logger.error(err.message, err)

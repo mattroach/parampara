@@ -8,6 +8,9 @@ export type Script = {
   version: ScriptVersion
   allowAnon: boolean
   hasUnpublishedChanges: boolean
+  metaImgUrl: string | null
+  metaTitle: string | null
+  metaDescription: string | null
 } & ListedScript
 
 export type ScriptVersion = {

@@ -5,6 +5,7 @@ import { loadScriptResults } from 'store/slices/scriptResults'
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
 import { AxiosError } from 'axios'
+import { AppDispatch } from 'store/store'
 
 type Props = {
   scriptId: string
@@ -28,7 +29,7 @@ const AuthenticateResults: React.FunctionComponent<Props> = ({ scriptId }) => {
   const [hasErrors, setHasErrors] = useState(false)
   const updatePassword = (event: any) => setPassword(event.target.value)
 
-  const dispatch: any = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
 
   const submit = (e: any) => {
     e.preventDefault()

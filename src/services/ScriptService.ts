@@ -14,6 +14,9 @@ type UpdateScriptBody = {
   title?: string
   reportingEmail?: string
   allowAnon?: boolean
+  metaImgUrl?: string | null
+  metaTitle?: string | null
+  metaDescription?: string | null
   version?: { items: any }
 }
 
@@ -67,6 +70,9 @@ class ScriptService {
         title: script.title,
         reportingEmail: script.reportingEmail,
         allowAnon: script.allowAnon,
+        metaDescription: script.metaDescription,
+        metaImgUrl: script.metaImgUrl,
+        metaTitle: script.metaTitle,
         hasUnpublishedChanges
       })
   }

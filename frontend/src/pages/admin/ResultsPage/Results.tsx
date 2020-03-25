@@ -12,9 +12,9 @@ import transposeResults from './transposeResults'
 import ColumnHeader from './ColumnHeader'
 import DurationFormatted from './DurationFormatted'
 import EmptyState from './EmptyState'
-import { AppDispatch } from 'store/store'
 import { AxiosError } from 'axios'
 import AuthenticateResults from './AuthenticateResults'
+import { AppDispatch } from 'store/store'
 
 type Props = {
   scriptId: string
@@ -47,7 +47,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 
   const [needsAuth, setNeedsAuth] = useState(false)
 
-  const dispatch: any = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   useEffect(() => {
     dispatch(loadScriptResults(scriptId)).catch((e: AxiosError) => {
       if (e.isAxiosError && e.response?.status === 401) setNeedsAuth(true)

@@ -26,7 +26,7 @@ export default scriptResultsSlice.reducer
 export const loadScriptResults = (
   scriptId: string,
   password?: string
-): AppThunk => async dispatch => {
+): AppThunk<Promise<void>> => async dispatch => {
   const data = await api.getScriptResults(scriptId, password)
   dispatch(updateData(data))
 }
