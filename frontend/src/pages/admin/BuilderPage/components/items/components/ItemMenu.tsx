@@ -31,11 +31,13 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
     dispatch(updateNextId({ position, nextId }))
 
   const hasAction = !!item.action
+  const hasChooseResponse =
+    item.action && item.action.type === ScriptActionType.ChooseResponse
 
   return (
     <ContextMenu id={position}>
       <ContextNavigate
-        disabled={hasAction}
+        disabled={hasChooseResponse}
         position={position}
         targetRef={containerRef}
         onChangeNavigation={changeNavigation}
