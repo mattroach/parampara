@@ -15,6 +15,8 @@ type UpdateScriptBody = {
   reportingEmail?: string
   allowAnon?: boolean
   metaImgUrl?: string | null
+  metaImgWidth?: number | null
+  metaImgHeight?: number | null
   metaTitle?: string | null
   metaDescription?: string | null
   version?: { items: any }
@@ -72,6 +74,8 @@ class ScriptService {
         allowAnon: script.allowAnon,
         metaDescription: script.metaDescription,
         metaImgUrl: script.metaImgUrl,
+        metaImgWidth: script.metaImgWidth,
+        metaImgHeight: script.metaImgHeight,
         metaTitle: script.metaTitle,
         hasUnpublishedChanges
       })

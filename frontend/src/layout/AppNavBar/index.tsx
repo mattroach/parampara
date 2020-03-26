@@ -41,18 +41,11 @@ const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
               Help
             </NavDropdown.Item>
             <NavDropdown.Item
-              href="https://getparampara.com/privacy.html"
+              href="https://getparampara.com/terms.html?r=appmenu"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Privacy
-            </NavDropdown.Item>
-            <NavDropdown.Item
-              href="https://getparampara.com/terms.html"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Terms
+              Terms and Privacy
             </NavDropdown.Item>
           </NavDropdown>
         </Nav>

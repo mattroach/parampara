@@ -9,6 +9,8 @@ export type Script = {
   allowAnon: boolean
   hasUnpublishedChanges: boolean
   metaImgUrl: string | null
+  metaImgWidth: number | null
+  metaImgHeight: number | null
   metaTitle: string | null
   metaDescription: string | null
 } & ListedScript

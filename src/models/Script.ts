@@ -12,6 +12,8 @@ export default class Script extends Model {
   hasUnpublishedChanges!: boolean
 
   metaImgUrl!: string | null
+  metaImgWidth!: number | null
+  metaImgHeight!: number | null
   metaTitle!: string | null
   metaDescription!: string | null
 
