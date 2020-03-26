@@ -161,12 +161,12 @@ const scriptSlice = createSlice({
 
 const updateNextIds = (items: ScriptItem[], position: number, change: 1 | -1) => {
   items.forEach((item, i) => {
-    if (item.nextId && item.nextId >= position) {
+    if (item.nextId !== undefined && item.nextId >= position) {
       item.nextId += change
     }
     if (item.action && item.action.type === ScriptActionType.ChooseResponse) {
       item.action.responses.forEach(response => {
-        if (response.nextId && response.nextId >= position) {
+        if (response.nextId !== undefined && response.nextId >= position) {
           response.nextId += change
         }
       })

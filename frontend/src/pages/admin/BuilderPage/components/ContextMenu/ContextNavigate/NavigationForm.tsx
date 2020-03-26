@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react'
+import React, { RefObject, ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
@@ -26,11 +26,10 @@ const NavigationForm: React.FunctionComponent<Props> = ({
   currentValue,
   onSelect
 }) => {
-  const nextItems = useSelector((state: RootState) =>
-    state.scriptStore.script!.version.items.slice(position + 1)
-  )
+  const items = useSelector((state: RootState) => state.scriptStore.script!.version.items)
 
-  const onChange = (event: any) => onSelect(parseInt(event.target.value))
+  const onChange = (event: ChangeEvent<HTMLSelectElement>) =>
+    onSelect(parseInt(event.target.value))
 
   const defaultValue = currentValue ? currentValue : position + 1
   return (
@@ -43,8 +42,8 @@ const NavigationForm: React.FunctionComponent<Props> = ({
           value={defaultValue.toString()}
           onChange={onChange}
         >
-          {nextItems.map((item, i) => (
-            <Option key={i} item={item} pos={i + position + 1} />
+          {items.map((item, i) => (
+            <Option key={item.id} item={item} pos={i} />
           ))}
         </Form.Control>
       </StyledControlWrap>

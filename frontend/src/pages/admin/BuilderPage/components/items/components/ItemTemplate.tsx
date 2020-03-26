@@ -28,7 +28,7 @@ const ItemTemplate: React.FunctionComponent<Props> = ({ position, item, children
       <BubbleBase ref={containerRef}>
         <ItemMenu position={position} item={item} containerRef={containerRef} />
         {children}
-        {item.nextId ? <StyledNavId>{item.nextId}</StyledNavId> : null}
+        {item.nextId !== undefined ? <StyledNavId>{item.nextId}</StyledNavId> : null}
       </BubbleBase>
     </StyledPositioned>
   )

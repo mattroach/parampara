@@ -45,7 +45,7 @@ const sessionProgressSlice = createSlice({
       }
 
       progress.items = progress.items.concat([itemProgress])
-      progress.currentItemId = nextId ? nextId : progress.currentItemId + 1
+      progress.currentItemId = nextId !== undefined ? nextId : progress.currentItemId + 1
       state.currentItemDelaying = true
     },
     endDelay(state) {
