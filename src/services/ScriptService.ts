@@ -102,6 +102,12 @@ class ScriptService {
 
     if (!script.version) throw Error('Script is not published')
 
+    // Temporary code to hydrate item IDs. These were not set in the early days, but are needed.
+    // Should eventually remove
+    script.version.items.forEach((item: any) => {
+      if (!item.id) item.id = uuid()
+    })
+
     return script
   }
 
