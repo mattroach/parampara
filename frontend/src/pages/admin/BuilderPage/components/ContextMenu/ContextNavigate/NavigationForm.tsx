@@ -42,9 +42,9 @@ const NavigationForm: React.FunctionComponent<Props> = ({
           value={defaultValue.toString()}
           onChange={onChange}
         >
-          {items.map((item, i) => (
-            <Option key={item.id} item={item} pos={i} />
-          ))}
+          {items.map((item, i) =>
+            position === i ? undefined : <Option key={item.id} item={item} pos={i} />
+          )}
         </Form.Control>
       </StyledControlWrap>
     </>
