@@ -12,7 +12,10 @@ type Props = {
 const EditItem: React.FunctionComponent<Props> = ({ action, position }) => {
   const dispatch = useDispatch()
   const editItem = () => {
-    const newVal = prompt('What is the document URL?', action.content)
+    const newVal = prompt(
+      'What is the document URL? If sending multiple documents, separate the URLs with a comma.',
+      action.content
+    )
 
     if (newVal === null) {
       // cancelled

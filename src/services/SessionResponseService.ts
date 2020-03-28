@@ -1,5 +1,4 @@
 import { uuid } from '@shared'
-import SessionUser from 'src/models/SessionUser'
 import {
   ChooseResponseAction,
   ScriptActionType,
@@ -9,6 +8,7 @@ import {
 import { ProgressItem } from '../../frontend/src/types/sessionProgress'
 import SessionProgress from '../models/SessionProgress'
 import SessionResponse from '../models/SessionResponse'
+import SessionUser from '../models/SessionUser'
 import sendEmailActionService from './SendEmailActionService'
 import Objection = require('objection')
 
