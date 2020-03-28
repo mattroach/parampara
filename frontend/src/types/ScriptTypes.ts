@@ -22,7 +22,7 @@ export type ScriptVersion = {
 
 export type ScriptItem = MessageItem | ImageItem
 
-export type ScriptAction = ChooseResponseAction | CommentAction
+export type ScriptAction = ChooseResponseAction | CommentAction | SendEmailAction
 
 export enum ScriptItemType {
   Message = 'Message',
@@ -31,7 +31,8 @@ export enum ScriptItemType {
 
 export enum ScriptActionType {
   ChooseResponse = 'ChooseResponse',
-  Comment = 'Comment'
+  Comment = 'Comment',
+  SendEmail = 'SendEmail'
 }
 
 type BaseItem = {
@@ -65,4 +66,9 @@ export type ChooseResponseAction = {
 export type ResponseChoice = {
   message: string
   nextId?: number
+}
+
+export type SendEmailAction = {
+  type: ScriptActionType.SendEmail
+  content: string
 }

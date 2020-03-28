@@ -25,6 +25,14 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
         position
       })
     )
+
+  const addEmail = () =>
+    dispatch(
+      addAction({
+        action: { type: ScriptActionType.SendEmail, content: 'my document' },
+        position
+      })
+    )
   const newResponseChoice = () => dispatch(newResponseChoiceForm(position))
   const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
   const changeNavigation = (nextId: number) =>
@@ -49,6 +57,9 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
       </Dropdown.Item>
       <Dropdown.Item as="button" disabled={hasAction} onClick={addComment}>
         Collect a comment
+      </Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={addEmail}>
+        Email a document
       </Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item as="button" onClick={() => newItem(position)}>

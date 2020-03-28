@@ -91,8 +91,8 @@ class ScriptService {
       .orderBy('created', 'DESC')
   }
 
-  async getScript(scriptId: string) {
-    return await Script.query().findById(scriptId)
+  getScript(scriptId: string) {
+    return Script.query().findById(scriptId)
   }
 
   async getScriptWithVersion(scriptId: string, versionCode: ScriptVersionCode) {

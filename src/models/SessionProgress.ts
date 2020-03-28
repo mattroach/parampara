@@ -47,5 +47,5 @@ export default class SessionProgress extends Model {
         to: 'script_version.id'
       }
     }
-  });
+  })
 }

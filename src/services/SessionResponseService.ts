@@ -1,4 +1,5 @@
 import { uuid } from '@shared'
+import SessionUser from 'src/models/SessionUser'
 import {
   ChooseResponseAction,
   ScriptActionType,
@@ -6,8 +7,9 @@ import {
   ScriptItemType
 } from '../../frontend/src/types/scriptTypes'
 import { ProgressItem } from '../../frontend/src/types/sessionProgress'
-import SessionResponse from '../models/SessionResponse'
 import SessionProgress from '../models/SessionProgress'
+import SessionResponse from '../models/SessionResponse'
+import sendEmailActionService from './SendEmailActionService'
 import Objection = require('objection')
 
 class SessionResponseService {
@@ -25,6 +27,16 @@ class SessionResponseService {
     const prevPosition = lastSession.items.length
 
     items.slice(prevPosition).forEach(async (item, i) => {
+      if (item.item.action?.type === ScriptActionType.SendEmail) {
+        // Todo  should move elsewhere
+        if (!lastSession.sessionUserId) throw Error('User is anonymous')
+        const sessionUser = await SessionUser.query().findById(lastSession.sessionUserId)
+        await sendEmailActionService.sendEmail(lastSession.scriptId, {
+          content: item.item.action.content,
+          sessionEmail: sessionUser.email
+        })
+      }
+
       if (!item.actionResult) return
 
       if (item.actionResult.type === ScriptActionType.ChooseResponse) {
@@ -39,7 +51,7 @@ class SessionResponseService {
           message: this.getItemMessage(item.item),
           response: action.responses[item.actionResult.choice].message
         })
-      } else {
+      } else if (item.actionResult.type === ScriptActionType.Comment) {
         await this.saveResponse(lastSession, {
           responseType: item.actionResult.type,
           message: this.getItemMessage(item.item),
