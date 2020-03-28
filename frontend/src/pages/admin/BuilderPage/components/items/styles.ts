@@ -8,10 +8,10 @@ export const BubbleBase = styled.div`
   :hover .item-menu > button {
     opacity: 1;
   }
-  
+
   transition: box-shadow 0.15s ease-in-out;
   :focus-within {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 `
 
@@ -28,8 +28,8 @@ export const NestedBubbleFieldBase = styled(Form.Control)`
   line-height: 1.3;
   transition: width 100ms;
   background: transparent;
-  
-  resize: none; 
+
+  resize: none;
   border: none;
 
   :focus {
@@ -68,19 +68,18 @@ export const ResponseAddField = styled(BubbleFieldBase)`
 
   ::placeholder {
     color: #0076ff;
-    opacity: .6;
+    opacity: 0.6;
   }
 `
-
 
 export const NavId = styled.span`
   vertical-align: middle;
   display: inline-block;
   text-align: center;
-  width: 22px;  
-  background: rgba(0, 0, 0, .08);
-  color: rgba(27,31,35,.7);
-  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  width: 22px;
+  background: #ebebeb;
+  color: #666;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size: 0.8em;
   line-height: 18px;
   border-radius: 100%;

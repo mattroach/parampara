@@ -3,9 +3,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
+/* #root {
   overflow: auto;
-}
+} */
 
 .bg-primary {
   background-color: #006bfa !important;
