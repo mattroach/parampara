@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 // This must be imported before other components which extend bootstrap styles.:
 import 'bootstrap/dist/css/bootstrap.css'
 import 'index.css'
-import ItemNavigationForm from '.'
+import ItemNavigationForm from './ItemNavigationForm'
 import { ScriptItem } from 'types/scriptTypes'
 import { createItems } from 'test/testData'
 import styled from 'styled-components'
@@ -22,6 +22,6 @@ const testItems: ScriptItem[] = createItems(15)
 
 export const Basic = () => (
   <Wrapper>
-    <ItemNavigationForm items={testItems} thisItemPosition={2} />
+    <ItemNavigationForm items={testItems} position={2} onSelect={action('onSelect')} />
   </Wrapper>
 )

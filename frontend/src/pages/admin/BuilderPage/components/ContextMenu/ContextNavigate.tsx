@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Overlay from 'react-bootstrap/Overlay'
-import Popover from 'react-bootstrap/Popover'
-import NavigationForm from './NavigationForm'
 import { RootState } from 'store/rootReducer'
 import { useSelector } from 'react-redux'
+import ItemNavigationForm from './ItemNavigationForm'
 
 type Props = {
   position: number
@@ -12,14 +11,16 @@ type Props = {
   targetRef: React.RefObject<any>
   disabled?: boolean
   onChangeNavigation: (nextId: number) => void
+  placement?: 'auto'
 }
 
-const ItemMenuNavigation: React.FunctionComponent<Props> = ({
+const ContextNavigate: React.FunctionComponent<Props> = ({
   disabled,
   currentValue,
   position,
   targetRef,
-  onChangeNavigation
+  onChangeNavigation,
+  placement
 }) => {
   const focusRef = useRef<any>(null)
   const [isShow, setShow] = useState(false)
@@ -27,8 +28,8 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({
   const show = () => setShow(true)
 
   const changeNavigation = (nextId: number) => {
-    onChangeNavigation(nextId)
     hide()
+    onChangeNavigation(nextId)
   }
 
   const focusGiphyPicker = () => {
@@ -41,26 +42,44 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({
   )
   const disabled_ = !atLeastTwoItems || disabled
 
+  const popperConfig = {
+    modifiers: {
+      preventOverflow: { enabled: true },
+      flip: { enabled: true }
+    }
+  }
+
   return (
     <>
       <Overlay
         show={isShow}
         target={targetRef.current}
         onEntered={focusGiphyPicker}
-        placement="right"
+        placement="right" //{placement || 'right'}
+        popperConfig={popperConfig}
         rootClose={true}
         onHide={hide}
       >
-        <Popover id="popover-nav">
-          <Popover.Content>
-            <NavigationForm
-              focusRef={focusRef}
-              position={position}
-              onSelect={changeNavigation}
-              currentValue={currentValue}
-            />
-          </Popover.Content>
-        </Popover>
+        {({
+          placement,
+          scheduleUpdate,
+          arrowProps,
+          outOfBoundaries,
+          show,
+          popper,
+          ...props
+        }) => (
+          <div {...props}>
+            <div style={{ margin: 4 }}>
+              <ItemNavigationForm
+                focusRef={focusRef}
+                onSelect={changeNavigation}
+                currentValue={currentValue}
+                position={position}
+              />
+            </div>
+          </div>
+        )}
       </Overlay>
       <Dropdown.Item as="button" disabled={disabled_} onClick={show}>
         Add navigation jump
@@ -69,4 +88,4 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({
   )
 }
 
-export default ItemMenuNavigation
+export default ContextNavigate

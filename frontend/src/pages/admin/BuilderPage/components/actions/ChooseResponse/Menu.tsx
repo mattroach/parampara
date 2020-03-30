@@ -12,10 +12,16 @@ type Props = {
   responsePosition: number
 }
 
-const Menu: React.FunctionComponent<Props> = ({ response, position, responsePosition, containerRef }) => {
+const Menu: React.FunctionComponent<Props> = ({
+  response,
+  position,
+  responsePosition,
+  containerRef
+}) => {
   const dispatch = useDispatch()
 
-  const changeNavigation = (nextId: number) => dispatch(updateResponseNextId({ position, responsePosition, nextId }))
+  const changeNavigation = (nextId: number) =>
+    dispatch(updateResponseNextId({ position, responsePosition, nextId }))
   const deleteItem = () => dispatch(removeResponseChoice({ position, responsePosition }))
 
   return (
@@ -27,7 +33,9 @@ const Menu: React.FunctionComponent<Props> = ({ response, position, responsePosi
         currentValue={response.nextId}
       />
       <Dropdown.Divider />
-      <Dropdown.Item as="button" onClick={deleteItem}>Delete</Dropdown.Item>
+      <Dropdown.Item as="button" onClick={deleteItem}>
+        Delete
+      </Dropdown.Item>
     </ContextMenu>
   )
 }
