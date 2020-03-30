@@ -3,6 +3,8 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
 import NavigationForm from './NavigationForm'
+import { RootState } from 'store/rootReducer'
+import { useSelector } from 'react-redux'
 
 type Props = {
   position: number
@@ -34,6 +36,10 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({
     // (probably because the element is not rendered in the absolute position yet)
     focusRef.current!.focus()
   }
+  const atLeastTwoItems = useSelector(
+    (state: RootState) => state.scriptStore.script!.version.items.length > 1
+  )
+  const disabled_ = !atLeastTwoItems || disabled
 
   return (
     <>
@@ -56,7 +62,7 @@ const ItemMenuNavigation: React.FunctionComponent<Props> = ({
           </Popover.Content>
         </Popover>
       </Overlay>
-      <Dropdown.Item as="button" disabled={disabled} onClick={show}>
+      <Dropdown.Item as="button" disabled={disabled_} onClick={show}>
         Add navigation jump
       </Dropdown.Item>
     </>

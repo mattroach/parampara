@@ -56,10 +56,10 @@ const ItemNavigationForm: React.FunctionComponent<Props> = ({
       styles={customStyles}
       defaultValue={options[value]}
       components={{ Option, SingleValue }}
-      isClearable={true}
+      isClearable={false}
       isSearchable={true}
       options={options}
-      onChange={() => console.log('onChange')}
+      onChange={(a, b) => console.log('onChange', a, b)}
     />
   )
 }
@@ -86,6 +86,7 @@ const StyledNavId = styled(NavId)`
 
 const Annotate = styled.span`
   float: right;
+  margin-top: 3px;
 
   background: #ebebeb;
   border-radius: 22px;
