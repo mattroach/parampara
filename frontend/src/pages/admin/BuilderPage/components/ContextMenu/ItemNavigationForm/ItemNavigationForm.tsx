@@ -1,15 +1,15 @@
-import React, { RefObject } from 'react'
+import React from 'react'
 import Select, { components } from 'react-select'
 import styled from 'styled-components'
 import { ScriptItem, ScriptItemType } from 'types/scriptTypes'
 import { NavId } from '../../items/styles'
 
 type Props = {
-  focusRef?: RefObject<any>
   items: ScriptItem[]
   position: number
   currentValue?: number
   onSelect: (nextId: number) => void
+  onBlur?: () => void
 }
 
 const createLabel = (msg: string) => {
@@ -45,11 +45,11 @@ type Option = {
 }
 
 const ItemNavigationForm: React.FunctionComponent<Props> = ({
-  focusRef,
   items,
   position,
   currentValue,
-  onSelect
+  onSelect,
+  onBlur
 }) => {
   const defaultValue = currentValue || position + 1
 
@@ -66,10 +66,8 @@ const ItemNavigationForm: React.FunctionComponent<Props> = ({
 
   return (
     <Select
-      ref={ref => {
-        if (focusRef) (focusRef as any).current = ref
-      }}
-      menuIsOpen={true}
+      openMenuOnFocus={true}
+      autoFocus
       styles={customStyles}
       defaultValue={options[defaultValue]}
       components={{ Option, SingleValue }}
@@ -77,14 +75,17 @@ const ItemNavigationForm: React.FunctionComponent<Props> = ({
       isSearchable={true}
       options={options}
       onChange={option => onSelect((option as Option).value)}
+      onBlur={onBlur}
     />
   )
 }
 
+const SingleValueCont = styled.span`
+  color: #888;
+`
 const SingleValue = (props: any) => (
   <components.SingleValue {...props}>
-    <StyledNavId>{props.data.value}</StyledNavId>
-    {props.data.message}
+    <SingleValueCont>{props.data.message}</SingleValueCont>
   </components.SingleValue>
 )
 

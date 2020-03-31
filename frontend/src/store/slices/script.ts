@@ -107,15 +107,13 @@ const scriptSlice = createSlice({
         .action! as ChooseResponseAction
       const response = itemAction.responses[responsePosition]
 
-      if (nextId === position + 1) response.nextId = undefined
-      else response.nextId = nextId
+      response.nextId = nextId
     },
     updateNextId(state, action: PayloadAction<{ position: number; nextId: number }>) {
       const { nextId, position } = action.payload
       const item = state.script!.version.items[position]
 
-      if (nextId === position + 1) item.nextId = undefined
-      else item.nextId = nextId
+      item.nextId = nextId
     },
     removeResponseChoice(
       state,

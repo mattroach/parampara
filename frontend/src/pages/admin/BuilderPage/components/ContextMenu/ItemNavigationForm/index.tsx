@@ -1,30 +1,30 @@
-import React, { RefObject } from 'react'
-import ItemNavigationForm from './ItemNavigationForm'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
+import ItemNavigationForm from './ItemNavigationForm'
 
 type Props = {
-  focusRef: RefObject<any>
   position: number
   currentValue?: number
   onSelect: (nextId: number) => void
+  onBlur?: () => void
 }
 
 const ItemNavigationFormContainer: React.FunctionComponent<Props> = ({
-  focusRef,
   position,
   currentValue,
-  onSelect
+  onSelect,
+  onBlur
 }) => {
   const items = useSelector((state: RootState) => state.scriptStore.script!.version.items)
 
   return (
     <ItemNavigationForm
-      focusRef={focusRef}
       items={items}
       position={position}
       currentValue={currentValue}
       onSelect={onSelect}
+      onBlur={onBlur}
     />
   )
 }

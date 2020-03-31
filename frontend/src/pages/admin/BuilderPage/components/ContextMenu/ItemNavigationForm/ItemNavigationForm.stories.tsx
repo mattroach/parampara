@@ -20,8 +20,10 @@ const Wrapper = styled.div`
 
 const testItems: ScriptItem[] = createItems(15)
 
-export const Basic = () => (
-  <Wrapper>
-    <ItemNavigationForm items={testItems} position={2} onSelect={action('onSelect')} />
-  </Wrapper>
-)
+export const Basic = () => {
+  return (
+    <Wrapper>
+      <ItemNavigationForm items={testItems} position={10} onSelect={action('onSelect')} />
+    </Wrapper>
+  )
+}
