@@ -67,6 +67,7 @@ const ContextNavigate: React.FunctionComponent<Props> = ({
             onSelect={changeNavigation}
             currentValue={currentValue}
             position={position}
+            onBlur={hide}
           />
         </div>
       </Popper>
