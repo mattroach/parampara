@@ -33,7 +33,7 @@ const ContextMenu: React.FunctionComponent<Props> = ({ id, children }) => (
       variant="secondary"
       className="item-menu"
       title="Actions"
-      onClick={(event: any) => event.stopPropagation()}
+      //onClick={(event: any) => event.stopPropagation()}
     >
       {children}
     </StyledDropdownButton>

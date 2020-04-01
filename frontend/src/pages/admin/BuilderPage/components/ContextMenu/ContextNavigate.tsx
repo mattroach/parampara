@@ -54,15 +54,21 @@ const ContextNavigate: React.FunctionComponent<Props> = ({
     }
   ]
 
+  const stopKeyboardPropogation = (e: React.KeyboardEvent<HTMLElement>) => {
+    // If this bubbles, the menu steals focus on up/down arrow keys.. not exactly sure why but this prevents that.
+    e.stopPropagation()
+  }
+
   return (
     <>
       <Popper target={targetRef} show={isShow} modifiers={modifiers}>
-        <ItemNavigationForm
-          onSelect={changeNavigation}
-          currentValue={currentValue}
-          position={position}
-          onBlur={hide}
-        />
+        <div onKeyDown={stopKeyboardPropogation}>
+          <ItemNavigationForm
+            onSelect={changeNavigation}
+            currentValue={currentValue}
+            position={position}
+          />
+        </div>
       </Popper>
       <Dropdown.Item as="button" disabled={disabled_} onClick={showDelayed}>
         Add navigation jump

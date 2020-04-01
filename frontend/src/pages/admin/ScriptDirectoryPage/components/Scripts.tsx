@@ -59,6 +59,18 @@ const Scripts: React.FunctionComponent<Props> = ({ adminId }) => {
           for a quick video tutorial and a step by step guide. You can always come back to
           this later in the menu at the top right of this page.
         </p>
+        <p>
+          Get even more out of your Parampara account. We can help with expert
+          copywriting, advanced analytics and on-call support. Head to our{' '}
+          <a
+            href="https://getparampara.com/pricing.html?r=inapp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            pricing page
+          </a>{' '}
+          for details.
+        </p>
         <CreateScriptButton adminId={adminId} />
       </EmptyState>
     )

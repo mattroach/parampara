@@ -31,7 +31,7 @@ const customStyles = {
   }),
   control: (provided: any) => ({
     ...provided,
-    boxShadow: '0 0 0 1px hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1)',
+    boxShadow: '0 0 0 0.2rem rgba(0, 123, 255, 0.25)',
     width: 250
   })
 }

@@ -34,6 +34,13 @@ const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
         <Nav activeKey={false}>
           <NavDropdown title={email} id="account-dd">
             <NavDropdown.Item
+              href="http://getparampara.com/upgrade.html?r=inapp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Upgrade
+            </NavDropdown.Item>
+            <NavDropdown.Item
               href="https://getparampara.com/help.html"
               target="_blank"
               rel="noopener noreferrer"
