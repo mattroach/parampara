@@ -1,21 +1,19 @@
 import React, { useEffect } from 'react'
-import Spinner from 'react-bootstrap/Spinner'
-import Table from 'react-bootstrap/Table'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-
+import CreateScriptButton from './CreateScriptButton'
+import ScriptsTable from './ScriptsTable'
 import { RootState } from 'store/rootReducer'
-import { loadScripts } from 'store/slices/scripts'
 import { useSelector, useDispatch } from 'react-redux'
-import DeleteButton from './DeleteButton'
+import { loadScripts } from 'store/slices/scripts'
+import Spinner from 'react-bootstrap/Spinner'
 
-const StyledTable = styled(Table)`
-  td {
-    vertical-align: middle;
-  }
-  tr th:nth-last-child(1) {
-    text-align: right;
-  }
+const AddNewButton = styled.div`
+  text-align: right;
+  margin: 10px 0;
+`
+
+const EmptyState = styled.div`
+  color: #777;
 `
 
 type Props = {
@@ -23,49 +21,48 @@ type Props = {
 }
 
 const Scripts: React.FunctionComponent<Props> = ({ adminId }) => {
-  const scripts = useSelector((state: RootState) => state.scriptsStore.scripts)
+  const scriptsLoaded = useSelector((state: RootState) => !!state.scriptsStore.scripts)
+  const hasScripts = useSelector(
+    (state: RootState) => !!state.scriptsStore.scripts?.length
+  )
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(loadScripts(adminId))
   }, [dispatch, adminId])
 
-  if (!scripts) return <Spinner animation="border" />
+  if (!scriptsLoaded) return <Spinner animation="border" />
 
-  return (
-    <StyledTable responsive>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Created on</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {scripts.map(script => (
-          <tr key={script.id}>
-            <td>
-              <Link to={`/builder/${adminId}/${script.id}/create`}>
-                {script.title ? script.title : 'Unnamed script'}
-              </Link>
-            </td>
-            <td>
-              <FormattedDate datetime={script.created} />
-            </td>
-            <th>
-              <DeleteButton script={script} />
-            </th>
-          </tr>
-        ))}
-      </tbody>
-    </StyledTable>
-  )
+  if (hasScripts) {
+    return (
+      <>
+        <AddNewButton>
+          <CreateScriptButton adminId={adminId} variant="secondary" />
+        </AddNewButton>
+        <ScriptsTable adminId={adminId} />
+      </>
+    )
+  } else {
+    return (
+      <EmptyState>
+        <p>Welcome to your Parampara Creator!</p>
+        <p>
+          If you'd like us to walk you through how to write a Parampara, click{' '}
+          <a
+            href="https://www.youtube.com/embed/N0vpBvK6hm8"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </a>{' '}
+          for a quick video tutorial and a step by step guide. You can always come back to
+          this later in the menu at the top right of this page.
+        </p>
+        <CreateScriptButton adminId={adminId} />
+      </EmptyState>
+    )
+  }
 }
 
 export default Scripts
-
-const FormattedDate: React.FunctionComponent<{ datetime: string }> = ({ datetime }) => {
-  const date = new Date(datetime)
-  const options = { year: 'numeric', month: 'long', day: 'numeric' }
-  return <>{date.toLocaleDateString('en-US', options)}</>
-}

@@ -1,19 +1,29 @@
+import MaterialIcon from 'material-icons-react'
 import React, { useState } from 'react'
+import Button, { ButtonProps } from 'react-bootstrap/Button'
 import Configure from './Configure'
-import Button from 'react-bootstrap/Button'
+import styled from 'styled-components'
+
+const StyledButton = styled(Button)`
+  i {
+    vertical-align: top;
+  }
+`
 
 type Props = {
   adminId: string
+  variant?: ButtonProps['variant']
 }
 
-const CreateScriptButton: React.FunctionComponent<Props> = ({ adminId }) => {
+const CreateScriptButton: React.FunctionComponent<Props> = ({ adminId, variant }) => {
   const [isConfiguring, setIsConfiguring] = useState(false)
 
   return (
     <>
-      <Button variant="secondary" onClick={() => setIsConfiguring(true)}>
-        Create new Parampara
-      </Button>
+      <StyledButton variant={variant} onClick={() => setIsConfiguring(true)}>
+        <MaterialIcon icon="add" color="inherit" />
+        New Parampara
+      </StyledButton>
 
       <Configure
         adminId={adminId}
