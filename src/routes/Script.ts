@@ -6,6 +6,7 @@ import { Boolean, Record, String, Number, Undefined, Unknown, Null } from 'runty
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
 import adminService from '../services/AdminService'
+import Script from 'src/models/Script'
 
 const router = Router()
 
@@ -26,6 +27,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
 })
 
+type GetScriptResponse = Script & { isPublished: boolean }
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id: scriptId } = req.params as ParamsDictionary
@@ -34,10 +36,18 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     const script = await scriptService.getScriptWithVersion(scriptId, version)
 
-    // @ts-ignore: tmp until adminIds do not need to be secret
-    script.adminId = undefined
+    const response = script as GetScriptResponse
+    // @ts-ignore: Is secret for now
+    response.adminId = undefined
 
-    return res.status(OK).json(script)
+    // TODO fix this typeing..
+    const countResult = (await script
+      .$relatedQuery('version')
+      .count()
+      .as('count')) as any
+    response.isPublished = countResult.count > 1
+
+    return res.status(OK).json(response)
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({

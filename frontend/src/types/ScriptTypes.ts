@@ -8,6 +8,7 @@ export type Script = {
   version: ScriptVersion
   allowAnon: boolean
   hasUnpublishedChanges: boolean
+  isPublished: boolean
   metaImgUrl: string | null
   metaImgWidth: number | null
   metaImgHeight: number | null

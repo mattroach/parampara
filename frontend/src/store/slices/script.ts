@@ -43,7 +43,12 @@ const scriptSlice = createSlice({
       }
     },
     setHasUnpublishedChanges(state, action: PayloadAction<boolean>) {
-      state.script!.hasUnpublishedChanges = action.payload
+      const hasUnpublishedChanges = action.payload
+      state.script!.hasUnpublishedChanges = hasUnpublishedChanges
+
+      if (!hasUnpublishedChanges) {
+        state.script!.isPublished = true
+      }
     },
     newResponseChoiceForm(state, action: PayloadAction<number>) {
       state.newResponseChoicePosition = action.payload

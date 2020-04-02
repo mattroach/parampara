@@ -5,21 +5,34 @@ import { RootState } from 'store/rootReducer'
 import CopyShareUrl from './CopyShareUrl'
 
 const ShareDetails: React.FunctionComponent = () => {
-  const hasUnpublishedChanges = useSelector(
-    (state: RootState) => state.scriptStore.script!.hasUnpublishedChanges
+  const { hasUnpublishedChanges, isPublished } = useSelector(
+    (state: RootState) => state.scriptStore.script!
   )
 
   return (
     <>
       <h4>Share your Parampara</h4>
-      <p>
-        Once you're done creating your Parampara, you can share it via the URL below.
-        Don't forget to hit the "Publish" button after you make any changes!
-      </p>
-      {hasUnpublishedChanges && (
-        <Alert variant="warning">You have unpublished changes to your Parampara.</Alert>
+      {isPublished ? (
+        <p>
+          You can share your Parampara via the URL below. Don't forget to hit the 'Update'
+          button after making any changes to make them live!
+        </p>
+      ) : (
+        <p>
+          Once you're done creating your Parampara, you will be able to share it here.
+          Click the 'Create' button on the top right!
+        </p>
       )}
-      <CopyShareUrl />
+      {isPublished && hasUnpublishedChanges && (
+        <Alert variant="warning">You have unpublished changes to your Parampara!</Alert>
+      )}
+      {isPublished ? (
+        <CopyShareUrl />
+      ) : (
+        <Alert variant="danger">
+          You must create your Parampara before you can share it.
+        </Alert>
+      )}
     </>
   )
 }

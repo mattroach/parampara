@@ -32,8 +32,6 @@ export default class Script extends Model {
   //   }
   // }
 
-  static modifiers: Modifiers = {}
-
   static relationMappings: RelationMappingsThunk = () => ({
     version: {
       relation: Model.HasOneRelation,
