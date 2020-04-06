@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AppThunk } from 'store/store'
-import { throttle } from 'throttle-debounce'
 import api from 'api'
 import { PartialScript, ScriptVersionType } from 'api/types'
+import { AppThunk } from 'store/store'
+import { throttle } from 'throttle-debounce'
 import {
+  ChooseResponseAction,
   Script,
   ScriptAction,
   ScriptActionType,
-  ScriptItem,
-  ChooseResponseAction
+  ScriptItem
 } from '../../types/scriptTypes'
-import { RootState } from '../rootReducer'
+import ScriptRefresh from 'services/ScriptRefresh'
+import deepEqual from 'fast-deep-equal'
 
 /**
  * This store is used by both the ui and the editor atm. Probably, the ui should use the progress store instead
@@ -22,9 +23,10 @@ export type ScriptStore = {
   // of the item they are adding the response to
   newResponseChoicePosition?: number
   newItemPosition?: number
+  hasUnpushedChanges: boolean
 }
 
-let initialState: ScriptStore = {}
+let initialState: ScriptStore = { hasUnpushedChanges: false }
 
 const scriptSlice = createSlice({
   name: 'script',
@@ -41,6 +43,12 @@ const scriptSlice = createSlice({
         ...state.script!,
         ...action.payload
       }
+    },
+    updateScriptItems(state, action: PayloadAction<ScriptItem[]>) {
+      state.script!.version.items = action.payload
+    },
+    setHasUnpushedChanges(state, action: PayloadAction<boolean>) {
+      state.hasUnpushedChanges = action.payload
     },
     setHasUnpublishedChanges(state, action: PayloadAction<boolean>) {
       const hasUnpublishedChanges = action.payload
@@ -181,11 +189,13 @@ const {
   updateScript,
   clearScript,
   setHasUnpublishedChanges,
+  setHasUnpushedChanges,
   newResponseChoiceForm,
   cancelResponseChoiceForm,
   newItemForm,
   cancelNewItemForm,
   updateScriptPartial,
+  updateScriptItems,
   addItem,
   updateResponseNextId,
   updateNextId,
@@ -273,15 +283,41 @@ export const configureAllowAnon = (allowAnon: boolean): AppThunk => async (
 
 export const scriptContentUpdated = (): AppThunk => async (dispatch, getState) => {
   dispatch(setHasUnpublishedChanges(true))
-  updateScriptOnServer(getState)
+  dispatch(setHasUnpushedChanges(true))
+  updateScriptOnServer(dispatch, getState)
 }
 
-const updateScriptOnServer = throttle(3000, false, (getState: () => RootState) => {
+const updateScriptOnServer = throttle(3000, false, async (dispatch, getState) => {
   const { script } = getState().scriptStore
 
   if (!script) throw Error('Script not loaded')
 
   const patch: PartialScript = { version: { items: script.version.items } }
 
-  api.updateScript(script.id, patch)
+  console.log('pushing changes')
+  await api.updateScript(script.id, patch)
+  dispatch(setHasUnpushedChanges(false))
 })
+
+export const startScriptRefresh = (): AppThunk<ScriptRefresh<ScriptItem[]>> => (
+  dispatch,
+  getState
+) => {
+  const scriptRefresher = new ScriptRefresh(
+    async () =>
+      (await api.getScript(getState().scriptStore.script!.id, ScriptVersionType.draft))
+        .version.items,
+    () => !getState().scriptStore.hasUnpushedChanges,
+    items => {
+      const prevItems = getState().scriptStore.script!.version.items
+      if (deepEqual(items, prevItems)) {
+        console.log('No changes to items, not committing')
+      } else {
+        console.log('commiting changes to store')
+        dispatch(updateScriptItems(items))
+      }
+    }
+  )
+  scriptRefresher.startRefresh()
+  return scriptRefresher
+}
