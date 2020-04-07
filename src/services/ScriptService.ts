@@ -135,6 +135,8 @@ class ScriptService {
   async cloneScript(scriptId: string, destinationAdminId: string, newTitle?: string) {
     const script = await this.getScriptWithVersion(scriptId, ScriptVersionCode.draft)
 
+    if (!script) throw Error('Script not found')
+
     const title = newTitle || script.title
     this.createScript(destinationAdminId, {
       title,
