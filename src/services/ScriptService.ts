@@ -100,6 +100,8 @@ class ScriptService {
       .findById(scriptId)
       .withGraphFetched(`version(${versionCode})`)
 
+    if (!script) return undefined
+
     if (!script.version) throw Error('Script is not published')
 
     // Temporary code to hydrate item IDs. These were not set in the early days, but are needed.

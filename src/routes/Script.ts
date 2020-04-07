@@ -1,7 +1,7 @@
 import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
-import { BAD_REQUEST, OK, UNAUTHORIZED } from 'http-status-codes'
+import { BAD_REQUEST, OK, UNAUTHORIZED, NOT_FOUND } from 'http-status-codes'
 import { Boolean, Record, String, Number, Undefined, Unknown, Null } from 'runtypes'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
@@ -35,6 +35,10 @@ router.get('/:id', async (req: Request, res: Response) => {
     if (!(version in ScriptVersionCode)) throw Error('Bad version')
 
     const script = await scriptService.getScriptWithVersion(scriptId, version)
+
+    if (!script) {
+      return res.status(NOT_FOUND).json('Script not found')
+    }
 
     const response = script as GetScriptResponse
     // @ts-ignore: Is secret for now
