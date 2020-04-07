@@ -303,21 +303,23 @@ export const startScriptRefresh = (): AppThunk<ScriptRefresh<ScriptItem[]>> => (
   dispatch,
   getState
 ) => {
-  const scriptRefresher = new ScriptRefresh(
-    async () =>
-      (await api.getScript(getState().scriptStore.script!.id, ScriptVersionType.draft))
-        .version.items,
-    () => !getState().scriptStore.hasUnpushedChanges,
-    items => {
-      const prevItems = getState().scriptStore.script!.version.items
-      if (deepEqual(items, prevItems)) {
-        console.log('No changes to items, not committing')
-      } else {
-        console.log('commiting changes to store')
-        dispatch(updateScriptItems(items))
-      }
+  const pull = async () =>
+    (await api.getScript(getState().scriptStore.script!.id, ScriptVersionType.draft))
+      .version.items
+
+  const isOkToPull = () => !getState().scriptStore.hasUnpushedChanges
+
+  const commit = (items: ScriptItem[]) => {
+    const prevItems = getState().scriptStore.script!.version.items
+    if (deepEqual(items, prevItems)) {
+      console.log('No changes to items, not committing')
+    } else {
+      console.log('commiting changes to store')
+      dispatch(updateScriptItems(items))
     }
-  )
+  }
+
+  const scriptRefresher = new ScriptRefresh(pull, isOkToPull, commit)
   scriptRefresher.startRefresh()
   return scriptRefresher
 }

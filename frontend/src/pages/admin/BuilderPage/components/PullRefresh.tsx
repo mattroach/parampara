@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'store/rootReducer'
-import { scriptContentUpdated } from 'store/slices/script'
-import ScriptRefresh from 'services/ScriptRefresh'
-import { ScriptItem } from 'types/scriptTypes'
 import api from 'api'
 import { ScriptVersionType } from 'api/types'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import ScriptRefresh from 'services/ScriptRefresh'
+import { RootState } from 'store/rootReducer'
+import { scriptContentUpdated } from 'store/slices/script'
+import { ScriptItem } from 'types/scriptTypes'
 
 const ServerSync: React.FunctionComponent = () => {
   const isInitialMount = useRef(true)
@@ -30,7 +30,6 @@ const ServerSync: React.FunctionComponent = () => {
   const hasUnpushedChanges = useSelector(
     (state: RootState) => state.scriptStore.hasUnpushedChanges
   )
-  //const isOkToPull = useCallback(() => !hasUnpushedChanges, [hasUnpushedChanges])
 
   useEffect(() => {
     scriptRefresher.current = new ScriptRefresh(
