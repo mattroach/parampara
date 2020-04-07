@@ -1,9 +1,10 @@
 import { logger } from '@shared'
 import { Request, Response, Router } from 'express'
 import { BAD_REQUEST, OK } from 'http-status-codes'
-import { Record, String } from 'runtypes'
+import { Record, String, Undefined } from 'runtypes'
 import Admin from '../models/Admin'
 import adminService from '../services/AdminService'
+import scriptService from '../services/ScriptService'
 
 const router = Router()
 
@@ -62,6 +63,29 @@ router.post('/updatePassword', async (req: Request, res: Response) => {
     const admin = await adminService.updatePassword(email, newPassword)
 
     return res.status(OK).json(admin)
+  } catch (err) {
+    logger.error(err.message, err)
+    return res.status(BAD_REQUEST).json({
+      error: err.message
+    })
+  }
+})
+
+const CloneScriptReq = Record({
+  scriptId: String,
+  destinationAdminId: String,
+  newTitle: String.Or(Undefined)
+})
+router.post('/cloneScript', async (req: Request, res: Response) => {
+  try {
+    const { password } = req.query
+    checkPassword(password)
+
+    const { scriptId, destinationAdminId, newTitle } = CloneScriptReq.check(req.body)
+
+    await scriptService.cloneScript(scriptId, destinationAdminId, newTitle)
+
+    return res.status(OK).json('Cloned')
   } catch (err) {
     logger.error(err.message, err)
     return res.status(BAD_REQUEST).json({

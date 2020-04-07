@@ -111,7 +111,10 @@ class ScriptService {
     return script
   }
 
-  async createScript(adminId: string, scriptAttributes: { title: string }) {
+  async createScript(
+    adminId: string,
+    scriptAttributes: { title: string; version?: { items?: any } }
+  ) {
     const script = await Script.query().insert({
       id: uuid(),
       adminId,
@@ -121,10 +124,22 @@ class ScriptService {
     await ScriptVersion.query().insert({
       id: uuid(),
       scriptId: script.id,
-      version: ScriptVersion.DRAFT_VERSION
+      version: ScriptVersion.DRAFT_VERSION,
+      items: scriptAttributes.version?.items || undefined
     })
 
     return script
+  }
+
+  // Superadmin only
+  async cloneScript(scriptId: string, destinationAdminId: string, newTitle?: string) {
+    const script = await this.getScriptWithVersion(scriptId, ScriptVersionCode.draft)
+
+    const title = newTitle || script.title
+    this.createScript(destinationAdminId, {
+      title,
+      version: { items: script.version!.items }
+    })
   }
 }
 

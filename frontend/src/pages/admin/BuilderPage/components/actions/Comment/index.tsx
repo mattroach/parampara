@@ -1,5 +1,5 @@
 import React from 'react'
-import Widget from '../../items/Widget'
+import MacroAction from '../MacroAction'
 import Menu from './Menu'
 
 type Props = {
@@ -7,11 +7,10 @@ type Props = {
 }
 
 const Comment: React.FunctionComponent<Props> = ({ position }) => {
-
   return (
-    <Widget icon="comment" title="Collect a comment">
-      <Menu position={position} />
-    </Widget>
+    <MacroAction icon="comment" menu={() => <Menu position={position} />}>
+      Collect a comment
+    </MacroAction>
   )
 }
 

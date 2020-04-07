@@ -1,5 +1,5 @@
 import React from 'react'
-import Widget from '../../items/Widget'
+import MacroAction from '../MacroAction'
 import Menu from './Menu'
 import { SendEmailAction } from 'types/scriptTypes'
 
@@ -10,9 +10,9 @@ type Props = {
 
 const SendEmail: React.FunctionComponent<Props> = ({ action, position }) => {
   return (
-    <Widget icon="email" title="Email a document">
-      <Menu action={action} position={position} />
-    </Widget>
+    <MacroAction icon="email" menu={() => <Menu action={action} position={position} />}>
+      Email a document
+    </MacroAction>
   )
 }
 

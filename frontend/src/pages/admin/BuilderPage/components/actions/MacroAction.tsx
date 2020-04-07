@@ -1,11 +1,10 @@
 import MaterialIcon from 'material-icons-react'
 import React from 'react'
 import styled from 'styled-components'
-import { BubbleBase, ActionBubble } from './styles'
-
+import { BubbleBase, ActionBubble } from '../items/styles'
 
 const ItemWrap = styled.div`
-  margin: 10px 0 40px; 
+  margin: 10px 0 40px;
   text-align: right;
 `
 
@@ -20,21 +19,21 @@ const Bubble = styled(ActionBubble)`
 
 type Props = {
   icon: string
-  title: string
+  menu: () => void
 }
 
-const Widget: React.FunctionComponent<Props> = ({ children, icon, title }) => {
+const MacroAction: React.FunctionComponent<Props> = ({ children, icon, menu }) => {
   return (
     <ItemWrap>
       <BubbleBase>
-        {children}
+        {menu()}
         <Bubble>
           <MaterialIcon icon={icon} size={20} color="#006bfa" />
-          {title}
+          {children}
         </Bubble>
       </BubbleBase>
     </ItemWrap>
   )
 }
 
-export default Widget
+export default MacroAction
