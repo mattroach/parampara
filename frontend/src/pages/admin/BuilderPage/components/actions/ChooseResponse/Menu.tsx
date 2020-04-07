@@ -25,7 +25,7 @@ const Menu: React.FunctionComponent<Props> = ({
   const deleteItem = () => dispatch(removeResponseChoice({ position, responsePosition }))
 
   return (
-    <ContextMenu id={position}>
+    <ContextMenu htmlId={position}>
       <ContextNavigate
         position={position}
         targetRef={containerRef}

@@ -1,7 +1,8 @@
 import MaterialIcon from 'material-icons-react'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { BubbleBase, ActionBubble } from '../items/styles'
+import ContextMenu from '../ContextMenu'
 
 const ItemWrap = styled.div`
   margin: 10px 0 40px;
@@ -19,14 +20,20 @@ const Bubble = styled(ActionBubble)`
 
 type Props = {
   icon: string
-  menu: () => void
+  position: number
+  menuItems: () => ReactNode
 }
 
-const MacroAction: React.FunctionComponent<Props> = ({ children, icon, menu }) => {
+const MacroAction: React.FunctionComponent<Props> = ({
+  children,
+  icon,
+  position,
+  menuItems
+}) => {
   return (
     <ItemWrap>
       <BubbleBase>
-        {menu()}
+        <ContextMenu htmlId={`${position}-action`}>{menuItems()}</ContextMenu>
         <Bubble>
           <MaterialIcon icon={icon} size={20} color="#006bfa" />
           {children}

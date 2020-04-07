@@ -2,10 +2,12 @@ import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { useDispatch } from 'react-redux'
 import {
-  addAction,
   newItemForm,
   newResponseChoiceForm,
-  updateNextId
+  updateNextId,
+  addSendEmailAction,
+  addCommentAction,
+  addCollectEmailAction
 } from 'store/slices/script'
 import { ScriptActionType, ScriptItem } from 'types/scriptTypes'
 import ContextMenu, { ContextDelete, ContextNavigate } from '../../ContextMenu'
@@ -18,21 +20,11 @@ type Props = {
 
 const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) => {
   const dispatch = useDispatch()
-  const addComment = () =>
-    dispatch(
-      addAction({
-        action: { type: ScriptActionType.Comment },
-        position
-      })
-    )
 
-  const addEmail = () =>
-    dispatch(
-      addAction({
-        action: { type: ScriptActionType.SendEmail, content: 'my document' },
-        position
-      })
-    )
+  const addComment = () => dispatch(addCommentAction(position))
+  const addCollectEmail = () => dispatch(addCollectEmailAction(position))
+  const addEmail = () => dispatch(addSendEmailAction(position))
+
   const newResponseChoice = () => dispatch(newResponseChoiceForm(position))
   const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
   const changeNavigation = (nextId: number) =>
@@ -43,7 +35,7 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
     item.action && item.action.type === ScriptActionType.ChooseResponse
 
   return (
-    <ContextMenu id={position}>
+    <ContextMenu htmlId={position}>
       <ContextNavigate
         disabled={hasChooseResponse}
         position={position}
@@ -57,6 +49,9 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
       </Dropdown.Item>
       <Dropdown.Item as="button" disabled={hasAction} onClick={addComment}>
         Collect a comment
+      </Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={addCollectEmail}>
+        Collect an email
       </Dropdown.Item>
       <Dropdown.Item as="button" disabled={hasAction} onClick={addEmail}>
         Email a document

@@ -28,6 +28,8 @@ const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
       return <ChooseResponse item={item} action={action} />
     case ScriptActionType.Comment:
       return <Comment item={item} action={action} />
+    case ScriptActionType.CollectEmail:
+      return <Comment item={item} action={action} /> // todo
     case ScriptActionType.SendEmail:
       return <SendEmail item={item} />
   }

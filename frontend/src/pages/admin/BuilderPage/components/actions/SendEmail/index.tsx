@@ -10,7 +10,11 @@ type Props = {
 
 const SendEmail: React.FunctionComponent<Props> = ({ action, position }) => {
   return (
-    <MacroAction icon="email" menu={() => <Menu action={action} position={position} />}>
+    <MacroAction
+      icon="email"
+      position={position}
+      menuItems={() => <Menu action={action} position={position} />}
+    >
       Email a document
     </MacroAction>
   )

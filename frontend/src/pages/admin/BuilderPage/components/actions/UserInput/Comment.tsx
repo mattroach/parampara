@@ -1,6 +1,6 @@
 import React from 'react'
 import MacroAction from '../MacroAction'
-import Menu from './Menu'
+import DeleteItem from '../DeleteItem'
 
 type Props = {
   position: number
@@ -8,7 +8,11 @@ type Props = {
 
 const Comment: React.FunctionComponent<Props> = ({ position }) => {
   return (
-    <MacroAction icon="comment" menu={() => <Menu position={position} />}>
+    <MacroAction
+      icon="comment"
+      position={position}
+      menuItems={() => <DeleteItem position={position} />}
+    >
       Collect a comment
     </MacroAction>
   )

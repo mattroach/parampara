@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import api from 'api'
 import { PartialScript, ScriptVersionType } from 'api/types'
+import deepEqual from 'fast-deep-equal'
+import ScriptRefresh from 'services/ScriptRefresh'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
 import {
@@ -10,11 +12,9 @@ import {
   ScriptActionType,
   ScriptItem
 } from '../../types/scriptTypes'
-import ScriptRefresh from 'services/ScriptRefresh'
-import deepEqual from 'fast-deep-equal'
 
 /**
- * This store is used by both the ui and the editor atm. Probably, the ui should use the progress store instead
+ * This store is used by both the ui and the editor atm.
  */
 export type ScriptStore = {
   script?: Script
@@ -323,3 +323,24 @@ export const startScriptRefresh = (): AppThunk<ScriptRefresh<ScriptItem[]>> => (
   scriptRefresher.startRefresh()
   return scriptRefresher
 }
+
+export const addCommentAction = (position?: number) =>
+  addAction({
+    action: { type: ScriptActionType.Comment },
+    position
+  })
+
+export const addCollectEmailAction = (position?: number) =>
+  addAction({
+    action: { type: ScriptActionType.CollectEmail },
+    position
+  })
+
+export const addSendEmailAction = (position?: number) =>
+  addAction({
+    action: {
+      type: ScriptActionType.SendEmail,
+      content: 'http://www.example.com/my-document'
+    },
+    position
+  })

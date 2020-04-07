@@ -6,13 +6,14 @@ import {
   ScriptAction
 } from 'types/scriptTypes'
 import ChooseResponse from '../actions/ChooseResponse'
-import Comment from '../actions/Comment'
+import Comment from '../actions/UserInput/Comment'
 import SendEmail from '../actions/SendEmail'
 import Image from './Image'
 import Message from './Message'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import NewItemForm from './NewItemForm'
+import CollectEmail from '../actions/UserInput/CollectEmail'
 
 type Props = {
   item: ScriptItem
@@ -57,6 +58,8 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
       return <ChooseResponse action={action} position={position} />
     case ScriptActionType.Comment:
       return <Comment position={position} />
+    case ScriptActionType.CollectEmail:
+      return <CollectEmail position={position} />
     case ScriptActionType.SendEmail:
       return <SendEmail action={action} position={position} />
     default:

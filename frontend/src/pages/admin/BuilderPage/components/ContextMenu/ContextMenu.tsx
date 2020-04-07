@@ -23,21 +23,18 @@ const StyledDropdownButton = styled(DropdownButton)`
 `
 
 type Props = {
-  id: number
+  htmlId: number | string
 }
 
-const ContextMenu: React.FunctionComponent<Props> = ({ id, children }) => (
-  <>
-    <StyledDropdownButton
-      id={'edit-item-' + id}
-      variant="secondary"
-      className="item-menu"
-      title="Actions"
-      //onClick={(event: any) => event.stopPropagation()}
-    >
-      {children}
-    </StyledDropdownButton>
-  </>
+const ContextMenu: React.FunctionComponent<Props> = ({ htmlId, children }) => (
+  <StyledDropdownButton
+    id={'edit-item-' + htmlId}
+    variant="secondary"
+    className="item-menu"
+    title="Actions"
+  >
+    {children}
+  </StyledDropdownButton>
 )
 
 export default ContextMenu

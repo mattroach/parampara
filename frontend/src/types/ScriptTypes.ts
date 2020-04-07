@@ -23,7 +23,11 @@ export type ScriptVersion = {
 
 export type ScriptItem = MessageItem | ImageItem
 
-export type ScriptAction = ChooseResponseAction | CommentAction | SendEmailAction
+export type ScriptAction =
+  | ChooseResponseAction
+  | CommentAction
+  | SendEmailAction
+  | CollectEmailAction
 
 export enum ScriptItemType {
   Message = 'Message',
@@ -33,6 +37,7 @@ export enum ScriptItemType {
 export enum ScriptActionType {
   ChooseResponse = 'ChooseResponse',
   Comment = 'Comment',
+  CollectEmail = 'CollectEmail',
   SendEmail = 'SendEmail'
 }
 
@@ -57,6 +62,10 @@ export type ImageItem = {
 
 export type CommentAction = {
   type: ScriptActionType.Comment
+}
+
+export type CollectEmailAction = {
+  type: ScriptActionType.CollectEmail
 }
 
 export type ChooseResponseAction = {
