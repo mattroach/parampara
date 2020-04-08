@@ -6,22 +6,19 @@ import {
   ScriptActionType,
   ScriptItem,
   ScriptItemType,
-  SendEmailAction,
   ScriptActionMap
-} from '../../frontend/src/types/scriptTypes'
+} from '../../../frontend/src/types/scriptTypes'
 import {
-  ActionResult,
   ChooseResponseResult,
   CollectEmailResult,
   CommentResult,
   ProgressItem,
   ScriptActionResultMap
-} from '../../frontend/src/types/sessionProgress'
-import SessionProgress from '../models/SessionProgress'
-import SessionResponse from '../models/SessionResponse'
-import SessionUser from '../models/SessionUser'
-import sendEmailActionService from './SendEmailActionService'
+} from '../../../frontend/src/types/sessionProgress'
+import SessionProgress from '../../models/SessionProgress'
+import SessionResponse from '../../models/SessionResponse'
 import Objection = require('objection')
+import handleSendEmail from './handleSendEmail'
 
 type ExecutorMap = {
   readonly [s in ScriptActionType]: (
@@ -34,7 +31,7 @@ type ExecutorMap = {
 
 class ProgressItemExecutor {
   private executorMap: ExecutorMap = {
-    [ScriptActionType.SendEmail]: this.handleSendEmail.bind(this),
+    [ScriptActionType.SendEmail]: handleSendEmail,
     [ScriptActionType.ChooseResponse]: this.handleChooseResponse.bind(this),
     [ScriptActionType.Comment]: this.handleComment.bind(this),
     [ScriptActionType.CollectEmail]: this.handleComment.bind(this)
@@ -56,16 +53,6 @@ class ProgressItemExecutor {
         progressItem.item,
         progressItem.actionResult
       )
-    })
-  }
-
-  private async handleSendEmail(session: SessionProgress, action: SendEmailAction) {
-    if (!session.sessionUserId) throw Error('User is anonymous')
-
-    const sessionUser = await SessionUser.query().findById(session.sessionUserId)
-    await sendEmailActionService.sendEmail(session.scriptId, {
-      content: action.content,
-      sessionEmail: sessionUser.email
     })
   }
 

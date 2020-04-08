@@ -36,7 +36,7 @@ class ScriptService {
       version: ScriptVersion.query()
         .select(raw('version + 1'))
         .where({ scriptId })
-        .orderBy('version', 'desc')
+        .orderBy('version', 'DESC')
         .limit(1),
       items: draft.items
     })
