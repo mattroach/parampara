@@ -1,4 +1,4 @@
-import { ScriptActionType, ScriptItem } from "./scriptTypes"
+import { ScriptActionType, ScriptItem } from './scriptTypes'
 
 export type SessionProgress = {
   id?: string // will be undefined if in preview mode and not saving the progress to the server
@@ -11,7 +11,7 @@ export type ProgressItem = {
   actionResult?: ActionResult
 }
 
-export type ActionResult = ChooseResponseResult | CommentResult
+export type ActionResult = ChooseResponseResult | CommentResult | CollectEmailResult
 
 export type ChooseResponseResult = {
   type: ScriptActionType.ChooseResponse
@@ -20,6 +20,11 @@ export type ChooseResponseResult = {
 
 export type CommentResult = {
   type: ScriptActionType.Comment
+  content: string
+}
+
+export type CollectEmailResult = {
+  type: ScriptActionType.CollectEmail
   content: string
 }
 

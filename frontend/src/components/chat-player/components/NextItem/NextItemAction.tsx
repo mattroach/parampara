@@ -5,6 +5,7 @@ import Comment from '../action-types/Comment'
 import SendEmail from '../action-types/SendEmail'
 import { ScriptActionType, ScriptItem, ScriptAction } from 'types/scriptTypes'
 import { MESSAGE_BASE_DELAY } from 'store/slices/sessionProgress'
+import CollectEmail from '../action-types/CollectEmail'
 
 type Props = {
   item: ScriptItem
@@ -27,9 +28,9 @@ const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
     case ScriptActionType.ChooseResponse:
       return <ChooseResponse item={item} action={action} />
     case ScriptActionType.Comment:
-      return <Comment item={item} action={action} />
+      return <Comment item={item} />
     case ScriptActionType.CollectEmail:
-      return <Comment item={item} action={action} /> // todo
+      return <CollectEmail item={item} />
     case ScriptActionType.SendEmail:
       return <SendEmail item={item} />
   }

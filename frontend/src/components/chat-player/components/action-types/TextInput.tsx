@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-
-import Form from 'react-bootstrap/Form'
+import React, { useRef, useState } from 'react'
 import Button from 'react-bootstrap/Button'
-
+import Form from 'react-bootstrap/Form'
+import styled from 'styled-components'
 import ItemWrap from '../item-types/ItemWrap'
+import Col from 'react-bootstrap/Col'
 
 const Wrapper = styled(ItemWrap).attrs(props => ({
   unlimitedWidth: true
@@ -15,13 +14,11 @@ const Wrapper = styled(ItemWrap).attrs(props => ({
 
 const GoButton = styled(Button)`
   border-radius: 100%;
-  background-color: #777;
-  border: 1px solid #999;
   font-size: 12px;
 
   width: 30px;
   height: 30px;
-  padding: 0; 
+  padding: 0;
 `
 
 const MessageInput = styled(Form.Control)`
@@ -31,45 +28,64 @@ const MessageInput = styled(Form.Control)`
   width: 200px;
 
   :focus {
-    box-shadow: none;
+    box-shadow: none !important;
   }
 `
 
-type State = {
-  content: string
-}
+const ErrorMessage = styled(Form.Control.Feedback)``
+
 type Props = {
   placeholder: string
   onSubmit: (content: string) => void
+  isValid?: (content: string) => boolean
+  invalidMessage?: string
 }
 
-class TextInput extends React.Component<Props, State> {
-  state: State = {
-    content: ''
+const TextInput: React.FunctionComponent<Props> = ({
+  placeholder,
+  onSubmit,
+  isValid,
+  invalidMessage
+}) => {
+  const [content, setContent] = useState('')
+  const containerRef = useRef<HTMLDivElement>()
+  const updateContent = (event: any) => {
+    setContent(event.target.value)
   }
-  containerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
-  updateContent = (event: any) => {
-    this.setState({ content: event.target.value })
-  }
-
-  handleSubmit = (event: any) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault()
 
-    this.props.onSubmit(this.state.content)
-    this.containerRef.current!.scrollIntoView({ behavior: 'smooth' })
+    onSubmit(content)
+    containerRef.current!.scrollIntoView({ behavior: 'smooth' })
   }
 
-  render() {
-    return (
-      <Wrapper ref={this.containerRef}>
-        <Form inline={true} onSubmit={this.handleSubmit}>
-          <MessageInput placeholder={this.props.placeholder} onChange={this.updateContent} autoFocus />
-          <GoButton variant="primary" type="submit">Go</GoButton>
-        </Form>
-      </Wrapper>
-    )
-  }
+  const isInvalid = () => isValid && !isValid(content)
+
+  return (
+    <Wrapper ref={containerRef as any}>
+      <Form onSubmit={handleSubmit}>
+        <Form.Row>
+          <Form.Group as={Col} controlId="email">
+            <MessageInput
+              placeholder={placeholder}
+              onChange={updateContent}
+              isInvalid={isInvalid() && content !== ''}
+              autoFocus
+            />
+            <ErrorMessage type="invalid">
+              {invalidMessage || 'Invalid input'}
+            </ErrorMessage>
+          </Form.Group>
+          <Form.Group as={Col} controlId="submit">
+            <GoButton variant="primary" type="submit" disabled={isInvalid()}>
+              Go
+            </GoButton>
+          </Form.Group>
+        </Form.Row>
+      </Form>
+    </Wrapper>
+  )
 }
 
 export default TextInput

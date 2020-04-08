@@ -9,7 +9,7 @@ import {
 } from 'store/slices/sessionProgress'
 import BotMessage from './item-types/BotMessage'
 import HumanBubble from './item-types/HumanBubble'
-import TextInput from './action-types/TextInput'
+import EmailInput from './action-types/EmailInput'
 
 type State = {
   askEmail: boolean
@@ -57,9 +57,7 @@ class UserIdentification extends React.Component<Props, State> {
     return (
       <>
         <BotMessage message="Hello! Please enter your email to get started." />
-        {this.state.askEmail && (
-          <TextInput placeholder="Type email" onSubmit={this.onSubmit} />
-        )}
+        {this.state.askEmail && <EmailInput onSubmit={this.onSubmit} />}
         {email && <HumanBubble message={email} />}
       </>
     )

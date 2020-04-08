@@ -2,20 +2,20 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import { ScriptActionType, ScriptItem } from 'types/scriptTypes'
-import TextInput from './TextInput'
+import EmailInput from './EmailInput'
 
 type Props = {
   item: ScriptItem
 }
 
-const Comment: React.FunctionComponent<Props> = ({ item }) => {
+const CollectEmail: React.FunctionComponent<Props> = ({ item }) => {
   const dispatch = useDispatch()
 
   const handleSubmit = (content: string) => {
     dispatch(
       progressItemAndDelayNext({
         actionResult: {
-          type: ScriptActionType.Comment,
+          type: ScriptActionType.CollectEmail,
           content
         },
         item
@@ -23,7 +23,7 @@ const Comment: React.FunctionComponent<Props> = ({ item }) => {
     )
   }
 
-  return <TextInput placeholder="Type here..." onSubmit={handleSubmit} />
+  return <EmailInput onSubmit={handleSubmit} />
 }
 
-export default Comment
+export default CollectEmail

@@ -1,0 +1,1 @@
+ALTER TYPE response_type ADD VALUE 'CollectEmail';

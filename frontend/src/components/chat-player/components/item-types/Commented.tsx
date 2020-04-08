@@ -1,8 +1,11 @@
 import React from 'react'
-import { CommentResult } from '../../../../types/sessionProgress'
+import { CommentResult, CollectEmailResult } from '../../../../types/sessionProgress'
 import HumanBubble from './HumanBubble'
 
-const ChosenResponse: React.FunctionComponent<{ actionProgress: CommentResult }> = ({ actionProgress }) => {
+type Props = {
+  actionProgress: CommentResult | CollectEmailResult
+}
+const ChosenResponse: React.FunctionComponent<Props> = ({ actionProgress }) => {
   return <HumanBubble message={actionProgress.content} />
 }
 

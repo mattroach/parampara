@@ -51,7 +51,10 @@ class SessionResponseService {
           message: this.getItemMessage(item.item),
           response: action.responses[item.actionResult.choice].message
         })
-      } else if (item.actionResult.type === ScriptActionType.Comment) {
+      } else if (
+        item.actionResult.type === ScriptActionType.Comment ||
+        item.actionResult.type == ScriptActionType.CollectEmail
+      ) {
         await this.saveResponse(lastSession, {
           responseType: item.actionResult.type,
           message: this.getItemMessage(item.item),

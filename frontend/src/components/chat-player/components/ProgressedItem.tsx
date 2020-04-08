@@ -6,32 +6,49 @@ import ChosenResponse from './item-types/ChosenResponse'
 import Commented from './item-types/Commented'
 import BotImage from './item-types/BotImage'
 
-const ProgressedItem: React.FunctionComponent<{ progressItem: ProgressItem }> = ({ progressItem }) => {
+const ProgressedItem: React.FunctionComponent<{ progressItem: ProgressItem }> = ({
+  progressItem
+}) => {
   return (
     <>
       <ProgressedItemMain progressItem={progressItem} />
-      {progressItem.actionResult && <ActionItem progressItem={progressItem} actionProgress={progressItem.actionResult} />}
+      {progressItem.actionResult && (
+        <ActionItem
+          progressItem={progressItem}
+          actionProgress={progressItem.actionResult}
+        />
+      )}
     </>
   )
 }
 
 export default ProgressedItem
 
-const ProgressedItemMain: React.FunctionComponent<{ progressItem: ProgressItem }> = ({ progressItem }) => {
+const ProgressedItemMain: React.FunctionComponent<{ progressItem: ProgressItem }> = ({
+  progressItem
+}) => {
   const animate = !progressItem.item.action
   switch (progressItem.item.type) {
     case ScriptItemType.Message:
-      return <BotMessage message={progressItem.item.message} disableAnimateIn={!animate} />
+      return (
+        <BotMessage message={progressItem.item.message} disableAnimateIn={!animate} />
+      )
     case ScriptItemType.Image:
       return <BotImage item={progressItem.item} disableAnimateIn={!animate} />
   }
 }
 
-const ActionItem: React.FunctionComponent<{ progressItem: ProgressItem, actionProgress: ActionResult }> = ({ progressItem, actionProgress }) => {
+const ActionItem: React.FunctionComponent<{
+  progressItem: ProgressItem
+  actionProgress: ActionResult
+}> = ({ progressItem, actionProgress }) => {
   switch (actionProgress.type) {
     case ScriptActionType.ChooseResponse:
-      return <ChosenResponse progressItem={progressItem} actionProgress={actionProgress} />
+      return (
+        <ChosenResponse progressItem={progressItem} actionProgress={actionProgress} />
+      )
     case ScriptActionType.Comment:
+    case ScriptActionType.CollectEmail:
       return <Commented actionProgress={actionProgress} />
   }
 }
