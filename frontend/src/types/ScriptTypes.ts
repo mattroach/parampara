@@ -82,3 +82,10 @@ export type SendEmailAction = {
   type: ScriptActionType.SendEmail
   content: string
 }
+
+export type ScriptActionMap = {
+  [ScriptActionType.Comment]: CommentAction
+  [ScriptActionType.CollectEmail]: CollectEmailAction
+  [ScriptActionType.ChooseResponse]: ChooseResponseAction
+  [ScriptActionType.SendEmail]: SendEmailAction
+}

@@ -28,8 +28,9 @@ export type CollectEmailResult = {
   content: string
 }
 
-// TODO: do something like this for better typing
-// type TestProgressItemCR = {
-//   item: ScriptItem<ChooseResponseAction>
-//   actionProgress: ChooseResponseActionProgress
-// }
+export type ScriptActionResultMap = {
+  [ScriptActionType.Comment]: CommentResult
+  [ScriptActionType.CollectEmail]: CollectEmailResult
+  [ScriptActionType.ChooseResponse]: ChooseResponseResult
+  [ScriptActionType.SendEmail]: undefined
+}

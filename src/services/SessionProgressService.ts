@@ -1,7 +1,7 @@
 import { uuid } from '@shared'
 import SessionProgress from '../models/SessionProgress'
 import SessionUser from '../models/SessionUser'
-import sessionResponseService from './SessionResponseService'
+import progressItemExecutor from './ProgressItemExecutor'
 import ScriptVersion from '../models/ScriptVersion'
 
 class SessionProgressService {
@@ -17,7 +17,7 @@ class SessionProgressService {
 
     if (!session) throw Error(`session ID ${sessionId} not found`)
 
-    await sessionResponseService.saveNewResponses(session, data.items)
+    await progressItemExecutor.execute(session, data.items)
 
     await SessionProgress.query()
       .findById(sessionId)
