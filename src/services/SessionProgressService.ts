@@ -76,7 +76,8 @@ class SessionProgressService {
     const scriptVersion = await ScriptVersion.query()
       .where('scriptId', scriptId)
       .modify('latest')
-    const scriptVersionId = scriptVersion[0].id
+      .first()
+    const scriptVersionId = scriptVersion.id
 
     return await SessionProgress.query().insertAndFetch({
       id: uuid(),
@@ -95,15 +96,16 @@ class SessionProgressService {
   }
 
   private async getUserByEmail(email: string) {
-    return (await SessionUser.query().where('email', email))[0]
+    return await SessionUser.query()
+      .where('email', email)
+      .first()
   }
 
   private async getSessionProgress(scriptId: string, userId: string) {
-    return (
-      await SessionProgress.query()
-        .where('scriptId', scriptId)
-        .where('sessionUserId', userId)
-    )[0]
+    return await SessionProgress.query()
+      .where('scriptId', scriptId)
+      .where('sessionUserId', userId)
+      .first()
   }
 }
 

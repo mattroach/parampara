@@ -10,14 +10,17 @@ export default class ScriptVersion extends Model {
 
   static jsonAttributes = ['items']
 
-  static DRAFT_VERSION = 0;
+  static DRAFT_VERSION = 0
 
   static modifiers: Modifiers = {
     latest(builder) {
-      builder.where('version', '!=', ScriptVersion.DRAFT_VERSION).orderBy('version', 'desc').limit(1)
+      builder
+        .where('version', '!=', ScriptVersion.DRAFT_VERSION)
+        .orderBy('version', 'desc')
+        .first()
     },
     draft(builder) {
-      builder.where('version', ScriptVersion.DRAFT_VERSION).limit(1)
+      builder.where('version', ScriptVersion.DRAFT_VERSION).first()
     }
   }
 }

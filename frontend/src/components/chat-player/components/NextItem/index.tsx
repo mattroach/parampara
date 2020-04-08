@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
@@ -9,10 +9,11 @@ import BotImage from '../item-types/BotImage'
 
 // Todo: should it pull the item from redux instead of via a prop?
 const NextItem: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
-  const currentItemDelaying = useSelector((state: RootState) => state.sessionProgressStore.currentItemDelaying)
+  const currentItemDelaying = useSelector(
+    (state: RootState) => state.sessionProgressStore.currentItemDelaying
+  )
 
-  if (currentItemDelaying)
-    return null
+  if (currentItemDelaying) return null
 
   return (
     <>
@@ -27,8 +28,11 @@ export default NextItem
 const NextItemMain: React.FunctionComponent<{ item: ScriptItem }> = ({ item }) => {
   const dispatch = useDispatch()
 
-  if (!item.action)
-    dispatch(progressItemAndDelayNext({ item }))
+  useEffect(() => {
+    if (!item.action) {
+      dispatch(progressItemAndDelayNext({ item }))
+    }
+  }, [dispatch, item])
 
   switch (item.type) {
     case ScriptItemType.Message:

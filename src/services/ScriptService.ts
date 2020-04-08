@@ -24,11 +24,10 @@ type UpdateScriptBody = {
 
 class ScriptService {
   async publishScript(scriptId: string) {
-    const draft = (
-      await ScriptVersion.query()
-        .modify('draft')
-        .where({ scriptId })
-    )[0]
+    const draft = await ScriptVersion.query()
+      .modify('draft')
+      .where({ scriptId })
+      .first()
 
     const newVersion = await ScriptVersion.query().insertAndFetch({
       id: uuid(),
