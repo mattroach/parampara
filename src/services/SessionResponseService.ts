@@ -1,7 +1,7 @@
 import SessionProgress from '../models/SessionProgress'
 import Objection = require('objection')
-import SessionResponse from 'src/models/SessionResponse'
-import { ScriptActionType } from 'frontend/src/types/scriptTypes'
+import SessionResponse from '../models/SessionResponse'
+import { ScriptActionType } from '../../frontend/src/types/scriptTypes'
 
 class SessionResponseService {
   async getSessionsWithResponses(scriptId: string) {
