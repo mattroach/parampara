@@ -1,16 +1,12 @@
-import { logger } from '@shared'
-import { Request, Response, Router } from 'express'
-import { ParamsDictionary } from 'express-serve-static-core'
-import { BAD_REQUEST, OK, UNAUTHORIZED, NOT_FOUND } from 'http-status-codes'
-import { Boolean, Record, String, Number, Undefined, Unknown, Null } from 'runtypes'
-import scriptService, { ScriptVersionCode } from '../services/ScriptService'
-import sessionResponseService from '../services/SessionResponseService'
-import adminService from '../services/AdminService'
+import { Router } from 'express'
+import { NOT_FOUND, OK } from 'http-status-codes'
+import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
 import Script from 'src/models/Script'
+import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 
 const router = Router()
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', async (req, res, next) => {
   try {
     const { adminId } = req.query
 
@@ -20,17 +16,14 @@ router.get('/', async (req: Request, res: Response) => {
 
     return res.status(OK).json(scripts)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
 type GetScriptResponse = Script & { isPublished: boolean }
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const { id: scriptId } = req.params as ParamsDictionary
+    const { id: scriptId } = req.params
     const { version }: { version: ScriptVersionCode } = req.query
     if (!(version in ScriptVersionCode)) throw Error('Bad version')
 
@@ -53,45 +46,19 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     return res.status(OK).json(response)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', async (req, res, next) => {
   try {
-    const { id: scriptId } = req.params as ParamsDictionary
+    const { id: scriptId } = req.params
 
     await scriptService.deleteScript(scriptId)
 
     return res.status(OK).json({})
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
-  }
-})
-
-router.get('/:id/results', async (req: Request, res: Response) => {
-  try {
-    const { id: scriptId } = req.params as ParamsDictionary
-    const { password } = req.query
-
-    const script = await scriptService.getScript(scriptId)
-    if (!(await adminService.authenticatePassword(script.adminId, password)))
-      return res.status(UNAUTHORIZED).json('Authentication required')
-
-    const results = await sessionResponseService.getSessionsWithResponses(scriptId)
-
-    return res.status(OK).json(results)
-  } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
@@ -100,7 +67,7 @@ const CreateScriptBody = Record({
   title: String
 })
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req, res, next) => {
   try {
     const { adminId, title } = CreateScriptBody.check(req.body)
 
@@ -110,25 +77,19 @@ router.post('/', async (req: Request, res: Response) => {
 
     return res.status(OK).json(script)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
-router.post('/publish/:id', async (req: Request, res: Response) => {
+router.post('/publish/:id', async (req, res, next) => {
   try {
-    const { id: scriptId } = req.params as ParamsDictionary
+    const { id: scriptId } = req.params
 
     await scriptService.publishScript(scriptId)
 
     return res.status(OK).json({})
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
@@ -144,9 +105,9 @@ const UpdateScriptBody = Record({
   version: Record({ items: Unknown }).Or(Undefined)
 })
 
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', async (req, res, next) => {
   try {
-    const { id: scriptId } = req.params as ParamsDictionary
+    const { id: scriptId } = req.params
 
     const script = UpdateScriptBody.check(req.body)
 
@@ -154,10 +115,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 
     return res.status(OK).json({})
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 

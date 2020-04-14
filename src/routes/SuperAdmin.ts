@@ -1,6 +1,5 @@
-import { logger } from '@shared'
-import { Request, Response, Router } from 'express'
-import { BAD_REQUEST, OK } from 'http-status-codes'
+import { Router } from 'express'
+import { OK } from 'http-status-codes'
 import { Record, String, Undefined } from 'runtypes'
 import Admin from '../models/Admin'
 import adminService from '../services/AdminService'
@@ -14,7 +13,7 @@ const checkPassword = (password: string) => {
   if (password !== 'f43gdo8jgo3') throw Error('Password incorrect')
 }
 
-router.get('/getUsers', async (req: Request, res: Response) => {
+router.get('/getUsers', async (req, res, next) => {
   try {
     const { password } = req.query
     checkPassword(password)
@@ -23,14 +22,11 @@ router.get('/getUsers', async (req: Request, res: Response) => {
 
     return res.status(OK).json(admins)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
-router.post('/createUser', async (req: Request, res: Response) => {
+router.post('/createUser', async (req, res, next) => {
   try {
     const { password } = req.query
     checkPassword(password)
@@ -41,10 +37,7 @@ router.post('/createUser', async (req: Request, res: Response) => {
 
     return res.status(OK).json(admin)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
@@ -53,7 +46,7 @@ const UpdatePasswordReq = Record({
   newPassword: String
 })
 
-router.post('/updatePassword', async (req: Request, res: Response) => {
+router.post('/updatePassword', async (req, res, next) => {
   try {
     const { password } = req.query
     checkPassword(password)
@@ -64,10 +57,7 @@ router.post('/updatePassword', async (req: Request, res: Response) => {
 
     return res.status(OK).json(admin)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
@@ -76,7 +66,7 @@ const CloneScriptReq = Record({
   destinationAdminId: String,
   newTitle: String.Or(Undefined)
 })
-router.post('/cloneScript', async (req: Request, res: Response) => {
+router.post('/cloneScript', async (req, res, next) => {
   try {
     const { password } = req.query
     checkPassword(password)
@@ -87,10 +77,7 @@ router.post('/cloneScript', async (req: Request, res: Response) => {
 
     return res.status(OK).json('Cloned')
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 

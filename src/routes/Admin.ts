@@ -1,14 +1,12 @@
-import { logger } from '@shared'
-import { Request, Response, Router } from 'express'
-import { BAD_REQUEST, OK } from 'http-status-codes'
-import { ParamsDictionary } from 'express-serve-static-core'
+import { Router } from 'express'
+import { OK } from 'http-status-codes'
 import adminService from '../services/AdminService'
 
 const router = Router()
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params as ParamsDictionary
+    const { id } = req.params
 
     const adminResult = await adminService.getById(id)
 
@@ -17,10 +15,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     return res.status(OK).json(adminResult)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 

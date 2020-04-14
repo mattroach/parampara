@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadScriptResults } from 'store/slices/scriptResults'
+import { loadScriptResponses } from 'store/slices/scriptResults'
 import { RootState } from 'store/rootReducer'
 import Table from 'react-bootstrap/Table'
 import ProgressBar from 'react-bootstrap/ProgressBar'
@@ -56,7 +56,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 
   const dispatch: AppDispatch = useDispatch()
   useEffect(() => {
-    dispatch(loadScriptResults(scriptId)).catch((e: AxiosError) => {
+    dispatch(loadScriptResponses(scriptId)).catch((e: AxiosError) => {
       if (e.isAxiosError && e.response?.status === 401) setNeedsAuth(true)
     })
   }, [dispatch, scriptId])

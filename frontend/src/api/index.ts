@@ -25,11 +25,11 @@ const deleteScript = async (scriptId: string): Promise<void> => {
   await axios.delete(`/api/script/${scriptId}`)
 }
 
-const getScriptResults = async (
+const getScriptResponses = async (
   scriptId: string,
   password?: string
 ): Promise<Session[]> => {
-  const response = await axios.get(`/api/script/${scriptId}/results`, {
+  const response = await axios.get(`/api/script/${scriptId}/responses`, {
     params: { password }
   })
 
@@ -67,7 +67,7 @@ const updateProgress = async (
 
 export default {
   createScript,
-  getScriptResults,
+  getScriptResponses,
   getScript,
   deleteScript,
   updateScript,

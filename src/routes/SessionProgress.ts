@@ -1,7 +1,5 @@
-import { logger } from '@shared'
-import { Request, Response, Router } from 'express'
-import { BAD_REQUEST, OK } from 'http-status-codes'
-import { ParamsDictionary } from 'express-serve-static-core'
+import { Router } from 'express'
+import { OK } from 'http-status-codes'
 import sessionProgressService from '../services/SessionProgressService'
 
 const router = Router()
@@ -16,7 +14,7 @@ type StartOrLoadProgressReq = {
  * Returns an existing session for the corresponding scriptId and email, or otherwise creates a
  * new session and returns that. If no email is passed in, it will always return a new anon session.
  */
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req, res, next) => {
   try {
     const request: StartOrLoadProgressReq = req.body
     const { scriptId, email, referrerCode } = request
@@ -30,10 +28,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     return res.status(OK).json(progress)
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 
@@ -43,9 +38,9 @@ type UpdateProgressReq = {
   durationSec: number
 }
 
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params as ParamsDictionary
+    const { id } = req.params
 
     const { currentItemId, items, durationSec } = req.body as UpdateProgressReq
 
@@ -61,10 +56,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 
     return res.status(OK).json({})
   } catch (err) {
-    logger.error(err.message, err)
-    return res.status(BAD_REQUEST).json({
-      error: err.message
-    })
+    next(err)
   }
 })
 

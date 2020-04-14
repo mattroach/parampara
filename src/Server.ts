@@ -1,25 +1,12 @@
 import cookieParser from 'cookie-parser'
-import express, { Request, Response } from 'express'
+import express from 'express'
 import fs from 'fs'
-import Knex from 'knex'
 import logger from 'morgan'
-import { knexSnakeCaseMappers, Model } from 'objection'
+import { Model } from 'objection'
 import path from 'path'
 import getScriptOG from './getScriptOG'
 import BaseRouter from './routes'
-
-// Init db stuff
-const knex = Knex({
-  debug: true,
-  client: 'pg',
-  connection: {
-    host: process.env.RDS_HOSTNAME,
-    user: process.env.RDS_USERNAME,
-    password: process.env.RDS_PASSWORD,
-    database: process.env.RDS_DB_NAME
-  },
-  ...knexSnakeCaseMappers()
-})
+import knex from './knex'
 
 Model.knex(knex)
 
@@ -50,7 +37,7 @@ app.use('/api', BaseRouter)
 const publicDir = path.join(__dirname, '../public')
 app.use(express.static(publicDir))
 
-app.get('/s/:scriptId', (req: Request, res: Response) => {
+app.get('/s/:scriptId', (req, res) => {
   const { scriptId } = req.params
 
   fs.readFile(path.resolve(publicDir, 'index.html'), 'utf8', async (err, data) => {
@@ -64,7 +51,7 @@ app.get('/s/:scriptId', (req: Request, res: Response) => {
   })
 })
 
-app.get('*', (req: Request, res: Response) => {
+app.get('*', (req, res) => {
   res.sendFile('index.html', { root: publicDir })
 })
 
