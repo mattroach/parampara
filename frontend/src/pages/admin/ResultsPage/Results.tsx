@@ -22,7 +22,14 @@ type Props = {
 const StyledTable = styled(({ extraCols: number, ...rest }) => <Table {...rest} />)`
   margin: 20px 0 0 0;
   font-size: 0.85rem;
+  line-height: normal;
   min-width: ${props => 300 + props.extraCols * 150}px;
+
+  th,
+  td {
+    padding: 0.45rem;
+  }
+
   thead th {
     /*
     // Here is another way to keep the headers to one line. The downside is that
@@ -66,13 +73,7 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   const transposedResults = transposeResults(scriptResults)
 
   return (
-    <StyledTable
-      responsive
-      hover
-      size="sm"
-      bordered
-      extraCols={transposedResults.columns.length}
-    >
+    <StyledTable responsive hover bordered extraCols={transposedResults.columns.length}>
       <thead>
         <tr>
           <th>Date</th>

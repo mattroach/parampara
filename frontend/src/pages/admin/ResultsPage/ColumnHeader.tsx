@@ -4,7 +4,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
 const ColumnWrap = styled.div`
-  max-height: 60px;
+  max-height: 48px;
   overflow: hidden;
 `
 
