@@ -1,0 +1,22 @@
+/* 
+Starter for the future if I want google-sheets like result table.
+
+html,
+body,
+#root {
+  /* Make height the full browser height at a minimum 
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-flow: column;
+} */
+
+.modal-backdrop.extraDark {
+  opacity: 0.9;
+}
+
+.popover {
+  max-width: none;
+}

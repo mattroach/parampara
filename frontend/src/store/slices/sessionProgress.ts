@@ -14,7 +14,7 @@ type SessionProgressStore = {
   progress?: SessionProgress
 }
 
-let initialState: SessionProgressStore = {
+const initialState: SessionProgressStore = {
   currentItemDelaying: false
 }
 

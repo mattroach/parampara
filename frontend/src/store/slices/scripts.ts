@@ -10,7 +10,7 @@ export type ScriptsStore = {
   scripts?: ListedScript[]
 }
 
-let initialState: ScriptsStore = {}
+const initialState: ScriptsStore = {}
 
 const scriptSlice = createSlice({
   name: 'scripts',

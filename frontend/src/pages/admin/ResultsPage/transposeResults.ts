@@ -1,15 +1,15 @@
 import { Session, SessionResponse } from 'api/types'
 
-type SessionWithKeyedResponses = {
+export type SessionWithKeyedResponses = {
   responseByMessage: { [message: string]: SessionResponse }
 } & Session
 
-type ReturnType = {
+export type TransposedResponses = {
   sessions: SessionWithKeyedResponses[]
   columns: string[]
 }
 
-const transposeResults = (sessions: Session[]): ReturnType => {
+const transposeResults = (sessions: Session[]): TransposedResponses => {
   const columns: any = {}
 
   const transposedSessions = sessions.map(session => {

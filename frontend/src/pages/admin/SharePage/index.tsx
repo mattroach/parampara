@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Wrapper = styled.section`
-  margin: 20px auto;
+  margin: 25px auto;
   max-width: 600px;
 `
 

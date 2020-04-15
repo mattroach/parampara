@@ -3,10 +3,13 @@ import { OK, UNAUTHORIZED } from 'http-status-codes'
 import adminService from '../services/AdminService'
 import scriptService from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
+import sessionProgressService from '../services/SessionProgressService'
+import { Record, String, Array } from 'runtypes'
 
+const authenticatedRouter = Router()
 const router = Router()
 
-router.use('/:id', async (req, res, next) => {
+authenticatedRouter.use('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
     const { password } = req.query
@@ -21,13 +24,29 @@ router.use('/:id', async (req, res, next) => {
   }
 })
 
-router.get('/:id/responses', async (req, res, next) => {
+authenticatedRouter.get('/:id/responses', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
     const results = await sessionResponseService.getSessionsWithResponses(scriptId)
 
     return res.status(OK).json(results)
+  } catch (err) {
+    next(err)
+  }
+})
+
+const DeleteSessionsBody = Record({
+  sessionIds: Array(String)
+})
+authenticatedRouter.delete('/:id/responses', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
+    const { sessionIds } = DeleteSessionsBody.check(req.body)
+
+    await sessionProgressService.deleteSessions(scriptId, sessionIds)
+
+    return res.status(OK).json('deleted')
   } catch (err) {
     next(err)
   }
@@ -44,5 +63,8 @@ router.get('/:id/responseStats', async (req, res, next) => {
     next(err)
   }
 })
+
+// Combine the routers together
+router.use(authenticatedRouter)
 
 export default router

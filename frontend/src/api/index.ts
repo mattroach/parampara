@@ -4,74 +4,62 @@ import { Script } from '../types/scriptTypes'
 import { ScriptVersionType, Session, PartialScript } from './types'
 import { ProgressItem, SessionProgress } from 'types/sessionProgress'
 
-const createScript = async (
-  adminId: string,
-  data: { title: string }
-): Promise<string> => {
-  const response = await axios.post('/api/script', { ...data, adminId })
-  return response.data.id
-}
+const api = {
+  async createScript(adminId: string, data: { title: string }): Promise<string> {
+    const response = await axios.post('/api/script', { ...data, adminId })
+    return response.data.id
+  },
 
-const getScript = async (
-  scriptId: string,
-  version: ScriptVersionType
-): Promise<Script> => {
-  const response = await axios.get(`/api/script/${scriptId}`, { params: { version } })
+  async getScript(scriptId: string, version: ScriptVersionType): Promise<Script> {
+    const response = await axios.get(`/api/script/${scriptId}`, { params: { version } })
 
-  return response.data
-}
+    return response.data
+  },
 
-const deleteScript = async (scriptId: string): Promise<void> => {
-  await axios.delete(`/api/script/${scriptId}`)
-}
+  async deleteScript(scriptId: string): Promise<void> {
+    await axios.delete(`/api/script/${scriptId}`)
+  },
 
-const getScriptResponses = async (
-  scriptId: string,
-  password?: string
-): Promise<Session[]> => {
-  const response = await axios.get(`/api/script/${scriptId}/responses`, {
-    params: { password }
-  })
+  async getScriptResponses(scriptId: string, password?: string): Promise<Session[]> {
+    const response = await axios.get(`/api/script/${scriptId}/responses`, {
+      params: { password }
+    })
 
-  return response.data
-}
+    return response.data
+  },
 
-const updateScript = async (scriptId: string, script: PartialScript): Promise<void> => {
-  const response = await axios.put(`/api/script/${scriptId}`, script)
+  async deleteResponses(scriptId: string, sessionIds: string[]) {
+    await axios.delete(`/api/script/${scriptId}/responses`, { data: { sessionIds } })
+  },
 
-  return response.data
-}
+  async updateScript(scriptId: string, script: PartialScript): Promise<void> {
+    const response = await axios.put(`/api/script/${scriptId}`, script)
 
-const publishScript = async (scriptId: string): Promise<void> => {
-  await axios.post(`/api/script/publish/${scriptId}`)
-}
+    return response.data
+  },
 
-const getOrCreateSessionProgress = async (data: {
-  scriptId: string
-  email?: string
-  referrerCode?: string
-}): Promise<SessionProgress> => {
-  return (await axios.post('/api/sessionProgress/', data)).data
-}
+  async publishScript(scriptId: string): Promise<void> {
+    await axios.post(`/api/script/publish/${scriptId}`)
+  },
 
-const updateProgress = async (
-  sessionProgressId: string,
-  data: {
-    currentItemId: number
-    items: ProgressItem[]
-    durationSec: number
+  async getOrCreateSessionProgress(data: {
+    scriptId: string
+    email?: string
+    referrerCode?: string
+  }): Promise<SessionProgress> {
+    return (await axios.post('/api/sessionProgress/', data)).data
+  },
+
+  async updateProgress(
+    sessionProgressId: string,
+    data: {
+      currentItemId: number
+      items: ProgressItem[]
+      durationSec: number
+    }
+  ): Promise<void> {
+    await axios.put(`/api/sessionProgress/${sessionProgressId}`, data)
   }
-): Promise<void> => {
-  await axios.put(`/api/sessionProgress/${sessionProgressId}`, data)
 }
 
-export default {
-  createScript,
-  getScriptResponses,
-  getScript,
-  deleteScript,
-  updateScript,
-  publishScript,
-  getOrCreateSessionProgress,
-  updateProgress
-}
+export default api

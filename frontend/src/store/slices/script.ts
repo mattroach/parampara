@@ -26,7 +26,7 @@ export type ScriptStore = {
   hasUnpushedChanges: boolean
 }
 
-let initialState: ScriptStore = { hasUnpushedChanges: false }
+const initialState: ScriptStore = { hasUnpushedChanges: false }
 
 const scriptSlice = createSlice({
   name: 'script',

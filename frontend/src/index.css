@@ -3,22 +3,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* #root {
-  overflow: auto;
-} */
-
 .bg-primary {
   background-color: #006bfa !important;
 }
 
-.modal-backdrop.extraDark {
-  opacity: 0.9;
-}
-
 button:disabled {
   cursor: not-allowed;
-}
-
-.popover {
-  max-width: none;
 }

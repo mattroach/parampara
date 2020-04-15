@@ -88,24 +88,31 @@ class SessionProgressService {
     })
   }
 
-  private async createUser(email: string) {
-    return await SessionUser.query().insert({
+  private createUser(email: string) {
+    return SessionUser.query().insert({
       id: uuid(),
       email
     })
   }
 
-  private async getUserByEmail(email: string) {
-    return await SessionUser.query()
+  private getUserByEmail(email: string) {
+    return SessionUser.query()
       .where('email', email)
       .first()
   }
 
-  private async getSessionProgress(scriptId: string, userId: string) {
-    return await SessionProgress.query()
+  private getSessionProgress(scriptId: string, userId: string) {
+    return SessionProgress.query()
       .where('scriptId', scriptId)
       .where('sessionUserId', userId)
       .first()
+  }
+
+  deleteSessions(scriptId: string, sessionIds: string[]) {
+    return SessionProgress.query()
+      .where('scriptId', scriptId)
+      .whereIn('id', sessionIds)
+      .delete()
   }
 }
 

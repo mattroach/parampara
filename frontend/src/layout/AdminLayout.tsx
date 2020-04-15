@@ -19,6 +19,8 @@ const AdminLayout: React.FunctionComponent<Props> = ({
   const admin = useSelector((state: RootState) => state.adminStore.admin)
 
   useEffect(() => {
+    require('./index.css')
+
     dispatch(loadAdmin(adminId))
   }, [dispatch, adminId])
 
