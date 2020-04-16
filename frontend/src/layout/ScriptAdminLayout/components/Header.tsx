@@ -10,7 +10,7 @@ import PublishButton from './PublishButton'
 
 const Wrapper = styled.div`
   background: #fafbfc;
-  padding: 0 20px 0 20px;
+  padding: 0 20px 0 10px;
   border-bottom: 1px solid #dee2e6;
 `
 const TitleWrap = styled.div`
@@ -29,11 +29,18 @@ const Header: React.FunctionComponent = () => {
   return (
     <Wrapper>
       <Row>
-        <Col><TitleWrap><Title /></TitleWrap></Col>
+        <Col>
+          <TitleWrap>
+            <Title />
+          </TitleWrap>
+        </Col>
         <Col>
           <StyledNav />
         </Col>
-        <LastCol><PreviewButton /><PublishButton /></LastCol>
+        <LastCol>
+          <PreviewButton />
+          <PublishButton />
+        </LastCol>
       </Row>
     </Wrapper>
   )

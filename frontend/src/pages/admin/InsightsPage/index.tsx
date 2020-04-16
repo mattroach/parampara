@@ -1,23 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import Results from './Results'
 import withScriptAdminLayout from 'layout/ScriptAdminLayout'
-
-type Props = {
-  scriptId: string
-}
 
 const Wrapper = styled.section`
   margin: 15px auto;
   padding: 0 20px;
 `
 
-const ResultsPage: React.FunctionComponent<Props> = ({ scriptId }) => {
+const InsightsPage: React.FunctionComponent = () => {
   return (
     <Wrapper>
-      <Results scriptId={scriptId} />
+      <h2>Response insights</h2>
     </Wrapper>
   )
 }
 
-export default withScriptAdminLayout(ResultsPage)
+export default withScriptAdminLayout(InsightsPage)

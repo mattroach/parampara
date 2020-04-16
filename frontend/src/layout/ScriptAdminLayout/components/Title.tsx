@@ -10,6 +10,7 @@ const StyledTitle = styled(Form.Control)`
   width: 100%;
   border: none;
   background-color: transparent;
+  padding: 10px;
 `
 
 type State = {

@@ -244,7 +244,7 @@ export const loadScript = (
   const currentId = getState().scriptStore.script?.id
 
   // If the script is already loaded, skip.
-  if (getState().scriptStore.script?.id === scriptId) return
+  if (currentId === scriptId) return
 
   // If requesting to load a different script, clear the existing one right away
   if (currentId && scriptId !== currentId) {

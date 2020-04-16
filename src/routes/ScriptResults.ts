@@ -39,7 +39,8 @@ authenticatedRouter.get('/:id/responses', async (req, res, next) => {
 const DeleteSessionsBody = Record({
   sessionIds: Array(String)
 })
-authenticatedRouter.delete('/:id/responses', async (req, res, next) => {
+// Not on authenticatedRouter as knowing the session IDs is secure enough
+router.delete('/:id/responses', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
     const { sessionIds } = DeleteSessionsBody.check(req.body)
@@ -57,6 +58,18 @@ router.get('/:id/responseStats', async (req, res, next) => {
     const { id: scriptId } = req.params
 
     const results = await sessionResponseService.getResponseStatistics(scriptId)
+
+    return res.status(OK).json(results)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:id/questionInsights', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
+
+    const results = await sessionResponseService.getQuestionInsights(scriptId)
 
     return res.status(OK).json(results)
   } catch (err) {

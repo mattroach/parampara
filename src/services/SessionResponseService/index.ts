@@ -3,6 +3,7 @@ import Objection = require('objection')
 import SessionResponse from '../../models/SessionResponse'
 import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
 import getResponseStatistics from './getResponseStatistics'
+import getQuestionInsights from './getQuestionInsights'
 
 class SessionResponseService {
   getSessionsWithResponses(scriptId: string) {
@@ -15,6 +16,8 @@ class SessionResponseService {
   }
 
   getResponseStatistics = getResponseStatistics
+
+  getQuestionInsights = getQuestionInsights
 
   getLastEmailCollected(sessionId: string) {
     return SessionResponse.query()
