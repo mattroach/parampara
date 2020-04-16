@@ -26,7 +26,7 @@ const StyledTable = styled(({ extraCols: number, ...rest }) => <Table {...rest} 
     vertical-align: top;
   }
   tbody td {
-    :first-of-type {
+    :nth-of-type(2) {
       white-space: nowrap;
     }
   }
