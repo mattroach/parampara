@@ -28,6 +28,7 @@ const getData = (scriptId: string): Promise<RawData> =>
     .select('message', 'response', knex.raw('count(*) as count'))
     .where('scriptId', scriptId)
     .where('responseType', ScriptActionType.ChooseResponse)
+    .orderBy('count', 'DESC')
     .groupBy('message', 'response')
 
 const getQuestionInsights = async (scriptId: string): Promise<QuestionInsights> => {

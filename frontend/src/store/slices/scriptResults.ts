@@ -18,6 +18,9 @@ const scriptResultsSlice = createSlice({
   name: 'scriptResults',
   initialState,
   reducers: {
+    clearData(state) {
+      state.data = undefined
+    },
     updateData(state, action: PayloadAction<Session[]>) {
       state.data = action.payload
     },
@@ -42,6 +45,7 @@ const scriptResultsSlice = createSlice({
 })
 
 const {
+  clearData,
   updateData,
   toggleSelect,
   selectAll,
@@ -57,6 +61,7 @@ export const loadScriptResponses = (
   scriptId: string,
   password?: string
 ): AppThunk<Promise<void>> => async dispatch => {
+  dispatch(clearData())
   const data = await api.getScriptResponses(scriptId, password)
   dispatch(updateData(data))
 }
