@@ -5,6 +5,7 @@ import scriptService from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
 import sessionProgressService from '../services/SessionProgressService'
 import { Record, String, Array } from 'runtypes'
+import { InsightFilter } from 'frontend/src/types/insightTypes'
 
 const authenticatedRouter = Router()
 const router = Router()
@@ -68,8 +69,9 @@ router.get('/:id/responseStats', async (req, res, next) => {
 router.get('/:id/questionInsights', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
+    const filter = req.query.filter as InsightFilter | undefined
 
-    const results = await sessionResponseService.getQuestionInsights(scriptId)
+    const results = await sessionResponseService.getQuestionInsights(scriptId, filter)
 
     return res.status(OK).json(results)
   } catch (err) {

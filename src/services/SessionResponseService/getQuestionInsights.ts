@@ -2,6 +2,7 @@ import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
 import knex from '../../knex'
 import SessionResponse from '../../models/SessionResponse'
 import Objection = require('objection')
+import { InsightFilter, InsightFilterType } from 'frontend/src/types/insightTypes'
 
 type Insight = {
   question: string
@@ -23,16 +24,39 @@ type RawData = {
   count: string
 }[]
 
-const getData = (scriptId: string): Promise<RawData> =>
-  SessionResponse.knexQuery()
-    .select('message', 'response', knex.raw('count(*) as count'))
-    .where('scriptId', scriptId)
-    .where('responseType', ScriptActionType.ChooseResponse)
+const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData> => {
+  const q = SessionResponse.knexQuery()
+    .select(
+      'sessionResponse.message',
+      'sessionResponse.response',
+      knex.raw('count(distinct session_response.id) as count')
+    )
+    .where('sessionResponse.scriptId', scriptId)
+    .where('sessionResponse.responseType', ScriptActionType.ChooseResponse)
     .orderBy('count', 'DESC')
-    .groupBy('message', 'response')
+    .groupBy('sessionResponse.message', 'sessionResponse.response')
 
-const getQuestionInsights = async (scriptId: string): Promise<QuestionInsights> => {
-  const data = await getData(scriptId)
+  if (filter) {
+    if (filter.key.type === InsightFilterType.Question) {
+      q.innerJoin(
+        'sessionResponse AS filterResponse',
+        'sessionResponse.sessionProgressId',
+        'filterResponse.sessionProgressId'
+      )
+        .where('filterResponse.responseType', ScriptActionType.ChooseResponse)
+        .where('filterResponse.message', filter.key.value)
+        .where('filterResponse.response', filter.value.value)
+    }
+  }
+
+  return q
+}
+
+const getQuestionInsights = async (
+  scriptId: string,
+  filter?: InsightFilter
+): Promise<QuestionInsights> => {
+  const data = await getData(scriptId, filter)
 
   const insightMap: InsightMap = {}
 

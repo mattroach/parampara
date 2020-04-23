@@ -14,7 +14,6 @@ type Props = {
 const StyledTable = styled(({ extraCols: number, ...rest }) => <Table {...rest} />)`
   margin: 15px 0 0 0;
   font-size: 0.85rem;
-  line-height: normal;
   min-width: ${props => 300 + props.extraCols * 150}px;
 
   th,

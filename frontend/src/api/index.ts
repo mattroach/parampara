@@ -1,8 +1,16 @@
 import axios from 'axios'
 
 import { Script } from '../types/scriptTypes'
-import { ScriptVersionType, Session, PartialScript } from './types'
+import { ScriptVersionType, Session, PartialScript, QuestionInsight } from './types'
 import { ProgressItem, SessionProgress } from 'types/sessionProgress'
+import { InsightFilter } from 'types/insightTypes'
+import Qs from 'qs'
+
+// So we have deep object param serializing
+axios.interceptors.request.use(config => {
+  config.paramsSerializer = params => Qs.stringify(params)
+  return config
+})
 
 const api = {
   async createScript(adminId: string, data: { title: string }): Promise<string> {
@@ -23,6 +31,17 @@ const api = {
   async getScriptResponses(scriptId: string, password?: string): Promise<Session[]> {
     const response = await axios.get(`/api/script/${scriptId}/responses`, {
       params: { password }
+    })
+
+    return response.data
+  },
+
+  async getScriptQuestionInsights(
+    scriptId: string,
+    filter?: InsightFilter<any>
+  ): Promise<QuestionInsight[]> {
+    const response = await axios.get(`/api/script/${scriptId}/questionInsights`, {
+      params: { filter }
     })
 
     return response.data

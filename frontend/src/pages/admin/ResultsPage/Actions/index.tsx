@@ -10,9 +10,7 @@ const Actions: React.FunctionComponent = () => {
       <Col>
         <DeleteAction />
       </Col>
-      <Col style={{ textAlign: 'right' }}>
-        <ExportAction />
-      </Col>
+      <Col style={{ textAlign: 'right', height: 38 }}>{/* <ExportAction /> */}</Col>
     </Row>
   )
 }

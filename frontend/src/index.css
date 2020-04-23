@@ -3,6 +3,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+table {
+  line-height: normal;
+}
+
 .bg-primary {
   background-color: #006bfa !important;
 }

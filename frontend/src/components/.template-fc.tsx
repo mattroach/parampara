@@ -5,12 +5,12 @@ const Wrapper = styled.div``
 
 type Props = {}
 
-const MyComp: React.FunctionComponent<Props> = ({ children }) => {
+const MyComp: React.FunctionComponent<Props> = ({}) => {
   // const statevar = useSelector((state: RootState) => state)
   // const [show, setShow] = useState(false)
   // const dispatch = useDispatch()
 
-  return <Wrapper>{children}</Wrapper>
+  return <Wrapper></Wrapper>
 }
 
 export default MyComp

@@ -17,8 +17,21 @@ const Visualization: React.FunctionComponent<Props> = ({ data, onHover }) => {
   const currentHoveredIndex = useRef<number | undefined>(undefined)
 
   useEffect(() => {
+    const labelCallback = ({ index }: { index?: number }) =>
+      ` ${data[index!].answer}: ${data[index!].numUsers} users`
+
+    const datasets = [
+      {
+        data: data.map(d => d.numUsers),
+        backgroundColor: data.map(d => d.color)
+      }
+    ]
+
     if (chart.current) {
-      throw Error('Chart already initialized, cannot change props after load')
+      chart.current.data.datasets = datasets
+      chart.current.options.tooltips!.callbacks!.label = labelCallback
+      chart.current.update()
+      return
     }
 
     const onHoverHandler = (event: any, elements: any[]) => {
@@ -32,21 +45,14 @@ const Visualization: React.FunctionComponent<Props> = ({ data, onHover }) => {
     const config: ChartConfiguration = {
       type: 'pie',
       data: {
-        datasets: [
-          {
-            data: data.map(d => d.numUsers),
-            backgroundColor: data.map(d => d.color)
-          }
-        ],
-        labels: data.map(d => d.answer)
+        datasets: datasets
       },
       options: {
         legend: { display: false },
         aspectRatio: 1,
         tooltips: {
           callbacks: {
-            label: ({ index }) =>
-              ` ${data[index!].answer}: ${data[index!].numUsers} users`
+            label: labelCallback
           }
         },
         onHover: onHoverHandler

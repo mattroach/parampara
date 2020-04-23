@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import styled from 'styled-components'
 import colors from './colors'
 import BreakdownTable from './BreakdownTable'
 import Row from 'react-bootstrap/Row'
@@ -27,16 +28,33 @@ const QuestionBreakdown: React.FunctionComponent<Props> = ({ question, data }) =
   const [focusIndex, setFocusIndex] = useState<number | undefined>(undefined)
 
   return (
-    <Row>
+    <StyledRow>
       <Col>
-        <h6>{question}</h6>
+        <QuestionHeader>{question}</QuestionHeader>
         <BreakdownTable data={dataWithColors} focusIndex={focusIndex} />
       </Col>
       <Col xs="4">
-        <Visualization data={dataWithColors} onHover={setFocusIndex} />
+        <VizContainer>
+          <Visualization data={dataWithColors} onHover={setFocusIndex} />
+        </VizContainer>
       </Col>
-    </Row>
+    </StyledRow>
   )
 }
+
+const StyledRow = styled(Row)`
+  margin-top: 2em;
+`
+
+const QuestionHeader = styled.h6`
+  margin: 0 0 1em 0;
+  color: #6c757d;
+  font-weight: 600;
+`
+
+const VizContainer = styled.div`
+  max-width: 175px;
+  margin: 0 auto;
+`
 
 export default QuestionBreakdown

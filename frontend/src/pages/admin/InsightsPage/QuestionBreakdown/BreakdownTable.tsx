@@ -22,7 +22,7 @@ const BreakdownTable: React.FunctionComponent<Props> = ({ data, focusIndex }) =>
   })
 
   return (
-    <Table>
+    <StyledTable>
       <tbody>
         {tableData.map((d, i) => (
           <Tr key={d.answer} isFocused={focusIndex === i}>
@@ -37,9 +37,21 @@ const BreakdownTable: React.FunctionComponent<Props> = ({ data, focusIndex }) =>
           </Tr>
         ))}
       </tbody>
-    </Table>
+    </StyledTable>
   )
 }
+
+const StyledTable = styled(Table)`
+  border-bottom: 1px solid #dee2e6;
+  font-size: 0.9rem;
+  td {
+    padding: 0.5em 0 0.5em 1em;
+  }
+  td:last-of-type {
+    padding-right: 1em;
+    width: 20%;
+  }
+`
 
 const StatTd = styled.td`
   text-align: right;
@@ -50,15 +62,14 @@ const Tr = styled.tr<{ isFocused: boolean }>`
 `
 
 const ColorBlockTd = styled.td`
-  width: 70px;
+  width: 50px;
   box-sizing: content-box;
 `
 
 const ColorBlock = styled.div`
   background: ${props => props.color};
-  height: 1.5em;
-  width: 70px;
-  margin-top: 0px;
+  height: 17px;
+  width: 50px;
 `
 
 export default BreakdownTable

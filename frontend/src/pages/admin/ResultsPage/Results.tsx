@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios'
 import Loader from 'components/Loader'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { loadScriptResponses } from 'store/slices/scriptResults'
@@ -21,6 +21,12 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   const [needsAuth, setNeedsAuth] = useState(false)
 
   const dispatch: AppDispatch = useDispatch()
+
+  const transposedResults = useMemo(
+    () => (scriptResults ? transposeResults(scriptResults) : undefined),
+    [scriptResults]
+  )
+
   useEffect(() => {
     dispatch(loadScriptResponses(scriptId)).catch((e: AxiosError) => {
       if (e.isAxiosError && e.response?.status === 401) setNeedsAuth(true)
@@ -35,12 +41,10 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
 
   if (scriptResults.length === 0) return <EmptyState />
 
-  const transposedResults = transposeResults(scriptResults)
-
   return (
     <>
       <Actions />
-      <ResultsTable data={transposedResults} />
+      <ResultsTable data={transposedResults!} />
     </>
   )
 }

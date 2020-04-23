@@ -1,10 +1,11 @@
-import { DeepPartial } from "@reduxjs/toolkit"
-import { Script, ScriptActionType } from "types/scriptTypes"
+import { DeepPartial } from '@reduxjs/toolkit'
+import { Script, ScriptActionType } from 'types/scriptTypes'
 
 export type PartialScript = DeepPartial<Script>
 
 export enum ScriptVersionType {
-  latest = 'latest', draft = 'draft'
+  latest = 'latest',
+  draft = 'draft'
 }
 
 export type Session = {
@@ -14,7 +15,7 @@ export type Session = {
   created: string
   durationSec: number
   progress: number
-  responses: SessionResponse[],
+  responses: SessionResponse[]
   referrerCode?: string
 }
 
@@ -30,4 +31,12 @@ export type SessionUser = {
   email: string
   id: string
   created: string
+}
+
+export type QuestionInsight = {
+  question: string
+  data: {
+    answer: string
+    numUsers: number
+  }[]
 }
