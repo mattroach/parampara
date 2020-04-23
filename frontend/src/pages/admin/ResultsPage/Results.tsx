@@ -1,21 +1,17 @@
 import { AxiosError } from 'axios'
 import Loader from 'components/Loader'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { loadScriptResponses } from 'store/slices/scriptResults'
 import { AppDispatch } from 'store/store'
+import Actions from './Actions'
 import AuthenticateResults from './AuthenticateResults'
 import EmptyState from './EmptyState'
-import transposeResults from './transposeResults'
 import ResultsTable from './ResultsTable'
-import Actions from './Actions'
+import transposeResults from './transposeResults'
 
-type Props = {
-  scriptId: string
-}
-
-const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
+const Results: React.FunctionComponent = () => {
   const scriptResults = useSelector((state: RootState) => state.scriptResultsStore.data)
 
   const [needsAuth, setNeedsAuth] = useState(false)
@@ -28,13 +24,13 @@ const Results: React.FunctionComponent<Props> = ({ scriptId }) => {
   )
 
   useEffect(() => {
-    dispatch(loadScriptResponses(scriptId)).catch((e: AxiosError) => {
+    dispatch(loadScriptResponses()).catch((e: AxiosError) => {
       if (e.isAxiosError && e.response?.status === 401) setNeedsAuth(true)
     })
-  }, [dispatch, scriptId])
+  }, [dispatch])
 
   if (!scriptResults) {
-    if (needsAuth) return <AuthenticateResults scriptId={scriptId} />
+    if (needsAuth) return <AuthenticateResults />
 
     return <Loader />
   }

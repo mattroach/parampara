@@ -5,6 +5,7 @@ import ResultsPage from 'pages/admin/ResultsPage'
 import SharePage from 'pages/admin/SharePage'
 import React from 'react'
 import { Route } from 'react-router-dom'
+import ResultsLayout from 'layout/ResultsLayout'
 
 type Props = {
   path: string
@@ -18,10 +19,16 @@ const ScriptAdminRouter = ({ path, adminId, scriptId }: Props) => (
     <Route path={`${path}/share`} component={SharePage} />
     <Route
       path={`${path}/results`}
-      render={({ match }) => <ResultsPage scriptId={match.params.scriptId} />}
+      render={({ match }) => <ResultsRouter path={match.path} />}
     />
-    <Route path={`${path}/insights`} component={InsightsPage} />
   </ScriptAdminLayout>
+)
+
+const ResultsRouter = ({ path }: { path: string }) => (
+  <ResultsLayout>
+    <Route exact path={`${path}`} component={ResultsPage} />
+    <Route path={`${path}/insights`} component={InsightsPage} />
+  </ResultsLayout>
 )
 
 export default ScriptAdminRouter

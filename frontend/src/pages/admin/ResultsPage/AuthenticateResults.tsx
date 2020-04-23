@@ -7,10 +7,6 @@ import styled from 'styled-components'
 import { AxiosError } from 'axios'
 import { AppDispatch } from 'store/store'
 
-type Props = {
-  scriptId: string
-}
-
 const StyledForm = styled(Form)`
   display: block;
   input {
@@ -23,7 +19,7 @@ const ErrorMessage = styled.span`
   color: red;
 `
 
-const AuthenticateResults: React.FunctionComponent<Props> = ({ scriptId }) => {
+const AuthenticateResults: React.FunctionComponent = () => {
   const [password, setPassword] = useState('')
 
   const [hasErrors, setHasErrors] = useState(false)
@@ -33,7 +29,7 @@ const AuthenticateResults: React.FunctionComponent<Props> = ({ scriptId }) => {
 
   const submit = (e: any) => {
     e.preventDefault()
-    dispatch(loadScriptResponses(scriptId, password)).catch((e: AxiosError) => {
+    dispatch(loadScriptResponses(password)).catch((e: AxiosError) => {
       if (e.isAxiosError && e.response?.status === 401) {
         setHasErrors(true)
       }

@@ -2,46 +2,39 @@ import React from 'react'
 import Nav from 'react-bootstrap/Nav'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import { useLocation, useHistory } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
 type Props = {
   className?: string
 }
 
 const Navigation: React.FunctionComponent<Props> = ({ className }) => {
-  const history = useHistory()
-  const location = useLocation()
   const { adminId, scriptId } = useSelector((state: RootState) => ({
     adminId: state.adminStore.admin!.id,
     scriptId: state.scriptStore.script!.id
   }))
 
-  const pathParts = location.pathname.split('/')
-  const activeKey = pathParts[pathParts.length - 1]
-
-  const selectItem = (selectedKey: string) => {
-    history.push(`/builder/${adminId}/${scriptId}/${selectedKey}`)
-  }
+  const to = (path: string) => `/builder/${adminId}/${scriptId}/${path}`
 
   return (
-    <Nav
-      variant="tabs"
-      activeKey={activeKey}
-      className={className}
-      onSelect={selectItem}>
+    <Nav variant="tabs" className={className}>
       <Nav.Item>
-        <Nav.Link eventKey="create">Create</Nav.Link>
+        <LinkContainer to={to('create')}>
+          <Nav.Link>Create</Nav.Link>
+        </LinkContainer>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="share">Share</Nav.Link>
+        <LinkContainer to={to('share')}>
+          <Nav.Link>Share</Nav.Link>
+        </LinkContainer>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="results">Results</Nav.Link>
+        <LinkContainer to={to('results')}>
+          <Nav.Link>Results</Nav.Link>
+        </LinkContainer>
       </Nav.Item>
     </Nav>
   )
-
 }
-
 
 export default Navigation
