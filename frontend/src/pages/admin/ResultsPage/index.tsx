@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Results from './Results'
-import withScriptAdminLayout from 'layout/ScriptAdminLayout'
 
 type Props = {
   scriptId: string
@@ -20,4 +19,4 @@ const ResultsPage: React.FunctionComponent<Props> = ({ scriptId }) => {
   )
 }
 
-export default withScriptAdminLayout(ResultsPage)
+export default ResultsPage

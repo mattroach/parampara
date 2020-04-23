@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import withScriptAdminLayout from 'layout/ScriptAdminLayout'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadScriptInsights } from 'store/slices/scriptInsights'
 import { RootState } from 'store/rootReducer'
@@ -53,4 +52,4 @@ const InsightsPage: React.FunctionComponent = () => {
   )
 }
 
-export default withScriptAdminLayout(InsightsPage)
+export default InsightsPage

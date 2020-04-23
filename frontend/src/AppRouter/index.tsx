@@ -1,13 +1,9 @@
+import ScriptDirectoryPage from 'pages/admin/ScriptDirectoryPage'
+import ChatPlayerPage from 'pages/ChatPlayerPage'
+import SuperAdminPage from 'pages/SuperAdminPage'
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-
-import ScriptDirectoryPage from './pages/admin/ScriptDirectoryPage'
-import BuilderPage from './pages/admin/BuilderPage'
-import ChatPlayerPage from 'pages/ChatPlayerPage'
-import SharePage from 'pages/admin/SharePage'
-import ResultsPage from 'pages/admin/ResultsPage'
-import SuperAdminPage from 'pages/SuperAdminPage'
-import InsightsPage from 'pages/admin/InsightsPage'
+import ScriptAdminRouter from './ScriptAdminRouter'
 
 export default function App() {
   return (
@@ -24,36 +20,10 @@ export default function App() {
         />
 
         <Route
-          path="/builder/:adminId/:scriptId/create"
+          path="/builder/:adminId/:scriptId"
           render={({ match }) => (
-            <BuilderPage
-              adminId={match.params.adminId}
-              scriptId={match.params.scriptId}
-            />
-          )}
-        />
-
-        <Route
-          path="/builder/:adminId/:scriptId/share"
-          render={({ match }) => (
-            <SharePage adminId={match.params.adminId} scriptId={match.params.scriptId} />
-          )}
-        />
-
-        <Route
-          path="/builder/:adminId/:scriptId/results"
-          render={({ match }) => (
-            <ResultsPage
-              adminId={match.params.adminId}
-              scriptId={match.params.scriptId}
-            />
-          )}
-        />
-
-        <Route
-          path="/builder/:adminId/:scriptId/insights"
-          render={({ match }) => (
-            <InsightsPage
+            <ScriptAdminRouter
+              path={match.path}
               adminId={match.params.adminId}
               scriptId={match.params.scriptId}
             />

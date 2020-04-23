@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Editor from './components/Editor'
 import ServerSync from './components/ServerSync'
-import withScriptAdminLayout from 'layout/ScriptAdminLayout'
 
 const Wrapper = styled.section`
   margin: 20px auto;
@@ -20,4 +19,4 @@ const BuilderPage: React.FunctionComponent = () => {
   )
 }
 
-export default withScriptAdminLayout(BuilderPage)
+export default BuilderPage
