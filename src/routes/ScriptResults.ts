@@ -5,7 +5,7 @@ import scriptService from '../services/ScriptService'
 import sessionResponseService from '../services/SessionResponseService'
 import sessionProgressService from '../services/SessionProgressService'
 import { Record, String, Array } from 'runtypes'
-import { InsightFilter } from 'frontend/src/types/insightTypes'
+import { InsightFilter } from '../../frontend/src/types/insightTypes'
 
 const authenticatedRouter = Router()
 const router = Router()

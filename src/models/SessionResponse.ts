@@ -1,5 +1,5 @@
 import { Model } from 'objection'
-import { ScriptActionType } from 'frontend/src/types/scriptTypes'
+import { ScriptActionType } from '../../frontend/src/types/scriptTypes'
 
 export default class SessionResponse extends Model {
   id!: string

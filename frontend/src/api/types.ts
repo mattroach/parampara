@@ -1,5 +1,5 @@
 import { DeepPartial } from '@reduxjs/toolkit'
-import { Script, ScriptActionType } from 'types/scriptTypes'
+import { Script, ScriptActionType } from '../types/scriptTypes'
 
 export type PartialScript = DeepPartial<Script>
 

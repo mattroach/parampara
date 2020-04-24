@@ -3,7 +3,7 @@ import emailService from './EmailService'
 
 import { uuid } from '@shared'
 import shajs from 'sha.js'
-import { LoginResponse } from 'frontend/src/api/types'
+import { LoginResponse } from '../../frontend/src/api/types'
 
 class AdminService {
   async getById(id: string) {

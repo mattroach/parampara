@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { NOT_FOUND, OK } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
-import Script from 'src/models/Script'
+import Script from '../models/Script'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
 
 const router = Router()

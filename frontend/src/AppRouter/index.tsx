@@ -5,7 +5,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ScriptAdminRouter from './ScriptAdminRouter'
 
-export default function App() {
+export default function AppRouter() {
   return (
     <Router>
       <Switch>
