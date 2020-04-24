@@ -17,7 +17,6 @@ const TitleWrap = styled.div`
   padding: 10px 0;
 `
 const StyledNav = styled(Navigation)`
-  width: 260px;
   margin: 27px auto -1px auto;
 `
 const LastCol = styled(Col)`
@@ -34,7 +33,7 @@ const Header: React.FunctionComponent = () => {
             <Title />
           </TitleWrap>
         </Col>
-        <Col>
+        <Col xs="auto">
           <StyledNav />
         </Col>
         <LastCol>

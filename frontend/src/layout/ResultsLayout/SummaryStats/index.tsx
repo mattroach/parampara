@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import styled from 'styled-components'
 import Statistic from './Statistic'
@@ -8,7 +9,7 @@ import { RootState } from 'store/rootReducer'
 import { ResponseStatistics } from 'api/types'
 import durationFormatter from './durationFormatter'
 
-const StyledRow = styled(Row)`
+const StyledContainer = styled(Container)`
   padding: 30px 20px;
 `
 type StatDefinition = {
@@ -61,21 +62,23 @@ const SummaryStats: React.FunctionComponent = () => {
   }, [scriptId, loginToken])
 
   return (
-    <StyledRow>
-      {STATS.map(s => {
-        const format = s.statFormatter || ((n: number) => n)
-        return (
-          <Statistic
-            key={s.key}
-            imgKey={s.key}
-            description={s.description}
-            scale={s.scale}
-            isLoading={!responseStats}
-            stat={responseStats ? format(responseStats[s.key]) : undefined}
-          />
-        )
-      })}
-    </StyledRow>
+    <StyledContainer fluid>
+      <Row>
+        {STATS.map(s => {
+          const format = s.statFormatter || ((n: number) => n)
+          return (
+            <Statistic
+              key={s.key}
+              imgKey={s.key}
+              description={s.description}
+              scale={s.scale}
+              isLoading={!responseStats}
+              stat={responseStats ? format(responseStats[s.key]) : undefined}
+            />
+          )
+        })}
+      </Row>
+    </StyledContainer>
   )
 }
 
