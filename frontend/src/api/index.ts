@@ -1,7 +1,13 @@
 import axios from 'axios'
 
 import { Script } from '../types/scriptTypes'
-import { ScriptVersionType, Session, PartialScript, QuestionInsight } from './types'
+import {
+  ScriptVersionType,
+  Session,
+  PartialScript,
+  QuestionInsight,
+  ResponseStatistics
+} from './types'
 import { ProgressItem, SessionProgress } from 'types/sessionProgress'
 import { InsightFilter } from 'types/insightTypes'
 import Qs from 'qs'
@@ -43,6 +49,12 @@ const api = {
     const response = await axios.get(`/api/script/${scriptId}/questionInsights`, {
       params: { filter }
     })
+
+    return response.data
+  },
+
+  async getResponseStats(scriptId: string): Promise<ResponseStatistics> {
+    const response = await axios.get(`/api/script/${scriptId}/responseStats`)
 
     return response.data
   },

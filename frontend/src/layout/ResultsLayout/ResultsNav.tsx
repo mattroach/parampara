@@ -15,14 +15,14 @@ const StyledNav = styled(Nav)`
     color: #212529 !important;
     font-weight: bold;
     border-bottom: 2px solid #212529 !important;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
   }
 `
 
 const StyledNavItem = styled(Nav.Item)``
 
 const StyledNavLink = styled(Nav.Link)`
-  padding: 10px 0;
+  padding: 12px 0;
   margin-right: 40px;
   margin-bottom: -1px;
   text-transform: uppercase;
@@ -32,7 +32,7 @@ const StyledNavLink = styled(Nav.Link)`
   :hover {
     color: #818a91;
     border-bottom: 2px solid #818a91;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
   }
 `
 

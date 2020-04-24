@@ -2,6 +2,7 @@ import SessionProgress from '../../models/SessionProgress'
 import Objection = require('objection')
 import SessionResponse from '../../models/SessionResponse'
 import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
+import { ResponseStatistics } from '../../../frontend/src/api/types'
 import knex from '../../knex'
 
 const getSessionAggregations = (scriptId: string) =>
@@ -47,14 +48,6 @@ const getResponseAggregations = (scriptId: string) =>
       })
       return transformed
     })
-
-type ResponseStatistics = {
-  numSessions: number
-  numComments: number
-  numQuestions: number
-  numCompleted: number
-  totalTimeSec: number
-}
 
 const getResponseStatistics = async (scriptId: string): Promise<ResponseStatistics> => {
   const sessionAggregations = await getSessionAggregations(scriptId)

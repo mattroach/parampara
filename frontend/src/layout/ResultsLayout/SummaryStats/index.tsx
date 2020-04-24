@@ -1,0 +1,79 @@
+import React, { useEffect, useState } from 'react'
+import Row from 'react-bootstrap/Row'
+import styled from 'styled-components'
+import Statistic from './Statistic'
+import api from 'api'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/rootReducer'
+import { ResponseStatistics } from 'api/types'
+import durationFormatter from './durationFormatter'
+
+const StyledRow = styled(Row)`
+  padding: 30px 20px;
+`
+type StatDefinition = {
+  description: string
+  key: keyof ResponseStatistics
+  scale?: number
+  statFormatter?: (stat: number) => string | number
+}
+
+const STATS: StatDefinition[] = [
+  {
+    key: 'numSessions',
+    description: 'users interacted with your Parampara'
+  },
+  {
+    key: 'numCompleted',
+    description: 'made it to the end',
+    scale: 93
+  },
+  {
+    key: 'numComments',
+    description: 'comments',
+    scale: 86
+  },
+  {
+    key: 'numQuestions',
+    description: 'multi choice responses',
+    scale: 88
+  },
+  {
+    key: 'totalTimeSec',
+    description: 'total time spent enjoying your content',
+    scale: 83,
+    statFormatter: durationFormatter
+  }
+]
+
+const SummaryStats: React.FunctionComponent = () => {
+  const scriptId = useSelector((state: RootState) => state.scriptStore.script!.id)
+
+  const [responseStats, setResponseStats] = useState<ResponseStatistics | undefined>(
+    undefined
+  )
+
+  useEffect(() => {
+    api.getResponseStats(scriptId).then(data => setResponseStats(data))
+  }, [scriptId])
+
+  return (
+    <StyledRow>
+      {STATS.map(s => {
+        const format = s.statFormatter || ((n: number) => n)
+        return (
+          <Statistic
+            key={s.key}
+            imgKey={s.key}
+            description={s.description}
+            scale={s.scale}
+            isLoading={!responseStats}
+            stat={responseStats ? format(responseStats[s.key]) : undefined}
+          />
+        )
+      })}
+    </StyledRow>
+  )
+}
+
+export default SummaryStats

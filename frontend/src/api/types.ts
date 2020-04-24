@@ -40,3 +40,11 @@ export type QuestionInsight = {
     numUsers: number
   }[]
 }
+
+export type ResponseStatistics = {
+  numSessions: number
+  numComments: number
+  numQuestions: number
+  numCompleted: number
+  totalTimeSec: number
+}
