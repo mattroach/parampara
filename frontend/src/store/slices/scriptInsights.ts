@@ -69,7 +69,8 @@ export const loadScriptInsights = (
   // only pass the filter if it's fully configured
   const filterParam = filter.value ? (filter as InsightFilter) : undefined
 
-  const data = await api.getScriptQuestionInsights(scriptId, filterParam)
+  const { loginToken } = getState().authenticationStore
+  const data = await api.getScriptQuestionInsights(scriptId, loginToken, filterParam)
 
   //await new Promise(r => setTimeout(r, 1000)) //sleep for testing transitions
 

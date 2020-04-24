@@ -32,8 +32,6 @@ const MessageInput = styled(Form.Control)`
   }
 `
 
-const ErrorMessage = styled(Form.Control.Feedback)``
-
 type Props = {
   placeholder: string
   onSubmit: (content: string) => void
@@ -73,9 +71,9 @@ const TextInput: React.FunctionComponent<Props> = ({
               isInvalid={isInvalid() && content !== ''}
               autoFocus
             />
-            <ErrorMessage type="invalid">
+            <Form.Control.Feedback type="invalid">
               {invalidMessage || 'Invalid input'}
-            </ErrorMessage>
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} controlId="submit">
             <GoButton variant="primary" type="submit" disabled={isInvalid()}>

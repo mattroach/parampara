@@ -13,10 +13,10 @@ const router = Router()
 authenticatedRouter.use('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
-    const { password } = req.query
+    const { loginToken } = req.query
     const script = await scriptService.getScript(scriptId)
 
-    if (!(await adminService.authenticatePassword(script.adminId, password)))
+    if (!(await adminService.authenticateToken(script.adminId, loginToken)))
       return res.status(UNAUTHORIZED).json('Authentication required')
 
     next()
@@ -54,7 +54,7 @@ router.delete('/:id/responses', async (req, res, next) => {
   }
 })
 
-router.get('/:id/responseStats', async (req, res, next) => {
+authenticatedRouter.get('/:id/responseStats', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
@@ -66,7 +66,7 @@ router.get('/:id/responseStats', async (req, res, next) => {
   }
 })
 
-router.get('/:id/questionInsights', async (req, res, next) => {
+authenticatedRouter.get('/:id/questionInsights', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
     const filter = req.query.filter as InsightFilter | undefined

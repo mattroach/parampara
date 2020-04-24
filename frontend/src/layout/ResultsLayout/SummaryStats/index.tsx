@@ -48,14 +48,17 @@ const STATS: StatDefinition[] = [
 
 const SummaryStats: React.FunctionComponent = () => {
   const scriptId = useSelector((state: RootState) => state.scriptStore.script!.id)
+  const loginToken = useSelector(
+    (state: RootState) => state.authenticationStore.loginToken
+  )
 
   const [responseStats, setResponseStats] = useState<ResponseStatistics | undefined>(
     undefined
   )
 
   useEffect(() => {
-    api.getResponseStats(scriptId).then(data => setResponseStats(data))
-  }, [scriptId])
+    api.getResponseStats(scriptId, loginToken).then(data => setResponseStats(data))
+  }, [scriptId, loginToken])
 
   return (
     <StyledRow>

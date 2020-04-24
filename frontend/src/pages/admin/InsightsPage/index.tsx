@@ -29,6 +29,7 @@ const InsightsPage: React.FunctionComponent = () => {
     if (!prev || prev.filter?.value !== filter?.value) {
       dispatch(loadScriptInsights(filter))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, dispatch])
 
   const insights = useSelector((state: RootState) => state.scriptInsightsStore.data)

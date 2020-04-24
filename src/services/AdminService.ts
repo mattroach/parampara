@@ -3,17 +3,44 @@ import emailService from './EmailService'
 
 import { uuid } from '@shared'
 import shajs from 'sha.js'
+import { LoginResponse } from 'frontend/src/api/types'
 
 class AdminService {
   async getById(id: string) {
     return await Admin.query().findById(id)
   }
 
-  async authenticatePassword(adminId: string, password: string): Promise<boolean> {
+  async login(adminId: string, password?: string): Promise<LoginResponse> {
     const admin = await Admin.query().findById(adminId)
-    if (!admin) return false
-    if (!admin.password) return true
-    return admin.password === this.hashPassword(password)
+    if (!admin) throw Error('Could not find user')
+
+    if (!admin.password) {
+      return { success: true }
+    }
+
+    if (!password) return { success: false }
+
+    const hashedPassword = this.hashPassword(password)
+    if (admin.password === hashedPassword) {
+      return {
+        success: true,
+        loginToken: hashedPassword
+      }
+    }
+    return { success: false }
+  }
+
+  async authenticateToken(adminId: string, hashedPassword?: string): Promise<boolean> {
+    const admin = await Admin.query().findById(adminId)
+    if (!admin) throw Error('Could not find user')
+
+    if (!admin.password) {
+      return true
+    }
+
+    if (!hashedPassword) return false
+
+    return admin.password === hashedPassword
   }
 
   async createAdmin(email: string) {

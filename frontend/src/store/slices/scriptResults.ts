@@ -57,13 +57,14 @@ export { toggleSelect, selectAll, unselectAll }
 
 export default scriptResultsSlice.reducer
 
-export const loadScriptResponses = (password?: string): AppThunk<Promise<void>> => async (
+export const loadScriptResponses = (): AppThunk<Promise<void>> => async (
   dispatch,
   getState
 ) => {
   dispatch(clearData())
   const scriptId = getState().scriptStore.script!.id
-  const data = await api.getScriptResponses(scriptId, password)
+  const { loginToken } = getState().authenticationStore
+  const data = await api.getScriptResponses(scriptId, loginToken)
   dispatch(updateData(data))
 }
 
