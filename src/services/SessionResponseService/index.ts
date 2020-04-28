@@ -4,6 +4,7 @@ import SessionResponse from '../../models/SessionResponse'
 import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
 import getResponseStatistics from './getResponseStatistics'
 import getQuestionInsights from './getQuestionInsights'
+import getQuestionInsightUsers from './getQuestionInsightUsers'
 
 class SessionResponseService {
   getSessionsWithResponses(scriptId: string) {
@@ -18,6 +19,7 @@ class SessionResponseService {
   getResponseStatistics = getResponseStatistics
 
   getQuestionInsights = getQuestionInsights
+  getQuestionInsightUsers = getQuestionInsightUsers
 
   getLastEmailCollected(sessionId: string) {
     return SessionResponse.query()

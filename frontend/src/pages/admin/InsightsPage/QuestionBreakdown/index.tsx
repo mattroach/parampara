@@ -31,7 +31,11 @@ const QuestionBreakdown: React.FunctionComponent<Props> = ({ question, data }) =
     <StyledRow>
       <Col>
         <QuestionHeader>{question}</QuestionHeader>
-        <BreakdownTable data={dataWithColors} focusIndex={focusIndex} />
+        <BreakdownTable
+          question={question}
+          data={dataWithColors}
+          focusIndex={focusIndex}
+        />
       </Col>
       <Col xs="4">
         <VizContainer>

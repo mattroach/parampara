@@ -9,8 +9,7 @@ import Filters from './Filters'
 import { usePrevious } from 'hooks/usePrevious'
 
 const Wrapper = styled.section`
-  margin: 0 auto;
-  max-width: 1300px;
+  max-width: var(--breakpoint-xl);
   padding: 0 20px;
 `
 
@@ -27,7 +26,7 @@ const InsightsPage: React.FunctionComponent = () => {
   useEffect(() => {
     // If no previous filter or the filter value has changed
     if (!prev || prev.filter?.value !== filter?.value) {
-      dispatch(loadScriptInsights(filter))
+      dispatch(loadScriptInsights())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, dispatch])

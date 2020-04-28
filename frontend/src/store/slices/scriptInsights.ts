@@ -59,14 +59,16 @@ export { setFilterKey, removeFilter, setFilterValue, removeFilterValue }
 
 export default scriptResultsSlice.reducer
 
-export const loadScriptInsights = (
-  filter: Partial<InsightFilter>
-): AppThunk<Promise<void>> => async (dispatch, getState) => {
+export const loadScriptInsights = (): AppThunk<Promise<void>> => async (
+  dispatch,
+  getState
+) => {
   dispatch(setLoadingData())
 
   const scriptId = getState().scriptStore.script!.id
 
   // only pass the filter if it's fully configured
+  const { filter } = getState().scriptInsightsStore
   const filterParam = filter.value ? (filter as InsightFilter) : undefined
 
   const { loginToken } = getState().authenticationStore
@@ -78,4 +80,23 @@ export const loadScriptInsights = (
     dispatch(updateUnfilteredData(data))
   }
   dispatch(updateData(data))
+}
+
+export const loadScriptInsightUsers = (
+  question: string,
+  answer: string
+): AppThunk<Promise<string[]>> => async (dispatch, getState) => {
+  const scriptId = getState().scriptStore.script!.id
+
+  // only pass the filter if it's fully configured
+  const { filter } = getState().scriptInsightsStore
+  const filterParam = filter.value ? (filter as InsightFilter) : undefined
+  const { loginToken } = getState().authenticationStore
+  return await api.getScriptQuestionInsightUsers(
+    scriptId,
+    question,
+    answer,
+    loginToken,
+    filterParam
+  )
 }

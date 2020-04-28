@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import { OK, UNAUTHORIZED } from 'http-status-codes'
+import { Record, String, Unknown, Array } from 'runtypes'
+import { InsightFilter } from '../../frontend/src/types/insightTypes'
 import adminService from '../services/AdminService'
 import scriptService from '../services/ScriptService'
-import sessionResponseService from '../services/SessionResponseService'
 import sessionProgressService from '../services/SessionProgressService'
-import { Record, String, Array } from 'runtypes'
-import { InsightFilter } from '../../frontend/src/types/insightTypes'
+import sessionResponseService from '../services/SessionResponseService'
 
 const authenticatedRouter = Router()
 const router = Router()
@@ -72,6 +72,30 @@ authenticatedRouter.get('/:id/questionInsights', async (req, res, next) => {
     const filter = req.query.filter as InsightFilter | undefined
 
     const results = await sessionResponseService.getQuestionInsights(scriptId, filter)
+
+    return res.status(OK).json(results)
+  } catch (err) {
+    next(err)
+  }
+})
+
+const InsightUsersQuery = Record({
+  filter: Unknown,
+  question: String,
+  answer: String
+})
+
+authenticatedRouter.get('/:id/questionInsights/users', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
+    const { filter, question, answer } = InsightUsersQuery.check(req.query)
+
+    const results = await sessionResponseService.getQuestionInsightUsers(
+      scriptId,
+      question,
+      answer,
+      filter as InsightFilter | undefined
+    )
 
     return res.status(OK).json(results)
   } catch (err) {

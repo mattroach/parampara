@@ -69,6 +69,7 @@ const TextInput: React.FunctionComponent<Props> = ({
               placeholder={placeholder}
               onChange={updateContent}
               isInvalid={isInvalid() && content !== ''}
+              autocomplete="off"
               autoFocus
             />
             <Form.Control.Feedback type="invalid">

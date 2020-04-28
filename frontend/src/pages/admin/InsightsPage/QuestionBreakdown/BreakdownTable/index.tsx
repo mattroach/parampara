@@ -1,45 +1,7 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table'
 import styled from 'styled-components'
-
-type Props = {
-  data: {
-    answer: string
-    numUsers: number
-    color: string
-  }[]
-  focusIndex: number | undefined
-}
-
-const BreakdownTable: React.FunctionComponent<Props> = ({ data, focusIndex }) => {
-  const totalUsers = data.reduce((a, c) => c.numUsers + a, 0)
-
-  const tableData = data.map(item => {
-    return {
-      percent: Math.round((100 * item.numUsers) / totalUsers),
-      ...item
-    }
-  })
-
-  return (
-    <StyledTable>
-      <tbody>
-        {tableData.map((d, i) => (
-          <Tr key={d.answer} isFocused={focusIndex === i}>
-            <ColorBlockTd>
-              <ColorBlock color={d.color} />
-            </ColorBlockTd>
-            <td>{d.answer}</td>
-            <StatTd>{d.percent}%</StatTd>
-            <StatTd>
-              {d.numUsers} user{d.numUsers > 1 ? 's' : ''}
-            </StatTd>
-          </Tr>
-        ))}
-      </tbody>
-    </StyledTable>
-  )
-}
+import UsersLink from './UsersLink'
 
 const StyledTable = styled(Table)`
   border-bottom: 1px solid #dee2e6;
@@ -71,5 +33,49 @@ const ColorBlock = styled.div`
   height: 17px;
   width: 50px;
 `
+
+type Props = {
+  question: string
+  data: {
+    answer: string
+    numUsers: number
+    color: string
+  }[]
+  focusIndex: number | undefined
+}
+
+const BreakdownTable: React.FunctionComponent<Props> = ({
+  question,
+  data,
+  focusIndex
+}) => {
+  const totalUsers = data.reduce((a, c) => c.numUsers + a, 0)
+
+  const tableData = data.map(item => {
+    return {
+      percent: Math.round((100 * item.numUsers) / totalUsers),
+      ...item
+    }
+  })
+
+  return (
+    <StyledTable>
+      <tbody>
+        {tableData.map((d, i) => (
+          <Tr key={d.answer} isFocused={focusIndex === i}>
+            <ColorBlockTd>
+              <ColorBlock color={d.color} />
+            </ColorBlockTd>
+            <td>{d.answer}</td>
+            <StatTd>{d.percent}%</StatTd>
+            <StatTd>
+              <UsersLink number={d.numUsers} question={question} answer={d.answer} />
+            </StatTd>
+          </Tr>
+        ))}
+      </tbody>
+    </StyledTable>
+  )
+}
 
 export default BreakdownTable

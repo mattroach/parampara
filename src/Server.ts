@@ -46,7 +46,6 @@ app.get('/s/:scriptId', (req, res) => {
       return res.status(500).send('An error occurred')
     }
     const headers = await getScriptOG(scriptId)
-    console.log('headers', headers)
     return res.send(data.replace('</head>', headers + '</head>'))
   })
 })
