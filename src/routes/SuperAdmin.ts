@@ -1,24 +1,41 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
-import { Record, String, Undefined } from 'runtypes'
+import { Record, String, Undefined, Boolean } from 'runtypes'
 import Admin from '../models/Admin'
 import adminService from '../services/AdminService'
 import scriptService from '../services/ScriptService'
 
+const PASSWORD = 'f43gdo8jgo3'
+
 const router = Router()
 
-const checkPassword = (password: string) => {
-  // Really shitty auth. The whole admin backend needs to be moved to an external service, or at least decouled from the main
-  // react bundle and have proper session auth on the backend - this is super temporary.
-  if (password !== 'f43gdo8jgo3') throw Error('Password incorrect')
-}
+router.use('/', async (req, res, next) => {
+  try {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [login, password] = Buffer.from(b64auth, 'base64')
+      .toString()
+      .split(':')
+
+    if (login === 'admin' && password === PASSWORD) {
+      return next()
+    }
+
+    // Old fallback auth ===========
+    const fallbackPassword = req.query.password
+    if (fallbackPassword === PASSWORD) {
+      return next()
+    }
+    // End old fallback auth =======
+
+    res.status(401).send('Authentication required.')
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.get('/getUsers', async (req, res, next) => {
   try {
-    const { password } = req.query
-    checkPassword(password)
-
-    const admins = await Admin.query()
+    const admins = await Admin.query().orderBy('created', 'desc')
 
     return res.status(OK).json(admins)
   } catch (err) {
@@ -26,12 +43,18 @@ router.get('/getUsers', async (req, res, next) => {
   }
 })
 
+function isValidEmail(email: string) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return re.test(email.toLowerCase())
+}
+
+const CreateUserBody = Record({
+  email: String.withConstraint(isValidEmail)
+})
+
 router.post('/createUser', async (req, res, next) => {
   try {
-    const { password } = req.query
-    checkPassword(password)
-
-    const email: string = req.body.email
+    const { email } = CreateUserBody.check(req.body)
 
     const admin = await adminService.createAdmin(email)
 
@@ -41,17 +64,31 @@ router.post('/createUser', async (req, res, next) => {
   }
 })
 
-const UpdatePasswordReq = Record({
+const UpdateSubscriptionBody = Record({
+  isPro: Boolean
+})
+
+router.put('/user/:id/subscription', async (req, res, next) => {
+  try {
+    const { id: userId } = req.params
+    const { isPro } = UpdateSubscriptionBody.check(req.body)
+
+    await adminService.setSubscription(userId, isPro)
+
+    return res.status(OK).json('ok')
+  } catch (err) {
+    next(err)
+  }
+})
+
+const UpdatePasswordBody = Record({
   email: String,
   newPassword: String
 })
 
 router.post('/updatePassword', async (req, res, next) => {
   try {
-    const { password } = req.query
-    checkPassword(password)
-
-    const { email, newPassword } = UpdatePasswordReq.check(req.body)
+    const { email, newPassword } = UpdatePasswordBody.check(req.body)
 
     const admin = await adminService.updatePassword(email, newPassword)
 
@@ -61,17 +98,14 @@ router.post('/updatePassword', async (req, res, next) => {
   }
 })
 
-const CloneScriptReq = Record({
+const CloneScriptBody = Record({
   scriptId: String,
   destinationAdminId: String,
   newTitle: String.Or(Undefined)
 })
 router.post('/cloneScript', async (req, res, next) => {
   try {
-    const { password } = req.query
-    checkPassword(password)
-
-    const { scriptId, destinationAdminId, newTitle } = CloneScriptReq.check(req.body)
+    const { scriptId, destinationAdminId, newTitle } = CloneScriptBody.check(req.body)
 
     await scriptService.cloneScript(scriptId, destinationAdminId, newTitle)
 

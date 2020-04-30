@@ -6,6 +6,7 @@ export default class Admin extends Model {
   id!: string
   email!: string
   password!: string
+  subscriptionTier!: 'free' | 'pro'
 
   static tableName = 'admin'
 }

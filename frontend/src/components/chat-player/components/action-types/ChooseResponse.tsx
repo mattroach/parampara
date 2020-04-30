@@ -8,9 +8,9 @@ import { connect } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
 import ItemWrap from '../item-types/ItemWrap'
 
-const Wrapper = styled(ItemWrap).attrs(props => ({
+const Wrapper = styled(ItemWrap).attrs({
   unlimitedWidth: true
-}))`
+})`
   margin: 30px 0;
   text-align: center;
   width: 100%;
@@ -20,13 +20,15 @@ const ResponseButton = styled(Button)`
   border-radius: 15px;
   padding: 7px 15px;
   line-height: 1.3;
-  
+
   border-color: #006bfa;
   color: #006bfa;
   box-shadow: 0px 2px 6px #d9d9d9;
   margin: 4px 8px 4px 0;
 
-  :hover, :active, :visited {
+  :hover,
+  :active,
+  :visited {
     text-decoration: none;
     color: #006bfa;
   }
@@ -59,9 +61,11 @@ class ChooseResponse extends React.Component<Props> {
   render() {
     return (
       <Wrapper ref={this.containerRef}>
-        {this.props.action.responses.map((response, i) =>
-          <ResponseButton key={i} variant="link" onClick={this.handleClick(i)}>{response.message}</ResponseButton>
-        )}
+        {this.props.action.responses.map((response, i) => (
+          <ResponseButton key={i} variant="link" onClick={this.handleClick(i)}>
+            {response.message}
+          </ResponseButton>
+        ))}
       </Wrapper>
     )
   }

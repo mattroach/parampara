@@ -8,26 +8,26 @@ import { Route } from 'react-router-dom'
 import ResultsLayout from 'layout/ResultsLayout'
 
 type Props = {
-  path: string
+  basePath: string
   adminId: string
   scriptId: string
 }
 
-const ScriptAdminRouter = ({ path, adminId, scriptId }: Props) => (
+const ScriptAdminRouter = ({ basePath, adminId, scriptId }: Props) => (
   <ScriptAdminLayout adminId={adminId} scriptId={scriptId}>
-    <Route path={`${path}/create`} component={BuilderPage} />
-    <Route path={`${path}/share`} component={SharePage} />
+    <Route path={`${basePath}/create`} component={BuilderPage} />
+    <Route path={`${basePath}/share`} component={SharePage} />
     <Route
-      path={`${path}/results`}
-      render={({ match }) => <ResultsRouter path={match.path} />}
+      path={`${basePath}/results`}
+      render={({ match }) => <ResultsRouter basePath={match.path} />}
     />
   </ScriptAdminLayout>
 )
 
-const ResultsRouter = ({ path }: { path: string }) => (
+const ResultsRouter = ({ basePath }: { basePath: string }) => (
   <ResultsLayout>
-    <Route exact path={`${path}`} component={ResultsPage} />
-    <Route path={`${path}/insights`} component={InsightsPage} />
+    <Route exact path={`${basePath}`} component={ResultsPage} />
+    <Route path={`${basePath}/insights`} component={InsightsPage} />
   </ResultsLayout>
 )
 

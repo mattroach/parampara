@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleSelect, selectAll, unselectAll } from 'store/slices/scriptResults'
 import { RootState } from 'store/rootReducer'
 
-const Checkbox = styled.input.attrs(props => ({
+const Checkbox = styled.input.attrs({
   type: 'checkbox'
-}))`
+})`
   font-size: 1rem;
 `
 enum SelectState {

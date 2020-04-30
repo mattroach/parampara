@@ -1,6 +1,6 @@
 import ScriptDirectoryPage from 'pages/admin/ScriptDirectoryPage'
 import ChatPlayerPage from 'pages/ChatPlayerPage'
-import SuperAdminPage from 'pages/SuperAdminPage'
+import SuperAdminRouter from '../superadmin/Router'
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ScriptAdminRouter from './ScriptAdminRouter'
@@ -11,7 +11,7 @@ export default function AppRouter() {
       <Switch>
         <Route
           path="/super-admin/:password"
-          render={({ match }) => <SuperAdminPage password={match.params.password} />}
+          render={({ match }) => <SuperAdminRouter password={match.params.password} />}
         />
 
         <Route
@@ -23,7 +23,7 @@ export default function AppRouter() {
           path="/builder/:adminId/:scriptId"
           render={({ match }) => (
             <ScriptAdminRouter
-              path={match.path}
+              basePath={match.path}
               adminId={match.params.adminId}
               scriptId={match.params.scriptId}
             />

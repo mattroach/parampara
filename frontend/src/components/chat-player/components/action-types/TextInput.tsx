@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import ItemWrap from '../item-types/ItemWrap'
 import Col from 'react-bootstrap/Col'
 
-const Wrapper = styled(ItemWrap).attrs(props => ({
+const Wrapper = styled(ItemWrap).attrs({
   unlimitedWidth: true
-}))`
+})`
   margin: 20px 0;
   text-align: right;
 `

@@ -16,5 +16,9 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src", "src/layout/ScriptAdminLayout/.template-hoc.tsx"]
+  "include": [
+    "src",
+    "src/layout/ScriptAdminLayout/.template-hoc.tsx",
+    "superadmin/pages/SuperAdminPage"
+  ]
 }

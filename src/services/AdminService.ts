@@ -60,6 +60,12 @@ class AdminService {
       .updateAndFetch({ password: this.hashPassword(newPassword) })
   }
 
+  setSubscription(userId: string, isPro: boolean) {
+    return Admin.query()
+      .where('id', userId)
+      .patch({ subscriptionTier: isPro ? 'pro' : 'free' })
+  }
+
   private hashPassword(password: string) {
     return shajs('sha256')
       .update(password + PASSWORD_SALT)

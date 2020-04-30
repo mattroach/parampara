@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import AuthContext from 'superadmin/AuthContext'
 
-type Props = {
-  password: string
-}
-
-const CreateUser: React.FunctionComponent<Props> = ({ password }) => {
+const CreateUser: React.FunctionComponent = () => {
+  const password = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const updateEmail = (event: any) => setEmail(event.target.value)
   const submit = (event: any) => {
