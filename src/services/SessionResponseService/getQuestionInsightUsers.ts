@@ -1,4 +1,4 @@
-import SessionUser from 'src/models/SessionUser'
+import SessionUser from '../../models/SessionUser'
 import { InsightFilter } from '../../../frontend/src/types/insightTypes'
 import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
 import buildKnexFilter from './buildKnexFilter'

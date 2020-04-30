@@ -1,12 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import ItemWrap from '../components/item-types/ItemWrap'
-import ResponseButton from '../components/action-types/ChooseResponse/ResponseButton'
 import logoSrc from './parampara-logo.svg'
-
-const Wrapper = styled(ItemWrap)`
-  text-align: center;
-`
+import Button from './Button'
 
 const Logo = styled.img.attrs({ src: logoSrc, alt: 'Parampara' })`
   height: 0.6em;
@@ -19,11 +14,9 @@ type Props = {
 }
 
 const CreateParamparaButton: React.FunctionComponent<Props> = ({ onClick }) => (
-  <Wrapper>
-    <ResponseButton onClick={onClick}>
-      Create a <Logo />
-    </ResponseButton>
-  </Wrapper>
+  <Button onClick={onClick}>
+    Create a <Logo />
+  </Button>
 )
 
 export default CreateParamparaButton
