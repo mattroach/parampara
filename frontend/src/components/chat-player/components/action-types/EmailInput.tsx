@@ -2,7 +2,7 @@ import React from 'react'
 import TextInput from './TextInput'
 
 type Props = {
-  onSubmit: (content: string) => void
+  onSubmit: (email: string) => void
 }
 
 function validateEmail(email: string) {

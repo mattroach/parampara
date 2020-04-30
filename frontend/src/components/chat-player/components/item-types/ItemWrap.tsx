@@ -4,8 +4,11 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   margin: 10px 0;
 `
-
-const AnimatedContent = styled.span<{ disableAnimateIn?: boolean; unlimitedWidth?: boolean }>`
+type AnimatedContentProps = {
+  disableAnimateIn?: boolean
+  unlimitedWidth?: boolean
+}
+const AnimatedContent = styled.span<AnimatedContentProps>`
   display: inline-block;
   ${props => !props.unlimitedWidth && 'max-width: 75%;'}
 
@@ -35,7 +38,10 @@ const ItemWrap: React.RefForwardingComponent<HTMLDivElement, Props> = (
 ) => {
   return (
     <Wrapper className={className} ref={ref}>
-      <AnimatedContent disableAnimateIn={disableAnimateIn} unlimitedWidth={unlimitedWidth}>
+      <AnimatedContent
+        disableAnimateIn={disableAnimateIn}
+        unlimitedWidth={unlimitedWidth}
+      >
         {children}
       </AnimatedContent>
     </Wrapper>

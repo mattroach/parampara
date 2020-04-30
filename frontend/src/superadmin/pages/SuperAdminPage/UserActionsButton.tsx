@@ -4,7 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 
 type Props = { userId: string }
 
-const UserActionsButton: React.FunctionComponent<Props> = ({}) => {
+const UserActionsButton: React.FunctionComponent<Props> = () => {
   return (
     <DropdownButton
       id="dropdown-basic-button"

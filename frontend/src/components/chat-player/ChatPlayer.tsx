@@ -1,48 +1,33 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import NextItem from './components/NextItem'
-import ProgressedItem from './components/ProgressedItem'
-import UserIdentification from './components/UserIdentification'
 import styled from 'styled-components'
-
-type Props = {
-  isPreviewMode: boolean
-} & ReturnType<typeof mapStateToProps>
+import UserIdentification from './components/UserIdentification'
+import MainScript from './MainScript'
+import CompletionWatermark from './CompletionWatermark'
 
 const ScrollBuffer = styled.div`
   height: 200px;
 `
 
-class ChatPlayer extends React.Component<Props> {
-
-  render() {
-    const { progress, nextItem, isPreviewMode } = this.props
-
-    return (
-      <>
-        <UserIdentification isPreviewMode={isPreviewMode} />
-        {progress && progress.items.map((progressItem, i) => <ProgressedItem key={i} progressItem={progressItem} />)}
-        {progress && nextItem && <NextItem item={nextItem} />}
-        <ScrollBuffer />
-      </>
-    )
-  }
+type Props = {
+  isPreviewMode: boolean
 }
 
-function mapStateToProps(state: RootState) {
-  const { progress } = state.sessionProgressStore
-  const { script } = state.scriptStore
+const ChatPlayer: React.FunctionComponent<Props> = ({ isPreviewMode }) => {
+  const progressLoaded = useSelector(
+    (state: RootState) => !!state.sessionProgressStore.progress
+  )
+  const [completed, setCompleted] = useState(false)
 
-  if (!script)
-    throw Error('Script not loaded')
-
-  let nextItem
-  if (progress) {
-    nextItem = script.version.items[progress.currentItemId]
-  }
-
-  return { progress, nextItem }
+  return (
+    <>
+      <UserIdentification isPreviewMode={isPreviewMode} />
+      {progressLoaded && <MainScript onComplete={() => setCompleted(true)} />}
+      {completed && !isPreviewMode && <CompletionWatermark />}
+      <ScrollBuffer />
+    </>
+  )
 }
 
-export default connect(mapStateToProps, {})(ChatPlayer)
+export default ChatPlayer

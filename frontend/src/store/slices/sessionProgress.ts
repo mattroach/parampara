@@ -75,6 +75,15 @@ export { initPreviewProgress, clearProgress }
 
 export default sessionProgressSlice.reducer
 
+const getCurrentItemId = (state: RootState) =>
+  state.sessionProgressStore.progress?.currentItemId
+const getScriptItems = (state: RootState) => state.scriptStore.script!.version.items
+
+export const getNextItem = (state: RootState) => {
+  const currentItemId = getCurrentItemId(state)
+  return currentItemId !== undefined ? getScriptItems(state)[currentItemId] : undefined
+}
+
 const calculateDelay = (prevItem: ScriptItem) => {
   let delay = 0
 

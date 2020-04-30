@@ -4,6 +4,7 @@ import { Record, String, Undefined, Boolean } from 'runtypes'
 import Admin from '../models/Admin'
 import adminService from '../services/AdminService'
 import scriptService from '../services/ScriptService'
+import { isValidEmail } from './Admin'
 
 const PASSWORD = 'f43gdo8jgo3'
 
@@ -43,15 +44,11 @@ router.get('/getUsers', async (req, res, next) => {
   }
 })
 
-function isValidEmail(email: string) {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(email.toLowerCase())
-}
-
 const CreateUserBody = Record({
   email: String.withConstraint(isValidEmail)
 })
 
+// Deprecated - use API in Admin route
 router.post('/createUser', async (req, res, next) => {
   try {
     const { email } = CreateUserBody.check(req.body)

@@ -42,11 +42,13 @@ class UserIdentification extends React.Component<Props, State> {
   }
 
   initProgress = (email?: string) => {
-    //TODO this could be better. The loading of progress from the server may already take time, so silly to delay double
     setTimeout(() => {
-      if (this.props.isPreviewMode) this.props.initPreviewProgress()
-      else this.props.loadProgressFromServer(this.props.scriptId, email)
-    }, MESSAGE_BASE_DELAY / 2) // TODO just divide by 2 to estimate the response from the server
+      if (this.props.isPreviewMode) {
+        this.props.initPreviewProgress()
+      } else {
+        this.props.loadProgressFromServer(this.props.scriptId, email)
+      }
+    }, MESSAGE_BASE_DELAY / 2) // divide by 2 as the server request time will add additional wait
   }
 
   render() {
@@ -66,10 +68,7 @@ class UserIdentification extends React.Component<Props, State> {
 
 function mapStateToProps(state: RootState) {
   const { script } = state.scriptStore
-
-  if (!script) throw new Error('Script should be loaded')
-
-  return { allowAnon: script.allowAnon, scriptId: script.id }
+  return { allowAnon: script!.allowAnon, scriptId: script!.id }
 }
 
 const mapDispatchToProps = { loadProgressFromServer, initPreviewProgress }

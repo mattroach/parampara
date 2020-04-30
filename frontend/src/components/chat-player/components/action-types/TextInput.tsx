@@ -64,19 +64,19 @@ const TextInput: React.FunctionComponent<Props> = ({
     <Wrapper ref={containerRef as any}>
       <Form onSubmit={handleSubmit}>
         <Form.Row>
-          <Form.Group as={Col} controlId="email">
+          <Form.Group as={Col} controlId="email" xs="auto">
             <MessageInput
               placeholder={placeholder}
               onChange={updateContent}
               isInvalid={isInvalid() && content !== ''}
-              autocomplete="off"
+              autoComplete="off"
               autoFocus
             />
             <Form.Control.Feedback type="invalid">
               {invalidMessage || 'Invalid input'}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} controlId="submit">
+          <Form.Group as={Col} controlId="submit" xs="auto">
             <GoButton variant="primary" type="submit" disabled={isInvalid()}>
               Go
             </GoButton>

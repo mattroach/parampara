@@ -6,6 +6,11 @@ import { LoginResponse, PartialScript, ScriptVersionType } from './types'
 
 const api = {
   ...authenticated,
+  async createAccount(email: string): Promise<string> {
+    const response = await axios.post('/api/admin/', { email })
+    return response.data.id
+  },
+
   async login(adminId: string, password?: string): Promise<LoginResponse> {
     const response = await axios.post(`/api/admin/${adminId}/login`, { password })
     return response.data
