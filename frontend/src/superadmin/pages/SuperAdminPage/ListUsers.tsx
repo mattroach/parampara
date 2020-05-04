@@ -7,9 +7,11 @@ import UserActionsButton from './UserActionsButton'
 import styled from 'styled-components'
 import ProToggle from './ProToggle'
 import { SubscriptionTier } from 'types/adminTypes'
+import dayjs from 'dayjs'
 
 type User = {
   id: string
+  created: string
   email: string
   subscriptionTier: SubscriptionTier
 }
@@ -31,6 +33,7 @@ const ListUsers: React.FunctionComponent = () => {
         <thead>
           <tr>
             <th>Email</th>
+            <th>Created on</th>
             <th>Subscription</th>
             <th></th>
           </tr>
@@ -43,6 +46,7 @@ const ListUsers: React.FunctionComponent = () => {
                   <td>
                     <Link to={`/u/${user.id}`}>{user.email}</Link>
                   </td>
+                  <td>{dayjs(user.created).format('DD MMM YYYY, h:mma')}</td>
                   <td className="subscription">
                     <ProToggle userId={user.id} isPro={user.subscriptionTier === 'pro'} />
                   </td>
