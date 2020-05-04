@@ -63,7 +63,7 @@ const ResultsNav: React.FunctionComponent = () => {
       </StyledNavItem>
       <StyledNavItem>
         <LinkContainer to={to('insights')}>
-          <StyledNavLink disabled={!subscription.canViewInsights()}>
+          <StyledNavLink>
             Insights{subscription.canViewInsights() || <ProOnly>pro</ProOnly>}
           </StyledNavLink>
         </LinkContainer>
