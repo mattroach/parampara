@@ -9,6 +9,7 @@ export default class SessionResponse extends Model {
   responseType!: ScriptActionType
   message!: string
   response!: string
+  created!: string
 
   static tableName = 'session_response'
 }

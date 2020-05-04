@@ -14,11 +14,9 @@ Model.knex(knex)
 const app = express()
 
 if (process.env.NODE_ENV === 'production') {
-  // Redirect to HTTPS
+  // If HTTP, redirect to HTTPS
   app.use((req, res, next) => {
-    // Insecure request?
     if (req.get('x-forwarded-proto') == 'http') {
-      // Redirect to https://
       return res.redirect('https://' + req.get('host') + req.url)
     }
 
@@ -37,6 +35,7 @@ app.use('/api', BaseRouter)
 const publicDir = path.join(__dirname, '../public')
 app.use(express.static(publicDir))
 
+// Inject special OG metadata for the script player
 app.get('/s/:scriptId', (req, res) => {
   const { scriptId } = req.params
 

@@ -7,7 +7,7 @@ import { AppDispatch } from 'store/store'
 import Actions from './Actions'
 import EmptyState from './EmptyState'
 import ResultsTable from './ResultsTable'
-import transposeResults from './transposeResults'
+import transposeSessionResults from '../../../services/transposeSessionResults'
 
 const Results: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
@@ -15,7 +15,7 @@ const Results: React.FunctionComponent = () => {
   const scriptResults = useSelector((state: RootState) => state.scriptResultsStore.data)
 
   const transposedResults = useMemo(
-    () => (scriptResults ? transposeResults(scriptResults) : undefined),
+    () => (scriptResults ? transposeSessionResults(scriptResults) : undefined),
     [scriptResults]
   )
 

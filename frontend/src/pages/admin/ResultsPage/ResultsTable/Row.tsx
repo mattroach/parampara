@@ -3,7 +3,7 @@ import React from 'react'
 import Badge from 'react-bootstrap/Badge'
 import DurationFormatted from './DurationFormatted'
 import ProgressBar from './ProgressBar'
-import { SessionWithKeyedResponses } from '../transposeResults'
+import { SessionWithKeyedResponses } from '../../../../services/transposeSessionResults'
 import { Select } from './Selection'
 
 type Props = {

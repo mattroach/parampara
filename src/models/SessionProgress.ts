@@ -13,9 +13,10 @@ export default class SessionProgress extends Model {
   progress!: number
   durationSec!: number
   referrerCode?: string
+  created!: string
 
-  sessionUser?: SessionUser
-  responses?: SessionResponse[]
+  sessionUser!: SessionUser
+  responses!: SessionResponse[]
   scriptVersion?: ScriptVersion
 
   static tableName = 'session_progress'

@@ -2,6 +2,7 @@ import React from 'react'
 import DeleteAction from './DeleteAction'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import ExportAction from './ExportAction'
 
 const Actions: React.FunctionComponent = () => {
   return (
@@ -9,7 +10,9 @@ const Actions: React.FunctionComponent = () => {
       <Col>
         <DeleteAction />
       </Col>
-      <Col style={{ textAlign: 'right', height: 38 }}>{/* <ExportAction /> */}</Col>
+      <Col style={{ textAlign: 'right' }}>
+        <ExportAction />
+      </Col>
     </Row>
   )
 }

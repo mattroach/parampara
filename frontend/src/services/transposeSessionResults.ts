@@ -1,4 +1,4 @@
-import { Session, SessionResponse } from 'api/types'
+import { Session, SessionResponse } from '../api/types'
 
 export type SessionWithKeyedResponses = {
   responseByMessage: { [message: string]: SessionResponse }
@@ -9,7 +9,7 @@ export type TransposedResponses = {
   columns: string[]
 }
 
-const transposeResults = (sessions: Session[]): TransposedResponses => {
+const transposeSessionResults = (sessions: Session[]): TransposedResponses => {
   const columns: any = {}
 
   const transposedSessions = sessions.map(session => {
@@ -31,4 +31,4 @@ const transposeResults = (sessions: Session[]): TransposedResponses => {
   }
 }
 
-export default transposeResults
+export default transposeSessionResults
