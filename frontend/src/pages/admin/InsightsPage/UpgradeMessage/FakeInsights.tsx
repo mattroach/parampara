@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import QuestionBreakdown from '../QuestionBreakdown'
+import QuestionBreakdown from '../QuestionInsights/QuestionBreakdown'
 
 const Wrapper = styled.div`
   filter: blur(4px);

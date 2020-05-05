@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
 import api from 'api'
 import { QuestionInsight } from 'api/types'
 import { AppThunk } from 'store/store'
@@ -6,9 +6,9 @@ import { InsightFilter, InsightFilterKey, InsightFilterValue } from 'types/insig
 
 export type ScriptsInsightsStore = {
   isLoadingData: boolean
-  data?: QuestionInsight[]
+  questionData?: QuestionInsight[]
   filter: Partial<InsightFilter>
-  unfilteredData?: QuestionInsight[]
+  unfilteredQuestionData?: QuestionInsight[]
 }
 
 const initialState: ScriptsInsightsStore = {
@@ -23,12 +23,12 @@ const scriptResultsSlice = createSlice({
     setLoadingData(state) {
       state.isLoadingData = true
     },
-    updateData(state, action: PayloadAction<QuestionInsight[]>) {
-      state.data = action.payload
+    updateQuestionData(state, action: PayloadAction<QuestionInsight[]>) {
+      state.questionData = action.payload
       state.isLoadingData = false
     },
-    updateUnfilteredData(state, action: PayloadAction<QuestionInsight[]>) {
-      state.unfilteredData = action.payload
+    updateUnfilteredQuestionData(state, action: PayloadAction<QuestionInsight[]>) {
+      state.unfilteredQuestionData = action.payload
     },
     setFilterKey(state, action: PayloadAction<InsightFilterKey>) {
       state.filter.key = action.payload
@@ -48,8 +48,8 @@ const scriptResultsSlice = createSlice({
 
 const {
   setLoadingData,
-  updateData,
-  updateUnfilteredData,
+  updateQuestionData,
+  updateUnfilteredQuestionData,
   setFilterKey,
   removeFilter,
   setFilterValue,
@@ -59,7 +59,12 @@ export { setFilterKey, removeFilter, setFilterValue, removeFilterValue }
 
 export default scriptResultsSlice.reducer
 
-export const loadScriptInsights = (): AppThunk<Promise<void>> => async (
+export const getQuestions = createSelector(
+  (state: ScriptsInsightsStore) => state.unfilteredQuestionData,
+  data => data?.map(i => i.question)
+)
+
+export const loadScriptQuestionInsights = (): AppThunk<Promise<void>> => async (
   dispatch,
   getState
 ) => {
@@ -77,12 +82,12 @@ export const loadScriptInsights = (): AppThunk<Promise<void>> => async (
   //await new Promise(r => setTimeout(r, 1000)) //sleep for testing transitions
 
   if (!filterParam) {
-    dispatch(updateUnfilteredData(data))
+    dispatch(updateUnfilteredQuestionData(data))
   }
-  dispatch(updateData(data))
+  dispatch(updateQuestionData(data))
 }
 
-export const loadScriptInsightUsers = (
+export const loadScriptQuestionInsightUsers = (
   question: string,
   answer: string
 ): AppThunk<Promise<string[]>> => async (dispatch, getState) => {

@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { RootState } from 'store/rootReducer'
 import { useSelector, useDispatch } from 'react-redux'
-import { setFilterKey, removeFilter } from 'store/slices/scriptInsights'
+import { setFilterKey, removeFilter, getQuestions } from 'store/slices/scriptInsights'
 import AdvancedSelect from './inputs/AdvancedSelect'
 import { InsightFilterType, InsightFilterKey } from 'types/insightTypes'
 
@@ -12,11 +12,9 @@ const FilterTypeInput: React.FunctionComponent = () => {
     (state: RootState) => state.scriptInsightsStore.filter.key
   ) as InsightFilterKey<InsightFilterType.Question> | undefined
 
-  const data = useSelector(
-    (state: RootState) => state.scriptInsightsStore.unfilteredData!
+  const questions = useSelector(
+    (state: RootState) => getQuestions(state.scriptInsightsStore)!
   )
-
-  const questions = useMemo(() => data.map(i => i.question), [data])
 
   const onUnset = () => dispatch(removeFilter())
   const onSet = (value: string) =>

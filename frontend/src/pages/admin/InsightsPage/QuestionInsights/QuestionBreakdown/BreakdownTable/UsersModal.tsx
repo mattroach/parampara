@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { useDispatch } from 'react-redux'
-import { loadScriptInsightUsers } from 'store/slices/scriptInsights'
+import { loadScriptQuestionInsightUsers } from 'store/slices/scriptInsights'
 import { AppDispatch } from 'store/store'
 
 type Props = {
@@ -24,7 +24,7 @@ const UsersModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (show) {
-      dispatch(loadScriptInsightUsers(question, answer)).then(setUsers)
+      dispatch(loadScriptQuestionInsightUsers(question, answer)).then(setUsers)
     }
   }, [dispatch, show, question, answer])
 

@@ -9,6 +9,7 @@ import { InsightFilterKey, InsightFilterType } from 'types/insightTypes'
 import ClearFilter, { ICON_WIDTH } from './ClearFilter'
 import styled from 'styled-components'
 import Sticky from 'components/Sticky'
+import Navigation from './Navigation'
 
 const StyledSticky = styled(Sticky)`
   background: #fff;
@@ -43,6 +44,7 @@ const Filters: React.FunctionComponent = () => {
     <StyledSticky>
       {({ isSticky }) => (
         <Wrapper isSticky={isSticky}>
+          <Navigation />
           <h6>Filter</h6>
           <Form.Row>
             <Col>

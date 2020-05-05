@@ -20,7 +20,7 @@ const AnswerInput: React.FunctionComponent<Props> = ({ filterKey }) => {
   const onSet = (value: string) => dispatch(setFilterValue({ value }))
 
   const data = useSelector(
-    (state: RootState) => state.scriptInsightsStore.unfilteredData!
+    (state: RootState) => state.scriptInsightsStore.unfilteredQuestionData!
   )
 
   const answers = useMemo(
