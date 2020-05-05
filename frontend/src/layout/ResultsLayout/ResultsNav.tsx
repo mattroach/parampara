@@ -6,13 +6,15 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { RootState } from 'store/rootReducer'
 import { getSubscription } from 'store/slices/admin'
 import Badge from 'react-bootstrap/Badge'
+import RootContainer from 'layout/RootContainer'
 
-const StyledNav = styled(Nav)`
-  padding: 0 20px;
+const Wrapper = styled.section`
   background: #fafafa;
   border-top: 1px solid #dee2e6;
   border-bottom: 1px solid #dee2e6;
+`
 
+const StyledNav = styled(Nav)`
   .active {
     color: var(--dark) !important;
     font-weight: bold;
@@ -55,20 +57,24 @@ const ResultsNav: React.FunctionComponent = () => {
   const to = (path: string) => `/builder/${adminId}/${scriptId}/results/${path}`
 
   return (
-    <StyledNav>
-      <StyledNavItem>
-        <LinkContainer to={to('')} exact>
-          <StyledNavLink>Responses</StyledNavLink>
-        </LinkContainer>
-      </StyledNavItem>
-      <StyledNavItem>
-        <LinkContainer to={to('insights')}>
-          <StyledNavLink>
-            Insights{subscription.canViewInsights() || <ProOnly>pro</ProOnly>}
-          </StyledNavLink>
-        </LinkContainer>
-      </StyledNavItem>
-    </StyledNav>
+    <Wrapper>
+      <RootContainer>
+        <StyledNav>
+          <StyledNavItem>
+            <LinkContainer to={to('')} exact>
+              <StyledNavLink>Responses</StyledNavLink>
+            </LinkContainer>
+          </StyledNavItem>
+          <StyledNavItem>
+            <LinkContainer to={to('insights')}>
+              <StyledNavLink>
+                Insights{subscription.canViewInsights() || <ProOnly>pro</ProOnly>}
+              </StyledNavLink>
+            </LinkContainer>
+          </StyledNavItem>
+        </StyledNav>
+      </RootContainer>
+    </Wrapper>
   )
 }
 

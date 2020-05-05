@@ -6,11 +6,7 @@ import { loadScriptQuestionInsights } from 'store/slices/scriptInsights'
 import styled from 'styled-components'
 import Filters from './Filters'
 import QuestionInsights from './QuestionInsights'
-
-const Wrapper = styled.section`
-  max-width: var(--breakpoint-xl);
-  padding: 0 20px;
-`
+import RootContainer from 'layout/RootContainer'
 
 const Heading = styled.h4`
   margin: 1rem 0;
@@ -43,13 +39,13 @@ const Insights: React.FunctionComponent = () => {
   }
 
   return (
-    <Wrapper>
+    <RootContainer>
       <Filters />
       <Heading id="questions">Multiple choice responses</Heading>
       <QuestionInsights />
       <Heading id="comments">Comments</Heading>
       <p>Comment insights coming soon!</p>
-    </Wrapper>
+    </RootContainer>
   )
 }
 

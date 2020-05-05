@@ -37,7 +37,7 @@ const QuestionBreakdown: React.FunctionComponent<Props> = ({ question, data }) =
           focusIndex={focusIndex}
         />
       </Col>
-      <Col xs="4">
+      <Col sm="auto">
         <VizContainer>
           <Visualization data={dataWithColors} onHover={setFocusIndex} />
         </VizContainer>
@@ -57,8 +57,7 @@ const QuestionHeader = styled.h6`
 `
 
 const VizContainer = styled.div`
-  max-width: 175px;
-  margin: 0 auto;
+  width: 175px;
 `
 
 export default QuestionBreakdown

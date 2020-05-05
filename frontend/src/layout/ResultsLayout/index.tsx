@@ -6,6 +6,7 @@ import { RootState } from 'store/rootReducer'
 import Loader from 'components/Loader'
 import { checkPasswordRequirement } from 'store/slices/authentication'
 import Authentication from './Authentication'
+import RootContainer from 'layout/RootContainer'
 
 const ResultsLayout: React.FunctionComponent = ({ children }) => {
   const dispatch = useDispatch()
@@ -30,7 +31,9 @@ const ResultsLayout: React.FunctionComponent = ({ children }) => {
 
   return (
     <>
-      <SummaryStats />
+      <RootContainer>
+        <SummaryStats />
+      </RootContainer>
       <ResultsNav />
       {children}
     </>

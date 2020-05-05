@@ -3,11 +3,10 @@ import styled from 'styled-components'
 
 import AdminLayout from 'layout/AdminLayout'
 import Scripts from './components/Scripts'
+import RootContainer from 'layout/RootContainer'
 
 const Wrapper = styled.section`
-  margin: 60px auto 0 auto;
-  max-width: 1000px;
-  padding: 0 20px;
+  margin-top: 40px;
 `
 type Props = {
   adminId: string
@@ -15,10 +14,12 @@ type Props = {
 
 const ScriptDirectory: React.FunctionComponent<Props> = ({ adminId }) => (
   <AdminLayout adminId={adminId}>
-    <Wrapper>
-      <h2>My Parampara</h2>
-      <Scripts adminId={adminId} />
-    </Wrapper>
+    <RootContainer>
+      <Wrapper>
+        <h2>My Parampara</h2>
+        <Scripts adminId={adminId} />
+      </Wrapper>
+    </RootContainer>
   </AdminLayout>
 )
 

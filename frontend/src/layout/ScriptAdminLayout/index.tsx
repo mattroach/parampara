@@ -43,8 +43,14 @@ const ScriptAdminLayout: React.FunctionComponent<Props> = ({
         </Nav.Link>
       }
     >
-      {scriptLoaded ? <Header /> : <Loader />}
-      {scriptLoaded && children}
+      {scriptLoaded ? (
+        <>
+          <Header />
+          {children}
+        </>
+      ) : (
+        <Loader />
+      )}
     </AdminLayout>
   )
 }

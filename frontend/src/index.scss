@@ -1,3 +1,7 @@
+$primary: #006bfa;
+
+@import '~bootstrap/scss/bootstrap';
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -5,10 +9,6 @@ body {
 
 table {
   line-height: normal;
-}
-
-.bg-primary {
-  background-color: #006bfa !important;
 }
 
 button:disabled {

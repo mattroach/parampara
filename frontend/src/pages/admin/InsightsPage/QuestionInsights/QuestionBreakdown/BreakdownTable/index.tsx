@@ -17,6 +17,7 @@ const StyledTable = styled(Table)`
 
 const StatTd = styled.td`
   text-align: right;
+  white-space: nowrap;
 `
 
 const Tr = styled.tr<{ isFocused: boolean }>`
