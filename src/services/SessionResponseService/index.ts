@@ -12,7 +12,7 @@ class SessionResponseService {
       .select('id', 'sessionUserId', 'created', 'progress', 'durationSec', 'referrerCode')
       .withGraphFetched('[responses, sessionUser]')
       .where('scriptId', scriptId)
-      .where('progress', '!=', 0)
+      .modify('hasMinProgress')
       .orderBy('created', 'DESC')
   }
 

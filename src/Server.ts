@@ -5,7 +5,7 @@ import logger from 'morgan'
 import { Model } from 'objection'
 import path from 'path'
 import getScriptOG from './getScriptOG'
-import BaseRouter from './routes'
+import APIRouter from './api'
 import knex from './knex'
 
 Model.knex(knex)
@@ -29,11 +29,16 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-app.use('/api', BaseRouter)
+app.use('/api', APIRouter)
 
 // For dist builds ONLY - not useful for local dev runtime
 const publicDir = path.join(__dirname, '../public')
 app.use(express.static(publicDir))
+
+// Redirect home page to getparampara.com
+app.get('/', (req, res) => {
+  return res.redirect('https://www.getparampara.com')
+})
 
 // Inject special OG metadata for the script player
 app.get('/s/:scriptId', (req, res) => {

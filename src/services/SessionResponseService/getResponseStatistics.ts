@@ -1,4 +1,4 @@
-import SessionProgress from '../../models/SessionProgress'
+import SessionProgress, { MIN_COMPLETION_PROGRESS } from '../../models/SessionProgress'
 import Objection = require('objection')
 import SessionResponse from '../../models/SessionResponse'
 import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
@@ -13,6 +13,7 @@ const getSessionAggregations = (scriptId: string) =>
       knex.raw('sum(duration_sec) as time')
     )
     .where('scriptId', scriptId)
+    .where('progress', '>=', MIN_COMPLETION_PROGRESS)
     .then(r => ({
       completed: Number(r[0].completed),
       all: Number(r[0].all),

@@ -7,7 +7,7 @@ const ExportAction: React.FunctionComponent = () => {
   const scriptId = useSelector((state: RootState) => state.scriptStore.script!.id)
 
   return (
-    <Button variant="light" href={`http://localhost:3001/api/script/${scriptId}/export`}>
+    <Button variant="light" href={`/api/script/${scriptId}/export`}>
       Export to CSV
     </Button>
   )
