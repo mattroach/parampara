@@ -6,6 +6,7 @@ import adminService from '../services/AdminService'
 import scriptService from '../services/ScriptService'
 import sessionProgressService from '../services/SessionProgressService'
 import sessionResponseService from '../services/SessionResponseService'
+import scriptExportService from '../services/ScriptExportService'
 
 const authenticatedRouter = Router()
 const router = Router()
@@ -32,6 +33,19 @@ authenticatedRouter.get('/:id/responses', async (req, res, next) => {
     const results = await sessionResponseService.getSessionsWithResponses(scriptId)
 
     return res.status(OK).json(results)
+  } catch (err) {
+    next(err)
+  }
+})
+
+authenticatedRouter.get('/:id/responses/export', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
+
+    const filename = await scriptExportService.getFilename(scriptId)
+    res.attachment(`${filename}.csv`)
+
+    await scriptExportService.asCSV(scriptId, res)
   } catch (err) {
     next(err)
   }

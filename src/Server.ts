@@ -31,14 +31,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api', APIRouter)
 
-// For dist builds ONLY - not useful for local dev runtime
-const publicDir = path.join(__dirname, '../public')
-app.use(express.static(publicDir))
-
 // Redirect home page to getparampara.com
 app.get('/', (req, res) => {
   return res.redirect('https://www.getparampara.com')
 })
+
+// For dist builds ONLY - not useful for local dev runtime
+const publicDir = path.join(__dirname, '../public')
+app.use(express.static(publicDir))
 
 // Inject special OG metadata for the script player
 app.get('/s/:scriptId', (req, res) => {

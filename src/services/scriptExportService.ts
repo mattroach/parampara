@@ -17,7 +17,7 @@ class ScriptExportService {
     stringifier.on('readable', function() {
       let row
       while ((row = stringifier.read())) {
-        writeStream.write(row)
+        writeStream.write(row, 'utf8')
       }
     })
     stringifier.on('error', function(err) {

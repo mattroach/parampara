@@ -3,7 +3,6 @@ import { NOT_FOUND, OK } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
 import Script from '../models/Script'
 import scriptService, { ScriptVersionCode } from '../services/ScriptService'
-import scriptExportService from '../services/scriptExportService'
 
 const router = Router()
 
@@ -46,19 +45,6 @@ router.get('/:id', async (req, res, next) => {
     response.isPublished = countResult.count > 1
 
     return res.status(OK).json(response)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/:id/export', async (req, res, next) => {
-  try {
-    const { id: scriptId } = req.params
-
-    const filename = await scriptExportService.getFilename(scriptId)
-    res.attachment(`${filename}.csv`)
-
-    await scriptExportService.asCSV(scriptId, res)
   } catch (err) {
     next(err)
   }
