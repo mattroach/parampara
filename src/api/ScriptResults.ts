@@ -93,6 +93,19 @@ authenticatedRouter.get('/:id/questionInsights', async (req, res, next) => {
   }
 })
 
+authenticatedRouter.get('/:id/commentInsights', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
+    const filter = req.query.filter as InsightFilter | undefined
+
+    const results = await sessionResponseService.getCommentInsights(scriptId, filter)
+
+    return res.status(OK).json(results)
+  } catch (err) {
+    next(err)
+  }
+})
+
 const InsightUsersQuery = Record({
   filter: Unknown,
   question: String,

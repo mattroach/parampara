@@ -1,5 +1,4 @@
-import { usePrevious } from 'hooks/usePrevious'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { loadScriptQuestionInsights } from 'store/slices/scriptInsights'
@@ -13,16 +12,18 @@ const Results = styled.div<{ isLoading: boolean }>`
 
 const QuestionInsights: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const filter = useSelector((state: RootState) => state.scriptInsightsStore.filter)
-  const prev = usePrevious({ filter })
+  const filterValue = useSelector(
+    (state: RootState) => state.scriptInsightsStore.filter?.value
+  )
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
-    // If the filter value has changed, reload
-    if (prev && prev.filter?.value !== filter?.value) {
-      dispatch(loadScriptQuestionInsights())
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, dispatch])
+    dispatch(loadScriptQuestionInsights())
+  }, [filterValue, dispatch])
 
   const insights = useSelector(
     (state: RootState) => state.scriptInsightsStore.questionData!

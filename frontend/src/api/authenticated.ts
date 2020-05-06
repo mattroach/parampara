@@ -1,11 +1,22 @@
 import { InsightFilter } from 'types/insightTypes'
 import axios from './axios'
-import { QuestionInsight, ResponseStatistics, Session } from './types'
+import { QuestionInsight, ResponseStatistics, Session, CommentInsight } from './types'
 
 const api = {
   async getScriptResponses(scriptId: string, loginToken?: string): Promise<Session[]> {
     const response = await axios.get(`/api/script/${scriptId}/responses`, {
       params: { loginToken }
+    })
+    return response.data
+  },
+
+  async getScriptCommentInsights(
+    scriptId: string,
+    loginToken?: string,
+    filter?: InsightFilter<any>
+  ): Promise<CommentInsight[]> {
+    const response = await axios.get(`/api/script/${scriptId}/commentInsights`, {
+      params: { filter, loginToken }
     })
     return response.data
   },

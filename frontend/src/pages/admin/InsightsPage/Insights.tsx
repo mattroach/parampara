@@ -39,13 +39,15 @@ const Insights: React.FunctionComponent = () => {
   }
 
   return (
-    <RootContainer>
+    <>
       <Filters />
-      <Heading id="questions">Multiple choice responses</Heading>
-      <QuestionInsights />
-      <Heading id="comments">Comments</Heading>
-      <p>Comment insights coming soon!</p>
-    </RootContainer>
+      <RootContainer>
+        <Heading id="questions">Multiple choice responses</Heading>
+        <QuestionInsights />
+        <Heading id="comments">Comments</Heading>
+        <p>Comment insights coming soon!</p>
+      </RootContainer>
+    </>
   )
 }
 

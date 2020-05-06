@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import RootContainer from 'layout/RootContainer'
 
-const Wrapper = styled.div`
+const Wrapper = styled(RootContainer)`
   color: #666;
 `
 

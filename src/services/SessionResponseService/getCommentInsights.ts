@@ -1,6 +1,5 @@
 import { InsightFilter } from '../../../frontend/src/types/insightTypes'
 import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
-import knex from '../../knex'
 import SessionResponse from '../../models/SessionResponse'
 import buildKnexFilter from './buildKnexFilter'
 import Objection = require('objection')
@@ -8,8 +7,8 @@ import Objection = require('objection')
 type Insight = {
   question: string
   data: {
+    created: string
     answer: string
-    numUsers: number
   }[]
 }
 
@@ -20,20 +19,20 @@ type InsightMap = {
 type RawData = {
   message: string
   response: string
-  count: string
+  created: string
 }[]
 
 const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData> => {
   const q = SessionResponse.knexQuery()
     .select(
       'sessionResponse.message',
-      'sessionResponse.response',
-      knex.raw('count(distinct session_response.id) as count')
+      'sessionResponse.created',
+      'sessionResponse.response'
     )
     .where('sessionResponse.scriptId', scriptId)
-    .where('sessionResponse.responseType', ScriptActionType.ChooseResponse)
-    .orderBy('count', 'DESC')
-    .groupBy('sessionResponse.message', 'sessionResponse.response')
+    .where('sessionResponse.responseType', '!=', ScriptActionType.ChooseResponse)
+    .orderBy('sessionResponse.message', 'DESC')
+    .orderBy('sessionResponse.created', 'DESC')
 
   if (filter) {
     buildKnexFilter(q, filter)
@@ -42,7 +41,7 @@ const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData> => 
   return q
 }
 
-const getQuestionInsights = async (
+const getCommentInsights = async (
   scriptId: string,
   filter?: InsightFilter
 ): Promise<Insight[]> => {
@@ -54,7 +53,7 @@ const getQuestionInsights = async (
     if (insightMap[dataItem.message]) {
       insightMap[dataItem.message].data.push({
         answer: dataItem.response,
-        numUsers: Number(dataItem.count)
+        created: dataItem.created
       })
     } else {
       insightMap[dataItem.message] = {
@@ -62,7 +61,7 @@ const getQuestionInsights = async (
         data: [
           {
             answer: dataItem.response,
-            numUsers: Number(dataItem.count)
+            created: dataItem.created
           }
         ]
       }
@@ -72,4 +71,4 @@ const getQuestionInsights = async (
   return Object.values(insightMap)
 }
 
-export default getQuestionInsights
+export default getCommentInsights

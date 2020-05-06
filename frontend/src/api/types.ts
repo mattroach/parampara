@@ -41,6 +41,14 @@ export type QuestionInsight = {
   }[]
 }
 
+export type CommentInsight = {
+  question: string
+  data: {
+    answer: string
+    created: string
+  }[]
+}
+
 export type ResponseStatistics = {
   numSessions: number
   numComments: number
