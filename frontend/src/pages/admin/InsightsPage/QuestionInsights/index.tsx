@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import Loader from 'components/Loader'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { loadScriptQuestionInsights } from 'store/slices/scriptInsights'
@@ -15,22 +16,21 @@ const QuestionInsights: React.FunctionComponent = () => {
   const filterValue = useSelector(
     (state: RootState) => state.scriptInsightsStore.filter?.value
   )
-  const isInitialMount = useRef(true)
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false
-      return
-    }
     dispatch(loadScriptQuestionInsights())
   }, [filterValue, dispatch])
 
   const insights = useSelector(
-    (state: RootState) => state.scriptInsightsStore.questionData!
+    (state: RootState) => state.scriptInsightsStore.questionData
   )
   const isLoadingData = useSelector(
     (state: RootState) => state.scriptInsightsStore.isLoadingData
   )
+
+  if (!insights) {
+    return <Loader />
+  }
 
   return (
     <Results isLoading={isLoadingData}>

@@ -12,8 +12,8 @@ const FilterTypeInput: React.FunctionComponent = () => {
     (state: RootState) => state.scriptInsightsStore.filter.key
   ) as InsightFilterKey<InsightFilterType.Question> | undefined
 
-  const questions = useSelector(
-    (state: RootState) => getQuestions(state.scriptInsightsStore)!
+  const questions = useSelector((state: RootState) =>
+    getQuestions(state.scriptInsightsStore)
   )
 
   const onUnset = () => dispatch(removeFilter())
@@ -33,7 +33,7 @@ const FilterTypeInput: React.FunctionComponent = () => {
       onUnset={onUnset}
       onSet={onSet}
     >
-      {questions.map(q => (
+      {questions?.map(q => (
         <option key={q}>{q}</option>
       ))}
     </AdvancedSelect>
