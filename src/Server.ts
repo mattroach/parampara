@@ -1,12 +1,12 @@
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import fs from 'fs'
 import logger from 'morgan'
 import { Model } from 'objection'
 import path from 'path'
 import getScriptOG from './getScriptOG'
 import APIRouter from './api'
 import knex from './knex'
+import createIndexProvider from './createIndexProvider'
 
 Model.knex(knex)
 
@@ -31,31 +31,41 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api', APIRouter)
 
+// When running locally, the react server will proxy to the backend. Therefore the APIs below are not
+// used when developing locally.
+
 // Redirect home page to getparampara.com
 app.get('/', (req, res) => {
   return res.redirect('https://www.getparampara.com')
 })
 
-// For dist builds ONLY - not useful for local dev runtime
+app.get('/index.html', (req, res) => {
+  return res.redirect('/')
+})
+
 const publicDir = path.join(__dirname, '../public')
 app.use(express.static(publicDir))
 
-// Inject special OG metadata for the script player
-app.get('/s/:scriptId', (req, res) => {
-  const { scriptId } = req.params
+const indexProvider = createIndexProvider(publicDir)
 
-  fs.readFile(path.resolve(publicDir, 'index.html'), 'utf8', async (err, data) => {
-    if (err) {
-      console.error(err)
-      return res.status(500).send('An error occurred')
-    }
+// Inject special OG metadata for the script player
+app.get('/s/:scriptId', async (req, res, next) => {
+  try {
+    const { scriptId } = req.params
     const headers = await getScriptOG(scriptId)
-    return res.send(data.replace('</head>', headers + '</head>'))
-  })
+
+    res.send(await indexProvider.getWith(headers))
+  } catch (err) {
+    next(err)
+  }
 })
 
-app.get('*', (req, res) => {
-  res.sendFile('index.html', { root: publicDir })
+app.get('*', async (req, res, next) => {
+  try {
+    res.send(await indexProvider.get())
+  } catch (err) {
+    next(err)
+  }
 })
 
 // Export express instance
