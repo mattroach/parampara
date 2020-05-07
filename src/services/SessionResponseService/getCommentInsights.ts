@@ -12,7 +12,7 @@ type Insight = {
 type InsightAnswer = {
   created: string
   answer: string
-  sessionProgressId: string
+  id: string
   peers: PeerMap
 }
 
@@ -23,7 +23,7 @@ type PeerMap = {
 type RawData = {
   question: string
   answer: string
-  sessionProgressId: string
+  id: string
   created: string
   peerMessage: string | null
   peerResponse: string | null
@@ -33,7 +33,7 @@ const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData[]> =
   const q = SessionResponse.knexQuery()
     .select(
       'sessionResponse.message as question',
-      'sessionResponse.sessionProgressId',
+      'sessionResponse.id',
       'sessionResponse.response as answer',
       'sessionResponse.created',
       'peer.message AS peerMessage',
@@ -50,8 +50,8 @@ const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData[]> =
     .where('sessionResponse.responseType', '!=', ScriptActionType.ChooseResponse)
     // The ordering below is critical for the grouping algorithm to work
     .orderBy('sessionResponse.message', 'DESC')
-    .orderBy('sessionResponse.sessionProgressId', 'DESC')
     .orderBy('sessionResponse.created', 'DESC')
+    .orderBy('sessionResponse.id', 'DESC')
 
   if (filter) {
     buildKnexFilter(q, filter)
@@ -72,7 +72,7 @@ const getCommentInsights = async (
 
   data.forEach(row => {
     if (row.question === lastInsight?.question) {
-      if (row.sessionProgressId === lastAnswer!.sessionProgressId) {
+      if (row.id === lastAnswer!.id) {
         lastAnswer!.peers[row.peerMessage!] = row.peerResponse!
       } else {
         lastAnswer = createInsightAnswer(row)
@@ -97,11 +97,11 @@ const createInsightAnswer = (row: RawData): InsightAnswer => {
     peers[row.peerMessage] = row.peerResponse
   }
 
-  const { created, answer, sessionProgressId } = row
+  const { created, answer, id } = row
   return {
     created,
     answer,
-    sessionProgressId,
+    id,
     peers
   }
 }

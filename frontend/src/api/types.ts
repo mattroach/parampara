@@ -49,7 +49,7 @@ export type CommentInsight = {
 export type CommentInsightAnswer = {
   created: string
   answer: string
-  sessionProgressId: string
+  id: string
   peers: PeerMap
 }
 
