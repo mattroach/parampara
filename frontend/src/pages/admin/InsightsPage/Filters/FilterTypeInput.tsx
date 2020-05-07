@@ -2,7 +2,7 @@ import React from 'react'
 import { RootState } from 'store/rootReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { setFilterKey, removeFilter, getQuestions } from 'store/slices/scriptInsights'
-import AdvancedSelect from './inputs/AdvancedSelect'
+import AdvancedSelect from '../../../../components/AdvancedSelect'
 import { InsightFilterType, InsightFilterKey } from 'types/insightTypes'
 
 const FilterTypeInput: React.FunctionComponent = () => {

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { RootState } from 'store/rootReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeFilterValue, setFilterValue } from 'store/slices/scriptInsights'
-import AdvancedSelect from './AdvancedSelect'
+import AdvancedSelect from 'components/AdvancedSelect'
 import { InsightFilterType, InsightFilterKey } from 'types/insightTypes'
 
 type Props = {

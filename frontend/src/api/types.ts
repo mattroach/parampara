@@ -43,10 +43,18 @@ export type QuestionInsight = {
 
 export type CommentInsight = {
   question: string
-  data: {
-    answer: string
-    created: string
-  }[]
+  data: CommentInsightAnswer[]
+}
+
+export type CommentInsightAnswer = {
+  created: string
+  answer: string
+  sessionProgressId: string
+  peers: PeerMap
+}
+
+type PeerMap = {
+  [question: string]: string
 }
 
 export type ResponseStatistics = {

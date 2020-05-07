@@ -8,6 +8,8 @@ const QuestionHeader = styled.h6`
   border-radius: 15px;
   display: inline-block;
 
+  box-shadow: -2px 2px 4px #d9d9d9;
+
   margin: 0;
   /* color: var(--gray);
   font-weight: 600; */

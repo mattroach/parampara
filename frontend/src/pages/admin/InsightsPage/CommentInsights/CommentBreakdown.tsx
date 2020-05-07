@@ -1,21 +1,19 @@
+import { CommentInsight } from 'api/types'
 import dayjs from 'dayjs'
-import React from 'react'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import React, { useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import styled from 'styled-components'
 import QuestionHeader from '../QuestionHeader'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import ExtraColPicker from './ExtraColPicker'
 
 dayjs.extend(relativeTime)
 
-type Props = {
-  question: string
-  data: {
-    answer: string
-    created: string
-  }[]
-}
+type Props = CommentInsight
 
 const CommentBreakdown: React.FunctionComponent<Props> = ({ question, data }) => {
+  const [extraCol, setExtraCol] = useState<string | undefined>(undefined)
+
   return (
     <Wrapper>
       <QuestionHeader>{question}</QuestionHeader>
@@ -24,6 +22,9 @@ const CommentBreakdown: React.FunctionComponent<Props> = ({ question, data }) =>
           <tr>
             <th></th>
             <th>Comment</th>
+            <th style={{ paddingTop: 4, paddingBottom: 4 }}>
+              <ExtraColPicker data={data} value={extraCol} setValue={setExtraCol} />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@ const CommentBreakdown: React.FunctionComponent<Props> = ({ question, data }) =>
             <tr key={i}>
               <th>{dayjs().to(item.created)}</th>
               <td>{item.answer}</td>
+              <td>{(extraCol && item.peers[extraCol]) || ''}</td>
             </tr>
           ))}
         </tbody>
@@ -48,6 +50,14 @@ const StyledTable = styled(Table)`
 
   tbody th {
     white-space: nowrap;
+  }
+
+  thead th:first-of-type {
+    width: 10%;
+  }
+
+  thead th:last-of-type {
+    width: 25%;
   }
 `
 

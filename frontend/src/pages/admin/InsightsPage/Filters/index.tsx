@@ -1,6 +1,6 @@
 import React from 'react'
 import FilterTypeInput from './FilterTypeInput'
-import AnswerInput from './inputs/AnswerInput'
+import AnswerInput from './AnswerInput'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { useSelector } from 'react-redux'
