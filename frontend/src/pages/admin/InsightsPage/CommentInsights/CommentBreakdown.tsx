@@ -3,6 +3,9 @@ import React from 'react'
 import Table from 'react-bootstrap/Table'
 import styled from 'styled-components'
 import QuestionHeader from '../QuestionHeader'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 type Props = {
   question: string
@@ -26,7 +29,7 @@ const CommentBreakdown: React.FunctionComponent<Props> = ({ question, data }) =>
         <tbody>
           {data.map((item, i) => (
             <tr key={i}>
-              <th>{dayjs(item.created).format('DD MMM YYYY, h:mma')}</th>
+              <th>{dayjs().to(item.created)}</th>
               <td>{item.answer}</td>
             </tr>
           ))}

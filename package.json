@@ -7,7 +7,7 @@
     "lint": "tslint --project \"tsconfig.json\"",
     "start": "node -r module-alias/register ./dist",
     "start:staging": "node -r module-alias/register ./dist --env=staging",
-    "start:dev": "nodemon --config nodemon.json",
+    "start:dev": "TZ=UTC nodemon --config nodemon.json",
     "test": "nodemon --config nodemon.test.json"
   },
   "_moduleAliases": {
