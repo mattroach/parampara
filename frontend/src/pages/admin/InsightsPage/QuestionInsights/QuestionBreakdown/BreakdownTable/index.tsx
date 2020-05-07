@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import UsersLink from './UsersLink'
 
 const StyledTable = styled(Table)`
+  margin: 1em 0;
   border-bottom: 1px solid #dee2e6;
   font-size: 0.9rem;
   td {

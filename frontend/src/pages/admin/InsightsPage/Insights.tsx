@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Filters from './Filters'
 import QuestionInsights from './QuestionInsights'
+import CommentInsights from './CommentInsights'
 
 const Heading = styled.h4`
   margin: 1rem 0;
@@ -26,7 +27,7 @@ const Insights: React.FunctionComponent = () => (
       <Heading id="questions">Multiple choice responses</Heading>
       <QuestionInsights />
       <Heading id="comments">Comments</Heading>
-      <p>Comment insights coming soon!</p>
+      <CommentInsights />
     </RootContainer>
   </>
 )

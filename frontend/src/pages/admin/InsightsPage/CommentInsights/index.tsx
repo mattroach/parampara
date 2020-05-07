@@ -2,17 +2,17 @@ import Loader from 'components/Loader'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import { loadScriptQuestionInsights } from 'store/slices/scriptInsights'
+import { loadScriptCommentInsights } from 'store/slices/scriptInsights'
 import styled from 'styled-components'
-import QuestionBreakdown from './QuestionBreakdown'
 import { AppDispatch } from 'store/store'
+import CommentBreakdown from './CommentBreakdown'
 
 const Results = styled.div<{ isLoading: boolean }>`
   opacity: ${props => (props.isLoading ? '0.3' : 1)};
   transition: opacity ${props => (props.isLoading ? '0.25' : '0.1')}s ease-in-out;
 `
 
-const QuestionInsights: React.FunctionComponent = () => {
+const CommentInsights: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -21,12 +21,11 @@ const QuestionInsights: React.FunctionComponent = () => {
   )
 
   useEffect(() => {
-    setIsLoading(true)
-    dispatch(loadScriptQuestionInsights()).then(() => setIsLoading(false))
+    dispatch(loadScriptCommentInsights()).then(() => setIsLoading(false))
   }, [filterValue, dispatch])
 
   const insights = useSelector(
-    (state: RootState) => state.scriptInsightsStore.questionData
+    (state: RootState) => state.scriptInsightsStore.commentData
   )
 
   if (!insights) {
@@ -36,10 +35,10 @@ const QuestionInsights: React.FunctionComponent = () => {
   return (
     <Results isLoading={isLoading}>
       {insights.map(insight => (
-        <QuestionBreakdown key={insight.question} {...insight} />
+        <CommentBreakdown key={insight.question} {...insight} />
       ))}
     </Results>
   )
 }
 
-export default QuestionInsights
+export default CommentInsights

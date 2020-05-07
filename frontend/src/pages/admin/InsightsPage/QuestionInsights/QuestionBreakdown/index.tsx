@@ -5,6 +5,7 @@ import BreakdownTable from './BreakdownTable'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Visualization from './Visualization'
+import QuestionHeader from '../../QuestionHeader'
 
 type Props = {
   question: string
@@ -28,32 +29,28 @@ const QuestionBreakdown: React.FunctionComponent<Props> = ({ question, data }) =
   const [focusIndex, setFocusIndex] = useState<number | undefined>(undefined)
 
   return (
-    <StyledRow>
-      <Col>
-        <QuestionHeader>{question}</QuestionHeader>
-        <BreakdownTable
-          question={question}
-          data={dataWithColors}
-          focusIndex={focusIndex}
-        />
-      </Col>
-      <Col sm="auto">
-        <VizContainer>
-          <Visualization data={dataWithColors} onHover={setFocusIndex} />
-        </VizContainer>
-      </Col>
-    </StyledRow>
+    <Wrapper>
+      <QuestionHeader>{question}</QuestionHeader>
+      <Row>
+        <Col>
+          <BreakdownTable
+            question={question}
+            data={dataWithColors}
+            focusIndex={focusIndex}
+          />
+        </Col>
+        <Col sm="auto" className="align-self-center">
+          <VizContainer>
+            <Visualization data={dataWithColors} onHover={setFocusIndex} />
+          </VizContainer>
+        </Col>
+      </Row>
+    </Wrapper>
   )
 }
 
-const StyledRow = styled(Row)`
+const Wrapper = styled.div`
   margin-top: 2em;
-`
-
-const QuestionHeader = styled.h6`
-  margin: 0 0 1em 0;
-  color: #6c757d;
-  font-weight: 600;
 `
 
 const VizContainer = styled.div`

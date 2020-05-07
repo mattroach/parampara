@@ -1,18 +1,17 @@
 import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
 import api from 'api'
-import { QuestionInsight } from 'api/types'
+import { QuestionInsight, CommentInsight } from 'api/types'
 import { AppThunk } from 'store/store'
 import { InsightFilter, InsightFilterKey, InsightFilterValue } from 'types/insightTypes'
 
 export type ScriptsInsightsStore = {
-  isLoadingData: boolean
   questionData?: QuestionInsight[]
+  commentData?: CommentInsight[]
   filter: Partial<InsightFilter>
   unfilteredQuestionData?: QuestionInsight[]
 }
 
 const initialState: ScriptsInsightsStore = {
-  isLoadingData: false,
   filter: {}
 }
 
@@ -20,12 +19,11 @@ const scriptResultsSlice = createSlice({
   name: 'scriptInsights',
   initialState,
   reducers: {
-    setLoadingData(state) {
-      state.isLoadingData = true
+    updateCommentData(state, action: PayloadAction<CommentInsight[]>) {
+      state.commentData = action.payload
     },
     updateQuestionData(state, action: PayloadAction<QuestionInsight[]>) {
       state.questionData = action.payload
-      state.isLoadingData = false
     },
     updateUnfilteredQuestionData(state, action: PayloadAction<QuestionInsight[]>) {
       state.unfilteredQuestionData = action.payload
@@ -47,7 +45,7 @@ const scriptResultsSlice = createSlice({
 })
 
 const {
-  setLoadingData,
+  updateCommentData,
   updateQuestionData,
   updateUnfilteredQuestionData,
   setFilterKey,
@@ -64,17 +62,31 @@ export const getQuestions = createSelector(
   data => data?.map(i => i.question)
 )
 
+// only fetch the filter if it's a complete filter (not partially configured)
+const getCompleteFilter = (state: ScriptsInsightsStore) =>
+  state.filter.value ? (state.filter as InsightFilter) : undefined
+
+export const loadScriptCommentInsights = (): AppThunk<Promise<void>> => async (
+  dispatch,
+  getState
+) => {
+  const scriptId = getState().scriptStore.script!.id
+
+  const filterParam = getCompleteFilter(getState().scriptInsightsStore)
+
+  const { loginToken } = getState().authenticationStore
+  const data = await api.getScriptCommentInsights(scriptId, loginToken, filterParam)
+
+  dispatch(updateCommentData(data))
+}
+
 export const loadScriptQuestionInsights = (): AppThunk<Promise<void>> => async (
   dispatch,
   getState
 ) => {
-  dispatch(setLoadingData())
-
   const scriptId = getState().scriptStore.script!.id
 
-  // only pass the filter if it's fully configured
-  const { filter } = getState().scriptInsightsStore
-  const filterParam = filter.value ? (filter as InsightFilter) : undefined
+  const filterParam = getCompleteFilter(getState().scriptInsightsStore)
 
   const { loginToken } = getState().authenticationStore
   const data = await api.getScriptQuestionInsights(scriptId, loginToken, filterParam)
@@ -93,9 +105,7 @@ export const loadScriptQuestionInsightUsers = (
 ): AppThunk<Promise<string[]>> => async (dispatch, getState) => {
   const scriptId = getState().scriptStore.script!.id
 
-  // only pass the filter if it's fully configured
-  const { filter } = getState().scriptInsightsStore
-  const filterParam = filter.value ? (filter as InsightFilter) : undefined
+  const filterParam = getCompleteFilter(getState().scriptInsightsStore)
   const { loginToken } = getState().authenticationStore
   return await api.getScriptQuestionInsightUsers(
     scriptId,
