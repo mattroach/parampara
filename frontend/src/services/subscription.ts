@@ -6,7 +6,7 @@ export default function(tier: SubscriptionTier) {
       return tier === SubscriptionTier.Free
     },
     canViewInsights() {
-      return tier === SubscriptionTier.Pro
+      return tier !== SubscriptionTier.Free
     },
     hasWatermark() {
       return tier !== SubscriptionTier.Business
