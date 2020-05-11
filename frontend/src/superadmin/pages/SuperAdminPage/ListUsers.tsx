@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table'
 import AuthContext from 'superadmin/AuthContext'
 import UserActionsButton from './UserActionsButton'
 import styled from 'styled-components'
-import ProToggle from './ProToggle'
+import SubscriptionTierSelect from './ProToggle'
 import { SubscriptionTier } from 'types/adminTypes'
 import dayjs from 'dayjs'
 
@@ -48,7 +48,10 @@ const ListUsers: React.FunctionComponent = () => {
                   </td>
                   <td>{dayjs(user.created).format('DD MMM YYYY, h:mma')}</td>
                   <td className="subscription">
-                    <ProToggle userId={user.id} isPro={user.subscriptionTier === 'pro'} />
+                    <SubscriptionTierSelect
+                      userId={user.id}
+                      tier={user.subscriptionTier}
+                    />
                   </td>
                   <td className="actions">
                     <UserActionsButton userId={user.id} />

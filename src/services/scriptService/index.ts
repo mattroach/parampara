@@ -1,14 +1,14 @@
-import Script from '../models/Script'
-import ScriptVersion from '../models/ScriptVersion'
-
 import { uuid } from '@shared'
 import { raw } from 'objection'
-import emailService from './EmailService'
-
-export enum ScriptVersionCode {
-  latest = 'latest',
-  draft = 'draft'
-}
+import Script from '../../models/Script'
+import ScriptVersion from '../../models/ScriptVersion'
+import emailService from '../EmailService'
+import {
+  getDraftScript,
+  getLatestScript,
+  getScriptWithVersion,
+  ScriptVersionCode
+} from './getScript'
 
 type UpdateScriptBody = {
   title?: string
@@ -22,7 +22,38 @@ type UpdateScriptBody = {
   version?: { items: any }
 }
 
-class ScriptService {
+const updateScript = async (id: string, script: UpdateScriptBody) => {
+  const { version } = script
+  let hasUnpublishedChanges
+
+  if (version) {
+    await ScriptVersion.query()
+      .where('scriptId', id)
+      .modify('draft')
+      .patch({ items: version.items })
+
+    hasUnpublishedChanges = true
+  }
+
+  await Script.query()
+    .findById(id)
+    .patch({
+      title: script.title,
+      reportingEmail: script.reportingEmail,
+      allowAnon: script.allowAnon,
+      metaDescription: script.metaDescription,
+      metaImgUrl: script.metaImgUrl,
+      metaImgWidth: script.metaImgWidth,
+      metaImgHeight: script.metaImgHeight,
+      metaTitle: script.metaTitle,
+      hasUnpublishedChanges
+    })
+}
+
+export default {
+  updateScript,
+  getDraftScript,
+  getLatestScript,
   async publishScript(scriptId: string) {
     const draft = await ScriptVersion.query()
       .modify('draft')
@@ -50,67 +81,21 @@ class ScriptService {
       //If this is the first publish
       emailService.scriptPublished(script.admin!, script)
     }
-  }
+  },
 
-  async updateScript(id: string, script: UpdateScriptBody) {
-    const { version } = script
-    let hasUnpublishedChanges
+  deleteScript(scriptId: string) {
+    return Script.query().deleteById(scriptId)
+  },
 
-    if (version) {
-      await ScriptVersion.query()
-        .where('scriptId', id)
-        .modify('draft')
-        .patch({ items: version.items })
-
-      hasUnpublishedChanges = true
-    }
-
-    await Script.query()
-      .findById(id)
-      .patch({
-        title: script.title,
-        reportingEmail: script.reportingEmail,
-        allowAnon: script.allowAnon,
-        metaDescription: script.metaDescription,
-        metaImgUrl: script.metaImgUrl,
-        metaImgWidth: script.metaImgWidth,
-        metaImgHeight: script.metaImgHeight,
-        metaTitle: script.metaTitle,
-        hasUnpublishedChanges
-      })
-  }
-
-  async deleteScript(scriptId: string) {
-    return await Script.query().deleteById(scriptId)
-  }
-
-  async getScripts(adminId: string) {
-    return await Script.query()
+  getScripts(adminId: string) {
+    return Script.query()
       .where('adminId', adminId)
       .orderBy('created', 'DESC')
-  }
+  },
 
   getScript(scriptId: string) {
     return Script.query().findById(scriptId)
-  }
-
-  async getScriptWithVersion(scriptId: string, versionCode: ScriptVersionCode) {
-    const script = await Script.query()
-      .findById(scriptId)
-      .withGraphFetched(`version(${versionCode})`)
-
-    if (!script) return undefined
-
-    if (!script.version) throw Error('Script is not published')
-
-    // Temporary code to hydrate item IDs. These were not set in the early days, but are needed.
-    // Should eventually remove
-    script.version.items.forEach((item: any) => {
-      if (!item.id) item.id = uuid()
-    })
-
-    return script
-  }
+  },
 
   async createScript(
     adminId: string,
@@ -130,11 +115,11 @@ class ScriptService {
     })
 
     return script
-  }
+  },
 
   // Superadmin only
   async cloneScript(scriptId: string, destinationAdminId: string, newTitle?: string) {
-    const script = await this.getScriptWithVersion(scriptId, ScriptVersionCode.draft)
+    const script = await getScriptWithVersion(scriptId, ScriptVersionCode.draft)
 
     if (!script) throw Error('Script not found')
 
@@ -145,5 +130,3 @@ class ScriptService {
     })
   }
 }
-
-export default new ScriptService()

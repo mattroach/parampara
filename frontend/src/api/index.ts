@@ -22,7 +22,8 @@ const api = {
   },
 
   async getScript(scriptId: string, version: ScriptVersionType): Promise<Script> {
-    const response = await axios.get(`/api/script/${scriptId}`, { params: { version } })
+    const suffix = version === ScriptVersionType.latest ? '/latest' : ''
+    const response = await axios.get(`/api/script/${scriptId}${suffix}`)
     return response.data
   },
 

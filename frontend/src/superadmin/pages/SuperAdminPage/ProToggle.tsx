@@ -1,30 +1,31 @@
-import React, { useContext } from 'react'
+import React, { useContext, ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
 import api from '../../api'
 import AuthContext from 'superadmin/AuthContext'
+import { SubscriptionTier } from 'types/adminTypes'
 
 type Props = {
   userId: string
-  isPro: boolean
+  tier: SubscriptionTier
 }
 
-const ProToggle: React.FunctionComponent<Props> = ({ userId, isPro }) => {
+const SubscriptionTierSelect: React.FunctionComponent<Props> = ({ userId, tier }) => {
   const password = useContext(AuthContext)
 
-  const onChange = async () => {
-    await api(password!).toggleSubscription(userId, !isPro)
+  const onChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target
+
+    await api(password!).toggleSubscription(userId, value)
     window.location.reload()
   }
 
   return (
-    <Form.Check
-      type="switch"
-      id={`toggle-pro-${userId}`}
-      label={isPro ? 'Pro' : 'Free'}
-      checked={isPro}
-      onChange={onChange}
-    />
+    <Form.Control as="select" size="sm" value={tier} onChange={onChange}>
+      {Object.entries(SubscriptionTier).map(([key, val]) => (
+        <option value={val}>{key}</option>
+      ))}
+    </Form.Control>
   )
 }
 
-export default ProToggle
+export default SubscriptionTierSelect

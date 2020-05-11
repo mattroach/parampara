@@ -6,8 +6,8 @@ export default function getClient(password: string) {
   })
 
   return {
-    toggleSubscription(userId: string, isPro: boolean) {
-      return instance.put(`/api/superadmin/user/${userId}/subscription`, { isPro })
+    toggleSubscription(userId: string, tier: string) {
+      return instance.put(`/api/superadmin/user/${userId}/subscription`, { tier })
     }
   }
 }

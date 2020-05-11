@@ -1,8 +1,7 @@
 import { Router } from 'express'
-import { NOT_FOUND, OK } from 'http-status-codes'
+import { OK } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
-import Script from '../models/Script'
-import scriptService, { ScriptVersionCode } from '../services/ScriptService'
+import scriptService from '../services/ScriptService'
 
 const router = Router()
 
@@ -20,31 +19,25 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-type GetScriptResponse = Script & { isPublished: boolean }
 router.get('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
-    const { version }: { version: ScriptVersionCode } = req.query
-    if (!(version in ScriptVersionCode)) throw Error('Bad version')
 
-    const script = await scriptService.getScriptWithVersion(scriptId, version)
+    const script = await scriptService.getDraftScript(scriptId)
 
-    if (!script) {
-      return res.status(NOT_FOUND).json('Script not found')
-    }
+    return res.status(OK).json(script)
+  } catch (err) {
+    next(err)
+  }
+})
 
-    const response = script as GetScriptResponse
-    // @ts-ignore: Is secret for now
-    response.adminId = undefined
+router.get('/:id/latest', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
 
-    // TODO fix this typeing..
-    const countResult = (await script
-      .$relatedQuery('version')
-      .count()
-      .as('count')) as any
-    response.isPublished = countResult.count > 1
+    const script = await scriptService.getLatestScript(scriptId)
 
-    return res.status(OK).json(response)
+    return res.status(OK).json(script)
   } catch (err) {
     next(err)
   }
@@ -110,6 +103,8 @@ router.put('/:id', async (req, res, next) => {
     const { id: scriptId } = req.params
 
     const script = UpdateScriptBody.check(req.body)
+
+    console.log('update', scriptId, script)
 
     await scriptService.updateScript(scriptId, script)
 

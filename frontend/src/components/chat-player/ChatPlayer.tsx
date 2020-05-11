@@ -18,13 +18,16 @@ const ChatPlayer: React.FunctionComponent<Props> = ({ isPreviewMode }) => {
   const progressLoaded = useSelector(
     (state: RootState) => !!state.sessionProgressStore.progress
   )
+  const hasWatermark = useSelector(
+    (state: RootState) => state.scriptStore.script!.hasWatermark
+  )
   const [completed, setCompleted] = useState(false)
 
   return (
     <>
       <UserIdentification isPreviewMode={isPreviewMode} />
       {progressLoaded && <MainScript onComplete={() => setCompleted(true)} />}
-      {completed && !isPreviewMode && <CompletionWatermark />}
+      {completed && !isPreviewMode && hasWatermark && <CompletionWatermark />}
       <ScrollBuffer />
     </>
   )

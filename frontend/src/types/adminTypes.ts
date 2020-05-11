@@ -1,4 +1,5 @@
 export enum SubscriptionTier {
   Free = 'free',
-  Pro = 'pro'
+  Pro = 'pro',
+  Business = 'pro2'
 }

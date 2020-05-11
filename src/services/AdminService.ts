@@ -1,4 +1,4 @@
-import Admin, { PASSWORD_SALT } from '../models/Admin'
+import Admin, { PASSWORD_SALT, SubscriptionTier } from '../models/Admin'
 import emailService from './EmailService'
 
 import { uuid } from '@shared'
@@ -6,8 +6,8 @@ import shajs from 'sha.js'
 import { LoginResponse } from '../../frontend/src/api/types'
 
 class AdminService {
-  async getById(id: string) {
-    return await Admin.query().findById(id)
+  getById(id: string) {
+    return Admin.query().findById(id)
   }
 
   async login(adminId: string, password?: string): Promise<LoginResponse> {
@@ -60,10 +60,10 @@ class AdminService {
       .updateAndFetch({ password: this.hashPassword(newPassword) })
   }
 
-  setSubscription(userId: string, isPro: boolean) {
+  setSubscription(userId: string, tier: SubscriptionTier) {
     return Admin.query()
       .where('id', userId)
-      .patch({ subscriptionTier: isPro ? 'pro' : 'free' })
+      .patch({ subscriptionTier: tier })
   }
 
   private hashPassword(password: string) {

@@ -7,6 +7,7 @@ export default class Script extends Model {
   id!: string
   adminId!: string
   title!: string
+  created!: string
   reportingEmail!: string
   allowAnon!: boolean
   hasUnpublishedChanges!: boolean

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
-import { Record, String, Undefined, Boolean } from 'runtypes'
+import { Record, String, Undefined, Union, Literal } from 'runtypes'
 import Admin from '../models/Admin'
 import adminService from '../services/AdminService'
 import scriptService from '../services/ScriptService'
@@ -62,15 +62,15 @@ router.post('/createUser', async (req, res, next) => {
 })
 
 const UpdateSubscriptionBody = Record({
-  isPro: Boolean
+  tier: Union(Literal('free'), Literal('pro'), Literal('pro2'))
 })
 
 router.put('/user/:id/subscription', async (req, res, next) => {
   try {
     const { id: userId } = req.params
-    const { isPro } = UpdateSubscriptionBody.check(req.body)
+    const { tier } = UpdateSubscriptionBody.check(req.body)
 
-    await adminService.setSubscription(userId, isPro)
+    await adminService.setSubscription(userId, tier)
 
     return res.status(OK).json('ok')
   } catch (err) {

@@ -9,12 +9,18 @@ import DropdownItems from './DropdownItems'
 import logo from './logo_white.png'
 import styled from 'styled-components'
 import RootContainer from 'layout/RootContainer'
+import Badge from 'react-bootstrap/Badge'
+import { getSubscription } from 'store/slices/admin'
 
 const Wrapper = styled.section`
   background: var(--primary);
 `
 const StyledRootContainer = styled(RootContainer)`
   padding: 0;
+`
+
+const ProBadge = styled(Badge).attrs({ variant: 'light', pill: true })`
+  opacity: 0.75;
 `
 
 type Props = {
@@ -24,6 +30,9 @@ type Props = {
 
 const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
   const email = useSelector((state: RootState) => state.adminStore.admin?.email)
+  const subscription = useSelector((state: RootState) =>
+    getSubscription(state.adminStore)
+  )
   const history = useHistory()
 
   const goBackToDirectory = (event: any) => {
@@ -47,6 +56,11 @@ const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
                 <DropdownItems />
               </NavDropdown>
             </Nav>
+            {subscription.hasProBadge() && (
+              <Nav>
+                <ProBadge>Pro</ProBadge>
+              </Nav>
+            )}
           </Navbar.Collapse>
         </Navbar>
       </StyledRootContainer>

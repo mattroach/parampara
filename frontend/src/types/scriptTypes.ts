@@ -9,6 +9,7 @@ export type Script = {
   allowAnon: boolean
   hasUnpublishedChanges: boolean
   isPublished: boolean
+  hasWatermark: boolean
   metaImgUrl: string | null
   metaImgWidth: number | null
   metaImgHeight: number | null
