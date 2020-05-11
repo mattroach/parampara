@@ -9,6 +9,7 @@ const Bubble = styled.span`
   border-radius: 15px;
   padding: 7px 13px;
   line-height: 1.3;
+  word-break: break-word;
 `
 
 type Props = {
@@ -16,11 +17,12 @@ type Props = {
   disableAnimateIn?: boolean
 }
 
-
 const BotMessage: React.FunctionComponent<Props> = ({ message, disableAnimateIn }) => {
   return (
     <ItemWrap disableAnimateIn={disableAnimateIn}>
-      <Bubble><ChatFormat>{message}</ChatFormat></Bubble>
+      <Bubble>
+        <ChatFormat>{message}</ChatFormat>
+      </Bubble>
     </ItemWrap>
   )
 }

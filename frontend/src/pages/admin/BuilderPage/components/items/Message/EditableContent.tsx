@@ -11,6 +11,7 @@ const ReadOnlyContent = styled.div`
   line-height: 1.3;
   display: inline-block;
 
+  word-break: break-word;
   max-width: 400px;
 
   border-radius: 15px;
