@@ -37,7 +37,9 @@ const AnswerInput: React.FunctionComponent<Props> = ({ filterKey }) => {
       onSet={onSet}
     >
       {answers.map(a => (
-        <option key={a}>{a}</option>
+        <option key={a} value={a}>
+          {a}
+        </option>
       ))}
     </AdvancedSelect>
   )

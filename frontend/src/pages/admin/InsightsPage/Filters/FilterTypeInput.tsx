@@ -34,7 +34,9 @@ const FilterTypeInput: React.FunctionComponent = () => {
       onSet={onSet}
     >
       {questions?.map(q => (
-        <option key={q}>{q}</option>
+        <option key={q} value={q}>
+          {q}
+        </option>
       ))}
     </AdvancedSelect>
   )
