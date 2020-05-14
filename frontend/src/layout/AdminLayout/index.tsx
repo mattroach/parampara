@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../components/Loader'
 import AppNavBar from './AppNavBar'
 import { loadAdmin } from 'store/slices/admin'
+import AuthFailureMonitor from './AuthFailureMonitor'
 
 type Props = {
   navbarExtra?: React.ReactNode
@@ -18,12 +19,17 @@ const AdminLayout: React.FunctionComponent<Props> = ({ children, navbarExtra }) 
     dispatch(loadAdmin())
   }, [dispatch])
 
-  if (!admin) return <Loader />
-
   return (
     <>
-      <AppNavBar extra={navbarExtra} />
-      {children}
+      <AuthFailureMonitor />
+      {admin ? (
+        <>
+          <AppNavBar extra={navbarExtra} />
+          {children}
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   )
 }

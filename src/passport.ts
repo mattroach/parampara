@@ -1,6 +1,6 @@
 import passport from 'passport'
 import Auth0Strategy from 'passport-auth0'
-import adminServiceNew from './services/adminServiceNew'
+import adminService from './services/adminService'
 import Admin from './models/Admin'
 
 declare global {
@@ -30,7 +30,7 @@ var strategy = new Auth0Strategy(
     // profile has all the information from the user
 
     const userDetails = extractUserDetails(profile)
-    adminServiceNew.createOrUpdateAdmin(userDetails).then(() => {
+    adminService.createOrUpdateAdmin(userDetails).then(() => {
       return done(null, profile)
     })
   }
@@ -42,7 +42,7 @@ passport.serializeUser(function(user: Auth0Strategy.Profile, done) {
 })
 
 passport.deserializeUser(function(auth0Id: string, done) {
-  adminServiceNew.getByAuth0Id(auth0Id).then(admin => {
+  adminService.getByAuth0Id(auth0Id).then(admin => {
     done(null, admin)
   })
 })

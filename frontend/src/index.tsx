@@ -9,6 +9,10 @@ import store from './store/store'
 
 import * as serviceWorker from './serviceWorker'
 
+import api from './api'
+
+api.setAppDispatch(store.dispatch)
+
 const render = () => {
   const AppRouter = require('./AppRouter').default
 

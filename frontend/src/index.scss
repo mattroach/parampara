@@ -14,3 +14,14 @@ table {
 button:disabled {
   cursor: not-allowed;
 }
+
+.toast-header {
+  color: inherit;
+}
+
+.toast {
+  z-index: 1000;
+  background-color: #fff;
+
+  width: 400px;
+}

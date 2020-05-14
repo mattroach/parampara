@@ -1,10 +1,9 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
 import { Record, String, Undefined, Union, Literal } from 'runtypes'
-import Admin from '../../models/Admin'
-import adminService from '../../services/adminService'
-import scriptService from '../../services/ScriptService'
-import { isValidEmail } from './Admin'
+import Admin from '../../../models/Admin'
+import adminService from '../../../services/adminService'
+import scriptService from '../../../services/ScriptService'
 
 const PASSWORD = 'f43gdo8jgo3'
 
@@ -39,23 +38,6 @@ router.get('/getUsers', async (req, res, next) => {
     const admins = await Admin.query().orderBy('created', 'desc')
 
     return res.status(OK).json(admins)
-  } catch (err) {
-    next(err)
-  }
-})
-
-const CreateUserBody = Record({
-  email: String.withConstraint(isValidEmail)
-})
-
-// Deprecated - use API in Admin route
-router.post('/createUser', async (req, res, next) => {
-  try {
-    const { email } = CreateUserBody.check(req.body)
-
-    const admin = await adminService.createAdmin(email)
-
-    return res.status(OK).json(admin)
   } catch (err) {
     next(err)
   }
