@@ -32,8 +32,8 @@ const { updateScripts, _deleteScript } = scriptSlice.actions
 
 export default scriptSlice.reducer
 
-export const loadScripts = (adminId: string): AppThunk => async dispatch => {
-  axios.get(`/api/script`, { params: { adminId } }).then(response => {
+export const loadScripts = (): AppThunk => async dispatch => {
+  axios.get('/api/script').then(response => {
     const scripts: ListedScript[] = response.data
 
     dispatch(updateScripts(scripts))

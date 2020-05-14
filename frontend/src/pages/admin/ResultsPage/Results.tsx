@@ -1,7 +1,6 @@
 import Loader from 'components/Loader'
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { loadScriptResponses } from 'store/slices/scriptResults'
 import { AppDispatch } from 'store/store'
 import Actions from './Actions'
@@ -12,7 +11,7 @@ import transposeSessionResults from '../../../services/transposeSessionResults'
 const Results: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
 
-  const scriptResults = useSelector((state: RootState) => state.scriptResultsStore.data)
+  const scriptResults = useSelector(state => state.scriptResultsStore.data)
 
   const transposedResults = useMemo(
     () => (scriptResults ? transposeSessionResults(scriptResults) : undefined),

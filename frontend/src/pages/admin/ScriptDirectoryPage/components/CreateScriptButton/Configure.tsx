@@ -8,16 +8,11 @@ import Form from 'react-bootstrap/Form'
 import { useEffect } from 'react'
 
 type Props = {
-  adminId: string
   isConfiguring: boolean
   onHide: () => void
 }
 
-const Configure: React.FunctionComponent<Props> = ({
-  adminId,
-  isConfiguring,
-  onHide
-}) => {
+const Configure: React.FunctionComponent<Props> = ({ isConfiguring, onHide }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [title, setTitle] = useState('')
@@ -37,9 +32,7 @@ const Configure: React.FunctionComponent<Props> = ({
 
     setIsLoading(true)
 
-    api
-      .createScript(adminId, { title })
-      .then(scriptId => history.push(`/builder/${adminId}/${scriptId}/create`))
+    api.createScript({ title }).then(scriptId => history.push(`/script/${scriptId}`))
   }
 
   return (

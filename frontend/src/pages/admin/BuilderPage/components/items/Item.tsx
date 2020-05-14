@@ -11,7 +11,6 @@ import SendEmail from '../actions/SendEmail'
 import Image from './Image'
 import Message from './Message'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import NewItemForm from './NewItemForm'
 import CollectEmail from '../actions/UserInput/CollectEmail'
 
@@ -21,9 +20,7 @@ type Props = {
 }
 
 const Item: React.FunctionComponent<Props> = ({ item, position }) => {
-  const newItemPosition = useSelector(
-    (state: RootState) => state.scriptStore.newItemPosition
-  )
+  const newItemPosition = useSelector(state => state.scriptStore.newItemPosition)
 
   return (
     <>
@@ -50,7 +47,7 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
   position
 }) => {
   const newResponseChoicePosition = useSelector(
-    (state: RootState) => state.scriptStore.newResponseChoicePosition
+    state => state.scriptStore.newResponseChoicePosition
   )
 
   switch (action?.type) {

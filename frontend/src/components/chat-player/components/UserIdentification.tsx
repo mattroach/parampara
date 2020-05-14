@@ -1,15 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import { RootState } from 'store/rootReducer'
 import {
-  loadProgressFromServer,
   initPreviewProgress,
+  loadProgressFromServer,
   MESSAGE_BASE_DELAY
 } from 'store/slices/sessionProgress'
+import EmailInput from './action-types/EmailInput'
 import BotMessage from './item-types/BotMessage'
 import HumanBubble from './item-types/HumanBubble'
-import EmailInput from './action-types/EmailInput'
 
 type State = {
   askEmail: boolean

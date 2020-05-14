@@ -8,16 +8,13 @@ import RootContainer from 'layout/RootContainer'
 const Wrapper = styled.section`
   margin-top: 40px;
 `
-type Props = {
-  adminId: string
-}
 
-const ScriptDirectory: React.FunctionComponent<Props> = ({ adminId }) => (
-  <AdminLayout adminId={adminId}>
+const ScriptDirectory: React.FunctionComponent = () => (
+  <AdminLayout>
     <RootContainer>
       <Wrapper>
         <h2>My Parampara</h2>
-        <Scripts adminId={adminId} />
+        <Scripts />
       </Wrapper>
     </RootContainer>
   </AdminLayout>

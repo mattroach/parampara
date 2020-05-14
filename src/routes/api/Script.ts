@@ -1,17 +1,13 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
-import scriptService from '../services/ScriptService'
+import scriptService from '../../services/ScriptService'
 
 const router = Router()
 
 router.get('/', async (req, res, next) => {
   try {
-    const { adminId } = req.query
-
-    if (!adminId) throw Error('Must pass in a adminId')
-
-    const scripts = await scriptService.getScripts(adminId)
+    const scripts = await scriptService.getScripts(req.user!.id)
 
     return res.status(OK).json(scripts)
   } catch (err) {
@@ -56,17 +52,14 @@ router.delete('/:id', async (req, res, next) => {
 })
 
 const CreateScriptBody = Record({
-  adminId: String,
   title: String
 })
 
 router.post('/', async (req, res, next) => {
   try {
-    const { adminId, title } = CreateScriptBody.check(req.body)
+    const { title } = CreateScriptBody.check(req.body)
 
-    if (!adminId) throw Error('Must pass in a adminId')
-
-    const script = await scriptService.createScript(adminId, { title })
+    const script = await scriptService.createScript(req.user!.id, { title })
 
     return res.status(OK).json(script)
   } catch (err) {

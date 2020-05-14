@@ -1,20 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-type State = {
-}
+type State = {}
 
-type Props = {
-} & typeof mapDispatchToProps & ReturnType<typeof mapStateToProps>
+type Props = {} & typeof mapDispatchToProps & ReturnType<typeof mapStateToProps>
 
 class MyComponent extends React.Component<Props, State> {
-  state = {
-  }
+  state = {}
 
   render() {
-    return (
-      <></>
-    )
+    return <></>
   }
 }
 

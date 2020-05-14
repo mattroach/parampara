@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { saveAndUpdatePartialScript } from 'store/slices/script'
 import { AppDispatch } from 'store/store'
 import { Script } from 'types/scriptTypes'
@@ -29,9 +28,9 @@ const getImageDimensions = (url: string): Promise<{ width: number; height: numbe
 
 const OGConfig: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
-  const defaultTitle = useSelector((state: RootState) => state.scriptStore.script!.title)
+  const defaultTitle = useSelector(state => state.scriptStore.script!.title)
   const { metaTitle, metaImgUrl, metaDescription } = useSelector(
-    (state: RootState) => state.scriptStore.script!
+    state => state.scriptStore.script!
   )
 
   const [imageUrl, setImageUrl] = useState(metaImgUrl || '')

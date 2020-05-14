@@ -1,12 +1,11 @@
 import React, { ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { configureAllowAnon } from 'store/slices/script'
 
 const RequireEmailForm: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const allowAnon = useSelector((state: RootState) => state.scriptStore.script!.allowAnon)
+  const allowAnon = useSelector(state => state.scriptStore.script!.allowAnon)
   const toggleAllowAnon = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch(configureAllowAnon(!event.target.checked))
 

@@ -64,10 +64,3 @@ export type ResponseStatistics = {
   numCompleted: number
   totalTimeSec: number
 }
-
-export type LoginResponse =
-  | {
-      success: true
-      loginToken?: string
-    }
-  | { success: false }

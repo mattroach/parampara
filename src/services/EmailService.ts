@@ -51,7 +51,7 @@ class EmailService {
         script: {
           title: script.title,
           shareUrl: `${BASE_URL}/s/${script.id}`,
-          editorUrl: `${BASE_URL}/builder/${admin.id}/${script.id}/create`
+          editorUrl: `${BASE_URL}/script/${script.id}`
         }
       }
     }

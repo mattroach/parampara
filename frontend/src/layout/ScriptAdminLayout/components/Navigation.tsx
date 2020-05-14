@@ -1,7 +1,6 @@
 import React from 'react'
 import Nav from 'react-bootstrap/Nav'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { LinkContainer } from 'react-router-bootstrap'
 
 type Props = {
@@ -9,17 +8,14 @@ type Props = {
 }
 
 const Navigation: React.FunctionComponent<Props> = ({ className }) => {
-  const { adminId, scriptId } = useSelector((state: RootState) => ({
-    adminId: state.adminStore.admin!.id,
-    scriptId: state.scriptStore.script!.id
-  }))
+  const scriptId = useSelector(state => state.scriptStore.script!.id)
 
-  const to = (path: string) => `/builder/${adminId}/${scriptId}/${path}`
+  const to = (path = '') => `/script/${scriptId}/${path}`
 
   return (
     <Nav variant="tabs" className={className}>
       <Nav.Item>
-        <LinkContainer to={to('create')}>
+        <LinkContainer exact to={to()}>
           <Nav.Link>Create</Nav.Link>
         </LinkContainer>
       </Nav.Item>

@@ -9,6 +9,9 @@ export default class Admin extends Model {
   email!: string
   password!: string
   subscriptionTier!: SubscriptionTier
+  auth0Id!: string | null
+  displayName!: string
+  pictureUrl!: string | null
 
   static tableName = 'admin'
 }

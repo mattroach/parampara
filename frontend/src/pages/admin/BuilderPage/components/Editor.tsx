@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import Item from './items/Item'
 import MainControls from './MainControls'
 import EmptyState from './EmptyState'
@@ -11,7 +10,7 @@ const Items = styled.div`
 `
 
 const Editor: React.FunctionComponent = () => {
-  const items = useSelector((state: RootState) => state.scriptStore.script!.version.items)
+  const items = useSelector(state => state.scriptStore.script!.version.items)
 
   return (
     <>

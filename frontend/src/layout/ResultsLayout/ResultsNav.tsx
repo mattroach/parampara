@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Nav from 'react-bootstrap/Nav'
 import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { RootState } from 'store/rootReducer'
 import { getSubscription } from 'store/slices/admin'
 import Badge from 'react-bootstrap/Badge'
 import RootContainer from 'layout/RootContainer'
@@ -45,16 +44,11 @@ const StyledNavLink = styled(Nav.Link)`
 `
 
 const ResultsNav: React.FunctionComponent = () => {
-  const subscription = useSelector((state: RootState) =>
-    getSubscription(state.adminStore)
-  )
+  const subscription = useSelector(state => getSubscription(state.adminStore))
 
-  const { adminId, scriptId } = useSelector((state: RootState) => ({
-    adminId: state.adminStore.admin!.id,
-    scriptId: state.scriptStore.script!.id
-  }))
+  const scriptId = useSelector(state => state.scriptStore.script!.id)
 
-  const to = (path: string) => `/builder/${adminId}/${scriptId}/results/${path}`
+  const to = (path: string) => `/script/${scriptId}/results/${path}`
 
   return (
     <Wrapper>

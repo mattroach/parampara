@@ -3,9 +3,9 @@ import api from 'api'
 import { RootState } from 'store/rootReducer'
 import { AppThunk } from 'store/store'
 import { throttle } from 'throttle-debounce'
+import TimeMe from 'timeme.js'
 import { ScriptActionType, ScriptItem, ScriptItemType } from 'types/scriptTypes'
 import { ProgressItem, SessionProgress } from 'types/sessionProgress'
-import TimeMe from 'timeme.js'
 
 export const MESSAGE_BASE_DELAY = 1400
 

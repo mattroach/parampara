@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
-import sessionProgressService from '../services/SessionProgressService'
+import sessionProgressService from '../../services/SessionProgressService'
 
 const router = Router()
 

@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleSelect, selectAll, unselectAll } from 'store/slices/scriptResults'
-import { RootState } from 'store/rootReducer'
 
 const Checkbox = styled.input.attrs({
   type: 'checkbox'
@@ -25,12 +24,10 @@ function calculateState(numSelected: number, numFetched: number) {
 
 export const SelectAll: React.FunctionComponent = () => {
   const numSelected = useSelector(
-    (state: RootState) => Object.keys(state.scriptResultsStore.selected).length
+    state => Object.keys(state.scriptResultsStore.selected).length
   )
 
-  const numFetched = useSelector(
-    (state: RootState) => state.scriptResultsStore.data!.length
-  )
+  const numFetched = useSelector(state => state.scriptResultsStore.data!.length)
 
   const ref = useRef<HTMLInputElement>(null)
 
@@ -62,7 +59,7 @@ export const SelectAll: React.FunctionComponent = () => {
 type SelectProps = { sessionId: string }
 export const Select: React.FunctionComponent<SelectProps> = ({ sessionId }) => {
   const selected = Boolean(
-    useSelector((state: RootState) => state.scriptResultsStore.selected[sessionId])
+    useSelector(state => state.scriptResultsStore.selected[sessionId])
   )
   const dispatch = useDispatch()
 

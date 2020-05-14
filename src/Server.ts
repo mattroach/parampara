@@ -4,9 +4,12 @@ import logger from 'morgan'
 import { Model } from 'objection'
 import path from 'path'
 import getScriptOG from './getScriptOG'
-import APIRouter from './api'
+import APIRouter from './routes/api'
+import AuthRouter from './routes/auth'
 import knex from './knex'
 import createIndexProvider from './createIndexProvider'
+import session from './session'
+import passport from './passport'
 
 Model.knex(knex)
 
@@ -29,6 +32,12 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+
+app.use(session)
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use('/', AuthRouter)
 app.use('/api', APIRouter)
 
 // When running locally, the react server will proxy to the backend. Therefore the APIs below are not

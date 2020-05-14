@@ -3,11 +3,10 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { appPaths } from 'AppRouter'
 
 const CopyShareUrl: React.FunctionComponent<{ className?: string }> = ({ className }) => {
-  const scriptId = useSelector((state: RootState) => state.scriptStore.script!.id)
+  const scriptId = useSelector(state => state.scriptStore.script!.id)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const url = appPaths.baseUrl() + appPaths.playScript(scriptId)

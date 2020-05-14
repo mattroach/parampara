@@ -1,23 +1,23 @@
 import { ProgressItem, SessionProgress } from 'types/sessionProgress'
 import { Script } from '../types/scriptTypes'
 import axios from './axios'
-import authenticated from './authenticated'
-import { LoginResponse, PartialScript, ScriptVersionType } from './types'
+import resultsApis from './resultsApis'
+import { PartialScript, ScriptVersionType } from './types'
+import { AdminDetails } from 'types/adminTypes'
 
 const api = {
-  ...authenticated,
+  ...resultsApis,
+  async getAccountDetails(): Promise<AdminDetails> {
+    const response = await axios.get('/api/admin/current')
+    return response.data
+  },
   async createAccount(email: string): Promise<string> {
     const response = await axios.post('/api/admin/', { email })
     return response.data.id
   },
 
-  async login(adminId: string, password?: string): Promise<LoginResponse> {
-    const response = await axios.post(`/api/admin/${adminId}/login`, { password })
-    return response.data
-  },
-
-  async createScript(adminId: string, data: { title: string }): Promise<string> {
-    const response = await axios.post('/api/script', { ...data, adminId })
+  async createScript(data: { title: string }): Promise<string> {
+    const response = await axios.post('/api/script', data)
     return response.data.id
   },
 

@@ -63,8 +63,7 @@ export const loadScriptResponses = (): AppThunk<Promise<void>> => async (
 ) => {
   dispatch(clearData())
   const scriptId = getState().scriptStore.script!.id
-  const { loginToken } = getState().authenticationStore
-  const data = await api.getScriptResponses(scriptId, loginToken)
+  const data = await api.getScriptResponses(scriptId)
   dispatch(updateData(data))
 }
 

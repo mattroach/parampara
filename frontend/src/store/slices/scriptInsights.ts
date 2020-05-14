@@ -74,8 +74,7 @@ export const loadScriptCommentInsights = (): AppThunk<Promise<void>> => async (
 
   const filterParam = getCompleteFilter(getState().scriptInsightsStore)
 
-  const { loginToken } = getState().authenticationStore
-  const data = await api.getScriptCommentInsights(scriptId, loginToken, filterParam)
+  const data = await api.getScriptCommentInsights(scriptId, filterParam)
 
   dispatch(updateCommentData(data))
 }
@@ -88,8 +87,7 @@ export const loadScriptQuestionInsights = (): AppThunk<Promise<void>> => async (
 
   const filterParam = getCompleteFilter(getState().scriptInsightsStore)
 
-  const { loginToken } = getState().authenticationStore
-  const data = await api.getScriptQuestionInsights(scriptId, loginToken, filterParam)
+  const data = await api.getScriptQuestionInsights(scriptId, filterParam)
 
   //await new Promise(r => setTimeout(r, 1000)) //sleep for testing transitions
 
@@ -106,12 +104,5 @@ export const loadScriptQuestionInsightUsers = (
   const scriptId = getState().scriptStore.script!.id
 
   const filterParam = getCompleteFilter(getState().scriptInsightsStore)
-  const { loginToken } = getState().authenticationStore
-  return await api.getScriptQuestionInsightUsers(
-    scriptId,
-    question,
-    answer,
-    loginToken,
-    filterParam
-  )
+  return await api.getScriptQuestionInsightUsers(scriptId, question, answer, filterParam)
 }

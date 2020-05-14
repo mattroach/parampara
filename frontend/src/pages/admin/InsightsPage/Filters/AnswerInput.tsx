@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { RootState } from 'store/rootReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeFilterValue, setFilterValue } from 'store/slices/scriptInsights'
 import AdvancedSelect from 'components/AdvancedSelect'
@@ -12,16 +11,12 @@ type Props = {
 const AnswerInput: React.FunctionComponent<Props> = ({ filterKey }) => {
   const dispatch = useDispatch()
 
-  const filterValue = useSelector(
-    (state: RootState) => state.scriptInsightsStore.filter.value
-  )
+  const filterValue = useSelector(state => state.scriptInsightsStore.filter.value)
 
   const onUnset = () => dispatch(removeFilterValue())
   const onSet = (value: string) => dispatch(setFilterValue({ value }))
 
-  const data = useSelector(
-    (state: RootState) => state.scriptInsightsStore.unfilteredQuestionData!
-  )
+  const data = useSelector(state => state.scriptInsightsStore.unfilteredQuestionData!)
 
   const answers = useMemo(
     () => data.find(q => q.question === filterKey.value)!.data.map(d => d.answer),

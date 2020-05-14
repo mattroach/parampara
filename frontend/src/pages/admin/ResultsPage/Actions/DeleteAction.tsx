@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import AppButton from 'components/AppButton'
@@ -18,7 +17,7 @@ const DeleteAction: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
 
   const numSelected = useSelector(
-    (state: RootState) => Object.keys(state.scriptResultsStore.selected).length
+    state => Object.keys(state.scriptResultsStore.selected).length
   )
 
   const [confirming, setConfirming] = useState(false)

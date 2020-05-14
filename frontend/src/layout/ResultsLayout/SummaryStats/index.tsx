@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Statistic from './Statistic'
 import api from 'api'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { ResponseStatistics } from 'api/types'
 import durationFormatter from './durationFormatter'
 
@@ -48,18 +47,15 @@ const STATS: StatDefinition[] = [
 ]
 
 const SummaryStats: React.FunctionComponent = () => {
-  const scriptId = useSelector((state: RootState) => state.scriptStore.script!.id)
-  const loginToken = useSelector(
-    (state: RootState) => state.authenticationStore.loginToken
-  )
+  const scriptId = useSelector(state => state.scriptStore.script!.id)
 
   const [responseStats, setResponseStats] = useState<ResponseStatistics | undefined>(
     undefined
   )
 
   useEffect(() => {
-    api.getResponseStats(scriptId, loginToken).then(data => setResponseStats(data))
-  }, [scriptId, loginToken])
+    api.getResponseStats(scriptId).then(data => setResponseStats(data))
+  }, [scriptId])
 
   return (
     <StyledContainer fluid>

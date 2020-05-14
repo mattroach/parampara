@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import UsersModal from './UsersModal'
 
 type Props = {
@@ -10,9 +9,7 @@ type Props = {
 }
 
 const UsersLink: React.FunctionComponent<Props> = ({ question, answer, number }) => {
-  const hasEmails = !useSelector(
-    (state: RootState) => state.scriptStore.script!.allowAnon
-  )
+  const hasEmails = !useSelector(state => state.scriptStore.script!.allowAnon)
   const [showModal, setShowModal] = useState(false)
 
   const openModal = (e: React.MouseEvent) => {

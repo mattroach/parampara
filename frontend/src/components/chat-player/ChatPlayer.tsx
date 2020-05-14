@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
 import UserIdentification from './components/UserIdentification'
 import MainScript from './MainScript'
@@ -15,12 +14,8 @@ type Props = {
 }
 
 const ChatPlayer: React.FunctionComponent<Props> = ({ isPreviewMode }) => {
-  const progressLoaded = useSelector(
-    (state: RootState) => !!state.sessionProgressStore.progress
-  )
-  const hasWatermark = useSelector(
-    (state: RootState) => state.scriptStore.script!.hasWatermark
-  )
+  const progressLoaded = useSelector(state => !!state.sessionProgressStore.progress)
+  const hasWatermark = useSelector(state => state.scriptStore.script!.hasWatermark)
   const [completed, setCompleted] = useState(false)
 
   return (

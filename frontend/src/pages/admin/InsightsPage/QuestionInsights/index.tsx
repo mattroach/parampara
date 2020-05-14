@@ -1,7 +1,6 @@
 import Loader from 'components/Loader'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { loadScriptQuestionInsights } from 'store/slices/scriptInsights'
 import styled from 'styled-components'
 import QuestionBreakdown from './QuestionBreakdown'
@@ -16,18 +15,14 @@ const QuestionInsights: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
-  const filterValue = useSelector(
-    (state: RootState) => state.scriptInsightsStore.filter?.value
-  )
+  const filterValue = useSelector(state => state.scriptInsightsStore.filter?.value)
 
   useEffect(() => {
     setIsLoading(true)
     dispatch(loadScriptQuestionInsights()).then(() => setIsLoading(false))
   }, [filterValue, dispatch])
 
-  const insights = useSelector(
-    (state: RootState) => state.scriptInsightsStore.questionData
-  )
+  const insights = useSelector(state => state.scriptInsightsStore.questionData)
 
   if (!insights) {
     return <Loader />

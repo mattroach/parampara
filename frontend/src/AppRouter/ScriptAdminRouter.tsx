@@ -9,13 +9,12 @@ import ResultsLayout from 'layout/ResultsLayout'
 
 type Props = {
   basePath: string
-  adminId: string
   scriptId: string
 }
 
-const ScriptAdminRouter = ({ basePath, adminId, scriptId }: Props) => (
-  <ScriptAdminLayout adminId={adminId} scriptId={scriptId}>
-    <Route path={`${basePath}/create`} component={BuilderPage} />
+const ScriptAdminRouter = ({ basePath, scriptId }: Props) => (
+  <ScriptAdminLayout scriptId={scriptId}>
+    <Route exact path={`${basePath}`} component={BuilderPage} />
     <Route path={`${basePath}/share`} component={SharePage} />
     <Route
       path={`${basePath}/results`}

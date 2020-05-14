@@ -1,5 +1,4 @@
 import React from 'react'
-import { RootState } from 'store/rootReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { setFilterKey, removeFilter, getQuestions } from 'store/slices/scriptInsights'
 import AdvancedSelect from '../../../../components/AdvancedSelect'
@@ -8,13 +7,11 @@ import { InsightFilterType, InsightFilterKey } from 'types/insightTypes'
 const FilterTypeInput: React.FunctionComponent = () => {
   const dispatch = useDispatch()
 
-  const filterKey = useSelector(
-    (state: RootState) => state.scriptInsightsStore.filter.key
-  ) as InsightFilterKey<InsightFilterType.Question> | undefined
+  const filterKey = useSelector(state => state.scriptInsightsStore.filter.key) as
+    | InsightFilterKey<InsightFilterType.Question>
+    | undefined
 
-  const questions = useSelector((state: RootState) =>
-    getQuestions(state.scriptInsightsStore)
-  )
+  const questions = useSelector(state => getQuestions(state.scriptInsightsStore))
 
   const onUnset = () => dispatch(removeFilter())
   const onSet = (value: string) =>

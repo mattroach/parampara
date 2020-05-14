@@ -1,12 +1,11 @@
 import React from 'react'
 import Alert from 'react-bootstrap/Alert'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import CopyShareUrl from './CopyShareUrl'
 
 const ShareDetails: React.FunctionComponent = () => {
   const { hasUnpublishedChanges, isPublished } = useSelector(
-    (state: RootState) => state.scriptStore.script!
+    state => state.scriptStore.script!
   )
 
   return (

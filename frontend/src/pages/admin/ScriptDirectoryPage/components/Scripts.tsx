@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import CreateScriptButton from './CreateScriptButton'
 import ScriptsTable from './ScriptsTable'
-import { RootState } from 'store/rootReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadScripts } from 'store/slices/scripts'
 import Spinner from 'react-bootstrap/Spinner'
@@ -13,33 +12,27 @@ const AddNewButton = styled.div`
   margin: 10px 0;
 `
 
-type Props = {
-  adminId: string
-}
-
-const Scripts: React.FunctionComponent<Props> = ({ adminId }) => {
-  const scriptsLoaded = useSelector((state: RootState) => !!state.scriptsStore.scripts)
-  const hasScripts = useSelector(
-    (state: RootState) => !!state.scriptsStore.scripts?.length
-  )
+const Scripts: React.FunctionComponent = () => {
+  const scriptsLoaded = useSelector(state => !!state.scriptsStore.scripts)
+  const hasScripts = useSelector(state => !!state.scriptsStore.scripts?.length)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(loadScripts(adminId))
-  }, [dispatch, adminId])
+    dispatch(loadScripts())
+  }, [dispatch])
 
   if (!scriptsLoaded) return <Spinner animation="border" />
 
-  if (!hasScripts) return <EmptyState adminId={adminId} />
+  if (!hasScripts) return <EmptyState />
 
   return (
     <>
       <UpgradeNote />
       <AddNewButton>
-        <CreateScriptButton adminId={adminId} variant="secondary" />
+        <CreateScriptButton variant="secondary" />
       </AddNewButton>
-      <ScriptsTable adminId={adminId} />
+      <ScriptsTable />
     </>
   )
 }
@@ -48,7 +41,7 @@ const EmptyStateWrapper = styled.div`
   color: #777;
 `
 
-const EmptyState = ({ adminId }: { adminId: string }) => (
+const EmptyState = () => (
   <EmptyStateWrapper>
     <p>Welcome to your Parampara Creator!</p>
     <p>
@@ -64,14 +57,12 @@ const EmptyState = ({ adminId }: { adminId: string }) => (
       this later in the menu at the top right of this page.
     </p>
     <UpgradeNote />
-    <CreateScriptButton adminId={adminId} />
+    <CreateScriptButton />
   </EmptyStateWrapper>
 )
 
 const UpgradeNote = () => {
-  const isFree = useSelector((state: RootState) =>
-    getSubscription(state.adminStore)
-  ).isFree()
+  const isFree = useSelector(state => getSubscription(state.adminStore)).isFree()
 
   if (isFree) return <UpgradeNoteFree />
   return <UpgradeNotePro />

@@ -4,7 +4,6 @@ import AnswerInput from './AnswerInput'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { InsightFilterKey, InsightFilterType } from 'types/insightTypes'
 import ClearFilter, { ICON_WIDTH } from './ClearFilter'
 import styled from 'styled-components'
@@ -37,9 +36,7 @@ const KeyCol = styled(Col)`
 `
 
 const Filters: React.FunctionComponent = () => {
-  const filterKey = useSelector(
-    (state: RootState) => state.scriptInsightsStore.filter.key
-  )
+  const filterKey = useSelector(state => state.scriptInsightsStore.filter.key)
 
   return (
     <StyledSticky>

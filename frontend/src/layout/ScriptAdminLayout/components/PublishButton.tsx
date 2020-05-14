@@ -6,7 +6,6 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import Button from 'react-bootstrap/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { publishScript } from 'store/slices/script'
-import { RootState } from 'store/rootReducer'
 
 const StyledButton = styled(Button)`
   margin-left: 10px;
@@ -27,7 +26,7 @@ const PublishButton: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const publish = () => dispatch(publishScript())
   const { hasUnpublishedChanges, isPublished } = useSelector(
-    (state: RootState) => state.scriptStore.script!
+    state => state.scriptStore.script!
   )
 
   return (

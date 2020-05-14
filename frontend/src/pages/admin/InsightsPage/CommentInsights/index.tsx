@@ -1,7 +1,6 @@
 import Loader from 'components/Loader'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { loadScriptCommentInsights } from 'store/slices/scriptInsights'
 import styled from 'styled-components'
 import { AppDispatch } from 'store/store'
@@ -16,17 +15,13 @@ const CommentInsights: React.FunctionComponent = () => {
   const dispatch: AppDispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
-  const filterValue = useSelector(
-    (state: RootState) => state.scriptInsightsStore.filter?.value
-  )
+  const filterValue = useSelector(state => state.scriptInsightsStore.filter?.value)
 
   useEffect(() => {
     dispatch(loadScriptCommentInsights()).then(() => setIsLoading(false))
   }, [filterValue, dispatch])
 
-  const insights = useSelector(
-    (state: RootState) => state.scriptInsightsStore.commentData
-  )
+  const insights = useSelector(state => state.scriptInsightsStore.commentData)
 
   if (!insights) {
     return <Loader />

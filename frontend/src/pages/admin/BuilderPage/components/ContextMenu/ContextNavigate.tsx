@@ -2,7 +2,6 @@ import Popper from 'components/Popper'
 import React, { useState } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import ItemNavigationForm from './ItemNavigationForm'
 
 type Props = {
@@ -37,7 +36,7 @@ const ContextNavigate: React.FunctionComponent<Props> = ({
   }
 
   const atLeastTwoItems = useSelector(
-    (state: RootState) => state.scriptStore.script!.version.items.length > 1
+    state => state.scriptStore.script!.version.items.length > 1
   )
   const disabled_ = !atLeastTwoItems || disabled
 

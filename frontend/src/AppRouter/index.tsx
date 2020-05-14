@@ -14,19 +14,12 @@ export default function AppRouter() {
           render={({ match }) => <SuperAdminRouter password={match.params.password} />}
         />
 
-        <Route
-          path="/u/:adminId"
-          render={({ match }) => <ScriptDirectoryPage adminId={match.params.adminId} />}
-        />
+        <Route path="/account" component={ScriptDirectoryPage} />
 
         <Route
-          path="/builder/:adminId/:scriptId"
+          path="/script/:scriptId"
           render={({ match }) => (
-            <ScriptAdminRouter
-              basePath={match.path}
-              adminId={match.params.adminId}
-              scriptId={match.params.scriptId}
-            />
+            <ScriptAdminRouter basePath={match.path} scriptId={match.params.scriptId} />
           )}
         />
 
@@ -53,7 +46,7 @@ const appPaths = {
     )
   },
   playScript: (scriptId: string) => `/s/${scriptId}`,
-  scriptDirectory: (adminId: string) => `/u/${adminId}`
+  scriptDirectory: () => `/account`
 }
 
 export { appPaths }

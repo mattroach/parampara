@@ -1,10 +1,10 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
 import { updateTitle } from 'store/slices/script'
 import { AppDispatch } from 'store/store'
+import { RootState } from 'store/rootReducer'
 
 const StyledTitle = styled(Form.Control)`
   width: 100%;

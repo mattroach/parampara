@@ -1,16 +1,8 @@
-import axios from 'axios'
-
-import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
-
-import { AppThunk } from 'store/store'
-import { SubscriptionTier } from 'types/adminTypes'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import api from 'api'
 import subscription from 'services/subscription'
-
-type AdminDetails = {
-  id: string
-  email: string
-  subscriptionTier: SubscriptionTier
-}
+import { AppThunk } from 'store/store'
+import { AdminDetails } from 'types/adminTypes'
 
 export type AdminStore = {
   admin?: AdminDetails
@@ -37,13 +29,10 @@ const { updateDetails } = scriptSlice.actions
 
 export default scriptSlice.reducer
 
-export const loadAdmin = (adminId: string): AppThunk => async (dispatch, getState) => {
+export const loadAdmin = (): AppThunk => async (dispatch, getState) => {
   // If the admin is already loaded, skip.
-  if (getState().adminStore.admin?.id === adminId) return
+  if (getState().adminStore.admin) return
 
-  axios.get(`/api/admin/${adminId}`).then(response => {
-    const details: AdminDetails = response.data
-
-    dispatch(updateDetails(details))
-  })
+  const details = await api.getAccountDetails()
+  dispatch(updateDetails(details))
 }

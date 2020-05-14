@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import ItemNavigationForm from './ItemNavigationForm'
 
 type Props = {
@@ -16,7 +15,7 @@ const ItemNavigationFormContainer: React.FunctionComponent<Props> = ({
   onSelect,
   onBlur
 }) => {
-  const items = useSelector((state: RootState) => state.scriptStore.script!.version.items)
+  const items = useSelector(state => state.scriptStore.script!.version.items)
 
   return (
     <ItemNavigationForm

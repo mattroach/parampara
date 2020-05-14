@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import BotControls from './BotControls'
 import HumanControls from './HumanControls'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 
 const Wrapper = styled.div`
   border-top: 2px solid #eee;
@@ -14,10 +13,10 @@ const Wrapper = styled.div`
 
 const MainControls: React.FunctionComponent = () => {
   const isScriptEmpty = useSelector(
-    (state: RootState) => state.scriptStore.script!.version.items.length === 0
+    state => state.scriptStore.script!.version.items.length === 0
   )
 
-  const canAddActionToLastItem = useSelector((state: RootState) => {
+  const canAddActionToLastItem = useSelector(state => {
     const { items } = state.scriptStore.script!.version
     const lastItem = items[items.length - 1]
     return lastItem && !lastItem.action

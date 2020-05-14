@@ -2,7 +2,6 @@ import React from 'react'
 import Table from 'react-bootstrap/Table'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
 import DeleteButton from './DeleteButton'
 
@@ -15,12 +14,8 @@ const StyledTable = styled(Table)`
   }
 `
 
-type Props = {
-  adminId: string
-}
-
-const ScriptsTable: React.FunctionComponent<Props> = ({ adminId }) => {
-  const scripts = useSelector((state: RootState) => state.scriptsStore.scripts!)
+const ScriptsTable: React.FunctionComponent = () => {
+  const scripts = useSelector(state => state.scriptsStore.scripts!)
 
   return (
     <StyledTable responsive>
@@ -35,7 +30,7 @@ const ScriptsTable: React.FunctionComponent<Props> = ({ adminId }) => {
         {scripts.map(script => (
           <tr key={script.id}>
             <td>
-              <Link to={`/builder/${adminId}/${script.id}/create`}>
+              <Link to={`/script/${script.id}`}>
                 {script.title ? script.title : 'Unnamed script'}
               </Link>
             </td>

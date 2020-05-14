@@ -1,32 +1,14 @@
 import { Router } from 'express'
-import { OK, UNAUTHORIZED } from 'http-status-codes'
-import { Record, String, Unknown, Array } from 'runtypes'
-import { InsightFilter } from '../../frontend/src/types/insightTypes'
-import adminService from '../services/AdminService'
-import scriptService from '../services/ScriptService'
-import sessionProgressService from '../services/SessionProgressService'
-import sessionResponseService from '../services/SessionResponseService'
-import scriptExportService from '../services/ScriptExportService'
+import { OK } from 'http-status-codes'
+import { Array, Record, String, Unknown } from 'runtypes'
+import { InsightFilter } from '../../../frontend/src/types/insightTypes'
+import scriptExportService from '../../services/ScriptExportService'
+import sessionProgressService from '../../services/SessionProgressService'
+import sessionResponseService from '../../services/SessionResponseService'
 
-const authenticatedRouter = Router()
 const router = Router()
 
-authenticatedRouter.use('/:id', async (req, res, next) => {
-  try {
-    const { id: scriptId } = req.params
-    const { loginToken } = req.query
-    const script = await scriptService.getScript(scriptId)
-
-    if (!(await adminService.authenticateToken(script.adminId, loginToken)))
-      return res.status(UNAUTHORIZED).json('Authentication required')
-
-    next()
-  } catch (err) {
-    next(err)
-  }
-})
-
-authenticatedRouter.get('/:id/responses', async (req, res, next) => {
+router.get('/:id/responses', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
@@ -38,7 +20,7 @@ authenticatedRouter.get('/:id/responses', async (req, res, next) => {
   }
 })
 
-authenticatedRouter.get('/:id/responses/export', async (req, res, next) => {
+router.get('/:id/responses/export', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
@@ -68,7 +50,7 @@ router.delete('/:id/responses', async (req, res, next) => {
   }
 })
 
-authenticatedRouter.get('/:id/responseStats', async (req, res, next) => {
+router.get('/:id/responseStats', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
@@ -80,7 +62,7 @@ authenticatedRouter.get('/:id/responseStats', async (req, res, next) => {
   }
 })
 
-authenticatedRouter.get('/:id/questionInsights', async (req, res, next) => {
+router.get('/:id/questionInsights', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
     const filter = req.query.filter as InsightFilter | undefined
@@ -93,7 +75,7 @@ authenticatedRouter.get('/:id/questionInsights', async (req, res, next) => {
   }
 })
 
-authenticatedRouter.get('/:id/commentInsights', async (req, res, next) => {
+router.get('/:id/commentInsights', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
     const filter = req.query.filter as InsightFilter | undefined
@@ -112,7 +94,7 @@ const InsightUsersQuery = Record({
   answer: String
 })
 
-authenticatedRouter.get('/:id/questionInsights/users', async (req, res, next) => {
+router.get('/:id/questionInsights/users', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
     const { filter, question, answer } = InsightUsersQuery.check(req.query)
@@ -129,8 +111,5 @@ authenticatedRouter.get('/:id/questionInsights/users', async (req, res, next) =>
     next(err)
   }
 })
-
-// Combine the routers together
-router.use(authenticatedRouter)
 
 export default router

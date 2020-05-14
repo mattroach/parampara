@@ -1,6 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-
 import rootReducer, { RootState } from './rootReducer'
+
+declare module 'react-redux' {
+  interface DefaultRootState extends RootState {}
+}
 
 const store = configureStore({
   reducer: rootReducer

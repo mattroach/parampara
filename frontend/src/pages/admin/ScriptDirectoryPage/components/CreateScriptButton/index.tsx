@@ -11,11 +11,10 @@ const StyledButton = styled(Button)`
 `
 
 type Props = {
-  adminId: string
   variant?: ButtonProps['variant']
 }
 
-const CreateScriptButton: React.FunctionComponent<Props> = ({ adminId, variant }) => {
+const CreateScriptButton: React.FunctionComponent<Props> = ({ variant }) => {
   const [isConfiguring, setIsConfiguring] = useState(false)
 
   return (
@@ -25,11 +24,7 @@ const CreateScriptButton: React.FunctionComponent<Props> = ({ adminId, variant }
         New Parampara
       </StyledButton>
 
-      <Configure
-        adminId={adminId}
-        isConfiguring={isConfiguring}
-        onHide={() => setIsConfiguring(false)}
-      />
+      <Configure isConfiguring={isConfiguring} onHide={() => setIsConfiguring(false)} />
     </>
   )
 }

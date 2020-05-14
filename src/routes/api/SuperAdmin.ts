@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
 import { Record, String, Undefined, Union, Literal } from 'runtypes'
-import Admin from '../models/Admin'
-import adminService from '../services/AdminService'
-import scriptService from '../services/ScriptService'
+import Admin from '../../models/Admin'
+import adminService from '../../services/adminService'
+import scriptService from '../../services/ScriptService'
 import { isValidEmail } from './Admin'
 
 const PASSWORD = 'f43gdo8jgo3'
@@ -73,23 +73,6 @@ router.put('/user/:id/subscription', async (req, res, next) => {
     await adminService.setSubscription(userId, tier)
 
     return res.status(OK).json('ok')
-  } catch (err) {
-    next(err)
-  }
-})
-
-const UpdatePasswordBody = Record({
-  email: String,
-  newPassword: String
-})
-
-router.post('/updatePassword', async (req, res, next) => {
-  try {
-    const { email, newPassword } = UpdatePasswordBody.check(req.body)
-
-    const admin = await adminService.updatePassword(email, newPassword)
-
-    return res.status(OK).json(admin)
   } catch (err) {
     next(err)
   }

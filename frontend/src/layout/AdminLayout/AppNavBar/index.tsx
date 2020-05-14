@@ -4,7 +4,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { RootState } from 'store/rootReducer'
 import DropdownItems from './DropdownItems'
 import logo from './logo_white.png'
 import styled from 'styled-components'
@@ -25,19 +24,16 @@ const ProBadge = styled(Badge).attrs({ variant: 'light', pill: true })`
 
 type Props = {
   extra: React.ReactNode
-  adminId: string
 }
 
-const AppNavBar: React.FunctionComponent<Props> = ({ extra, adminId }) => {
-  const email = useSelector((state: RootState) => state.adminStore.admin?.email)
-  const subscription = useSelector((state: RootState) =>
-    getSubscription(state.adminStore)
-  )
+const AppNavBar: React.FunctionComponent<Props> = ({ extra }) => {
+  const email = useSelector(state => state.adminStore.admin?.email)
+  const subscription = useSelector(state => getSubscription(state.adminStore))
   const history = useHistory()
 
   const goBackToDirectory = (event: any) => {
     event.preventDefault()
-    history.push(`/u/${adminId}`)
+    history.push(`/account`)
   }
 
   return (

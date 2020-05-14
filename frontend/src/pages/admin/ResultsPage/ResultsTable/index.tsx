@@ -1,7 +1,6 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import styled from 'styled-components'
 import { TransposedResponses } from '../../../../services/transposeSessionResults'
 import ColumnHeader from './ColumnHeader'
@@ -32,7 +31,7 @@ const StyledTable = styled(({ extraCols: number, ...rest }) => <Table {...rest} 
 `
 
 const ResultsTable: React.FunctionComponent<Props> = ({ data }) => {
-  const hasUsers = useSelector((state: RootState) => !state.scriptStore.script!.allowAnon)
+  const hasUsers = useSelector(state => !state.scriptStore.script!.allowAnon)
 
   const { sessions, columns } = data
 

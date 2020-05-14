@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
 import { loadScript } from 'store/slices/script'
 import { ScriptVersionType } from 'api/types'
 import ChatPlayer from 'components/chat-player/ChatPlayer'
@@ -12,7 +11,7 @@ type Props = {
 
 const ChatSessionPage: React.FunctionComponent<Props> = ({ scriptId }) => {
   const dispatch = useDispatch()
-  const scriptLoaded = useSelector((state: RootState) => state.scriptStore.script)
+  const scriptLoaded = useSelector(state => state.scriptStore.script)
 
   useEffect(() => {
     dispatch(loadScript(scriptId, ScriptVersionType.latest))
