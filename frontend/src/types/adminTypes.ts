@@ -7,5 +7,7 @@ export enum SubscriptionTier {
 export type AdminDetails = {
   id: string
   email: string
+  displayName: string
   subscriptionTier: SubscriptionTier
+  pictureUrl: string
 }
