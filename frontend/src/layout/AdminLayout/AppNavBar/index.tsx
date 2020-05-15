@@ -1,15 +1,8 @@
-import React from 'react'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import DropdownItems from './DropdownItems'
-import logo from './logo_white.png'
-import styled from 'styled-components'
 import RootContainer from 'layout/RootContainer'
-import Badge from 'react-bootstrap/Badge'
-import { getSubscription } from 'store/slices/admin'
+import React from 'react'
+import Navbar from 'react-bootstrap/Navbar'
+import styled from 'styled-components'
+import logo from './logo_white.png'
 
 const Wrapper = styled.section`
   background: var(--primary);
@@ -18,46 +11,26 @@ const StyledRootContainer = styled(RootContainer)`
   padding: 0;
 `
 
-const ProBadge = styled(Badge).attrs({ variant: 'light', pill: true })`
-  opacity: 0.75;
-`
-
 type Props = {
-  extra: React.ReactNode
+  onLogoClick: () => void
 }
 
-const AppNavBar: React.FunctionComponent<Props> = ({ extra }) => {
-  const email = useSelector(state => state.adminStore.admin?.email)
-  const subscription = useSelector(state => getSubscription(state.adminStore))
-  const history = useHistory()
-
-  const goBackToDirectory = (event: any) => {
+const AppNavBar: React.FunctionComponent<Props> = ({ onLogoClick, children }) => {
+  const logoClick = (event: any) => {
     event.preventDefault()
-    history.push(`/account`)
+    onLogoClick()
   }
 
   return (
     <Wrapper>
       <StyledRootContainer>
         <Navbar collapseOnSelect bg="primary" variant="dark" expand="sm">
-          <Navbar.Brand href="#" onClick={goBackToDirectory}>
+          <Navbar.Brand href="#" onClick={logoClick}>
             <img alt="Parampara" src={logo} width={200} />
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">{extra}</Nav>
-            <Nav activeKey={false}>
-              <NavDropdown title={email} id="account-dd">
-                <DropdownItems />
-              </NavDropdown>
-            </Nav>
-            {subscription.hasProBadge() && (
-              <Nav>
-                <ProBadge>Pro</ProBadge>
-              </Nav>
-            )}
-          </Navbar.Collapse>
+          <Navbar.Collapse id="responsive-navbar-nav">{children}</Navbar.Collapse>
         </Navbar>
       </StyledRootContainer>
     </Wrapper>

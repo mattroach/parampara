@@ -43,11 +43,6 @@ app.use('/api', APIRouter)
 // When running locally, the react server will proxy to the backend. Therefore the APIs below are not
 // used when developing locally.
 
-// Redirect home page to getparampara.com
-app.get('/', (req, res) => {
-  return res.redirect('https://www.getparampara.com')
-})
-
 app.get('/index.html', (req, res) => {
   return res.redirect('/')
 })

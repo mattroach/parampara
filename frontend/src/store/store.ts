@@ -9,8 +9,8 @@ import rootReducer, { RootState } from './rootReducer'
 
 declare module 'react-redux' {
   interface DefaultRootState extends RootState {}
+  function useDispatch<TDispatch = AppDispatch>(): TDispatch
 }
-
 const myErrorHandler = (err: any) => {
   if (err.response?.status === 401) {
     console.info('Auth error in thunk swallowed')

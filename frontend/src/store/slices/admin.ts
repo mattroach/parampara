@@ -5,12 +5,15 @@ import { AppThunk } from 'store/store'
 import { AdminDetails } from 'types/adminTypes'
 
 export type AdminStore = {
-  authFailure: boolean
+  authFailure: boolean // true if auth fails at any point
+  initAuthFailure: boolean // true if auth fails on initial page load.
+
   admin?: AdminDetails
 }
 
 let initialState: AdminStore = {
-  authFailure: false
+  authFailure: false,
+  initAuthFailure: false
 }
 
 const scriptSlice = createSlice({
@@ -22,6 +25,9 @@ const scriptSlice = createSlice({
     },
     setAuthFailure(state) {
       state.authFailure = true
+    },
+    setInitAuthFailure(state) {
+      state.initAuthFailure = true
     }
   }
 })
@@ -31,7 +37,7 @@ export const getSubscription = createSelector(
   subscriptionTier => subscription(subscriptionTier)
 )
 
-const { updateDetails, setAuthFailure } = scriptSlice.actions
+const { updateDetails, setAuthFailure, setInitAuthFailure } = scriptSlice.actions
 
 export { setAuthFailure }
 
@@ -41,6 +47,13 @@ export const loadAdmin = (): AppThunk<Promise<void>> => async (dispatch, getStat
   // If the admin is already loaded, skip.
   if (getState().adminStore.admin) return
 
-  const details = await api.getAccountDetails()
-  dispatch(updateDetails(details))
+  try {
+    const details = await api.getAccountDetails()
+    dispatch(updateDetails(details))
+  } catch (err) {
+    if (err.response?.status === 401) {
+      dispatch(setInitAuthFailure())
+    }
+    throw err
+  }
 }

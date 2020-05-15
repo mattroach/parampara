@@ -17,13 +17,16 @@ const StyledToast = styled(Toast)`
 `
 
 const AuthFailureMonitor: React.FunctionComponent = () => {
-  const authFailure = useSelector(state => state.adminStore.authFailure)
+  // We will display different messaging depending on if auth fails on first
+  // load vs. if it fails while using the app
+  // This component is only mounted after the initial admin is loaded, however
+  const wasAuthFailure = useSelector(state => state.adminStore.authFailure)
 
-  if (!authFailure) return null
+  if (!wasAuthFailure) return null
 
   return (
     <StyledToast>
-      <Toast.Header>
+      <Toast.Header closeButton={false}>
         <MaterialIcon icon="error" size={22} />
         <strong className="mr-auto">You have been logged out</strong>
       </Toast.Header>
