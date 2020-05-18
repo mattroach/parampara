@@ -7,9 +7,9 @@ type Props = {
 
 const Photo = styled.span<Props>`
   display: inline-block;
-  margin-left: 8px;
-  height: 36px;
-  width: 36px;
+  margin: 0 4px 0 10px;
+  height: 34px;
+  width: 34px;
   line-height: 36px;
   border-radius: 100%;
 

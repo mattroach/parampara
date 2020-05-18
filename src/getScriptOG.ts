@@ -14,8 +14,7 @@ const getScriptOG = async (scriptId: string) => {
 
   if (!headers.image) {
     // Default values for the image
-    headers.image =
-      'https://parampara.s3-ap-southeast-2.amazonaws.com/parampara-og-white.png'
+    headers.image = 'https://getparampara.com/media/og-images/ogimage1.jpg'
     headers['image:width'] = 1200
     headers['image:height'] = 630
   }
