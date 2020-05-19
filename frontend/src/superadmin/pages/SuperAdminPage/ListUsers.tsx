@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import Table from 'react-bootstrap/Table'
-import AuthContext from 'superadmin/AuthContext'
-import UserActionsButton from './UserActionsButton'
-import styled from 'styled-components'
-import SubscriptionTierSelect from './ProToggle'
-import { SubscriptionTier } from 'types/adminTypes'
 import dayjs from 'dayjs'
+import React, { useEffect, useState } from 'react'
+import Table from 'react-bootstrap/Table'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import api from 'superadmin/api'
+import { SubscriptionTier } from 'types/adminTypes'
+import SubscriptionTierSelect from './ProToggle'
+import UserActionsButton from './UserActionsButton'
 
 type User = {
   id: string
@@ -17,14 +16,13 @@ type User = {
 }
 
 const ListUsers: React.FunctionComponent = () => {
-  const password = useContext(AuthContext)
   const [users, setUsers] = useState<User[] | undefined>(undefined)
 
   useEffect(() => {
-    axios.get(`/api/superadmin/getUsers`, { params: { password } }).then(response => {
-      setUsers(response.data)
+    api.getUsers().then(users => {
+      setUsers(users)
     })
-  }, [password])
+  }, [])
 
   return (
     <>

@@ -7,6 +7,9 @@ import SuperAdminRouter from './SuperAdmin'
 
 const router = Router()
 
+// This route uses different authentication
+router.use('/superadmin', SuperAdminRouter)
+
 // Authenticate
 router.use(async (req, res, next) => {
   try {
@@ -19,8 +22,6 @@ router.use(async (req, res, next) => {
 })
 
 // Add sub-routes
-router.use('/superadmin', SuperAdminRouter)
-
 router.use('/admin', AdminRouter)
 router.use('/script', ScriptRouter)
 router.use('/script', ScriptResultsRouter)

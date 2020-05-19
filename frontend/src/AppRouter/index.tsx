@@ -1,6 +1,6 @@
 import ScriptDirectoryPage from 'pages/admin/ScriptDirectoryPage'
 import ChatPlayerPage from 'pages/ChatPlayerPage'
-import SuperAdminRouter from '../superadmin/Router'
+import SuperAdminPage from '../superadmin/pages/SuperAdminPage'
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import ScriptAdminRouter from './ScriptAdminRouter'
@@ -10,10 +10,7 @@ export default function AppRouter() {
   return (
     <Router>
       <Switch>
-        <Route
-          path="/super-admin/:password"
-          render={({ match }) => <SuperAdminRouter password={match.params.password} />}
-        />
+        <Route path="/super-admin/" component={SuperAdminPage} />
 
         <Redirect exact path="/" to="/account" />
         <Route path="/account" component={ScriptDirectoryPage} />

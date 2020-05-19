@@ -13,7 +13,6 @@ const UserActionsButton: React.FunctionComponent<Props> = () => {
       variant="secondary"
     >
       <Dropdown.Item href="#/action-1">Delete</Dropdown.Item>
-      <Dropdown.Item href="#/action-2">Set password</Dropdown.Item>
     </DropdownButton>
   )
 }
