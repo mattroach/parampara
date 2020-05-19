@@ -1,37 +1,14 @@
-import React, { FocusEvent, useRef } from 'react'
-import InputGroup from 'react-bootstrap/InputGroup'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import { useSelector } from 'react-redux'
 import { appPaths } from 'AppRouter'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import CopyContentInput from './CopyContentInput'
 
-const CopyShareUrl: React.FunctionComponent<{ className?: string }> = ({ className }) => {
+const CopyShareUrl: React.FunctionComponent = () => {
   const scriptId = useSelector(state => state.scriptStore.script!.id)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const url = appPaths.baseUrl() + appPaths.playScript(scriptId)
 
-  const onFocus = (event: FocusEvent<HTMLInputElement>) => event.target.select()
-  const onCopy = () => {
-    inputRef.current!.focus()
-    document.execCommand('copy')
-  }
-
-  return (
-    <InputGroup className={className}>
-      <Form.Control
-        value={url}
-        onFocus={onFocus}
-        ref={inputRef as React.RefObject<any>}
-        readOnly
-      />
-      <InputGroup.Append>
-        <Button variant="outline-secondary" onClick={onCopy}>
-          Copy to clipboard
-        </Button>
-      </InputGroup.Append>
-    </InputGroup>
-  )
+  return <CopyContentInput content={url} />
 }
 
 export default CopyShareUrl

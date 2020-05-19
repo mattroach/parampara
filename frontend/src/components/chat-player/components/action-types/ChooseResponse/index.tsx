@@ -35,7 +35,11 @@ const ChooseResponse: React.FunctionComponent<Props> = ({ action, item }) => {
         item
       })
     )
-    containerRef.current!.scrollIntoView({ behavior: 'smooth' })
+
+    document.documentElement.scrollTo({
+      top: containerRef.current!.offsetTop,
+      behavior: 'smooth'
+    })
   }
 
   return (

@@ -55,7 +55,10 @@ const TextInput: React.FunctionComponent<Props> = ({
     event.preventDefault()
 
     onSubmit(content)
-    containerRef.current!.scrollIntoView({ behavior: 'smooth' })
+    document.documentElement.scrollTo({
+      top: containerRef.current!.offsetTop,
+      behavior: 'smooth'
+    })
   }
 
   const isInvalid = () => isValid && !isValid(content)
