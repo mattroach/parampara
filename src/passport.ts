@@ -10,22 +10,27 @@ declare global {
 }
 
 const extractUserDetails = (user: Auth0Strategy.Profile) => ({
-  auth0Id: user.id,
-  email: user._json.email,
-  displayName: user.displayName,
-  pictureUrl: user._json.picture
-})
+    auth0Id: user.id,
+    email: user._json.email,
+    displayName: user.displayName,
+    pictureUrl: user._json.picture
+  })
 
-// @ts-ignore: extending functionality hack to allow a mode (signup or login)
-const authorizationParams = Auth0Strategy.prototype.authorizationParams
-// @ts-ignore: extending functionality hack to allow a mode (signup or login)
-Auth0Strategy.prototype.authorizationParams = function(options: any) {
-  let params = authorizationParams(options)
-  if (options && options.mode) {
-    params.p = options.mode
+  //https://stackoverflow.com/a/296713
+;(function() {
+  // @ts-ignore: extending functionality hack to allow a mode (signup or login)
+  var proxied = Auth0Strategy.prototype.authorizationParams
+
+  // @ts-ignore:
+  Auth0Strategy.prototype.authorizationParams = function(options) {
+    console.log(this, arguments)
+    const params = proxied.apply(this, arguments)
+    if (options && options.mode) {
+      params.p = options.mode
+    }
+    return params
   }
-  return params
-}
+})()
 
 // Configure Passport to use Auth0
 var strategy = new Auth0Strategy(
