@@ -8,6 +8,7 @@ const destinationProxy = createProxyMiddleware({
 module.exports = function(app) {
   app.use('/api', destinationProxy)
   app.use('/login', destinationProxy)
+  app.use('/signup', destinationProxy)
   app.use('/logout', destinationProxy)
   app.use('/authCallback', destinationProxy)
 }

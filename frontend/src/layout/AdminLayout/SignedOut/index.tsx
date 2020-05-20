@@ -25,7 +25,7 @@ const SignedOut: React.FunctionComponent = () => (
       </Nav>
       <Nav>
         <Nav.Item>
-          <Button href="/login" variant="success" style={{ marginRight: 10 }}>
+          <Button href="/signup" variant="success" style={{ marginRight: 10 }}>
             Sign Up
           </Button>
         </Nav.Item>
@@ -37,11 +37,8 @@ const SignedOut: React.FunctionComponent = () => (
     <Wrapper>
       <h1>Oops! You're logged out.</h1>
       <p>
-        You may need to <a href="/login">log in</a> before you can view this page.
-      </p>
-      <p>
-        If you're looking for your Parampara creator page, you must first{' '}
-        <a href="/login">create an account</a> if you don't already have one.
+        Please either <a href="/login">log in</a> or{' '}
+        <a href="/signup">create a Parampara account</a>.
       </p>
     </Wrapper>
   </>

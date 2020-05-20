@@ -16,6 +16,17 @@ const extractUserDetails = (user: Auth0Strategy.Profile) => ({
   pictureUrl: user._json.picture
 })
 
+// @ts-ignore: extending functionality hack to allow a mode (signup or login)
+const authorizationParams = Auth0Strategy.prototype.authorizationParams
+// @ts-ignore: extending functionality hack to allow a mode (signup or login)
+Auth0Strategy.prototype.authorizationParams = function(options: any) {
+  let params = authorizationParams(options)
+  if (options && options.mode) {
+    params.p = options.mode
+  }
+  return params
+}
+
 // Configure Passport to use Auth0
 var strategy = new Auth0Strategy(
   {

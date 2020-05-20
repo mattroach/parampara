@@ -8,8 +8,22 @@ const router = Router()
 // Perform the login, after login Auth0 will redirect to callback
 router.get(
   '/login',
+  // @ts-ignore: added mode attribute
   passport.authenticate('auth0', {
-    scope: 'openid email profile'
+    scope: 'openid email profile',
+    mode: 'login'
+  }),
+  function(req, res) {
+    res.redirect('/')
+  }
+)
+
+router.get(
+  '/signup',
+  // @ts-ignore: added mode attribute
+  passport.authenticate('auth0', {
+    scope: 'openid email profile',
+    mode: 'signup'
   }),
   function(req, res) {
     res.redirect('/')
