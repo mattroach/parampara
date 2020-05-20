@@ -10,7 +10,7 @@ const Wrapper = styled.section`
 const RouteNotFoundPage: React.FunctionComponent = () => (
   <AdminLayout>
     <Wrapper>
-      <h1>Page not found</h1>
+      <h1>Page not found!</h1>
       <p>This page does not exist.</p>
     </Wrapper>
   </AdminLayout>

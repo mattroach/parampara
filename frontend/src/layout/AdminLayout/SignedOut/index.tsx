@@ -11,6 +11,8 @@ const LoginButton = styled(Button)`
 const Wrapper = styled.div`
   text-align: center;
   padding-top: 3rem;
+  max-width: 600px;
+  margin: 0 auto;
 `
 
 const SignedOut: React.FunctionComponent = () => (
@@ -28,14 +30,18 @@ const SignedOut: React.FunctionComponent = () => (
           </Button>
         </Nav.Item>
         <Nav.Item>
-          <LoginButton href="/login">Login</LoginButton>
+          <LoginButton href="/login">Log in</LoginButton>
         </Nav.Item>
       </Nav>
     </AppNavBar>
     <Wrapper>
-      <h1>Page not available</h1>
+      <h1>Oops! You're logged out.</h1>
       <p>
-        You may need to <a href="/login">login</a> before you can view this page.
+        You may need to <a href="/login">log in</a> before you can view this page.
+      </p>
+      <p>
+        If you're looking for your Parampara creator page, you must first{' '}
+        <a href="/login">create an account</a> if you don't already have one.
       </p>
     </Wrapper>
   </>

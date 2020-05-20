@@ -18,8 +18,7 @@
       "@shared": ["src/shared"],
       "@server": ["src/Server"]
     },
-    "types": ["node"],
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": ["index.ts", "spec/**/*.ts"],
   "exclude": []
