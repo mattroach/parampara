@@ -1,12 +1,24 @@
 import { Router } from 'express'
 import { OK, NOT_FOUND } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
-import scriptService from '../../../services/ScriptService'
+import scriptService from '../../../../services/ScriptService'
+import ScriptResults from './ScriptResults'
 
 const router = Router()
 
-const checkOwnership = (scriptId: string, req: Express.Request) =>
-  scriptService.checkOwnership(scriptId, req.user!.id)
+router.use('/:id', async (req, res, next) => {
+  try {
+    // Check the script ownership
+    const { id } = req.params
+    const success = await scriptService.checkOwnership(id, req.user!.id)
+    if (success) {
+      return next()
+    }
+    return res.status(NOT_FOUND).json()
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.get('/', async (req, res, next) => {
   try {
@@ -22,10 +34,6 @@ router.get('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
-    if (!(await checkOwnership(scriptId, req))) {
-      return res.status(NOT_FOUND).json()
-    }
-
     const script = await scriptService.getDraftScript(scriptId)
 
     return res.status(OK).json(script)
@@ -37,10 +45,6 @@ router.get('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
-
-    if (!(await checkOwnership(scriptId, req))) {
-      return res.status(NOT_FOUND).json()
-    }
 
     await scriptService.deleteScript(scriptId)
 
@@ -66,13 +70,9 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.post('/publish/:id', async (req, res, next) => {
+router.post('/:id/publish', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
-
-    if (!(await checkOwnership(scriptId, req))) {
-      return res.status(NOT_FOUND).json()
-    }
 
     await scriptService.publishScript(scriptId)
 
@@ -98,10 +98,6 @@ router.put('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
-    if (!(await checkOwnership(scriptId, req))) {
-      return res.status(NOT_FOUND).json()
-    }
-
     const script = UpdateScriptBody.check(req.body)
 
     console.log('update', scriptId, script)
@@ -113,5 +109,7 @@ router.put('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+router.use(ScriptResults)
 
 export default router

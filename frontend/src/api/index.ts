@@ -43,7 +43,7 @@ const api = {
   },
 
   async publishScript(scriptId: string): Promise<void> {
-    await authAxios.post(`/api/script/publish/${scriptId}`)
+    await authAxios.post(`/api/script/${scriptId}/publish`)
   },
 
   async getOrCreateSessionProgress(data: {
