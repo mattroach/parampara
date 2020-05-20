@@ -11,7 +11,10 @@ const RouteNotFoundPage: React.FunctionComponent = () => (
   <AdminLayout>
     <Wrapper>
       <h1>Page not found!</h1>
-      <p>This page does not exist.</p>
+      <p>
+        This page does not exist. If you're looking for your Parampara Creator, please
+        head to your <a href="/account">account page</a>.
+      </p>
     </Wrapper>
   </AdminLayout>
 )
