@@ -5,6 +5,8 @@ import AdminLayout from 'layout/AdminLayout'
 const Wrapper = styled.section`
   text-align: center;
   padding-top: 3rem;
+  max-width: var(--breakpoint-sm);
+  margin: 0 auto;
 `
 
 const RouteNotFoundPage: React.FunctionComponent = () => (

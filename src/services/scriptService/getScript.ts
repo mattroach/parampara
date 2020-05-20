@@ -82,13 +82,13 @@ export const getDraftScript = async (scriptId: string): Promise<DraftScript> => 
     throw Error('Script not found')
   }
 
-  // TODO fix this typeing..
+  // TODO fix this typing..
   const countResult = (await script
     .$relatedQuery('version')
     .count()
     .as('count')) as any
 
-  const isPublished = countResult.count > 1
+  const isPublished = parseInt(countResult.count) > 1
 
   const {
     hasUnpublishedChanges,

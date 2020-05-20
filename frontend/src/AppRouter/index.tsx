@@ -12,7 +12,12 @@ export default function AppRouter() {
       <Switch>
         <Route path="/super-admin/" component={SuperAdminPage} />
 
+        {/* Redirect the legacy routes */}
+        <Redirect path="/u/:id" to="/account" />
+        <Redirect path="/builder" to="/account" />
+
         <Redirect exact path="/" to="/account" />
+
         <Route path="/account" component={ScriptDirectoryPage} />
 
         <Route

@@ -4,7 +4,6 @@ import Loader from '../../components/Loader'
 import SignedInNavBar from './SignedInNavBar'
 import { loadAdmin } from 'store/slices/admin'
 import AuthFailureMonitor from './AuthFailureMonitor'
-import SignedOut from './SignedOut'
 
 type Props = {
   navbarExtra?: React.ReactNode
@@ -20,11 +19,13 @@ const AdminLayout: React.FunctionComponent<Props> = ({ children, navbarExtra }) 
     dispatch(loadAdmin())
   }, [dispatch])
 
-  if (initAuthFailure) {
-    return <SignedOut />
-  }
+  useEffect(() => {
+    if (initAuthFailure) {
+      window.location.href = '/login'
+    }
+  }, [initAuthFailure])
 
-  if (isLoading) {
+  if (isLoading || initAuthFailure) {
     return <Loader />
   }
 

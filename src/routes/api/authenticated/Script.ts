@@ -1,9 +1,12 @@
 import { Router } from 'express'
-import { OK } from 'http-status-codes'
+import { OK, NOT_FOUND } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
 import scriptService from '../../../services/ScriptService'
 
 const router = Router()
+
+const checkOwnership = (scriptId: string, req: Express.Request) =>
+  scriptService.checkOwnership(scriptId, req.user!.id)
 
 router.get('/', async (req, res, next) => {
   try {
@@ -19,6 +22,10 @@ router.get('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
+    if (!(await checkOwnership(scriptId, req))) {
+      return res.status(NOT_FOUND).json()
+    }
+
     const script = await scriptService.getDraftScript(scriptId)
 
     return res.status(OK).json(script)
@@ -30,6 +37,10 @@ router.get('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
+
+    if (!(await checkOwnership(scriptId, req))) {
+      return res.status(NOT_FOUND).json()
+    }
 
     await scriptService.deleteScript(scriptId)
 
@@ -59,6 +70,10 @@ router.post('/publish/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
 
+    if (!(await checkOwnership(scriptId, req))) {
+      return res.status(NOT_FOUND).json()
+    }
+
     await scriptService.publishScript(scriptId)
 
     return res.status(OK).json({})
@@ -82,6 +97,10 @@ const UpdateScriptBody = Record({
 router.put('/:id', async (req, res, next) => {
   try {
     const { id: scriptId } = req.params
+
+    if (!(await checkOwnership(scriptId, req))) {
+      return res.status(NOT_FOUND).json()
+    }
 
     const script = UpdateScriptBody.check(req.body)
 

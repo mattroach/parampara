@@ -5,30 +5,27 @@ import url from 'url'
 
 const router = Router()
 
-// Perform the login, after login Auth0 will redirect to callback
-router.get(
-  '/login',
-  // @ts-ignore: added mode attribute
-  passport.authenticate('auth0', {
-    scope: 'openid email profile',
-    mode: 'login'
-  }),
-  function(req, res) {
-    res.redirect('/')
-  }
-)
+// Map from route to the auth0 login "mode"
+const authRoutes = {
+  login: 'login',
+  signup: 'signup',
+  resetPassword: 'reset'
+}
 
-router.get(
-  '/signup',
-  // @ts-ignore: added mode attribute
-  passport.authenticate('auth0', {
-    scope: 'openid email profile',
-    mode: 'signup'
-  }),
-  function(req, res) {
-    res.redirect('/')
-  }
-)
+// Perform the login, after login Auth0 will redirect to callback
+Object.entries(authRoutes).forEach(([route, mode]) => {
+  router.get(
+    '/' + route,
+    // @ts-ignore: added mode attribute
+    passport.authenticate('auth0', {
+      scope: 'openid email profile',
+      mode
+    }),
+    function(req, res) {
+      res.redirect('/')
+    }
+  )
+})
 
 // Perform the final stage of authentication and redirect to previously requested URL or the default URL
 router.get('/authCallback', function(req, res, next) {

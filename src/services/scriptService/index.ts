@@ -93,6 +93,15 @@ export default {
       .orderBy('created', 'DESC')
   },
 
+  async checkOwnership(id: string, adminId: string) {
+    const countResult = (await Script.query()
+      .findById(id)
+      .where('adminId', adminId)
+      .count()
+      .as('count')) as any
+    return parseInt(countResult.count) === 1
+  },
+
   getScript(scriptId: string) {
     return Script.query().findById(scriptId)
   },
