@@ -17,6 +17,8 @@ Model.knex(knex)
 const app = express()
 
 if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1) // Needed for cookies to work
+
   // If HTTP, redirect to HTTPS
   app.use((req, res, next) => {
     if (req.get('x-forwarded-proto') == 'http') {
