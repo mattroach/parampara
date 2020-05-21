@@ -3,6 +3,7 @@ import { OK, NOT_FOUND } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
 import scriptService from '../../../../services/ScriptService'
 import ScriptResults from './ScriptResults'
+import getIsSuperAdmin from '../getIsSuperAdmin'
 
 const router = Router()
 
@@ -11,7 +12,7 @@ router.use('/:id', async (req, res, next) => {
     // Check the script ownership
     const { id } = req.params
     const success = await scriptService.checkOwnership(id, req.user!.id)
-    if (success) {
+    if (success || getIsSuperAdmin(req.user!)) {
       return next()
     }
     return res.status(NOT_FOUND).json()

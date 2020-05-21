@@ -5,6 +5,7 @@ import { UNAUTHORIZED } from 'http-status-codes'
 import Admin from '../../../models/Admin'
 import adminService from '../../../services/adminService'
 import scriptService from '../../../services/ScriptService'
+import getIsSuperAdmin from './getIsSuperAdmin'
 
 const API_PASSWORD = 'f43gdo8jgo3'
 
@@ -13,7 +14,7 @@ const router = Router()
 router.use('/', async (req, res, next) => {
   try {
     // Login auth - allow Jonah only for now
-    if (req.user?.email === 'jonah@getparampara.com') return next()
+    if (req.user && getIsSuperAdmin(req.user)) return next()
 
     // Basic auth
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
