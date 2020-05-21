@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-134253056-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'UA-134253056-1')
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Log in to Parampara to continue - Log in with Google or your email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <!-- Favicon ––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="https://getparampara.com/media/favicon.png" />
+    <link
+      rel="apple-touch-icon"
+      href="https://getparampara.com/media/apple-touch-icon.png"
+    />
+  </head>
+  <style>
+      body, html {
+        height: 100%;
+        background-color: #006bfa;
+      }
+
+      .body {
+        font-size: 1.5em;
+        line-height: 1.6;
+        font-weight: 400;
+        font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica,Arial, sans-serif;
+        color: #373a3c;
+      }
+
+      .link-blue{
+        color:#006bfa;
+        text-decoration:none;
+      }
+
+      .link-blue:hover{
+        color:#1d2ae8;
+      }
+
+      .link-blue:visited{
+        color:#006bfa;
+        text-decoration:none;
+      }
+
+
+      .link-white{
+        color:white;
+        text-decoration: none;
+      }
+
+      .link-white:hover{
+        color:white;
+      }
+
+      .link-white:visited{
+        color:white;
+        text-decoration: none;
+      }
+
+      .login-container {
+        position: relative;
+        height: 100%;
+      }
+
+      .logo-box {
+        text-align:center;
+        padding-bottom:32px;
+      }
+      .login-box {
+        position: relative;
+        top: 18%;
+        margin: 0 auto;
+      }
+
+      .login-box-inner{
+        padding: 25px;
+        background-color: #fff;
+        box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.258824);
+        border-radius: 15px;
+      }
+
+      .form-control{
+        border-radius:4px;
+      }
+
+      .form-control:focus{
+        border-color:#006bfa;
+        box-shadow:none;
+      }
+      .btn{
+        border-radius:4px;
+        font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica,Arial, sans-serif;
+      }
+      .btn-blue{
+        background:#006bfa;
+        color:#ffffff;
+      }
+
+      .btn-blue:hover{
+        background:#1d2ae8;
+        color:#ffffff;
+      }
+      .btn-blue:visited{
+        background:#006bfa;
+        color:#ffffff;
+      }
+      .login-header {
+        text-align: center;
+        padding-bottom:5%;
+      }
+
+      .option-text{
+        margin-top:15px;
+        margin-bottom:15px;
+        text-align:center;
+        color:#555;
+        font-size:1.2rem;
+        letter-spacing: 0.05rem;
+      }
+
+      .footer {
+        color:#ffffff;
+        text-align:center;
+        padding-top:32px;
+      }
+
+      #error-message-login {
+        display: none;
+      }
+
+      #error-message-signup {
+        display: none;
+      }
+
+      .signup-terms{
+        font-size:small;
+        color:#555;
+        padding-top:1rem;
+        padding-bottom:1rem;
+      }
+
+    @media (min-width: 450px) {
+
+      .login-box {
+        max-width:340px;
+      }
+  </style>
+
+  <body>
+    <div class="login-container background-image">
+      <div class="login-box">
+        <div class="logo-box">
+          <a href="https://getparampara.com" target="_blank"
+            ><img src="https://getparampara.com/media/parampara-true-white.svg"
+          /></a>
+        </div>
+        <!--             Login box -->
+        <div class="login-box-inner" id="login-box-login" style="display:block">
+          <div class="login-header">
+            <h4>Log in to your account</h4>
+          </div>
+          <div id="error-message-login" class="alert alert-danger"></div>
+          <form onsubmit="return false;" method="post">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control"
+                id="email-login"
+                placeholder="Enter email"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                id="password-login"
+                placeholder="Enter password"
+              />
+            </div>
+            <button type="submit" id="btn-login" class="btn btn-blue btn-block">
+              Continue
+            </button>
+            <div class="option-text">
+              <p>OR</p>
+            </div>
+            <div class="form-group">
+              <button
+                type="button"
+                id="btn-google-login"
+                class="btn btn-default btn-block"
+                style="font-weight:600"
+              >
+                <span
+                  ><img
+                    style="height:20px;padding-right:10px"
+                    src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.130/static/media/google-logo.c21ca9d1.svg"
+                /></span>
+                Continue with Google
+              </button>
+            </div>
+            <div class="form-group">
+              <p style="cursor:pointer;text-align:center">
+                <a class="link-blue" id="goto-signup-login">Sign up for an account</a>
+              </p>
+            </div>
+            <div class="form-group">
+              <p style="cursor:pointer;text-align:center">
+                <a class="link-blue" id="goto-forgot-password-login">Forgot password</a>
+              </p>
+            </div>
+          </form>
+        </div>
+        <!--             Sign up box -->
+        <div class="login-box-inner" id="login-box-signup" style="display:none">
+          <div class="login-header">
+            <h4>Get your account. It's free.</h4>
+          </div>
+          <div id="error-message-signup" class="alert alert-danger"></div>
+          <form onsubmit="return false;" method="post">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control"
+                id="email-signup"
+                placeholder="Enter email"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                id="password-signup"
+                placeholder="Enter password"
+              />
+            </div>
+            <div class="signup-terms">
+              By signing up, I accept the Parampara
+              <a
+                class="link-blue"
+                href="https://getparampara.com/terms.html"
+                target="_blank"
+                >Terms</a
+              >
+              and acknowledge the
+              <a
+                class="link-blue"
+                href="https://getparampara.com/terms-and-privacy/privacy.html"
+                >Privacy Policy</a
+              >.
+            </div>
+            <button type="submit" id="btn-signup" class="btn btn-blue btn-block">
+              Sign up
+            </button>
+            <div class="option-text">
+              <p>OR</p>
+            </div>
+            <div class="form-group">
+              <button
+                type="button"
+                id="btn-google-signup"
+                class="btn btn-default btn-block"
+                style="font-weight:600"
+              >
+                <span
+                  ><img
+                    style="height:20px;padding-right:10px"
+                    src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.130/static/media/google-logo.c21ca9d1.svg"
+                /></span>
+                Sign up with Google
+              </button>
+            </div>
+            <div class="form-group">
+              <p style="cursor:pointer;text-align:center">
+                <a class="link-blue" id="goto-login-signup">Log in</a>
+              </p>
+            </div>
+            <div class="form-group">
+              <p style="cursor:pointer;text-align:center">
+                <a class="link-blue" id="goto-forgot-password-signup">Forgot password</a>
+              </p>
+            </div>
+          </form>
+        </div>
+        <!--  Reset password box -->
+        <div class="login-box-inner" id="login-box-forgot-password" style="display:none">
+          <div class="login-header" style="padding-bottom:2rem">
+            <h4>Reset password</h4>
+          </div>
+          <div id="error-message" class="alert alert-danger"></div>
+          <div
+            id="password-reset-success"
+            class="alert alert-success"
+            role="alert"
+            style="display: none;"
+          ></div>
+          <form onsubmit="return false;" method="post">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control"
+                id="email-reset"
+                placeholder="Enter email"
+              />
+            </div>
+            <button type="submit" id="btn-reset" class="btn btn-blue btn-block">
+              Send password reset email
+            </button>
+            <div class="form-group" style="padding-top:6rem">
+              <p style="cursor:pointer;text-align:center">
+                <a class="link-blue" id="goto-login-reset">Log in </a>or<a
+                  class="link-blue"
+                  id="goto-signup-reset"
+                >
+                  Sign up</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+        <div class="footer">
+          <p>
+            <a class="link-white" target="_blank" href="https://getparampara.com?r=login"
+              >Surveys, training, storytelling and more</a
+            >.
+          </p>
+          <p>
+            <small
+              ><a
+                class="link-white"
+                target="_blank"
+                href="https://getparampara.com/terms.html"
+                >Terms</a
+              ><span style="padding-right:5px;padding-left:5px">•</span
+              ><a
+                class="link-white"
+                target="_blank"
+                href="https://getparampara.com/terms-and-privacy/privacy.html"
+                >Privacy</a
+              ></small
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--[if IE 8]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/ie8/0.2.5/ie8.js"></script>
+    <![endif]-->
+    <!--[if lte IE 9]>
+      <script src="https://cdn.auth0.com/js/polyfills/1.0/base64.min.js"></script>
+      <script src="https://cdn.auth0.com/js/polyfills/1.0/es5-shim.min.js"></script>
+    <![endif]-->
+    <script src="https://cdn.auth0.com/js/auth0/9.13/auth0.min.js"></script>
+    <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
+    <script>
+      window.addEventListener('load', function() {
+        const startPage = new URL(document.location).searchParams.get('p')
+        if (startPage && startPage == 'signup') {
+          gotoSignup()
+        }
+        if (startPage && startPage == 'reset') {
+          gotoPasswordReset()
+        }
+
+        var config = JSON.parse(decodeURIComponent(escape(window.atob('@@config@@'))))
+
+        var params = Object.assign(
+          {
+            domain: config.auth0Domain,
+            clientID: config.clientID,
+            redirectUri: config.callbackURL,
+            responseType: 'code'
+          },
+          config.internalOptions
+        )
+
+        var webAuth = new auth0.WebAuth(params)
+
+        var databaseConnection = 'Username-Password-Authentication'
+
+        function gotoLogin() {
+          document.getElementById('login-box-login').style.display = 'block'
+          document.getElementById('login-box-signup').style.display = 'none'
+          document.getElementById('login-box-forgot-password').style.display = 'none'
+          var errorMessage = document.getElementById('error-message-signup')
+          errorMessage.style.display = 'none'
+          var errorMessage = document.getElementById('error-message-login')
+          errorMessage.style.display = 'none'
+        }
+
+        function login(e) {
+          e.preventDefault()
+          var username = document.getElementById('email-login').value
+          var password = document.getElementById('password-login').value
+
+          let emailTest = validateEmail(username)
+
+          if (emailTest == false) {
+            displayLoginEmailError()
+            return
+          }
+
+          webAuth.login(
+            {
+              realm: databaseConnection,
+              username: username,
+              password: password
+            },
+            function(err) {
+              if (err) displayLoginError(err)
+            }
+          )
+        }
+
+        function checkLoginEmail() {
+          console.log('inside checkLoginEmail')
+
+          let typedEmail = document.getElementById('email-login').value
+          let testEmail = validateEmail(typedEmail)
+
+          if (testEmail == true) {
+            var errorMessage = document.getElementById('error-message-login')
+            errorMessage.style.display = 'none'
+          }
+        }
+
+        function gotoSignup() {
+          document.getElementById('login-box-login').style.display = 'none'
+          document.getElementById('login-box-signup').style.display = 'block'
+          document.getElementById('login-box-forgot-password').style.display = 'none'
+          var errorMessage = document.getElementById('error-message-signup')
+          errorMessage.style.display = 'none'
+          var errorMessage = document.getElementById('error-message-login')
+          errorMessage.style.display = 'none'
+        }
+
+        function signup(e) {
+          e.preventDefault()
+          var username = document.getElementById('email-signup').value
+          let emailTest = validateEmail(username)
+
+          if (emailTest == false) {
+            displaySignupEmailError()
+            return
+          }
+
+          var password = document.getElementById('password-signup').value
+
+          webAuth.redirect.signupAndLogin(
+            {
+              connection: databaseConnection,
+              email: username,
+              password: password
+            },
+            function(err) {
+              if (err) displaySignupError(err)
+            }
+          )
+        }
+
+        function checkSignupEmail() {
+          console.log('inside checkSignupEmail')
+
+          let typedEmail = document.getElementById('email-signup').value
+          let testEmail = validateEmail(typedEmail)
+
+          if (testEmail == true) {
+            var errorMessage = document.getElementById('error-message-signup')
+            errorMessage.style.display = 'none'
+          }
+        }
+
+        function checkSignupPassword() {
+          console.log('inside checkSignupPassword')
+
+          let typedPassword = document.getElementById('password-signup').value
+          let testPassword = validatePassword(typedPassword)
+
+          if (testPassword == true) {
+            var errorMessage = document.getElementById('error-message-signup')
+            errorMessage.style.display = 'none'
+          }
+        }
+
+        function loginWithGoogle() {
+          webAuth.authorize(
+            {
+              connection: 'google-oauth2'
+            },
+            function(err) {
+              if (err) displayGoogleError(err)
+            }
+          )
+        }
+
+        function gotoPasswordReset() {
+          document.getElementById('login-box-login').style.display = 'none'
+          document.getElementById('login-box-signup').style.display = 'none'
+          document.getElementById('login-box-forgot-password').style.display = 'block'
+          var errorMessage = document.getElementById('error-message')
+          errorMessage.style.display = 'none'
+        }
+
+        function resetPassword(e) {
+          e.preventDefault()
+          var username = document.getElementById('email-reset').value
+
+          document.getElementById('error-message').style.display = 'none'
+          document.getElementById('password-reset-success').style.display = 'none'
+
+          webAuth.changePassword(
+            {
+              connection: databaseConnection,
+              email: username
+            },
+            function(err, resp) {
+              if (err) {
+                console.log(err)
+                var component = document.getElementById('error-message')
+
+                component.style.display = 'block'
+                component.innerHTML = err.description
+              } else {
+                console.log(resp)
+                var component = document.getElementById('password-reset-success')
+                component.style.display = 'block'
+                component.innerHTML = resp
+              }
+            }
+          )
+        }
+
+        function displayLoginEmailError() {
+          var errorMessage = document.getElementById('error-message-login')
+          var msg = "Oops that email address doesn't look quite right! Please try again."
+          errorMessage.innerHTML = msg
+          errorMessage.style.display = 'block'
+        }
+
+        function displayLoginError(err) {
+          var errorMessage = document.getElementById('error-message-login')
+          console.log(err)
+          errorMessage.innerHTML = err.description
+          errorMessage.style.display = 'block'
+        }
+
+        function displaySignupError(err) {
+          var msg
+          if (err.statusCode && err.code == 'invalid_signup') {
+            msg = 'An account already exists with this email address'
+          } else {
+            msg =
+              "Your hair looks great. But that password doesn't. Passwords must be at least 8 characters long. They must contain at least one uppercase and one lowercase letter and one number."
+          }
+
+          var errorMessage = document.getElementById('error-message-signup')
+          errorMessage.innerHTML = msg
+          errorMessage.style.display = 'block'
+        }
+
+        function displaySignupEmailError() {
+          var errorMessage = document.getElementById('error-message-signup')
+          var msg = "Oops that email address doesn't look quite right! Please try again."
+          errorMessage.innerHTML = msg
+          errorMessage.style.display = 'block'
+        }
+
+        function displayGoogleError(err) {
+          var errorMessage = document.getElementById('error-message-google')
+          errorMessage.innerHTML = err.description
+          errorMessage.style.display = 'block'
+        }
+
+        function validateEmail(email) {
+          var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return re.test(String(email).toLowerCase())
+        }
+
+        function validatePassword(password) {
+          var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+          return re.test(String(password))
+        }
+
+        document.getElementById('btn-login').addEventListener('click', login)
+        document
+          .getElementById('btn-google-login')
+          .addEventListener('click', loginWithGoogle)
+        document
+          .getElementById('btn-google-signup')
+          .addEventListener('click', loginWithGoogle)
+        document.getElementById('btn-signup').addEventListener('click', signup)
+        document.getElementById('btn-reset').addEventListener('click', resetPassword)
+
+        document.getElementById('goto-signup-login').addEventListener('click', gotoSignup)
+        document
+          .getElementById('goto-forgot-password-login')
+          .addEventListener('click', gotoPasswordReset)
+        document.getElementById('goto-login-signup').addEventListener('click', gotoLogin)
+        document
+          .getElementById('goto-forgot-password-signup')
+          .addEventListener('click', gotoPasswordReset)
+        document.getElementById('goto-signup-reset').addEventListener('click', gotoSignup)
+        document.getElementById('goto-login-reset').addEventListener('click', gotoLogin)
+
+        document.getElementById('email-login').addEventListener('change', checkLoginEmail)
+        document
+          .getElementById('email-signup')
+          .addEventListener('change', checkSignupEmail)
+        document
+          .getElementById('password-signup')
+          .addEventListener('change', checkSignupPassword)
+      })
+    </script>
+  </body>
+</html>
