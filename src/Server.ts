@@ -68,6 +68,11 @@ app.get('/s/:scriptId', async (req, res, next) => {
 
 app.get('*', async (req, res, next) => {
   try {
+    if (!req.user) {
+      req.session!.returnTo = req.originalUrl
+      res.redirect('/login')
+    }
+
     res.send(await indexProvider.get())
   } catch (err) {
     next(err)

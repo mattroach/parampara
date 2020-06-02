@@ -21,7 +21,9 @@ const AdminLayout: React.FunctionComponent<Props> = ({ children, navbarExtra }) 
 
   useEffect(() => {
     if (initAuthFailure) {
-      window.location.href = '/login'
+      //returnTo is not currently used - the backend should handle the redirect in non-dev mode anyways
+      window.location.href =
+        '/login?returnTo=' + encodeURIComponent(window.location.pathname)
     }
   }, [initAuthFailure])
 
