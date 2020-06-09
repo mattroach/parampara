@@ -73,6 +73,7 @@ const MessageField: React.FunctionComponent<Props> = ({
   const selectEmoji = (emoji: BaseEmoji) => {
     inputRef.current!.focus()
     onChange(value + emoji.native)
+    console.log('inserted')
     // Disabled because it's broken - bug in inserting at lastSelectionStart
     // if (lastSelectionStart === null) {
     //   onChange(value + emoji.native)

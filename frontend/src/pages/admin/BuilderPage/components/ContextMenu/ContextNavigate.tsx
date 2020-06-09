@@ -12,6 +12,19 @@ type Props = {
   onChangeNavigation: (nextId: number) => void
 }
 
+const POPPER_CONFIG = [
+  {
+    name: 'flip',
+    options: {
+      fallbackPlacements: ['right-start', 'left-start']
+    }
+  },
+  {
+    name: 'preventOverflow',
+    options: { rootBoundary: 'document' }
+  }
+]
+
 const ContextNavigate: React.FunctionComponent<Props> = ({
   disabled,
   currentValue,
@@ -40,19 +53,6 @@ const ContextNavigate: React.FunctionComponent<Props> = ({
   )
   const disabled_ = !atLeastTwoItems || disabled
 
-  const modifiers = [
-    {
-      name: 'flip',
-      options: {
-        fallbackPlacements: ['right-start', 'left-start']
-      }
-    },
-    {
-      name: 'preventOverflow',
-      options: { rootBoundary: 'document' }
-    }
-  ]
-
   const stopKeyboardPropogation = (e: React.KeyboardEvent<HTMLElement>) => {
     // If this bubbles, the menu steals focus on up/down arrow keys.. not exactly sure why but this prevents that.
     e.stopPropagation()
@@ -60,7 +60,7 @@ const ContextNavigate: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <Popper target={targetRef} show={isShow} modifiers={modifiers}>
+      <Popper target={targetRef} show={isShow} modifiers={POPPER_CONFIG} hideArrow>
         <div onKeyDown={stopKeyboardPropogation}>
           <ItemNavigationForm
             onSelect={changeNavigation}

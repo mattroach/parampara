@@ -6,7 +6,7 @@ import EmptyState from './EmptyState'
 import styled from 'styled-components'
 
 const Items = styled.div`
-  min-height: 250px;
+  min-height: 275px;
 `
 
 const Editor: React.FunctionComponent = () => {

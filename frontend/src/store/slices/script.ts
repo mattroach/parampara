@@ -312,7 +312,7 @@ export const startScriptRefresh = (): AppThunk<ScriptRefresh<ScriptItem[]>> => (
   const commit = (items: ScriptItem[]) => {
     const prevItems = getState().scriptStore.script!.version.items
     if (deepEqual(items, prevItems)) {
-      console.log('No changes to items, not committing')
+      console.debug('No changes to items, not committing')
     } else {
       console.log('commiting changes to store')
       dispatch(updateScriptItems(items))

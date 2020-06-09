@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import React, { ChangeEvent, RefObject } from 'react'
+import React, { ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
 import Popover from 'react-bootstrap/Popover'
 import { connect } from 'react-redux'
@@ -56,7 +56,6 @@ type GiphyItem = {
 }
 
 type Props = {
-  focusRef: RefObject<HTMLInputElement>
   onPick: () => void
   insertPosition?: number
 } & typeof mapDispatchToProps
@@ -123,10 +122,10 @@ class GiphyPicker extends React.Component<Props, State> {
     return (
       <StyledContent>
         <StyledControl
-          ref={this.props.focusRef}
           type="text"
           placeholder="Search for a GIF..."
           onChange={this.searchValueChange}
+          autoFocus
         />
         <GiphyList>
           {items &&

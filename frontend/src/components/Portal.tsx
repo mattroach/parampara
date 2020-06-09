@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 
-const Portal: React.FunctionComponent = ({ children }) => {
+type Props = {
+  container?: React.RefObject<HTMLDivElement>
+}
+
+const Portal: React.FunctionComponent<Props> = ({ container, children }) => {
   const portalElement = useRef<HTMLDivElement>()
 
   if (!portalElement.current) {
@@ -9,13 +13,15 @@ const Portal: React.FunctionComponent = ({ children }) => {
   }
 
   useEffect(() => {
+    const cont = container ? container.current! : document.body
+
     const portalEl = portalElement.current!
-    document.body.appendChild(portalEl)
+    cont.appendChild(portalEl)
     portalElement.current = portalEl
     return () => {
-      document.body.removeChild(portalEl)
+      cont.removeChild(portalEl)
     }
-  }, [])
+  }, [container])
 
   return ReactDOM.createPortal(children, portalElement.current!)
 }

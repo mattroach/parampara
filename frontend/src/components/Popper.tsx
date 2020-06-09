@@ -12,8 +12,11 @@ type Props = {
   placement?: Placement
   strategy?: PositioningStrategy
   modifiers?: Partial<Modifier<any>>[]
+  container?: React.RefObject<HTMLDivElement>
   target: RefObject<Element>
   show: boolean
+  hideArrow?: boolean
+  onBlur?: () => void
 }
 
 class Popper extends React.Component<Props> {
@@ -36,19 +39,46 @@ class Popper extends React.Component<Props> {
     })
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props) {
     this.popper!.forceUpdate()
+
+    const { show } = this.props
+    if (this.props.onBlur && prevProps.show !== show) {
+      if (show) {
+        document.addEventListener('click', this.handleClickOutside)
+      } else {
+        document.removeEventListener('click', this.handleClickOutside)
+      }
+    }
   }
 
   componentWillUnmount() {
     this.popper!.destroy()
+    if (this.props.onBlur) {
+      document.removeEventListener('click', this.handleClickOutside)
+    }
+  }
+
+  handleClickOutside = (event: MouseEvent) => {
+    if (!this.props.show) return
+
+    if (this.popperRef.current && !this.popperRef.current.contains(event.target as any)) {
+      console.log('popper blur')
+      this.props.onBlur!()
+    }
   }
 
   render() {
+    const { container, show, hideArrow, children } = this.props
     return (
-      <Portal>
-        <div className="_popper_container" ref={this.popperRef as any}>
-          {this.props.show && this.props.children}
+      <Portal container={container}>
+        <div ref={this.popperRef as any} className="popper_container">
+          {show && children}
+          <div
+            data-popper-arrow
+            className="popper_arrow"
+            style={{ display: show && !hideArrow ? 'inherit' : 'none' }}
+          />
         </div>
       </Portal>
     )
