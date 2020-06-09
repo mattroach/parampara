@@ -1,9 +1,10 @@
+import Loader from 'components/Loader'
+import SmallChat from 'components/SmallChat'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Loader from '../../components/Loader'
-import SignedInNavBar from './SignedInNavBar'
 import { loadAdmin } from 'store/slices/admin'
 import AuthFailureMonitor from './AuthFailureMonitor'
+import SignedInNavBar from './SignedInNavBar'
 
 type Props = {
   navbarExtra?: React.ReactNode
@@ -34,6 +35,7 @@ const AdminLayout: React.FunctionComponent<Props> = ({ children, navbarExtra }) 
   return (
     <>
       <AuthFailureMonitor />
+      <SmallChat />
       <SignedInNavBar extra={navbarExtra} />
       {children}
     </>
