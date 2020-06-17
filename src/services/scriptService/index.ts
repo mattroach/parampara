@@ -2,7 +2,7 @@ import { uuid } from '@shared'
 import { raw } from 'objection'
 import Script from '../../models/Script'
 import ScriptVersion from '../../models/ScriptVersion'
-import emailService from '../EmailService'
+import eventService from '../EventService'
 import {
   getDraftScript,
   getLatestScript,
@@ -79,7 +79,7 @@ export default {
 
     if (newVersion.version === 1) {
       //If this is the first publish
-      emailService.scriptPublished(script.admin!, script)
+      eventService.scriptPublished(script.admin!, script)
     }
   },
 

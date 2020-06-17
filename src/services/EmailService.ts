@@ -69,7 +69,7 @@ class EmailService {
 
   private sendRequest(request: AccountCreationRequest | ScriptPublishedRequest) {
     if (process.env.NODE_ENV === 'development') {
-      console.log(request)
+      console.log('emailService.sendRequest debug mode', request)
     } else {
       // Send in async, do not wait for response
       axios
