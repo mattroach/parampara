@@ -29,7 +29,7 @@ export default async (userEmail: string, eventName: string, properties: object) 
 
   const apiPath = `/lists/${defaultList}/members/${subHash}/events`
 
-  if (process.env.NODE_ENV === 'development' && false) {
+  if (process.env.NODE_ENV === 'development') {
     console.log('Mailchimp event (not published in dev mode)', apiPath, body)
   } else {
     const response = await mailchimp.post(apiPath, body)
