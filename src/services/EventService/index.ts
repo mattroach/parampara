@@ -9,6 +9,7 @@ type ScriptAttributes = {
 }
 
 export default {
+  newRespondent(scriptId: string) {},
   nRespondents(userEmail: string, n: number, scriptAttributes: ScriptAttributes) {
     publishMailchimpEvent(userEmail, 'total_respondents_' + n, scriptAttributes)
   },

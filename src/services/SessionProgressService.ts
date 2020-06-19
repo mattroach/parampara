@@ -3,6 +3,7 @@ import SessionProgress from '../models/SessionProgress'
 import SessionUser from '../models/SessionUser'
 import progressItemExecutor from './ProgressItemExecutor'
 import ScriptVersion from '../models/ScriptVersion'
+import eventService from './eventService'
 
 class SessionProgressService {
   async updateSessionProgress(
@@ -72,7 +73,8 @@ class SessionProgressService {
       referrerCode?: string
     }
   ) {
-    const { userId, referrerCode } = data
+    eventService.newRespondent(scriptId)
+
     const scriptVersion = await ScriptVersion.query()
       .where('scriptId', scriptId)
       .modify('latest')
@@ -81,10 +83,10 @@ class SessionProgressService {
 
     return await SessionProgress.query().insertAndFetch({
       id: uuid(),
-      sessionUserId: userId,
+      sessionUserId: data.userId,
       scriptId,
       scriptVersionId,
-      referrerCode
+      referrerCode: data.referrerCode
     })
   }
 
@@ -98,13 +100,6 @@ class SessionProgressService {
   private getUserByEmail(email: string) {
     return SessionUser.query()
       .where('email', email)
-      .first()
-  }
-
-  private getSessionProgress(scriptId: string, userId: string) {
-    return SessionProgress.query()
-      .where('scriptId', scriptId)
-      .where('sessionUserId', userId)
       .first()
   }
 

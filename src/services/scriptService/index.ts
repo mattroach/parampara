@@ -2,7 +2,7 @@ import { uuid } from '@shared'
 import { raw } from 'objection'
 import Script from '../../models/Script'
 import ScriptVersion from '../../models/ScriptVersion'
-import eventService from '../EventService'
+import eventService from '../eventService'
 import {
   getDraftScript,
   getLatestScript,
