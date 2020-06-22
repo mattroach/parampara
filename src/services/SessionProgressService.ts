@@ -24,53 +24,56 @@ class SessionProgressService {
       .findById(sessionId)
       .patch({
         ...data,
-        progress: await this.getProgress(data.currentItemId, session)
+        progress: await this.getProgress(
+          data.currentItemId,
+          await session.$relatedQuery('scriptVersion')
+        )
       })
   }
 
-  private async getProgress(currentItemId: number, session: SessionProgress) {
-    const scriptVersion = await session.$relatedQuery('scriptVersion')
+  private async getProgress(currentItemId: number, scriptVersion: ScriptVersion) {
     return Math.floor((100 * currentItemId) / scriptVersion.items.length)
   }
 
-  async getOrCreateSessionProgress(
+  async createSessionProgress(
     scriptId: string,
     data: {
       email?: string
       referrerCode?: string
+      currentItemId: number
+      items: any[]
+      durationSec: number
     }
   ): Promise<SessionProgress> {
-    const { email, referrerCode } = data
+    const { email, ...progressData } = data
 
     if (email) {
       const user = await this.getUserByEmail(email)
 
       if (user) {
-        // Temporary change until we obfuscate user data: always create a new session
-        //const existingProgress = await this.getSessionProgress(scriptId, user.id)
-        // if (existingProgress)
-        //   return existingProgress
-
-        return await this.createSessionProgress(scriptId, {
+        return await this.createSessionProgressDb(scriptId, {
           userId: user.id,
-          referrerCode
+          ...progressData
         })
       }
 
       const newUser = await this.createUser(email)
-      return await this.createSessionProgress(scriptId, {
+      return await this.createSessionProgressDb(scriptId, {
         userId: newUser.id,
-        referrerCode
+        ...progressData
       })
     }
-    return await this.createSessionProgress(scriptId, { referrerCode })
+    return await this.createSessionProgressDb(scriptId, progressData)
   }
 
-  private async createSessionProgress(
+  private async createSessionProgressDb(
     scriptId: string,
     data: {
       userId?: string
       referrerCode?: string
+      currentItemId: number
+      items: any[]
+      durationSec: number
     }
   ) {
     eventService.newRespondent(scriptId)
@@ -81,12 +84,15 @@ class SessionProgressService {
       .first()
     const scriptVersionId = scriptVersion.id
 
+    const { userId: sessionUserId, ...moreData } = data
+
     return await SessionProgress.query().insertAndFetch({
       id: uuid(),
-      sessionUserId: data.userId,
+      sessionUserId,
       scriptId,
       scriptVersionId,
-      referrerCode: data.referrerCode
+      progress: await this.getProgress(data.currentItemId, scriptVersion),
+      ...moreData
     })
   }
 

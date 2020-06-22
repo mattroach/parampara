@@ -1,76 +1,58 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { RootState } from 'store/rootReducer'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-  initPreviewProgress,
-  loadProgressFromServer,
+  initTimer,
+  initEmptyProgress,
+  createSessionProgress,
   MESSAGE_BASE_DELAY
 } from 'store/slices/sessionProgress'
 import EmailInput from './action-types/EmailInput'
 import BotMessage from './item-types/BotMessage'
 import HumanBubble from './item-types/HumanBubble'
 
-type State = {
-  askEmail: boolean
-  email?: string
-}
-
 type Props = {
   isPreviewMode: boolean
-} & ReturnType<typeof mapStateToProps> &
-  typeof mapDispatchToProps
+}
 
-class UserIdentification extends React.Component<Props, State> {
-  state: State = {
-    askEmail: false
-  }
+const UserIdentification: React.FunctionComponent<Props> = ({ isPreviewMode }) => {
+  const allowAnon = useSelector(state => state.scriptStore.script!.allowAnon)
+  const [askEmail, setAskEmail] = useState(false)
+  const [email, setEmail] = useState('')
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    if (this.props.allowAnon) {
-      this.initProgress()
+  useEffect(() => {
+    initTimer()
+
+    if (allowAnon) {
+      dispatch(initEmptyProgress({ isPreviewMode }))
     } else {
       setTimeout(() => {
-        this.setState({ askEmail: true })
+        setAskEmail(true)
       }, MESSAGE_BASE_DELAY)
     }
-  }
+  }, [dispatch, allowAnon, isPreviewMode])
 
-  onSubmit = (email: string) => {
-    this.setState({ email, askEmail: false })
-    this.initProgress(email)
-  }
+  const onSubmit = (email: string) => {
+    setAskEmail(false)
+    setEmail(email)
 
-  initProgress = (email?: string) => {
     setTimeout(() => {
-      if (this.props.isPreviewMode) {
-        this.props.initPreviewProgress()
-      } else {
-        this.props.loadProgressFromServer(this.props.scriptId, email)
+      dispatch(initEmptyProgress({ isPreviewMode }))
+      if (!isPreviewMode) {
+        dispatch(createSessionProgress(email))
       }
     }, MESSAGE_BASE_DELAY / 2) // divide by 2 as the server request time will add additional wait
   }
 
-  render() {
-    if (this.props.allowAnon) return null
+  if (allowAnon) return null
 
-    const { email } = this.state
-
-    return (
-      <>
-        <BotMessage message="Hello! Please enter your email to get started." />
-        {this.state.askEmail && <EmailInput onSubmit={this.onSubmit} />}
-        {email && <HumanBubble message={email} />}
-      </>
-    )
-  }
+  return (
+    <>
+      <BotMessage message="Hello! Please enter your email to get started." />
+      {askEmail && <EmailInput onSubmit={onSubmit} />}
+      {email && <HumanBubble message={email} />}
+    </>
+  )
 }
 
-function mapStateToProps(state: RootState) {
-  const { script } = state.scriptStore
-  return { allowAnon: script!.allowAnon, scriptId: script!.id }
-}
-
-const mapDispatchToProps = { loadProgressFromServer, initPreviewProgress }
-
-// @ts-ignore
-export default connect(mapStateToProps, mapDispatchToProps)(UserIdentification)
+export default UserIdentification

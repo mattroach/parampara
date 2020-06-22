@@ -1,7 +1,7 @@
 import { ScriptActionType, ScriptItem } from './scriptTypes'
 
 export type SessionProgress = {
-  id?: string // will be undefined if in preview mode and not saving the progress to the server
+  id?: string // will be undefined if in preview mode or items are not being saved yet
   currentItemId: number
   items: ProgressItem[]
 }

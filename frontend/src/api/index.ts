@@ -46,10 +46,13 @@ const api = {
     await authAxios.post(`/api/script/${scriptId}/publish`)
   },
 
-  async getOrCreateSessionProgress(data: {
+  async createSessionProgress(data: {
     scriptId: string
     email?: string
     referrerCode?: string
+    currentItemId: number
+    items: any[]
+    durationSec: number
   }): Promise<SessionProgress> {
     return (await authAxios.post('/api/sessionProgress/', data)).data
   },

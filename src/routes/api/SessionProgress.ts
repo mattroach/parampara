@@ -4,26 +4,32 @@ import sessionProgressService from '../../services/SessionProgressService'
 
 const router = Router()
 
-type StartOrLoadProgressReq = {
+type StartProgressReq = {
   email?: string
   scriptId: string
   referrerCode?: string
+
+  currentItemId: number
+  items: any[]
+  durationSec: number
 }
 
 /**
- * Returns an existing session for the corresponding scriptId and email, or otherwise creates a
- * new session and returns that. If no email is passed in, it will always return a new anon session.
+ * Creates a new session progress. If no email is passed in, it will  return a new anon session.
  */
 router.post('/', async (req, res, next) => {
   try {
-    const request: StartOrLoadProgressReq = req.body
-    const { scriptId, email, referrerCode } = request
+    const request: StartProgressReq = req.body
+    const { scriptId, email, referrerCode, currentItemId, items, durationSec } = request
 
     if (!scriptId) throw new Error('No scriptId provided')
 
-    const progress = await sessionProgressService.getOrCreateSessionProgress(scriptId, {
+    const progress = await sessionProgressService.createSessionProgress(scriptId, {
       email,
-      referrerCode
+      referrerCode,
+      currentItemId,
+      items,
+      durationSec
     })
 
     return res.status(OK).json(progress)

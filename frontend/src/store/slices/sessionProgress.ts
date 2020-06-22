@@ -12,6 +12,7 @@ export const MESSAGE_BASE_DELAY = 1400
 type SessionProgressStore = {
   currentItemDelaying: boolean
   progress?: SessionProgress
+  isPreviewMode?: boolean
 }
 
 const initialState: SessionProgressStore = {
@@ -51,7 +52,8 @@ const sessionProgressSlice = createSlice({
     endDelay(state) {
       state.currentItemDelaying = false
     },
-    initPreviewProgress(state) {
+    initEmptyProgress(state, action: PayloadAction<{ isPreviewMode: boolean }>) {
+      state.isPreviewMode = action.payload.isPreviewMode
       state.progress = {
         currentItemId: 0,
         items: []
@@ -67,11 +69,11 @@ const {
   updateProgress,
   progressItem,
   endDelay,
-  initPreviewProgress,
+  initEmptyProgress,
   clearProgress
 } = sessionProgressSlice.actions
 
-export { initPreviewProgress, clearProgress }
+export { initEmptyProgress, clearProgress }
 
 export default sessionProgressSlice.reducer
 
@@ -115,41 +117,81 @@ export const progressItemAndDelayNext = (itemProgress: ProgressItem): AppThunk =
     dispatch(endDelay())
   }, calculateDelay(itemProgress.item))
 
-  updateProgressOnServer(getState)
+  const state = getState()
+  const { progress, isPreviewMode } = state.sessionProgressStore
+
+  if (isPreviewMode) return
+
+  if (progress!.id) {
+    updateProgressOnServer(getState)
+  } else {
+    console.log('checking for persistence eligibility')
+
+    if (getIsEligibleForPersistence(state)) {
+      dispatch(createSessionProgress())
+      console.log('persisting progress')
+    }
+  }
 }
 
-// Will load (if exists) or create the progress on the server
-export const loadProgressFromServer = (
-  scriptId: string,
-  email?: string
-): AppThunk => async dispatch => {
+/*
+ * Whether or not the session is persisted to the backend. We only persist when one of the following is true:
+ * - The script is non-anonymous and they provide their email address
+ * - The script reaches the 5th message
+ * - The user performs an action (e.g. answers a question)
+ * - The user gets to the end of the Parampara
+ */
+const getIsEligibleForPersistence = (state: RootState) => {
+  const progress = state.sessionProgressStore.progress!
+
+  if (progress.currentItemId >= 5) return true
+
+  if (progress.items.some(item => Boolean(item.actionResult))) return true
+
+  if (getNextItem(state) === undefined) return true
+
+  return false
+}
+
+const hasAction = (items: ProgressItem[]) =>
+  items.some(item => Boolean(item.actionResult))
+
+export const initTimer = () => {
   TimeMe.initialize({
     currentPageName: 'session-progress',
     idleTimeoutInSeconds: 15
   })
+}
 
-  const urlParams = new URLSearchParams(window.location.search)
-  const referrerCode = urlParams.get('r') || undefined
+export const createSessionProgress = (email?: string): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  const scriptId = getState().scriptStore.script!.id
+  const { currentItemId, items } = getState().sessionProgressStore.progress!
 
-  const sessionProgress = await api.getOrCreateSessionProgress({
+  const referrerCode = getReferrerCode()
+  const durationSec = getDurationSec()
+  const sessionProgress = await api.createSessionProgress({
     email,
     scriptId,
-    referrerCode
+    referrerCode,
+    durationSec,
+    currentItemId,
+    items
   })
   dispatch(updateProgress(sessionProgress))
 }
 
+const getReferrerCode = () =>
+  new URLSearchParams(window.location.search).get('r') || undefined
+const getDurationSec = () => Math.ceil(TimeMe.getTimeOnCurrentPageInSeconds())
+
 const updateProgressOnServer = throttle(3000, false, (getState: () => RootState) => {
   const { progress } = getState().sessionProgressStore
 
-  if (!progress) throw Error('No progress available')
-  const { currentItemId, items, id } = progress
+  const { currentItemId, items, id } = progress!
 
-  if (!id) {
-    // We must be in preview mode: do not save progress
-    return
-  }
-
-  const durationSec = Math.ceil(TimeMe.getTimeOnCurrentPageInSeconds())
-  api.updateProgress(id, { currentItemId, items, durationSec })
+  const durationSec = getDurationSec()
+  api.updateProgress(id!, { currentItemId, items, durationSec })
 })
