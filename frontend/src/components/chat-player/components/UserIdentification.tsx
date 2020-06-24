@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   initTimer,
   initEmptyProgress,
+  setIsPreviewMode,
   createSessionProgress,
   MESSAGE_BASE_DELAY
 } from 'store/slices/sessionProgress'
@@ -37,8 +38,10 @@ const UserIdentification: React.FunctionComponent<Props> = ({ isPreviewMode }) =
     setEmail(email)
 
     setTimeout(() => {
-      dispatch(initEmptyProgress({ isPreviewMode }))
-      if (!isPreviewMode) {
+      if (isPreviewMode) {
+        dispatch(initEmptyProgress({ isPreviewMode }))
+      } else {
+        dispatch(setIsPreviewMode(false))
         dispatch(createSessionProgress(email))
       }
     }, MESSAGE_BASE_DELAY / 2) // divide by 2 as the server request time will add additional wait

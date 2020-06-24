@@ -52,6 +52,9 @@ const sessionProgressSlice = createSlice({
     endDelay(state) {
       state.currentItemDelaying = false
     },
+    setIsPreviewMode(state, action: PayloadAction<boolean>) {
+      state.isPreviewMode = action.payload
+    },
     initEmptyProgress(state, action: PayloadAction<{ isPreviewMode: boolean }>) {
       state.isPreviewMode = action.payload.isPreviewMode
       state.progress = {
@@ -70,10 +73,11 @@ const {
   progressItem,
   endDelay,
   initEmptyProgress,
-  clearProgress
+  clearProgress,
+  setIsPreviewMode
 } = sessionProgressSlice.actions
 
-export { initEmptyProgress, clearProgress }
+export { setIsPreviewMode, initEmptyProgress, clearProgress }
 
 export default sessionProgressSlice.reducer
 
@@ -153,9 +157,6 @@ const getIsEligibleForPersistence = (state: RootState) => {
   return false
 }
 
-const hasAction = (items: ProgressItem[]) =>
-  items.some(item => Boolean(item.actionResult))
-
 export const initTimer = () => {
   TimeMe.initialize({
     currentPageName: 'session-progress',
@@ -168,7 +169,7 @@ export const createSessionProgress = (email?: string): AppThunk => async (
   getState
 ) => {
   const scriptId = getState().scriptStore.script!.id
-  const { currentItemId, items } = getState().sessionProgressStore.progress!
+  const { progress } = getState().sessionProgressStore
 
   const referrerCode = getReferrerCode()
   const durationSec = getDurationSec()
@@ -177,8 +178,8 @@ export const createSessionProgress = (email?: string): AppThunk => async (
     scriptId,
     referrerCode,
     durationSec,
-    currentItemId,
-    items
+    currentItemId: progress?.currentItemId || 0,
+    items: progress?.items || []
   })
   dispatch(updateProgress(sessionProgress))
 }

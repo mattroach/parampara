@@ -3,8 +3,6 @@ import SessionResponse from './SessionResponse'
 import ScriptVersion from './ScriptVersion'
 import SessionUser from './SessionUser'
 
-export const MIN_COMPLETION_PROGRESS = 4
-
 export default class SessionProgress extends Model {
   id!: string
   scriptId!: string
@@ -24,12 +22,6 @@ export default class SessionProgress extends Model {
   static tableName = 'session_progress'
 
   static jsonAttributes = ['items']
-
-  static modifiers: Modifiers = {
-    hasMinProgress(builder) {
-      builder.where('progress', '>=', MIN_COMPLETION_PROGRESS)
-    }
-  }
 
   static relationMappings: RelationMappingsThunk = () => ({
     sessionUser: {
