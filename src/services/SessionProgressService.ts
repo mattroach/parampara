@@ -76,8 +76,6 @@ class SessionProgressService {
       durationSec: number
     }
   ) {
-    eventService.newRespondent(scriptId)
-
     const scriptVersion = await ScriptVersion.query()
       .where('scriptId', scriptId)
       .modify('latest')
@@ -86,7 +84,7 @@ class SessionProgressService {
 
     const { userId: sessionUserId, ...moreData } = data
 
-    return await SessionProgress.query().insertAndFetch({
+    const newProgress = await SessionProgress.query().insertAndFetch({
       id: uuid(),
       sessionUserId,
       scriptId,
@@ -94,6 +92,9 @@ class SessionProgressService {
       progress: await this.getProgress(data.currentItemId, scriptVersion),
       ...moreData
     })
+
+    eventService.newRespondent(scriptId)
+    return newProgress
   }
 
   private createUser(email: string) {

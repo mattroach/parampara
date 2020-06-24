@@ -2,6 +2,7 @@ import publishMailchimpEvent from './publishMailchimpEvent'
 import emailService from '../EmailService'
 import Admin from '../../models/Admin'
 import Script from '../../models/Script'
+import SessionProgress from 'src/models/SessionProgress'
 
 type ScriptAttributes = {
   scriptTitle: string
@@ -9,9 +10,31 @@ type ScriptAttributes = {
 }
 
 export default {
-  newRespondent(scriptId: string) {},
-  nRespondents(userEmail: string, n: number, scriptAttributes: ScriptAttributes) {
-    publishMailchimpEvent(userEmail, 'total_respondents_' + n, scriptAttributes)
+  async newRespondent(scriptId: string) {
+    const thresholds = [10, 50, 100]
+
+    const countResult = (await SessionProgress.query()
+      .where('scriptId', scriptId)
+      .count()
+      .as('count')) as any
+
+    const count = parseInt(countResult[0].count)
+    if (!thresholds.includes(count)) return
+
+    const script = await Script.query()
+      .withGraphFetched('admin')
+      .findById(scriptId)
+
+    const scriptAttributes: ScriptAttributes = {
+      scriptTitle: script.title,
+      scriptId
+    }
+
+    publishMailchimpEvent(
+      script.admin!.email,
+      'total_respondents_' + count,
+      scriptAttributes
+    )
   },
   scriptPublished(admin: Admin, script: Script) {
     emailService.scriptPublished(admin, script)
