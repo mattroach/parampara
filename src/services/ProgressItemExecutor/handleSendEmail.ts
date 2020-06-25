@@ -1,6 +1,6 @@
-import SessionProgress from '../../models/SessionProgress'
-import SessionUser from '../../models/SessionUser'
-import { SendEmailAction } from '../../../frontend/src/types/scriptTypes'
+import SessionProgress from '@models/SessionProgress'
+import SessionUser from '@models/SessionUser'
+import { SendEmailAction } from '@frontend/types/scriptTypes'
 import sendEmailActionService from '../SendEmailActionService'
 import sessionResponseService from '../SessionResponseService'
 

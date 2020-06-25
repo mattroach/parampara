@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
 import { Array, Record, String, Unknown } from 'runtypes'
-import { InsightFilter } from '../../../../../frontend/src/types/insightTypes'
-import scriptExportService from '../../../../services/ScriptExportService'
-import sessionProgressService from '../../../../services/SessionProgressService'
-import sessionResponseService from '../../../../services/SessionResponseService'
+import { InsightFilter } from '@frontend/types/insightTypes'
+import scriptExportService from '@services/ScriptExportService'
+import sessionProgressService from '@services/SessionProgressService'
+import sessionResponseService from '@services/SessionResponseService'
 
 const router = Router()
 

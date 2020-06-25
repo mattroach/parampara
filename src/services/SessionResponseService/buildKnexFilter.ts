@@ -1,8 +1,5 @@
-import {
-  InsightFilter,
-  InsightFilterType
-} from '../../../frontend/src/types/insightTypes'
-import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
+import { InsightFilter, InsightFilterType } from '@frontend/types/insightTypes'
+import { ScriptActionType } from '@frontend/types/scriptTypes'
 import Knex from 'knex'
 
 const buildKnexFilter = <T>(

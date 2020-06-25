@@ -1,6 +1,6 @@
-import SessionUser from '../../models/SessionUser'
-import { InsightFilter } from '../../../frontend/src/types/insightTypes'
-import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
+import SessionUser from '@models/SessionUser'
+import { InsightFilter } from '@frontend/types/insightTypes'
+import { ScriptActionType } from '@frontend/types/scriptTypes'
 import buildKnexFilter from './buildKnexFilter'
 import Objection = require('objection')
 

@@ -7,16 +7,16 @@ import {
   ScriptItem,
   ScriptItemType,
   ScriptActionMap
-} from '../../../frontend/src/types/scriptTypes'
+} from '@frontend/types/scriptTypes'
 import {
   ChooseResponseResult,
   CollectEmailResult,
   CommentResult,
   ProgressItem,
   ScriptActionResultMap
-} from '../../../frontend/src/types/sessionProgress'
-import SessionProgress from '../../models/SessionProgress'
-import SessionResponse from '../../models/SessionResponse'
+} from '@frontend/types/sessionProgress'
+import SessionProgress from '@models/SessionProgress'
+import SessionResponse from '@models/SessionResponse'
 import Objection = require('objection')
 import handleSendEmail from './handleSendEmail'
 

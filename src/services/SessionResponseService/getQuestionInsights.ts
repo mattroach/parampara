@@ -1,7 +1,7 @@
-import { InsightFilter } from '../../../frontend/src/types/insightTypes'
-import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
+import { InsightFilter } from '@frontend/types/insightTypes'
+import { ScriptActionType } from '@frontend/types/scriptTypes'
 import knex from '../../knex'
-import SessionResponse from '../../models/SessionResponse'
+import SessionResponse from '@models/SessionResponse'
 import buildKnexFilter from './buildKnexFilter'
 import Objection = require('objection')
 

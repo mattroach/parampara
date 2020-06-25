@@ -1,8 +1,8 @@
-import SessionProgress from '../../models/SessionProgress'
+import SessionProgress from '@models/SessionProgress'
 import Objection = require('objection')
-import SessionResponse from '../../models/SessionResponse'
-import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
-import { ResponseStatistics } from '../../../frontend/src/api/types'
+import SessionResponse from '@models/SessionResponse'
+import { ScriptActionType } from '@frontend/types/scriptTypes'
+import { ResponseStatistics } from '@frontend/api/types'
 import knex from '../../knex'
 
 const getSessionAggregations = (scriptId: string) =>

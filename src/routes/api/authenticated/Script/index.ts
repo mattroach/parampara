@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { OK, NOT_FOUND } from 'http-status-codes'
 import { Boolean, Null, Number, Record, String, Undefined, Unknown } from 'runtypes'
-import scriptService from '../../../../services/ScriptService'
+import scriptService from '@services/ScriptService'
 import ScriptResults from './ScriptResults'
 import getIsSuperAdmin from '../getIsSuperAdmin'
 

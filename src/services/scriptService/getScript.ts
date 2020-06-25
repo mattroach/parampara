@@ -1,4 +1,4 @@
-import Script from '../../models/Script'
+import Script from '@models/Script'
 import adminService from '../adminService'
 import { uuid } from '@shared'
 import ScriptVersion from 'src/models/ScriptVersion'

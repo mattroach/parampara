@@ -1,4 +1,4 @@
-import Admin from '../../../models/Admin'
+import Admin from '@models/Admin'
 
 const SUPER_ADMINS = [
   'google-oauth2|101956130892002953490', // matt

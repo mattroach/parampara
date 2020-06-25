@@ -4,8 +4,8 @@ import urlSlug from 'url-slug'
 import Script from '../models/Script'
 import SessionProgress from '../models/SessionProgress'
 import sessionResponseService from './SessionResponseService'
-import transposeSessionResults from '../../frontend/src/services/transposeSessionResults'
-import { Session } from '../../frontend/src/api/types'
+import transposeSessionResults from '@frontend/services/transposeSessionResults'
+import { Session } from '@frontend/api/types'
 
 class ScriptExportService {
   async getFilename(scriptId: string) {

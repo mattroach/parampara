@@ -1,8 +1,8 @@
-import publishMailchimpEvent from './publishMailchimpEvent'
+import Admin from '@models/Admin'
+import Script from '@models/Script'
+import SessionProgress from '@models/SessionProgress'
 import emailService from '../EmailService'
-import Admin from '../../models/Admin'
-import Script from '../../models/Script'
-import SessionProgress from '../../models/SessionProgress'
+import publishMailchimpEvent from './publishMailchimpEvent'
 
 type ScriptAttributes = {
   scriptTitle: string

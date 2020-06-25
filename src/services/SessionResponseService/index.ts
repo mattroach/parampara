@@ -1,7 +1,7 @@
-import SessionProgress from '../../models/SessionProgress'
+import SessionProgress from '@models/SessionProgress'
 import Objection = require('objection')
-import SessionResponse from '../../models/SessionResponse'
-import { ScriptActionType } from '../../../frontend/src/types/scriptTypes'
+import SessionResponse from '@models/SessionResponse'
+import { ScriptActionType } from '@frontend/types/scriptTypes'
 import getResponseStatistics from './getResponseStatistics'
 import getQuestionInsights from './getQuestionInsights'
 import getCommentInsights from './getCommentInsights'

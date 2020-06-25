@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { OK } from 'http-status-codes'
-import scriptService from '../../services/ScriptService'
+import scriptService from '@services/ScriptService'
 
 const router = Router()
 

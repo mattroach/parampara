@@ -13,8 +13,9 @@
     "target": "es6",
     "moduleResolution": "node",
     "paths": {
-      "@models": ["src/models"],
-      "@services": ["src/services"],
+      "@frontend/*": ["frontend/src/*"],
+      "@models/*": ["src/models/*"],
+      "@services/*": ["src/services/*"],
       "@shared": ["src/shared"],
       "@server": ["src/Server"]
     },
