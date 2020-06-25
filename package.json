@@ -11,7 +11,7 @@
     "test": "nodemon --config nodemon.test.json"
   },
   "_moduleAliases": {
-    "@frontend": "dist/frontend",
+    "@frontend": "dist/frontend/src",
     "@models": "dist/src/models",
     "@services": "dist/src/services",
     "@shared": "dist/src/shared",
