@@ -37,8 +37,8 @@ class ProgressItemExecutor {
     [ScriptActionType.CollectEmail]: this.handleComment.bind(this)
   }
 
-  async execute(lastSession: SessionProgress, items: ProgressItem[]) {
-    const newItems = items.slice(lastSession.items.length)
+  async execute(session: SessionProgress, items: ProgressItem[], lastItemLength: number) {
+    const newItems = items.slice(lastItemLength)
 
     newItems.forEach(async progressItem => {
       if (!progressItem.item.action) return
@@ -47,7 +47,7 @@ class ProgressItemExecutor {
       const executor = this.executorMap[type]
 
       await executor(
-        lastSession,
+        session,
         // @ts-ignore: todo fix
         progressItem.item.action,
         progressItem.item,
@@ -92,15 +92,15 @@ class ProgressItemExecutor {
   }
 
   private async saveResponse(
-    lastSession: SessionProgress,
+    session: SessionProgress,
     data: Objection.PartialModelObject<SessionResponse>
   ) {
     return await SessionResponse.query().insert({
       ...data,
       id: uuid(),
-      sessionProgressId: lastSession.id,
-      sessionUserId: lastSession.sessionUserId,
-      scriptId: lastSession.scriptId
+      sessionProgressId: session.id,
+      sessionUserId: session.sessionUserId,
+      scriptId: session.scriptId
     })
   }
 

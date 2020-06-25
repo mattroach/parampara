@@ -18,7 +18,7 @@ class SessionProgressService {
 
     if (!session) throw Error(`session ID ${sessionId} not found`)
 
-    await progressItemExecutor.execute(session, data.items)
+    await progressItemExecutor.execute(session, data.items, session.items.length)
 
     await SessionProgress.query()
       .findById(sessionId)
@@ -92,6 +92,8 @@ class SessionProgressService {
       progress: await this.getProgress(data.currentItemId, scriptVersion),
       ...moreData
     })
+
+    await progressItemExecutor.execute(newProgress, data.items, 0)
 
     eventService.newRespondent(scriptId)
     return newProgress
