@@ -1,9 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { action } from '@storybook/addon-actions'
 
-// This must be imported before other components which extend bootstrap styles.:
-import 'bootstrap/dist/css/bootstrap.css'
-import 'index.css'
 import ItemNavigationForm from './ItemNavigationForm'
 import { ScriptItem } from 'types/scriptTypes'
 import { createItems } from 'test/testData'

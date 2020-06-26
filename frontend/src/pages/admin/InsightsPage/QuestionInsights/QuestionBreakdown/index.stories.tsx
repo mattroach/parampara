@@ -1,8 +1,5 @@
 import React from 'react'
 
-// This must be imported before other components which extend bootstrap styles.:
-import 'bootstrap/dist/css/bootstrap.css'
-import 'index.css'
 import QuestionBreakdown from './index'
 
 export default {

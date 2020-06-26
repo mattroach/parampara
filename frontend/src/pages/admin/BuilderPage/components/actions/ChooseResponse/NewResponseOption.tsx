@@ -1,17 +1,21 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
-import { addAction, appendResponseOption, cancelResponseChoiceForm } from 'store/slices/script'
+import {
+  addAction,
+  appendResponseOption,
+  cancelResponseChoiceForm
+} from 'store/slices/script'
 import styled from 'styled-components'
 import { ScriptActionType } from 'types/scriptTypes'
 import { BubbleFieldBase } from '../../items/styles'
 
 export const ResponseEditField = styled(BubbleFieldBase)`
-  border: 1px solid rgba(0, 107, 250, .6);
+  border: 1px solid rgba(0, 107, 250, 0.6);
   color: #006bfa;
-  display: inline-block;  
+  display: inline-block;
   width: 70px;
-  margin-left: 4px; 
+  margin-left: 4px;
 
   :focus {
     width: 170px;
@@ -20,7 +24,7 @@ export const ResponseEditField = styled(BubbleFieldBase)`
   }
   ::placeholder {
     color: #006bfa;
-    opacity: .6;
+    opacity: 0.6;
   }
 `
 
@@ -39,7 +43,7 @@ type Props = {
   mode: 'create' | 'append'
 } & typeof mapDispatchToProps
 
-class ChooseResponse extends React.Component<Props, State> {
+class NewResponseOption extends React.Component<Props, State> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef()
 
   state = {
@@ -62,8 +66,7 @@ class ChooseResponse extends React.Component<Props, State> {
     const option = this.state.responseDraft
 
     if (this.props.mode === 'append') {
-      if (!this.state.responseDraft)
-        return
+      if (!this.state.responseDraft) return
 
       this.props.appendResponseOption({ position, option })
     } else {
@@ -107,9 +110,9 @@ class ChooseResponse extends React.Component<Props, State> {
           value={this.state.responseDraft}
           onChange={this.handleResponseChange}
           onFocus={this.onFocus}
-          onBlur={this.onBlur} />
+          onBlur={this.onBlur}
+        />
       </InlineForm>
-
     )
   }
 }
@@ -117,4 +120,4 @@ class ChooseResponse extends React.Component<Props, State> {
 const mapDispatchToProps = { appendResponseOption, cancelResponseChoiceForm, addAction }
 
 // @ts-ignore
-export default connect(null, mapDispatchToProps)(ChooseResponse)
+export default connect(null, mapDispatchToProps)(NewResponseOption)

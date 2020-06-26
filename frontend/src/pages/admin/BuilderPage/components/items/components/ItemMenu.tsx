@@ -26,6 +26,7 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
   const addEmail = () => dispatch(addSendEmailAction(position))
 
   const newResponseChoice = () => dispatch(newResponseChoiceForm(position))
+  const newMultiChoice = () => dispatch(newResponseChoiceForm(position))
   const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
   const changeNavigation = (nextId: number) =>
     dispatch(updateNextId({ position, nextId }))
@@ -46,6 +47,9 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
       <Dropdown.Divider />
       <Dropdown.Item as="button" disabled={hasAction} onClick={newResponseChoice}>
         Add response
+      </Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={newMultiChoice}>
+        Add multi-choice
       </Dropdown.Item>
       <Dropdown.Item as="button" disabled={hasAction} onClick={addComment}>
         Collect a comment

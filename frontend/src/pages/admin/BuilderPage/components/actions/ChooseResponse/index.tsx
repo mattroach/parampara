@@ -14,28 +14,23 @@ type Props = {
   position: number
 }
 
-const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) => {
-  return (
-    <ItemWrap>
-      {action &&
-        action.responses.map((response, i) => {
-          return (
-            <ResponseOption
-              key={i + response.message}
-              position={position}
-              responsePosition={i}
-              response={response}
-            />
-          )
-        })}
-
-      <NewResponseOption
+const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) => (
+  <ItemWrap>
+    {action?.responses.map((response, i) => (
+      <ResponseOption
+        key={i + response.message}
         position={position}
-        mode={action ? 'append' : 'create'}
-        autoFocus={!action}
+        responsePosition={i}
+        response={response}
       />
-    </ItemWrap>
-  )
-}
+    ))}
+
+    <NewResponseOption
+      position={position}
+      mode={action ? 'append' : 'create'}
+      autoFocus={!action}
+    />
+  </ItemWrap>
+)
 
 export default ChooseResponse
