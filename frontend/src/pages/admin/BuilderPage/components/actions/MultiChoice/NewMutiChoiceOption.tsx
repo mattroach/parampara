@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
+  addAction,
   appendResponseOption,
-  cancelResponseChoiceForm,
-  addAction
+  cancelResponseChoiceForm
 } from 'store/slices/script'
-import { DraftResponseOption } from '../components/Response/ResponseOption'
 import { ScriptActionType } from 'types/scriptTypes'
+import { DraftResponseOption } from '../components/Response/ResponseOption'
+import Checkbox from './Checkbox'
 
 type Props = {
   position: number
   mode: 'append' | 'new'
 }
 
-const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) => {
+const NewMultiChoiceOption: React.FunctionComponent<Props> = ({ position, mode }) => {
   const [value, setValue] = useState<string | undefined>(undefined)
 
   const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) =
       dispatch(
         addAction({
           action: {
-            type: ScriptActionType.ChooseResponse,
+            type: ScriptActionType.MultiChoice,
             responses: [{ message }]
           },
           position
@@ -48,6 +49,7 @@ const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) =
   return (
     <DraftResponseOption
       onClear={onClear}
+      renderBefore={() => <Checkbox />}
       onSubmit={onSubmit}
       value={value}
       setValue={setValue}
@@ -56,4 +58,4 @@ const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) =
   )
 }
 
-export default NewResponseOption
+export default NewMultiChoiceOption

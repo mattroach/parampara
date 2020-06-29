@@ -44,6 +44,7 @@ const ActionItem: React.FunctionComponent<{
 }> = ({ progressItem, actionProgress }) => {
   switch (actionProgress.type) {
     case ScriptActionType.ChooseResponse:
+    case ScriptActionType.MultiChoice:
       return (
         <ChosenResponse progressItem={progressItem} actionProgress={actionProgress} />
       )

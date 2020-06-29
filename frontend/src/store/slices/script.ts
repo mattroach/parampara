@@ -10,8 +10,17 @@ import {
   Script,
   ScriptAction,
   ScriptActionType,
-  ScriptItem
+  ScriptItem,
+  MultiChoiceAction
 } from '../../types/scriptTypes'
+
+// Used for functions which operate on both action types, defined here for convenience
+type ResponseActionUnion = ChooseResponseAction | MultiChoiceAction
+
+export type NewAction = {
+  position: number
+  type: ScriptActionType.MultiChoice | ScriptActionType.ChooseResponse
+}
 
 /**
  * This store is used by both the ui and the editor atm.
@@ -19,9 +28,10 @@ import {
 export type ScriptStore = {
   script?: Script
 
-  // If the user clicked "add response choice" on an item, this will be set to the position ID
-  // of the item they are adding the response to
-  newResponseChoicePosition?: number
+  // If the user is trying to add a new action such as response or multi choice,
+  // this will include information on where it is being added
+  newAction?: NewAction
+
   newItemPosition?: number
   hasUnpushedChanges: boolean
 }
@@ -58,11 +68,11 @@ const scriptSlice = createSlice({
         state.script!.isPublished = true
       }
     },
-    newResponseChoiceForm(state, action: PayloadAction<number>) {
-      state.newResponseChoicePosition = action.payload
+    newAction(state, action: PayloadAction<NewAction>) {
+      state.newAction = action.payload
     },
     cancelResponseChoiceForm(state) {
-      state.newResponseChoicePosition = undefined
+      state.newAction = undefined
     },
     newItemForm(state, action: PayloadAction<number>) {
       state.newItemPosition = action.payload
@@ -134,7 +144,7 @@ const scriptSlice = createSlice({
     ) {
       const { items } = state.script!.version
       const { position, responsePosition } = action.payload
-      const itemAction = items[position].action as ChooseResponseAction
+      const itemAction = items[position].action as ResponseActionUnion
 
       if (itemAction.responses.length === 1) {
         // There is only one option left, so remove the whole action
@@ -153,7 +163,7 @@ const scriptSlice = createSlice({
     ) {
       const { position, responsePosition, newMsg } = action.payload
       const itemAction = state.script?.version.items[position]
-        .action as ChooseResponseAction
+        .action as ResponseActionUnion
 
       itemAction.responses[responsePosition].message = newMsg
     },
@@ -163,7 +173,7 @@ const scriptSlice = createSlice({
     ) {
       const { position, option } = action.payload
       const itemAction = state.script?.version.items[position]
-        .action as ChooseResponseAction
+        .action as ResponseActionUnion
 
       itemAction.responses.push({ message: option })
     }
@@ -190,7 +200,7 @@ const {
   clearScript,
   setHasUnpublishedChanges,
   setHasUnpushedChanges,
-  newResponseChoiceForm,
+  newAction,
   cancelResponseChoiceForm,
   newItemForm,
   cancelNewItemForm,
@@ -210,7 +220,7 @@ const {
 
 export {
   updateScriptPartial,
-  newResponseChoiceForm,
+  newAction,
   cancelResponseChoiceForm,
   newItemForm,
   cancelNewItemForm,

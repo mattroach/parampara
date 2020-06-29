@@ -1,16 +1,11 @@
 import React, { useState } from 'react'
-import Menu from './Menu'
-import { NavId } from '../../items/styles'
-import { ResponseChoice } from 'types/scriptTypes'
-import styled from 'styled-components'
-import ResponseOption from '../components/Response/ResponseOption'
 import { useDispatch } from 'react-redux'
-import { updateResponseOption, removeResponseChoice } from 'store/slices/script'
-
-const StyledNavId = styled(NavId)`
-  vertical-align: top;
-  margin: 2px -4px 0 4px;
-`
+import { removeResponseChoice, updateResponseOption } from 'store/slices/script'
+import styled from 'styled-components'
+import { MultiChoice } from 'types/scriptTypes'
+import ResponseOption from '../components/Response/ResponseOption'
+import Checkbox from './Checkbox'
+import Menu from './Menu'
 
 const StyledResponseOption = styled(ResponseOption)`
   :hover button {
@@ -21,10 +16,10 @@ const StyledResponseOption = styled(ResponseOption)`
 type Props = {
   position: number
   responsePosition: number
-  response: ResponseChoice
+  response: MultiChoice
 }
 
-const SavedResponseOption: React.FunctionComponent<Props> = ({
+const SavedMultiChoiceOption: React.FunctionComponent<Props> = ({
   position,
   responsePosition,
   response
@@ -45,19 +40,10 @@ const SavedResponseOption: React.FunctionComponent<Props> = ({
       setValue={setValue}
       onSubmit={submit}
       onClear={clear}
-      renderNavId={() =>
-        response.nextId !== undefined && <StyledNavId>{response.nextId}</StyledNavId>
-      }
-      renderMenu={wrapperRef => (
-        <Menu
-          response={response}
-          position={position}
-          responsePosition={responsePosition}
-          containerRef={wrapperRef}
-        />
-      )}
+      renderBefore={() => <Checkbox />}
+      renderMenu={() => <Menu position={position} responsePosition={responsePosition} />}
     />
   )
 }
 
-export default SavedResponseOption
+export default SavedMultiChoiceOption

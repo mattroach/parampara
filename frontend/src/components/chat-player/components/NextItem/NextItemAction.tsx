@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import ChooseResponse from '../action-types/ChooseResponse'
+//import MultiChoice from '../action-types/MultiChoice'
 import Comment from '../action-types/Comment'
 import SendEmail from '../action-types/SendEmail'
 import { ScriptActionType, ScriptItem, ScriptAction } from 'types/scriptTypes'
@@ -26,6 +27,9 @@ const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
 
   switch (action.type) {
     case ScriptActionType.ChooseResponse:
+      return <ChooseResponse item={item} action={action} />
+    case ScriptActionType.MultiChoice:
+      //@ts-ignore
       return <ChooseResponse item={item} action={action} />
     case ScriptActionType.Comment:
       return <Comment item={item} />

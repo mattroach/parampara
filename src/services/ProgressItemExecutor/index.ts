@@ -6,14 +6,16 @@ import {
   ScriptActionType,
   ScriptItem,
   ScriptItemType,
-  ScriptActionMap
+  ScriptActionMap,
+  MultiChoiceAction
 } from '@frontend/types/scriptTypes'
 import {
   ChooseResponseResult,
   CollectEmailResult,
   CommentResult,
   ProgressItem,
-  ScriptActionResultMap
+  ScriptActionResultMap,
+  MultiChoiceResult
 } from '@frontend/types/sessionProgress'
 import SessionProgress from '@models/SessionProgress'
 import SessionResponse from '@models/SessionResponse'
@@ -33,6 +35,7 @@ class ProgressItemExecutor {
   private executorMap: ExecutorMap = {
     [ScriptActionType.SendEmail]: handleSendEmail,
     [ScriptActionType.ChooseResponse]: this.handleChooseResponse.bind(this),
+    [ScriptActionType.MultiChoice]: this.handleChooseResponse.bind(this),
     [ScriptActionType.Comment]: this.handleComment.bind(this),
     [ScriptActionType.CollectEmail]: this.handleComment.bind(this)
   }
@@ -56,11 +59,12 @@ class ProgressItemExecutor {
     })
   }
 
+  // Also used for multi-choice
   private async handleChooseResponse(
     session: SessionProgress,
-    action: ChooseResponseAction,
+    action: ChooseResponseAction | MultiChoiceAction,
     item: ScriptItem,
-    actionResult: ChooseResponseResult
+    actionResult: ChooseResponseResult | MultiChoiceResult
   ) {
     if (action.responses.length === 1) {
       // If there is only one response choice, skip storing the data for it - we don't care about it

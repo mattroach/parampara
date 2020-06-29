@@ -6,6 +6,7 @@ import {
   ScriptAction
 } from 'types/scriptTypes'
 import ChooseResponse from '../actions/ChooseResponse'
+import MultiChoice from '../actions/MultiChoice'
 import Comment from '../actions/UserInput/Comment'
 import SendEmail from '../actions/SendEmail'
 import Image from './Image'
@@ -46,13 +47,13 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
   action,
   position
 }) => {
-  const newResponseChoicePosition = useSelector(
-    state => state.scriptStore.newResponseChoicePosition
-  )
+  const newAction = useSelector(state => state.scriptStore.newAction)
 
   switch (action?.type) {
     case ScriptActionType.ChooseResponse:
       return <ChooseResponse action={action} position={position} />
+    case ScriptActionType.MultiChoice:
+      return <MultiChoice action={action} position={position} />
     case ScriptActionType.Comment:
       return <Comment position={position} />
     case ScriptActionType.CollectEmail:
@@ -60,8 +61,11 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
     case ScriptActionType.SendEmail:
       return <SendEmail action={action} position={position} />
     default:
-      if (newResponseChoicePosition === position)
-        return <ChooseResponse position={position} />
+      if (newAction?.position === position) {
+        if (newAction.type === ScriptActionType.ChooseResponse)
+          return <ChooseResponse position={position} />
+        else return <MultiChoice position={position} />
+      }
       return null
   }
 }
