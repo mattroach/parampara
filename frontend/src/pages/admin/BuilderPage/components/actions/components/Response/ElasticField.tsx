@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import AutosizeInput from 'react-input-autosize'
 import Form from 'react-bootstrap/Form'
+import { useDeferredAutoFocus } from 'hooks/useDeferredAutoFocus'
 
 const InlineForm = styled(Form)`
   display: inline;
@@ -33,23 +34,27 @@ type Props = {
   setValue: (v: string) => void
   onSubmit: (v: string) => void
   onClear: () => void
+  autoFocus?: boolean
 }
 
 const ElasticField: React.FunctionComponent<Props> = ({
   value,
   setValue,
   onSubmit,
-  onClear
+  onClear,
+  autoFocus
 }) => {
   const inputRef = useRef<HTMLInputElement>()
+
+  useDeferredAutoFocus(inputRef, autoFocus)
 
   const onChange = (e: any) => {
     setValue(e.target.value)
   }
 
-  const convertToBlur = (event: any) => {
+  const submit = (event: any) => {
     event.preventDefault()
-    inputRef.current!.blur()
+    submitChange()
   }
 
   const submitChange = () => {
@@ -61,12 +66,12 @@ const ElasticField: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <InlineForm onSubmit={convertToBlur}>
+    <InlineForm onSubmit={submit}>
       <Field
         inputRef={ref => (inputRef.current = ref || undefined)}
         type="text"
         placeholder="Add..."
-        value={value}
+        value={value || ''}
         onChange={onChange}
         onBlur={submitChange}
       />

@@ -15,6 +15,7 @@ const StyledDropdownButton = styled(DropdownButton)`
 
     display: inline-block;
     opacity: 0;
+    transition: opacity 0.15s ease-in-out;
   }
 
   > button[aria-expanded='true'] {

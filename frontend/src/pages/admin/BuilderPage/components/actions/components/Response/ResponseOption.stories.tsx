@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import centered from '@storybook/addon-centered/react'
 
@@ -10,6 +10,15 @@ export default {
   decorators: [centered]
 }
 
-export const Basic = () => (
-  <ResponseOption onClear={action('onClear')} onSubmit={action('onSubmit')} />
-)
+export const Basic = () => {
+  const [value, setValue] = useState<string | undefined>(undefined)
+
+  return (
+    <ResponseOption
+      onClear={action('onClear')}
+      onSubmit={action('onSubmit')}
+      value={value}
+      setValue={setValue}
+    />
+  )
+}

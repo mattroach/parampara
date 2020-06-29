@@ -1,123 +1,69 @@
-import React from 'react'
-import Form from 'react-bootstrap/Form'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import {
-  addAction,
   appendResponseOption,
-  cancelResponseChoiceForm
+  cancelResponseChoiceForm,
+  addAction
 } from 'store/slices/script'
-import styled from 'styled-components'
+import ResponseOption from '../components/Response/ResponseOption'
 import { ScriptActionType } from 'types/scriptTypes'
-import { BubbleFieldBase } from '../../items/styles'
+import styled from 'styled-components'
 
-export const ResponseEditField = styled(BubbleFieldBase)`
-  border: 1px solid rgba(0, 107, 250, 0.6);
-  color: #006bfa;
-  display: inline-block;
-  width: 70px;
-  margin-left: 4px;
-
-  :focus {
-    width: 170px;
-    color: #006bfa;
-    border: 1px solid rgba(0, 107, 250, 1);
-  }
-  ::placeholder {
-    color: #006bfa;
-    opacity: 0.6;
+const StyledResponseOption = styled(ResponseOption)`
+  > .bubble {
+    border: 1px solid rgba(0, 107, 250, 0.6);
+    :focus-within {
+      border: 1px solid #006bfa;
+    }
   }
 `
-
-const InlineForm = styled(Form)`
-  display: inline;
-`
-
-type State = {
-  responseDraft: string
-  focused: boolean
-}
 
 type Props = {
   position: number
-  autoFocus?: boolean
-  mode: 'create' | 'append'
-} & typeof mapDispatchToProps
+  mode: 'append' | 'new'
+}
 
-class NewResponseOption extends React.Component<Props, State> {
-  inputRef: React.RefObject<HTMLInputElement> = React.createRef()
+const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) => {
+  const [value, setValue] = useState<string | undefined>(undefined)
 
-  state = {
-    responseDraft: '',
-    focused: false
+  const dispatch = useDispatch()
+
+  const onClear = () => {
+    if (mode === 'new') dispatch(cancelResponseChoiceForm())
   }
 
-  componentDidMount() {
-    if (this.props.autoFocus) {
-      setTimeout(() => {
-        this.inputRef.current?.focus()
-      }, 1) // This is a hack. The menu onclick seems to steal focus, this gets around that
-    }
-  }
-
-  submitNewResponse = (event: any) => {
-    event.preventDefault()
-
-    const { position } = this.props
-    const option = this.state.responseDraft
-
-    if (this.props.mode === 'append') {
-      if (!this.state.responseDraft) return
-
-      this.props.appendResponseOption({ position, option })
-    } else {
-      if (this.state.responseDraft) {
-        this.props.addAction({
+  const onSubmit = (message: string) => {
+    if (mode === 'new') {
+      dispatch(
+        addAction({
           action: {
             type: ScriptActionType.ChooseResponse,
-            responses: [{ message: option }]
+            responses: [{ message }]
           },
           position
         })
-      } else {
-        this.props.cancelResponseChoiceForm()
-        return
-      }
+      )
+    } else {
+      dispatch(
+        appendResponseOption({
+          position,
+          option: message
+        })
+      )
     }
 
-    this.setState({ responseDraft: '' })
+    setValue('')
   }
 
-  handleResponseChange = (e: any) => {
-    this.setState({ responseDraft: e.target.value })
-  }
-
-  onBlur = (event: any) => {
-    this.setState({ focused: false })
-    this.submitNewResponse(event)
-  }
-
-  onFocus = () => {
-    this.setState({ focused: true })
-  }
-
-  render() {
-    return (
-      <InlineForm onSubmit={this.submitNewResponse}>
-        <ResponseEditField
-          ref={this.inputRef}
-          type="text"
-          placeholder={this.state.focused ? 'Add a response...' : 'Add...'}
-          value={this.state.responseDraft}
-          onChange={this.handleResponseChange}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-        />
-      </InlineForm>
-    )
-  }
+  return (
+    <StyledResponseOption
+      onClear={onClear}
+      onSubmit={onSubmit}
+      value={value}
+      setValue={setValue}
+      autoFocus={mode === 'new'}
+    />
+  )
 }
 
-const mapDispatchToProps = { appendResponseOption, cancelResponseChoiceForm, addAction }
-
-// @ts-ignore
-export default connect(null, mapDispatchToProps)(NewResponseOption)
+export default NewResponseOption
