@@ -16,6 +16,10 @@ const StyledResponseOption = styled(ResponseOption)`
       border: 1px solid #006bfa;
     }
   }
+
+  input {
+    min-width: 44px;
+  }
 `
 
 type Props = {

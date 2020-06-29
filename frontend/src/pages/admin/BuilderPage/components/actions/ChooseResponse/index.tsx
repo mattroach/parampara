@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { ChooseResponseAction } from 'types/scriptTypes'
 import NewResponseOption from './NewResponseOption'
-import ResponseOptionOld from './SavedResponseOption'
+import SavedResponseOption from './SavedResponseOption'
 
 const ItemWrap = styled.div`
   margin: 10px 0 40px;
@@ -17,7 +17,7 @@ type Props = {
 const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) => (
   <ItemWrap>
     {action?.responses.map((response, i) => (
-      <ResponseOptionOld
+      <SavedResponseOption
         key={i + response.message}
         position={position}
         responsePosition={i}
