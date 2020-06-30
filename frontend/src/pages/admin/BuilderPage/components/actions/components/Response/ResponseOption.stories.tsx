@@ -11,7 +11,7 @@ export default {
 }
 
 export const Basic = () => {
-  const [value, setValue] = useState<string | undefined>(undefined)
+  const [value, setValue] = useState<string>('')
 
   return (
     <ResponseOption

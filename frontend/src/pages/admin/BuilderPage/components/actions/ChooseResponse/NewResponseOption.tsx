@@ -11,10 +11,15 @@ import { ScriptActionType } from 'types/scriptTypes'
 type Props = {
   position: number
   mode: 'append' | 'new'
+  autoFocus?: boolean
 }
 
-const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) => {
-  const [value, setValue] = useState<string | undefined>(undefined)
+const NewResponseOption: React.FunctionComponent<Props> = ({
+  position,
+  mode,
+  autoFocus
+}) => {
+  const [value, setValue] = useState<string>('')
 
   const dispatch = useDispatch()
 
@@ -51,7 +56,8 @@ const NewResponseOption: React.FunctionComponent<Props> = ({ position, mode }) =
       onSubmit={onSubmit}
       value={value}
       setValue={setValue}
-      autoFocus={mode === 'new'}
+      autoFocus={autoFocus}
+      placeholder={mode === 'new' ? 'Add response...' : 'Add...'}
     />
   )
 }

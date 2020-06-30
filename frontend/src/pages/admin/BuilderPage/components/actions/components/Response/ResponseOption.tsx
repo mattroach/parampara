@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import ElasticField from './ElasticField'
+import EmojiButton from '../../../MessageField/EmojiButton'
+import themes from '../../../MessageField/themes'
+import { BaseEmoji } from 'emoji-mart'
+import { useContainerFocus } from 'hooks/useContainerFocus'
 
 export const ActionBubble = styled.div`
   padding: 5px 13px;
@@ -15,13 +19,27 @@ export const ActionBubble = styled.div`
   }
 `
 
+export const StyledEmojiButton = styled(EmojiButton).attrs({ theme: themes.response })`
+  margin: -6px -14px 0 0;
+  float: right;
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: 1s ease 0s 0.2 slideIn;
+`
+
 export const Wrapper = styled.div`
   display: inline-block;
   margin: 0 0 4px 4px;
 `
 
 type Props = {
-  value?: string
+  value: string
   setValue: (v: string) => void
   onSubmit: (v: string) => void
   onClear: () => void
@@ -30,6 +48,7 @@ type Props = {
   renderNavId?: () => React.ReactNode
   autoFocus?: boolean
   className?: string
+  placeholder?: string
 }
 
 const ResponseOption: React.FunctionComponent<Props> = ({
@@ -41,9 +60,22 @@ const ResponseOption: React.FunctionComponent<Props> = ({
   value,
   setValue,
   autoFocus,
+  placeholder,
   className
 }) => {
-  const wrapperRef: React.RefObject<HTMLDivElement> = React.createRef()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const [focused, setFocused] = useContainerFocus(wrapperRef)
+
+  const selectEmoji = (emoji: BaseEmoji) => {
+    inputRef.current!.focus()
+    setValue(value + emoji.native)
+  }
+
+  const submit = () => {
+    if (value) onSubmit(value)
+    else onClear()
+  }
 
   return (
     <Wrapper ref={wrapperRef} className={className}>
@@ -51,12 +83,16 @@ const ResponseOption: React.FunctionComponent<Props> = ({
       <ActionBubble className="bubble">
         {renderBefore && renderBefore()}
         <ElasticField
+          inputRef={inputRef}
           value={value}
           setValue={setValue}
-          onSubmit={onSubmit}
-          onClear={onClear}
+          onSubmit={submit}
+          onBlur={submit}
+          onFocus={() => setFocused(true)}
+          placeholder={placeholder}
           autoFocus={autoFocus}
         />
+        {focused && <StyledEmojiButton container={wrapperRef} onSelect={selectEmoji} />}
         {renderNavId && renderNavId()}
       </ActionBubble>
     </Wrapper>

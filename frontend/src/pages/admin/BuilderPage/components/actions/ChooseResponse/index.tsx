@@ -12,9 +12,14 @@ const ItemWrap = styled.div`
 type Props = {
   action?: ChooseResponseAction // Will be undefined if creating a new option and none exists yet
   position: number
+  autoFocus?: boolean
 }
 
-const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) => (
+const ChooseResponse: React.FunctionComponent<Props> = ({
+  action,
+  position,
+  autoFocus
+}) => (
   <ItemWrap>
     {action?.responses.map((response, i) => (
       <SavedResponseOption
@@ -24,7 +29,11 @@ const ChooseResponse: React.FunctionComponent<Props> = ({ action, position }) =>
         response={response}
       />
     ))}
-    <NewResponseOption position={position} mode={action ? 'append' : 'new'} />
+    <NewResponseOption
+      position={position}
+      mode={action ? 'append' : 'new'}
+      autoFocus={autoFocus}
+    />
   </ItemWrap>
 )
 

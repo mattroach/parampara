@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import BotControls from './BotControls'
-import HumanControls from './HumanControls'
 import { useSelector } from 'react-redux'
 
 const Wrapper = styled.div`
@@ -16,12 +15,6 @@ const MainControls: React.FunctionComponent = () => {
     state => state.scriptStore.script!.version.items.length === 0
   )
 
-  const canAddActionToLastItem = useSelector(state => {
-    const { items } = state.scriptStore.script!.version
-    const lastItem = items[items.length - 1]
-    return lastItem && !lastItem.action
-  })
-
   const scrollDown = () => {
     // We need to delay it, as when the item is first added, the new render hasn't actually happened yet.
     setTimeout(() => {
@@ -32,7 +25,6 @@ const MainControls: React.FunctionComponent = () => {
   return (
     <Wrapper>
       <BotControls onAddItem={scrollDown} autoFocus={isScriptEmpty} />
-      {canAddActionToLastItem && <HumanControls onAddItem={scrollDown} />}
     </Wrapper>
   )
 }

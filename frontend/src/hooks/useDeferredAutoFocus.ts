@@ -1,9 +1,6 @@
-import { useEffect, MutableRefObject } from 'react'
+import { useEffect, RefObject } from 'react'
 
-export function useDeferredAutoFocus(
-  ref: MutableRefObject<HTMLElement | undefined>,
-  autoFocus?: boolean
-) {
+export function useDeferredAutoFocus(ref: RefObject<HTMLElement>, autoFocus?: boolean) {
   useEffect(() => {
     if (autoFocus) {
       setTimeout(() => {

@@ -47,6 +47,7 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
   action,
   position
 }) => {
+  const lastPos = useSelector(state => state.scriptStore.script!.version.items.length) - 1
   const newAction = useSelector(state => state.scriptStore.newAction)
 
   switch (action?.type) {
@@ -63,8 +64,10 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
     default:
       if (newAction?.position === position) {
         if (newAction.type === ScriptActionType.ChooseResponse)
-          return <ChooseResponse position={position} />
-        else return <MultiChoice position={position} />
+          return <ChooseResponse position={position} autoFocus={true} />
+        else return <MultiChoice position={position} autoFocus={true} />
+      } else if (position === lastPos) {
+        return <ChooseResponse position={position} />
       }
       return null
   }

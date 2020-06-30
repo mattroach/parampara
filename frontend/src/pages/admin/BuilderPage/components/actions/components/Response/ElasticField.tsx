@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { RefObject, MutableRefObject } from 'react'
 import styled from 'styled-components'
 import AutosizeInput from 'react-input-autosize'
 import Form from 'react-bootstrap/Form'
@@ -30,22 +30,26 @@ export const Field = styled(AutosizeInput)`
 `
 
 type Props = {
-  value?: string
+  value: string
   setValue: (v: string) => void
   onSubmit: (v: string) => void
-  onClear: () => void
+  onBlur?: () => void
+  onFocus?: () => void
   autoFocus?: boolean
+  inputRef: RefObject<HTMLInputElement>
+  placeholder?: string
 }
 
 const ElasticField: React.FunctionComponent<Props> = ({
   value,
   setValue,
   onSubmit,
-  onClear,
-  autoFocus
+  onBlur,
+  onFocus,
+  autoFocus,
+  inputRef,
+  placeholder
 }) => {
-  const inputRef = useRef<HTMLInputElement>()
-
   useDeferredAutoFocus(inputRef, autoFocus)
 
   const onChange = (e: any) => {
@@ -54,26 +58,21 @@ const ElasticField: React.FunctionComponent<Props> = ({
 
   const submit = (event: any) => {
     event.preventDefault()
-    submitChange()
-  }
-
-  const submitChange = () => {
-    if (value) {
-      onSubmit(value)
-    } else {
-      onClear()
-    }
+    onSubmit(value)
   }
 
   return (
     <InlineForm onSubmit={submit}>
       <Field
-        inputRef={ref => (inputRef.current = ref || undefined)}
+        inputRef={ref =>
+          ((inputRef as MutableRefObject<HTMLInputElement | null>).current = ref)
+        }
         type="text"
-        placeholder="Add..."
-        value={value || ''}
+        placeholder={placeholder || 'Add...'}
+        value={value}
         onChange={onChange}
-        onBlur={submitChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
       />
     </InlineForm>
   )

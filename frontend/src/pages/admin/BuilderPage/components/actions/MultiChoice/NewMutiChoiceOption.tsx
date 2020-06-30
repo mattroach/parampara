@@ -12,10 +12,15 @@ import Checkbox from './Checkbox'
 type Props = {
   position: number
   mode: 'append' | 'new'
+  autoFocus?: boolean
 }
 
-const NewMultiChoiceOption: React.FunctionComponent<Props> = ({ position, mode }) => {
-  const [value, setValue] = useState<string | undefined>(undefined)
+const NewMultiChoiceOption: React.FunctionComponent<Props> = ({
+  position,
+  mode,
+  autoFocus
+}) => {
+  const [value, setValue] = useState<string>('')
 
   const dispatch = useDispatch()
 
@@ -53,7 +58,7 @@ const NewMultiChoiceOption: React.FunctionComponent<Props> = ({ position, mode }
       onSubmit={onSubmit}
       value={value}
       setValue={setValue}
-      autoFocus={mode === 'new'}
+      autoFocus={autoFocus}
     />
   )
 }
