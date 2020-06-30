@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
-
-import ChooseResponse from '../action-types/ChooseResponse'
-//import MultiChoice from '../action-types/MultiChoice'
-import Comment from '../action-types/Comment'
-import SendEmail from '../action-types/SendEmail'
-import { ScriptActionType, ScriptItem, ScriptAction } from 'types/scriptTypes'
+import React, { useEffect, useState } from 'react'
 import { MESSAGE_BASE_DELAY } from 'store/slices/sessionProgress'
+import { ScriptAction, ScriptActionType, ScriptItem } from 'types/scriptTypes'
 import CollectEmail from '../action-types/CollectEmail'
+import Comment from '../action-types/Comment'
+import ChooseResponse from '../action-types/response/ChooseResponse'
+import MultiChoice from '../action-types/response/MultiChoice'
+import SendEmail from '../action-types/SendEmail'
 
 type Props = {
   item: ScriptItem
@@ -29,8 +28,7 @@ const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
     case ScriptActionType.ChooseResponse:
       return <ChooseResponse item={item} action={action} />
     case ScriptActionType.MultiChoice:
-      //@ts-ignore
-      return <ChooseResponse item={item} action={action} />
+      return <MultiChoice item={item} action={action} />
     case ScriptActionType.Comment:
       return <Comment item={item} />
     case ScriptActionType.CollectEmail:

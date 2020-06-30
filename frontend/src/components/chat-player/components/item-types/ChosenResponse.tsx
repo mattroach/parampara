@@ -1,15 +1,11 @@
 import React from 'react'
 import { ChooseResponseAction } from 'types/scriptTypes'
-import {
-  ProgressItem,
-  ChooseResponseResult,
-  MultiChoiceResult
-} from 'types/sessionProgress'
+import { ProgressItem, ChooseResponseResult } from 'types/sessionProgress'
 import HumanBubble from './HumanBubble'
 
 type Props = {
   progressItem: ProgressItem
-  actionProgress: ChooseResponseResult | MultiChoiceResult
+  actionProgress: ChooseResponseResult
 }
 
 const ChosenResponse: React.FunctionComponent<Props> = ({

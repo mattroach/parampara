@@ -9,7 +9,7 @@ const Wrapper = styled(ItemWrap)`
 `
 const Message: React.FunctionComponent = () => (
   <Wrapper>
-    You have completed this{' '}
+    Thank you for completing this{' '}
     <a href="http://getparampara.com/" target="_blank" rel="noopener noreferrer">
       Parampara
     </a>

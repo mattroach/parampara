@@ -24,7 +24,7 @@ export type ChooseResponseResult = {
 
 export type MultiChoiceResult = {
   type: ScriptActionType.MultiChoice
-  choice: number
+  choices: number[]
 }
 
 export type CommentResult = {

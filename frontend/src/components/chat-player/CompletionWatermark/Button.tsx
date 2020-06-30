@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ItemWrap from '../components/item-types/ItemWrap'
-import ResponseButton from '../components/action-types/ChooseResponse/ResponseButton'
+import ResponseButton from '../components/action-types/response/ResponseButton'
 
 const Wrapper = styled(ItemWrap)`
   text-align: center;
