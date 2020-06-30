@@ -13,7 +13,7 @@ const POPPER_CONFIG = [
   {
     name: 'flip',
     options: {
-      fallbackPlacements: ['top', 'bottom']
+      fallbackPlacements: ['bottom', 'top']
     }
   },
   {
@@ -48,7 +48,7 @@ const GiphyButton: React.FunctionComponent<Props> = ({
       />
 
       <Popper
-        placement="top"
+        placement="bottom"
         target={targetRef}
         container={container}
         show={isShow}

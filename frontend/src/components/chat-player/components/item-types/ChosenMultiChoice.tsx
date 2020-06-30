@@ -1,7 +1,7 @@
 import React from 'react'
 import { MultiChoiceAction } from 'types/scriptTypes'
 import { ProgressItem, MultiChoiceResult } from 'types/sessionProgress'
-import HumanBubble from './HumanBubble'
+import { MultiHumanBubble } from './HumanBubble'
 
 type Props = {
   progressItem: ProgressItem
@@ -16,11 +16,9 @@ const ChosenMultiChoice: React.FunctionComponent<Props> = ({
   const action = progressItem.item.action as MultiChoiceAction
 
   return (
-    <>
-      {actionProgress.choices.map(choice => (
-        <HumanBubble key={choice} message={action?.responses[choice].message} />
-      ))}
-    </>
+    <MultiHumanBubble
+      messages={actionProgress.choices.map(c => action?.responses[c].message)}
+    />
   )
 }
 

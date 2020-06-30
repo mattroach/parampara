@@ -17,6 +17,8 @@ const Bubble = styled.span`
 
   background-color: #0076ff;
   color: white;
+
+  margin-left: 8px; /* needed for MultiHumanBubble */
 `
 
 const HumanBubble: React.FunctionComponent<{ message: string }> = ({ message }) => {
@@ -28,3 +30,15 @@ const HumanBubble: React.FunctionComponent<{ message: string }> = ({ message }) 
 }
 
 export default HumanBubble
+
+export const MultiHumanBubble: React.FunctionComponent<{ messages: string[] }> = ({
+  messages
+}) => {
+  return (
+    <Wrapper>
+      {messages.map((message, i) => (
+        <Bubble key={i}>{message}</Bubble>
+      ))}
+    </Wrapper>
+  )
+}
