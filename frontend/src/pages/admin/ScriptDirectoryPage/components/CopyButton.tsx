@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Dropdown from 'react-bootstrap/Dropdown'
 import { useDispatch } from 'react-redux'
 import { cloneScript } from 'store/slices/scripts'
 import { ListedScript } from 'types/scriptTypes'
+import AppDowndownItem from 'components/menu/AppDropdownItem'
 
 type Props = {
   script: ListedScript
@@ -17,9 +17,9 @@ const CopyButton: React.FunctionComponent<Props> = ({ script }) => {
     dispatch(cloneScript(script.id)).then(() => setCopying(false))
   }
   return (
-    <Dropdown.Item onClick={copyScript} disabled={copying}>
+    <AppDowndownItem onClick={copyScript} isLoading={copying} icon="file_copy">
       Copy
-    </Dropdown.Item>
+    </AppDowndownItem>
   )
 }
 
