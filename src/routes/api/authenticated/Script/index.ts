@@ -111,6 +111,22 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+const CloneScriptBody = Record({
+  title: String.Or(Undefined)
+})
+router.post('/:id/clone', async (req, res, next) => {
+  try {
+    const { id: scriptId } = req.params
+    const { title } = CloneScriptBody.check(req.body)
+
+    const newScript = await scriptService.cloneScript(scriptId, req.user!.id, title)
+
+    return res.status(OK).json(newScript)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.use(ScriptResults)
 
 export default router

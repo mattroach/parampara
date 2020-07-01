@@ -29,6 +29,11 @@ const api = {
     return response.data
   },
 
+  async cloneScript(scriptId: string): Promise<Script> {
+    const response = await authAxios.post(`/api/script/${scriptId}/clone`)
+    return response.data
+  },
+
   async deleteScript(scriptId: string): Promise<void> {
     await authAxios.delete(`/api/script/${scriptId}`)
   },

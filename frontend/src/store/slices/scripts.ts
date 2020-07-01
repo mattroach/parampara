@@ -16,6 +16,9 @@ const scriptSlice = createSlice({
   name: 'scripts',
   initialState,
   reducers: {
+    addScript(state, action: PayloadAction<ListedScript>) {
+      state.scripts!.unshift(action.payload)
+    },
     updateScripts(state, action: PayloadAction<ListedScript[]>) {
       state.scripts = action.payload
     },
@@ -28,7 +31,7 @@ const scriptSlice = createSlice({
   }
 })
 
-const { updateScripts, _deleteScript } = scriptSlice.actions
+const { addScript, updateScripts, _deleteScript } = scriptSlice.actions
 
 export default scriptSlice.reducer
 
@@ -45,4 +48,11 @@ export const deleteScript = (
 ): AppThunk<Promise<void>> => async dispatch => {
   await api.deleteScript(scriptId)
   dispatch(_deleteScript(scriptId))
+}
+
+export const cloneScript = (
+  scriptId: string
+): AppThunk<Promise<void>> => async dispatch => {
+  const newScript = await api.cloneScript(scriptId)
+  dispatch(addScript(newScript))
 }

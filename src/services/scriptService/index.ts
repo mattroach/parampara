@@ -110,7 +110,7 @@ export default {
     adminId: string,
     scriptAttributes: { title: string; version?: { items?: any } }
   ) {
-    const script = await Script.query().insert({
+    const script = await Script.query().insertAndFetch({
       id: uuid(),
       adminId,
       title: scriptAttributes.title
@@ -126,14 +126,13 @@ export default {
     return script
   },
 
-  // Superadmin only
   async cloneScript(scriptId: string, destinationAdminId: string, newTitle?: string) {
     const script = await getScriptWithVersion(scriptId, ScriptVersionCode.draft)
 
     if (!script) throw Error('Script not found')
 
-    const title = newTitle || script.title
-    this.createScript(destinationAdminId, {
+    const title = newTitle || script.title + ' copy'
+    return await this.createScript(destinationAdminId, {
       title,
       version: { items: script.version!.items }
     })
