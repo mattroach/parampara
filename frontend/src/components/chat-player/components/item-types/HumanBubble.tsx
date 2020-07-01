@@ -36,6 +36,7 @@ export const MultiHumanBubble: React.FunctionComponent<{ messages: string[] }> =
 }) => {
   return (
     <Wrapper>
+      {messages.length === 0 && <Bubble>None</Bubble>}
       {messages.map((message, i) => (
         <Bubble key={i}>{message}</Bubble>
       ))}
