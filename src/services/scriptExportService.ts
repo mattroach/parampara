@@ -44,9 +44,15 @@ class ScriptExportService {
     stringifier.write(BASE_HEADERS.concat(transposedResults.columns))
 
     transposedResults.sessions.forEach(s => {
-      const extraCols = transposedResults.columns.map(
-        col => s.responseByMessage[col]?.response
-      )
+      const extraCols = transposedResults.columns.map(col => {
+        const responses = s.responseByMessage[col]
+        if (!responses) return undefined
+        if (Array.isArray(responses)) {
+          return responses.map(r => r.response).join(', ')
+        } else {
+          return responses.response
+        }
+      })
 
       const b = this.getBaseData(s)
       stringifier.write([b.date, b.progress, b.duration, b.user, b.ref].concat(extraCols))

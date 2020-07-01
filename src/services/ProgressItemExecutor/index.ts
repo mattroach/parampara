@@ -35,7 +35,7 @@ class ProgressItemExecutor {
   private executorMap: ExecutorMap = {
     [ScriptActionType.SendEmail]: handleSendEmail,
     [ScriptActionType.ChooseResponse]: this.handleChooseResponse.bind(this),
-    [ScriptActionType.MultiChoice]: this.handleChooseResponse.bind(this),
+    [ScriptActionType.MultiChoice]: this.handleMultiChoice.bind(this),
     [ScriptActionType.Comment]: this.handleComment.bind(this),
     [ScriptActionType.CollectEmail]: this.handleComment.bind(this)
   }
@@ -59,12 +59,11 @@ class ProgressItemExecutor {
     })
   }
 
-  // Also used for multi-choice
   private async handleChooseResponse(
     session: SessionProgress,
-    action: ChooseResponseAction | MultiChoiceAction,
+    action: ChooseResponseAction,
     item: ScriptItem,
-    actionResult: ChooseResponseResult | MultiChoiceResult
+    actionResult: ChooseResponseResult
   ) {
     if (action.responses.length === 1) {
       // If there is only one response choice, skip storing the data for it - we don't care about it
@@ -76,6 +75,22 @@ class ProgressItemExecutor {
       message: this.getItemMessage(item),
       response: action.responses[actionResult.choice].message
     })
+  }
+
+  private async handleMultiChoice(
+    session: SessionProgress,
+    action: MultiChoiceAction,
+    item: ScriptItem,
+    actionResult: MultiChoiceResult
+  ) {
+    actionResult.choices.forEach(
+      async choice =>
+        await this.saveResponse(session, {
+          responseType: actionResult.type,
+          message: this.getItemMessage(item),
+          response: action.responses[choice].message
+        })
+    )
   }
 
   private async handleComment(

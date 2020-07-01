@@ -1,10 +1,9 @@
-import React, { useState, useRef } from 'react'
 import { action } from '@storybook/addon-actions'
-
-import ItemNavigationForm from './ItemNavigationForm'
-import { ScriptItem } from 'types/scriptTypes'
-import { createItems } from 'test/testData'
+import React from 'react'
 import styled from 'styled-components'
+import { createItems } from 'test/testData'
+import { ScriptItem } from 'types/scriptTypes'
+import ItemNavigationForm from './ItemNavigationForm'
 
 export default {
   title: 'ItemNavigationForm',

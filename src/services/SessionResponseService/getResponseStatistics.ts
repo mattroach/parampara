@@ -26,12 +26,14 @@ type ResponseStatsKnexReturn = {
 
 const scriptActionsForAggregation = [
   ScriptActionType.Comment,
-  ScriptActionType.ChooseResponse
+  ScriptActionType.ChooseResponse,
+  ScriptActionType.MultiChoice
 ] as const
 
 type ScriptActionCounts = {
   [ScriptActionType.Comment]?: number
   [ScriptActionType.ChooseResponse]?: number
+  [ScriptActionType.MultiChoice]?: number
 }
 
 const getResponseAggregations = (scriptId: string) =>
@@ -40,7 +42,7 @@ const getResponseAggregations = (scriptId: string) =>
     .where('scriptId', scriptId)
     .whereIn('responseType', scriptActionsForAggregation as any)
     .groupBy('responseType')
-    .count()
+    .countDistinct('sessionProgressId') // Must count distinct so there are no multi-counts for multi-choice
     .then((results: ResponseStatsKnexReturn) => {
       const transformed: ScriptActionCounts = {}
       results.forEach(item => {
@@ -56,7 +58,9 @@ const getResponseStatistics = async (scriptId: string): Promise<ResponseStatisti
   return {
     numSessions: sessionAggregations.all,
     numComments: responseAggregations.Comment || 0,
-    numQuestions: responseAggregations.ChooseResponse || 0,
+    numQuestions:
+      (responseAggregations.ChooseResponse || 0) +
+      (responseAggregations.MultiChoice || 0),
     numCompleted: sessionAggregations.completed,
     totalTimeSec: sessionAggregations.totalTimeSec
   }
