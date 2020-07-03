@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { removeResponseChoice, updateResponseOption } from 'store/slices/script'
 import styled from 'styled-components'
-import { MultiChoice } from 'types/scriptTypes'
+import { MultiSelect } from 'types/scriptTypes'
 import ResponseOption from '../components/Response/ResponseOption'
 import Checkbox from './Checkbox'
 import Menu from './Menu'
@@ -16,10 +16,10 @@ const StyledResponseOption = styled(ResponseOption)`
 type Props = {
   position: number
   responsePosition: number
-  response: MultiChoice
+  response: MultiSelect
 }
 
-const SavedMultiChoiceOption: React.FunctionComponent<Props> = ({
+const SavedMultiSelectOption: React.FunctionComponent<Props> = ({
   position,
   responsePosition,
   response
@@ -46,4 +46,4 @@ const SavedMultiChoiceOption: React.FunctionComponent<Props> = ({
   )
 }
 
-export default SavedMultiChoiceOption
+export default SavedMultiSelectOption

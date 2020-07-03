@@ -33,7 +33,7 @@ export enum ScriptItemType {
 
 export enum ScriptActionType {
   ChooseResponse = 'ChooseResponse',
-  MultiChoice = 'MultiChoice',
+  MultiSelect = 'MultiChoice', // for legacy reason, we have a different name in the database
   Comment = 'Comment',
   CollectEmail = 'CollectEmail',
   SendEmail = 'SendEmail'
@@ -71,12 +71,12 @@ export type ChooseResponseAction = {
   responses: ResponseChoice[]
 }
 
-export type MultiChoiceAction = {
-  type: ScriptActionType.MultiChoice
-  responses: MultiChoice[]
+export type MultiSelectAction = {
+  type: ScriptActionType.MultiSelect
+  responses: MultiSelect[]
 }
 
-export type MultiChoice = {
+export type MultiSelect = {
   message: string
 }
 
@@ -94,6 +94,6 @@ export type ScriptActionMap = {
   [ScriptActionType.Comment]: CommentAction
   [ScriptActionType.CollectEmail]: CollectEmailAction
   [ScriptActionType.ChooseResponse]: ChooseResponseAction
-  [ScriptActionType.MultiChoice]: MultiChoiceAction
+  [ScriptActionType.MultiSelect]: MultiSelectAction
   [ScriptActionType.SendEmail]: SendEmailAction
 }

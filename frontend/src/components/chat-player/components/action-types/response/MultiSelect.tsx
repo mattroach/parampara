@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { progressItemAndDelayNext } from 'store/slices/sessionProgress'
-import { MultiChoiceAction, ScriptActionType, ScriptItem } from 'types/scriptTypes'
+import { MultiSelectAction, ScriptActionType, ScriptItem } from 'types/scriptTypes'
 import Options from './Options'
 import MultiResponseButton from './MultiResponseButton'
 import GoButton from '../GoButton'
 
 type Props = {
   item: ScriptItem
-  action: MultiChoiceAction
+  action: MultiSelectAction
 }
 
-const MultiChoice: React.FunctionComponent<Props> = ({ action, item }) => {
+const MultiSelect: React.FunctionComponent<Props> = ({ action, item }) => {
   const dispatch = useDispatch()
   const [selected, setSelected] = useState<Set<number>>(new Set())
 
@@ -21,7 +21,7 @@ const MultiChoice: React.FunctionComponent<Props> = ({ action, item }) => {
     dispatch(
       progressItemAndDelayNext({
         actionResult: {
-          type: ScriptActionType.MultiChoice,
+          type: ScriptActionType.MultiSelect,
           choices: Array.from(selected)
         },
         item
@@ -61,4 +61,4 @@ const MultiChoice: React.FunctionComponent<Props> = ({ action, item }) => {
   )
 }
 
-export default MultiChoice
+export default MultiSelect

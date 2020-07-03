@@ -6,7 +6,7 @@ import {
   ScriptAction
 } from 'types/scriptTypes'
 import ChooseResponse from '../actions/ChooseResponse'
-import MultiChoice from '../actions/MultiChoice'
+import MultiSelect from '../actions/MultiSelect'
 import Comment from '../actions/UserInput/Comment'
 import SendEmail from '../actions/SendEmail'
 import Image from './Image'
@@ -53,8 +53,8 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
   switch (action?.type) {
     case ScriptActionType.ChooseResponse:
       return <ChooseResponse action={action} position={position} />
-    case ScriptActionType.MultiChoice:
-      return <MultiChoice action={action} position={position} />
+    case ScriptActionType.MultiSelect:
+      return <MultiSelect action={action} position={position} />
     case ScriptActionType.Comment:
       return <Comment position={position} />
     case ScriptActionType.CollectEmail:
@@ -65,7 +65,7 @@ const Action: React.FunctionComponent<{ action?: ScriptAction; position: number 
       if (newAction?.position === position) {
         if (newAction.type === ScriptActionType.ChooseResponse)
           return <ChooseResponse position={position} autoFocus={true} />
-        else return <MultiChoice position={position} autoFocus={true} />
+        else return <MultiSelect position={position} autoFocus={true} />
       } else if (position === lastPos) {
         return <ChooseResponse position={position} />
       }

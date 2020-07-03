@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MultiChoiceAction } from 'types/scriptTypes'
-import NewMultiChoiceOption from './NewMutiChoiceOption'
-import SavedMultiChoiceOption from './SavedMultiChoiceOption'
+import { MultiSelectAction } from 'types/scriptTypes'
+import NewMultiSelectOption from './NewMutiSelectOption'
+import SavedMultiSelectOption from './SavedMultiSelectOption'
 
 const ItemWrap = styled.div`
   margin: 10px 0 40px;
@@ -10,7 +10,7 @@ const ItemWrap = styled.div`
 `
 
 type Props = {
-  action?: MultiChoiceAction // Will be undefined if creating a new option and none exists yet
+  action?: MultiSelectAction // Will be undefined if creating a new option and none exists yet
   position: number
   autoFocus?: boolean
 }
@@ -22,14 +22,14 @@ const ChooseResponse: React.FunctionComponent<Props> = ({
 }) => (
   <ItemWrap>
     {action?.responses.map((response, i) => (
-      <SavedMultiChoiceOption
+      <SavedMultiSelectOption
         key={i + response.message}
         position={position}
         responsePosition={i}
         response={response}
       />
     ))}
-    <NewMultiChoiceOption
+    <NewMultiSelectOption
       position={position}
       mode={action ? 'append' : 'new'}
       autoFocus={autoFocus}

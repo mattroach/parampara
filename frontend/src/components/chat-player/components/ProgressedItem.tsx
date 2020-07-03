@@ -5,7 +5,7 @@ import BotMessage from './item-types/BotMessage'
 import ChosenResponse from './item-types/ChosenResponse'
 import Commented from './item-types/Commented'
 import BotImage from './item-types/BotImage'
-import ChosenMultiChoice from './item-types/ChosenMultiChoice'
+import ChosenMultiSelect from './item-types/ChosenMultiSelect'
 
 const ProgressedItem: React.FunctionComponent<{ progressItem: ProgressItem }> = ({
   progressItem
@@ -48,9 +48,9 @@ const ActionItem: React.FunctionComponent<{
       return (
         <ChosenResponse progressItem={progressItem} actionProgress={actionProgress} />
       )
-    case ScriptActionType.MultiChoice:
+    case ScriptActionType.MultiSelect:
       return (
-        <ChosenMultiChoice progressItem={progressItem} actionProgress={actionProgress} />
+        <ChosenMultiSelect progressItem={progressItem} actionProgress={actionProgress} />
       )
     case ScriptActionType.Comment:
     case ScriptActionType.CollectEmail:

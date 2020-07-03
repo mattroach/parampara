@@ -11,15 +11,15 @@ import {
   ScriptAction,
   ScriptActionType,
   ScriptItem,
-  MultiChoiceAction
+  MultiSelectAction
 } from '../../types/scriptTypes'
 
 // Used for functions which operate on both action types, defined here for convenience
-type ResponseActionUnion = ChooseResponseAction | MultiChoiceAction
+type ResponseActionUnion = ChooseResponseAction | MultiSelectAction
 
 export type NewAction = {
   position: number
-  type: ScriptActionType.MultiChoice | ScriptActionType.ChooseResponse
+  type: ScriptActionType.MultiSelect | ScriptActionType.ChooseResponse
 }
 
 /**

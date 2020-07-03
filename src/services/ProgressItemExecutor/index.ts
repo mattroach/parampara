@@ -7,7 +7,7 @@ import {
   ScriptItem,
   ScriptItemType,
   ScriptActionMap,
-  MultiChoiceAction
+  MultiSelectAction
 } from '@frontend/types/scriptTypes'
 import {
   ChooseResponseResult,
@@ -15,7 +15,7 @@ import {
   CommentResult,
   ProgressItem,
   ScriptActionResultMap,
-  MultiChoiceResult
+  MultiSelectResult
 } from '@frontend/types/sessionProgress'
 import SessionProgress from '@models/SessionProgress'
 import SessionResponse from '@models/SessionResponse'
@@ -35,7 +35,7 @@ class ProgressItemExecutor {
   private executorMap: ExecutorMap = {
     [ScriptActionType.SendEmail]: handleSendEmail,
     [ScriptActionType.ChooseResponse]: this.handleChooseResponse.bind(this),
-    [ScriptActionType.MultiChoice]: this.handleMultiChoice.bind(this),
+    [ScriptActionType.MultiSelect]: this.handleMultiSelect.bind(this),
     [ScriptActionType.Comment]: this.handleComment.bind(this),
     [ScriptActionType.CollectEmail]: this.handleComment.bind(this)
   }
@@ -77,11 +77,11 @@ class ProgressItemExecutor {
     })
   }
 
-  private async handleMultiChoice(
+  private async handleMultiSelect(
     session: SessionProgress,
-    action: MultiChoiceAction,
+    action: MultiSelectAction,
     item: ScriptItem,
-    actionResult: MultiChoiceResult
+    actionResult: MultiSelectResult
   ) {
     actionResult.choices.forEach(
       async choice =>

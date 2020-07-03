@@ -15,7 +15,7 @@ type Props = {
   autoFocus?: boolean
 }
 
-const NewMultiChoiceOption: React.FunctionComponent<Props> = ({
+const NewMultiSelectOption: React.FunctionComponent<Props> = ({
   position,
   mode,
   autoFocus
@@ -33,7 +33,7 @@ const NewMultiChoiceOption: React.FunctionComponent<Props> = ({
       dispatch(
         addAction({
           action: {
-            type: ScriptActionType.MultiChoice,
+            type: ScriptActionType.MultiSelect,
             responses: [{ message }]
           },
           position
@@ -63,4 +63,4 @@ const NewMultiChoiceOption: React.FunctionComponent<Props> = ({
   )
 }
 
-export default NewMultiChoiceOption
+export default NewMultiSelectOption

@@ -2,7 +2,7 @@ import { Session, SessionResponse } from '../api/types'
 
 export type SessionWithKeyedResponses = {
   responseByMessage: {
-    [message: string]: SessionResponse | SessionResponse[] // it may be an array for multi-choice
+    [message: string]: SessionResponse | SessionResponse[] // it may be an array for multi-select
   }
 } & Session
 
@@ -23,7 +23,7 @@ const transposeSessionResults = (sessions: Session[]): TransposedResponses => {
       columns.add(response.message)
 
       if (response.message in newSession.responseByMessage) {
-        // For multi-choice: If the item is already in the list, convert it to an array and append the item
+        // For multi-select: If the item is already in the list, convert it to an array and append the item
         const existing = newSession.responseByMessage[response.message]
 
         if (Array.isArray(existing)) {

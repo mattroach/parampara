@@ -4,7 +4,7 @@ import { ScriptAction, ScriptActionType, ScriptItem } from 'types/scriptTypes'
 import CollectEmail from '../action-types/CollectEmail'
 import Comment from '../action-types/Comment'
 import ChooseResponse from '../action-types/response/ChooseResponse'
-import MultiChoice from '../action-types/response/MultiChoice'
+import MultiSelect from '../action-types/response/MultiSelect'
 import SendEmail from '../action-types/SendEmail'
 
 type Props = {
@@ -27,8 +27,8 @@ const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
   switch (action.type) {
     case ScriptActionType.ChooseResponse:
       return <ChooseResponse item={item} action={action} />
-    case ScriptActionType.MultiChoice:
-      return <MultiChoice item={item} action={action} />
+    case ScriptActionType.MultiSelect:
+      return <MultiSelect item={item} action={action} />
     case ScriptActionType.Comment:
       return <Comment item={item} />
     case ScriptActionType.CollectEmail:

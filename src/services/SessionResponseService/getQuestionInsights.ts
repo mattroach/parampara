@@ -33,7 +33,7 @@ const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData> => 
     .where('sessionResponse.scriptId', scriptId)
     .whereIn('sessionResponse.responseType', [
       ScriptActionType.ChooseResponse,
-      ScriptActionType.MultiChoice
+      ScriptActionType.MultiSelect
     ])
     .orderBy('count', 'DESC')
     .groupBy('sessionResponse.message', 'sessionResponse.response')

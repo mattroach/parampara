@@ -30,8 +30,8 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
 
   const newResponseChoice = () =>
     dispatch(newAction({ position, type: ScriptActionType.ChooseResponse }))
-  const newMultiChoice = () =>
-    dispatch(newAction({ position, type: ScriptActionType.MultiChoice }))
+  const newMultiSelect = () =>
+    dispatch(newAction({ position, type: ScriptActionType.MultiSelect }))
   const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
   const changeNavigation = (nextId: number) =>
     dispatch(updateNextId({ position, nextId }))
@@ -53,8 +53,8 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
       <Dropdown.Item as="button" disabled={hasAction} onClick={newResponseChoice}>
         Add response
       </Dropdown.Item>
-      <Dropdown.Item as="button" disabled={hasAction} onClick={newMultiChoice}>
-        Add multi-choice
+      <Dropdown.Item as="button" disabled={hasAction} onClick={newMultiSelect}>
+        Add multi-select
       </Dropdown.Item>
       <Dropdown.Item as="button" disabled={hasAction} onClick={addComment}>
         Collect a comment
