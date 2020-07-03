@@ -7,16 +7,11 @@ const ResponseButton = styled(Button).attrs({ variant: 'link' })`
   line-height: 1.3;
 
   border-color: #006bfa;
-  color: #006bfa;
-  box-shadow: 0px 2px 6px #d9d9d9;
   margin: 4px 8px 4px 0;
 
-  :hover,
-  :active,
-  :visited {
-    text-decoration: none;
-    color: #006bfa;
-  }
+  color: #006bfa !important;
+  box-shadow: 0px 2px 6px #d9d9d9 !important;
+  text-decoration: none !important;
 `
 
 export default ResponseButton

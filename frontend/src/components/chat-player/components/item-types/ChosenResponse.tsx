@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScriptActionType } from 'types/scriptTypes'
+import { ChooseResponseAction } from 'types/scriptTypes'
 import { ProgressItem, ChooseResponseResult } from 'types/sessionProgress'
 import HumanBubble from './HumanBubble'
 
@@ -8,12 +8,14 @@ type Props = {
   actionProgress: ChooseResponseResult
 }
 
-const ChosenResponse: React.FunctionComponent<Props> = ({ progressItem, actionProgress }) => {
+const ChosenResponse: React.FunctionComponent<Props> = ({
+  progressItem,
+  actionProgress
+}) => {
   // TODO improve typing with generics so this is not needed
-  if (progressItem.item.action?.type !== ScriptActionType.ChooseResponse)
-    throw new Error('Type error')
+  const action = progressItem.item.action as ChooseResponseAction
 
-  const { message } = progressItem.item.action?.responses[actionProgress.choice]
+  const { message } = action?.responses[actionProgress.choice]
 
   return <HumanBubble message={message} />
 }

@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { useDispatch } from 'react-redux'
 import {
   newItemForm,
-  newResponseChoiceForm,
+  newAction,
   updateNextId,
   addSendEmailAction,
   addCommentAction,
@@ -25,12 +25,15 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
   const addCollectEmail = () => dispatch(addCollectEmailAction(position))
   const addEmail = () => dispatch(addSendEmailAction(position))
 
-  const newResponseChoice = () => dispatch(newResponseChoiceForm(position))
+  const newResponseChoice = () =>
+    dispatch(newAction({ position, type: ScriptActionType.ChooseResponse }))
+  const newMultiChoice = () =>
+    dispatch(newAction({ position, type: ScriptActionType.MultiChoice }))
   const newItem = (insertPos: number) => dispatch(newItemForm(insertPos))
   const changeNavigation = (nextId: number) =>
     dispatch(updateNextId({ position, nextId }))
 
-  const hasAction = !!item.action
+  const hasAction = Boolean(item.action)
   const hasChooseResponse =
     item.action && item.action.type === ScriptActionType.ChooseResponse
 
@@ -46,6 +49,9 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
       <Dropdown.Divider />
       <Dropdown.Item as="button" disabled={hasAction} onClick={newResponseChoice}>
         Add response
+      </Dropdown.Item>
+      <Dropdown.Item as="button" disabled={hasAction} onClick={newMultiChoice}>
+        Add multi-choice
       </Dropdown.Item>
       <Dropdown.Item as="button" disabled={hasAction} onClick={addComment}>
         Collect a comment

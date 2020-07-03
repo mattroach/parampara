@@ -31,7 +31,10 @@ const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData> => 
       knex.raw('count(distinct session_response.id) as count')
     )
     .where('sessionResponse.scriptId', scriptId)
-    .where('sessionResponse.responseType', ScriptActionType.ChooseResponse)
+    .whereIn('sessionResponse.responseType', [
+      ScriptActionType.ChooseResponse,
+      ScriptActionType.MultiChoice
+    ])
     .orderBy('count', 'DESC')
     .groupBy('sessionResponse.message', 'sessionResponse.response')
 

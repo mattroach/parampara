@@ -24,11 +24,7 @@ export type ScriptVersion = {
 
 export type ScriptItem = MessageItem | ImageItem
 
-export type ScriptAction =
-  | ChooseResponseAction
-  | CommentAction
-  | SendEmailAction
-  | CollectEmailAction
+export type ScriptAction = ScriptActionMap[keyof ScriptActionMap]
 
 export enum ScriptItemType {
   Message = 'Message',
@@ -37,6 +33,7 @@ export enum ScriptItemType {
 
 export enum ScriptActionType {
   ChooseResponse = 'ChooseResponse',
+  MultiChoice = 'MultiChoice',
   Comment = 'Comment',
   CollectEmail = 'CollectEmail',
   SendEmail = 'SendEmail'
@@ -74,6 +71,15 @@ export type ChooseResponseAction = {
   responses: ResponseChoice[]
 }
 
+export type MultiChoiceAction = {
+  type: ScriptActionType.MultiChoice
+  responses: MultiChoice[]
+}
+
+export type MultiChoice = {
+  message: string
+}
+
 export type ResponseChoice = {
   message: string
   nextId?: number
@@ -88,5 +94,6 @@ export type ScriptActionMap = {
   [ScriptActionType.Comment]: CommentAction
   [ScriptActionType.CollectEmail]: CollectEmailAction
   [ScriptActionType.ChooseResponse]: ChooseResponseAction
+  [ScriptActionType.MultiChoice]: MultiChoiceAction
   [ScriptActionType.SendEmail]: SendEmailAction
 }

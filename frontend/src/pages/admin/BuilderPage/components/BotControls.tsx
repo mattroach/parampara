@@ -17,7 +17,7 @@ const StyledForm = styled(Form)`
 `
 
 const AddMessageControl = styled(MessageField)`
-  width: 300px;
+  width: 400px;
 `
 
 type State = {

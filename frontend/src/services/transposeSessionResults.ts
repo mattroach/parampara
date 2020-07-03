@@ -1,7 +1,9 @@
 import { Session, SessionResponse } from '../api/types'
 
 export type SessionWithKeyedResponses = {
-  responseByMessage: { [message: string]: SessionResponse }
+  responseByMessage: {
+    [message: string]: SessionResponse | SessionResponse[] // it may be an array for multi-choice
+  }
 } & Session
 
 export type TransposedResponses = {
@@ -10,7 +12,7 @@ export type TransposedResponses = {
 }
 
 const transposeSessionResults = (sessions: Session[]): TransposedResponses => {
-  const columns: any = {}
+  const columns = new Set<string>()
 
   const transposedSessions = sessions.map(session => {
     const newSession: SessionWithKeyedResponses = {
@@ -18,15 +20,26 @@ const transposeSessionResults = (sessions: Session[]): TransposedResponses => {
       responseByMessage: {}
     }
     session.responses.forEach(response => {
-      columns[response.message] = true
+      columns.add(response.message)
 
-      newSession.responseByMessage[response.message] = response
+      if (response.message in newSession.responseByMessage) {
+        // For multi-choice: If the item is already in the list, convert it to an array and append the item
+        const existing = newSession.responseByMessage[response.message]
+
+        if (Array.isArray(existing)) {
+          existing.push(response)
+        } else {
+          newSession.responseByMessage[response.message] = [existing, response]
+        }
+      } else {
+        newSession.responseByMessage[response.message] = response
+      }
     })
     return newSession
   })
 
   return {
-    columns: Object.keys(columns),
+    columns: Array.from(columns),
     sessions: transposedSessions
   }
 }

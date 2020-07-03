@@ -16,7 +16,7 @@ const MainScript: React.FunctionComponent<Props> = ({ onComplete }) => {
     if (nextItem === undefined) {
       onComplete()
     }
-  }, [nextItem])
+  }, [nextItem, onComplete])
 
   return (
     <>

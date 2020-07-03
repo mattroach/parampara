@@ -17,6 +17,9 @@ const Button = styled(InlineIconButton).attrs(props => ({
 type Props = {
   container: React.RefObject<HTMLDivElement>
   onSelect: (emoji: BaseEmoji) => void
+  show?: boolean
+  className?: string
+  theme?: any
 }
 
 const POPPER_CONFIG = [
@@ -32,7 +35,13 @@ const POPPER_CONFIG = [
   }
 ]
 
-const EmojiButton: React.FunctionComponent<Props> = ({ container, onSelect }) => {
+const EmojiButton: React.FunctionComponent<Props> = ({
+  container,
+  onSelect,
+  show,
+  className,
+  theme
+}) => {
   // Shouldn't need this but currently required for InlineIconButton to work
   const targetRef = useRef<HTMLInputElement>(null)
 
@@ -49,7 +58,13 @@ const EmojiButton: React.FunctionComponent<Props> = ({ container, onSelect }) =>
 
   return (
     <>
-      <Button ref={targetRef} disableTooltip={isShow} onClick={() => setShow(true)} />
+      <Button
+        ref={targetRef}
+        disableTooltip={isShow}
+        onClick={() => setShow(true)}
+        className={className}
+        theme={theme}
+      />
       <Popper
         target={targetRef}
         show={isShow}

@@ -11,11 +11,20 @@ export type ProgressItem = {
   actionResult?: ActionResult
 }
 
-export type ActionResult = ChooseResponseResult | CommentResult | CollectEmailResult
+export type ActionResult =
+  | ChooseResponseResult
+  | MultiChoiceResult
+  | CommentResult
+  | CollectEmailResult
 
 export type ChooseResponseResult = {
   type: ScriptActionType.ChooseResponse
   choice: number
+}
+
+export type MultiChoiceResult = {
+  type: ScriptActionType.MultiChoice
+  choices: number[]
 }
 
 export type CommentResult = {
@@ -32,5 +41,6 @@ export type ScriptActionResultMap = {
   [ScriptActionType.Comment]: CommentResult
   [ScriptActionType.CollectEmail]: CollectEmailResult
   [ScriptActionType.ChooseResponse]: ChooseResponseResult
+  [ScriptActionType.MultiChoice]: MultiChoiceResult
   [ScriptActionType.SendEmail]: undefined
 }

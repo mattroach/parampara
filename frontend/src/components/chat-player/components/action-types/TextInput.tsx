@@ -1,24 +1,15 @@
 import React, { useRef, useState } from 'react'
-import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import styled from 'styled-components'
 import ItemWrap from '../item-types/ItemWrap'
-import Col from 'react-bootstrap/Col'
+import GoButton from './GoButton'
 
 const Wrapper = styled(ItemWrap).attrs({
   unlimitedWidth: true
 })`
   margin: 20px 0;
   text-align: right;
-`
-
-const GoButton = styled(Button)`
-  border-radius: 100%;
-  font-size: 12px;
-
-  width: 30px;
-  height: 30px;
-  padding: 0;
 `
 
 const MessageInput = styled(Form.Control)`
@@ -80,9 +71,7 @@ const TextInput: React.FunctionComponent<Props> = ({
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} controlId="submit" xs="auto">
-            <GoButton variant="primary" type="submit" disabled={isInvalid()}>
-              Go
-            </GoButton>
+            <GoButton disabled={isInvalid()} />
           </Form.Group>
         </Form.Row>
       </Form>

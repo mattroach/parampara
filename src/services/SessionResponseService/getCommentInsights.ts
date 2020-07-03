@@ -47,7 +47,10 @@ const getData = (scriptId: string, filter?: InsightFilter): Promise<RawData[]> =
       )
     })
     .where('sessionResponse.scriptId', scriptId)
-    .where('sessionResponse.responseType', '!=', ScriptActionType.ChooseResponse)
+    .whereIn('sessionResponse.responseType', [
+      ScriptActionType.Comment,
+      ScriptActionType.CollectEmail
+    ])
     // The ordering below is critical for the grouping algorithm to work
     .orderBy('sessionResponse.message', 'DESC')
     .orderBy('sessionResponse.created', 'DESC')

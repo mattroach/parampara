@@ -2,9 +2,6 @@ import React, { useState, useRef } from 'react'
 import MessageField from '.'
 import { action } from '@storybook/addon-actions'
 
-// This must be imported before other components which extend bootstrap styles.:
-import 'bootstrap/dist/css/bootstrap.css'
-import 'index.css'
 import styled from 'styled-components'
 import EmojiPicker from './EmojiPicker'
 
