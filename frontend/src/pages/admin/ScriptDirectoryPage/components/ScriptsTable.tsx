@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import DeleteButton from './DeleteButton'
+import MenuButton from './MenuButton'
 
 const StyledTable = styled(Table)`
   td {
@@ -12,6 +12,11 @@ const StyledTable = styled(Table)`
   tr th:nth-last-child(1) {
     text-align: right;
   }
+`
+
+const NoPaddingTh = styled.th`
+  vertical-align: middle !important;
+  padding: 0 0.75rem !important;
 `
 
 const ScriptsTable: React.FunctionComponent = () => {
@@ -37,9 +42,9 @@ const ScriptsTable: React.FunctionComponent = () => {
             <td>
               <FormattedDate datetime={script.created} />
             </td>
-            <th>
-              <DeleteButton script={script} />
-            </th>
+            <NoPaddingTh>
+              <MenuButton script={script} />
+            </NoPaddingTh>
           </tr>
         ))}
       </tbody>

@@ -6,7 +6,7 @@ import Scripts from './components/Scripts'
 import RootContainer from 'layout/RootContainer'
 
 const Wrapper = styled.section`
-  margin-top: 40px;
+  margin: 40px 0 100px 0;
 `
 
 const ScriptDirectory: React.FunctionComponent = () => (
