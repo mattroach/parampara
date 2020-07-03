@@ -1,6 +1,6 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   newItemForm,
   newAction,
@@ -11,6 +11,7 @@ import {
 } from 'store/slices/script'
 import { ScriptActionType, ScriptItem } from 'types/scriptTypes'
 import ContextMenu, { ContextDelete, ContextNavigate } from '../../ContextMenu'
+import { getSubscription } from 'store/slices/admin'
 
 type Props = {
   containerRef: React.RefObject<any>
@@ -19,6 +20,8 @@ type Props = {
 }
 
 const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) => {
+  const isFree = useSelector(state => getSubscription(state.adminStore)).isFree()
+
   const dispatch = useDispatch()
 
   const addComment = () => dispatch(addCommentAction(position))
@@ -59,9 +62,11 @@ const Menu: React.FunctionComponent<Props> = ({ position, item, containerRef }) 
       <Dropdown.Item as="button" disabled={hasAction} onClick={addCollectEmail}>
         Collect an email
       </Dropdown.Item>
-      <Dropdown.Item as="button" disabled={hasAction} onClick={addEmail}>
-        Email a document
-      </Dropdown.Item>
+      {!isFree && (
+        <Dropdown.Item as="button" disabled={hasAction} onClick={addEmail}>
+          Email a document
+        </Dropdown.Item>
+      )}
       <Dropdown.Divider />
       <Dropdown.Item as="button" onClick={() => newItem(position)}>
         Insert 1 above
