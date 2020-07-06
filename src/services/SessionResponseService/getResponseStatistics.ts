@@ -60,7 +60,7 @@ const getResponseStatistics = async (scriptId: string): Promise<ResponseStatisti
     numComments: responseAggregations.Comment || 0,
     numQuestions:
       (responseAggregations.ChooseResponse || 0) +
-      (responseAggregations.MultiChoice || 0),
+      (responseAggregations.MultiSelect || 0),
     numCompleted: sessionAggregations.completed,
     totalTimeSec: sessionAggregations.totalTimeSec
   }

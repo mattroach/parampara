@@ -33,7 +33,7 @@ export enum ScriptItemType {
 
 export enum ScriptActionType {
   ChooseResponse = 'ChooseResponse',
-  MultiSelect = 'MultiChoice', // for legacy reason, we have a different name in the database
+  MultiSelect = 'MultiSelect', // for legacy reason, we have a different name in the database
   Comment = 'Comment',
   CollectEmail = 'CollectEmail',
   SendEmail = 'SendEmail'
