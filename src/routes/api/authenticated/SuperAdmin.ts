@@ -7,7 +7,7 @@ import adminService from '@services/adminService'
 import scriptService from '@services/ScriptService'
 import getIsSuperAdmin from './getIsSuperAdmin'
 
-const API_PASSWORD = 'f43gdo8jgo3'
+const API_PASSWORD = process.env.SUPER_ADMIN_PASS
 
 const router = Router()
 
@@ -21,6 +21,10 @@ router.use('/', async (req, res, next) => {
     const [login, password] = Buffer.from(b64auth, 'base64')
       .toString()
       .split(':')
+
+    if (!API_PASSWORD) {
+      return next('API_PASSWORD not set')
+    }
 
     if (login === 'admin' && password === API_PASSWORD) {
       return next()
