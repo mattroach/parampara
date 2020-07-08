@@ -2,7 +2,7 @@
 
 Copy `development.env.example` to `development.env`
 
-    cp env/development.env.example development.env
+    cp env/development.env.example env/development.env
 
 Update the values in the new file as needed - just read the comments.
 
