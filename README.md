@@ -2,6 +2,7 @@
 
 - Install nvm to manage your version of node
 - Install Docker Desktop for running postgres (recommended)
+- Install db-migrate globally `npm install -g db-migrate`
 
 # Running locally
 
