@@ -5,9 +5,10 @@
 
 # Running locally
 
-Copy `development.env.example` to `development.env`
+Copy `development.env.example` to `development.env`, and `.env.example` to `.env`
 
     cp env/development.env.example env/development.env
+    cp .env.example .env
 
 Update the values in the new file as needed - just read the comments.
 
