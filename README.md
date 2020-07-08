@@ -10,7 +10,7 @@ Copy `development.env.example` to `development.env`, and `.env.example` to `.env
     cp env/development.env.example env/development.env
     cp .env.example .env
 
-Update the values in the new file as needed - just read the comments.
+Update the values in the new file as needed - just read the comments. The latter file is only used by `db-migrate`
 
 ## Setting up the database
 
@@ -19,6 +19,10 @@ I recommend using Docker Desktop to start a Postgres server, as it's fairly easy
     docker run --name parampara -p 5432:5432 -e POSTGRES_PASSWORD=parampara -d postgres
 
 `env/development.env` must have the correct database connection information - by default it has the right information if you started the database in this way on a mac machine, with the latest version of Docker.
+
+Run the following to update the database schema. You should run this command any time you pull a db schema change file. You should also do this once the first time you attempt to run everything locally.
+
+    db-migrate up
 
 # Running in dev mode
 
