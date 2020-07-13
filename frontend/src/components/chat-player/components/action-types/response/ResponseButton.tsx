@@ -10,8 +10,14 @@ const ResponseButton = styled(Button).attrs({ variant: 'link' })`
   margin: 4px 8px 4px 0;
 
   color: #006bfa !important;
-  box-shadow: 0px 2px 6px #d9d9d9 !important;
   text-decoration: none !important;
+  box-shadow: 0px 2px 6px #d9d9d9;
+
+  transition: box-shadow 0.15s ease-in-out;
+  :focus,
+  :focus-within {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
 `
 
 export default ResponseButton

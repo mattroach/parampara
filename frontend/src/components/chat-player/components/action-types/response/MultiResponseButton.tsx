@@ -31,7 +31,7 @@ const MultiResponseButton: React.FunctionComponent<Props> = ({
   onToggle
 }) => (
   <StyledResponseButton onClick={() => onToggle(!selected)} selected={selected}>
-    <Checkbox checked={selected} onChange={() => undefined} />
+    <Checkbox checked={selected} onChange={() => undefined} tabIndex={-1} />
     {children}
   </StyledResponseButton>
 )

@@ -35,6 +35,9 @@ const NextItemAction: React.FunctionComponent<Props> = ({ item, action }) => {
       return <CollectEmail item={item} />
     case ScriptActionType.SendEmail:
       return <SendEmail item={item} />
+    default:
+      //@ts-ignore
+      throw Error('unknown item ' + action.type)
   }
 }
 
